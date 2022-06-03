@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/opencobra/cookiecutter-python-package",
+  "commit": "627ae858cd55f962cf4599f1d85e048e67251379",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Moritz E. Beber, Maxime Borry, Jianhong, Sofia Stamouli",
+      "email": "\"Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, Jianhong <jianhong.ou@duke.edu>, Sofia Stamouli <sophia.stamouli@gmail.com>\"",
+      "github_username": "taxprofiler",
+      "project_name": "taxpasta",
+      "project_slug": "taxpasta",
+      "project_module": "taxpasta",
+      "project_short_description": "TAXnomic Profile Aggregation and STAndardisation",
+      "release_date": "2022-06-03",
+      "year": "2022",
+      "_extensions": [
+        "jinja2_time.TimeExtension"
+      ],
+      "_template": "https://github.com/opencobra/cookiecutter-python-package"
+    }
+  },
+  "directory": null
+}
