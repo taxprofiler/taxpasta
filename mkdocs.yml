@@ -1,0 +1,55 @@
+site_name: TAXPASTA
+site_description: TAXnomic Profile Aggregation and STAndardisation
+site_author: Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli
+site_url: https://taxpasta.readthedocs.io/
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+
+theme:
+  features:
+    - content.code.annotate
+    - navigation.instant
+    - navigation.top
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: light green
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+extra:
+  social:
+    - icon: fontawesome/brands/slack
+      link: https://nfcore.slack.com/
+      name: "Join the nf-core Slack, channel #taxprofiler"
+    - icon: fontawesome/brands/github
+      link: https://github.com/taxprofiler
+      name: taxprofiler organization
+
+copyright: Copyright &copy 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+
+repo_url: https://github.com/taxprofiler/taxpasta
+repo_name: taxprofiler/taxpasta
+
+watch:
+  - src/taxpasta
