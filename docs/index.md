@@ -1,6 +1,6 @@
 # TAXPASTA Documentation
 
-_TAXnomic Profile Aggregation and STAndardisation_
+_TAXonomic Profile Aggregation and STAndardisation_
 
 ## Install
 

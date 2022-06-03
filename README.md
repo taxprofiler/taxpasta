@@ -9,7 +9,7 @@
 [![Code Style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![Documentation Status](https://readthedocs.org/projects/taxpasta/badge/?version=latest)](https://taxpasta.readthedocs.io/en/latest/?badge=latest)
 
-_TAXnomic Profile Aggregation and STAndardisation_
+_TAXonomic Profile Aggregation and STAndardisation_
 
 ## Install
 
