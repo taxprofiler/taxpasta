@@ -5,7 +5,7 @@
   "context": {
     "cookiecutter": {
       "full_name": "Moritz E. Beber, Maxime Borry, Jianhong, Sofia Stamouli",
-      "email": "\"Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, Jianhong <jianhong.ou@duke.edu>, Sofia Stamouli <sophia.stamouli@gmail.com>\"",
+      "email": "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, Jianhong Ou <jianhong.ou@duke.edu>, Sofia Stamouli <sophia.stamouli@gmail.com>",
       "github_username": "taxprofiler",
       "project_name": "taxpasta",
       "project_slug": "taxpasta",
