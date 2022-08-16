@@ -106,34 +106,4 @@ The `pa.check_types` decorator validates the classmethod's input and output usin
 
 ## Overview
 
-```mermaid
-classDiagram
-  class ProfileReader {
-    +read(Path profile)* DataFrame
-  }
-  <<abstract>> ProfileReader
-  class Kraken2ProfileReader {
-    +read(Path profile) Kraken2Profile
-  }
-  <<Service>> Kraken2ProfileReader
-  
-  class ProfileStandardisationService {
-    +transform(DataFrame profile)* StandardProfile
-  }
-  <<abstract>> ProfileStandardisationService
-  class Kraken2ProfileStandardisationService {
-    +transform(Kraken2Profile profile) StandardProfile
-  }
-  <<Service>> Kraken2ProfileStandardisationService
-  
-  class StandardProfile
-  class Kraken2Profile
-  
-  ProfileReader <|.. Kraken2ProfileReader : realizes
-  Kraken2Profile <.. Kraken2ProfileReader
-  
-  StandardProfile <.. ProfileStandardisationService
-  ProfileStandardisationService <|.. Kraken2ProfileStandardisationService : realizes
-  Kraken2Profile <.. Kraken2ProfileStandardisationService
-  StandardProfile <.. Kraken2ProfileStandardisationService
-```
+![](taxpasta_profiler_support_overview.svg)

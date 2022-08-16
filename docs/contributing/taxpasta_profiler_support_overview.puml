@@ -1,0 +1,31 @@
+@startuml "taxpasta_profiler_support_overview"
+
+abstract class application.ProfileReader <<Service>> {
+    + {static} {abstract} read(profile: pathlib.Path) -> pandas.DataFrame
+}
+class infrastructure.application.Kraken2ProfileReader <<Service>> {
+    + {static} read(profile: pathlib.Path) -> Kraken2Profile
+}
+application.ProfileReader <|. infrastructure.application.Kraken2ProfileReader : realizes
+
+
+abstract class application.ProfileStandardisationService <<Service>> {
+    + {static} {abstract} transform(profile: pandas.DataFrame) -> StandardProfile
+}
+class infrastructure.application.Kraken2ProfileStandardisationService <<Service>> {
+    + {static} transform(profile: Kraken2Profile) -> StandardProfile
+}
+application.ProfileStandardisationService <|. infrastructure.application.Kraken2ProfileStandardisationService : realizes
+
+class domain.StandardProfile <<SchemaModel>>
+class infrastructure.application.Kraken2Profile <<SchemaModel>>
+
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileReader
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileStandardisationService
+
+domain.StandardProfile <.. application.ProfileStandardisationService
+domain.StandardProfile <.. infrastructure.application.Kraken2ProfileStandardisationService
+
+hide empty members
+
+@enduml
