@@ -16,6 +16,8 @@
 """Provide a description of the kraken2 profile format."""
 
 
+from typing import Optional
+
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -28,6 +30,8 @@ class Kraken2Profile(pa.SchemaModel):
     percentage: Series[float] = pa.Field(ge=0.0, le=100.0)
     clade_assigned_reads: Series[int] = pa.Field(ge=0)
     direct_assigned_reads: Series[int] = pa.Field(ge=0)
+    num_minimizers: Optional[Series[int]] = pa.Field(ge=0)
+    distinct_minimizers: Optional[Series[int]] = pa.Field(ge=0)
     taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
     name: Series[str] = pa.Field()

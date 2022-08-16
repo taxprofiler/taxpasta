@@ -58,7 +58,6 @@ class Kraken2ProfileReader(ProfileReader):
                 "taxonomy_id",
                 "name",
             ]
-            result.drop(columns=["num_minimizers", "distinct_minimizers"], inplace=True)
         else:
             raise ValueError(
                 f"Unexpected kraken2 report format. It has {len(result.columns)} "
