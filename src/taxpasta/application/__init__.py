@@ -13,5 +13,5 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
+from .profile_reader import ProfileReader, ProfileSource
 from .profile_standardisation_service import ProfileStandardisationService
