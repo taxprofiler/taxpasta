@@ -28,4 +28,8 @@ class StandardProfile(pa.SchemaModel):
     count: Series[int] = pa.Field(ge=0)
 
     class Config:
+        """Configure the schema model."""
+
+        coerce = True
+        ordered = True
         strict = True
