@@ -17,8 +17,8 @@
 
 
 from abc import ABC, abstractmethod
-from typing import BinaryIO, TextIO, AnyStr, Union
 from os import PathLike
+from typing import AnyStr, BinaryIO, TextIO, Union
 
 import pandas as pd
 

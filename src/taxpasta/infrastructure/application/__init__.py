@@ -11,3 +11,10 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+
+from .kraken2_profile import Kraken2Profile
+from .kraken2_profile_reader import Kraken2ProfileReader
+from .kraken2_profile_standardisation_service import (
+    Kraken2ProfileStandardisationService,
+)
