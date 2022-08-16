@@ -17,9 +17,13 @@
 
 
 from abc import ABC, abstractmethod
-from pathlib import Path
+from typing import BinaryIO, TextIO, AnyStr, Union
+from os import PathLike
 
 import pandas as pd
+
+
+ProfileSource = Union[TextIO, BinaryIO, PathLike[AnyStr], AnyStr]
 
 
 class ProfileReader(ABC):
@@ -27,5 +31,5 @@ class ProfileReader(ABC):
 
     @classmethod
     @abstractmethod
-    def read(cls, profile: Path) -> pd.DataFrame:
+    def read(cls, profile: ProfileSource) -> pd.DataFrame:
         """Read a taxonomic profile from a file."""
