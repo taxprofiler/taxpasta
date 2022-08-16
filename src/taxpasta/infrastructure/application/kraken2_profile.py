@@ -45,6 +45,8 @@ class Kraken2Profile(pa.SchemaModel):
         return bool(np.isclose(percentage.sum(), 100.0, atol=0.01))
 
     class Config:
+        """Configure the schema model."""
+
         coerce = True
         ordered = True
         strict = True
