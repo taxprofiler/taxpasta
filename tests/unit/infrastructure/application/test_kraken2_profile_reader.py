@@ -17,25 +17,112 @@
 
 
 from pathlib import Path
+from typing import Union, Tuple, List
 
 import pytest
 
 from taxpasta.infrastructure.application import Kraken2ProfileReader
 
 
-PROFILES = [
-    obj
-    for obj in (
-        Path(__file__).parent.parent.parent.parent / "data" / "kraken2"
-    ).iterdir()
-    if obj.is_file()
-]
+@pytest.fixture(scope="module")
+def kraken2_data_dir(data_dir) -> Path:
+    return data_dir / "kraken2"
 
 
-@pytest.fixture(scope="module", params=PROFILES)
-def kraken2_profile(request) -> Path:
-    return request.param
-
-
-def test_read(kraken2_profile):
-    Kraken2ProfileReader.read(kraken2_profile)
+@pytest.mark.parametrize(
+    "filename, checks",
+    [
+        (
+            "2611_se-ERR5766174-db1.kraken2.report.txt",
+            [
+                (0, 0, 99.98),
+                (0, 1, 787758),
+                (0, 2, 787758),
+                (0, 5, "unclassified"),
+                (1, 0, 0.02),
+                (1, 1, 119),
+                (1, 2, 0),
+                (1, 5, "root"),
+                (15, 0, 0.01),
+                (15, 1, 96),
+                (15, 2, 96),
+                (15, 5, "Saccharomyces cerevisiae S288C"),
+                (43, 0, 0.00),
+                (43, 1, 23),
+                (43, 2, 23),
+                (43, 5, "Homo sapiens"),
+            ],
+        ),
+        (
+            "2611_se-ERR5766174-db2.kraken2.report.txt.gz",
+            [
+                (0, 0, 99.98),
+                (0, 1, 787758),
+                (0, 2, 787758),
+                (0, 5, "unclassified"),
+                (1, 0, 0.02),
+                (1, 1, 119),
+                (1, 2, 0),
+                (1, 5, "root"),
+                (15, 0, 0.01),
+                (15, 1, 96),
+                (15, 2, 96),
+                (15, 5, "Saccharomyces cerevisiae S288C"),
+                (43, 0, 0.00),
+                (43, 1, 23),
+                (43, 2, 23),
+                (43, 5, "Homo sapiens"),
+            ],
+        ),
+        (
+            "2612_pe-ERR5766176-db1.kraken2.report.txt",
+            [
+                (0, 0, 99.97),
+                (0, 1, 627680),
+                (0, 2, 627680),
+                (0, 5, "unclassified"),
+                (1, 0, 0.03),
+                (1, 1, 168),
+                (1, 2, 0),
+                (1, 5, "root"),
+                (32, 0, 0.02),
+                (32, 1, 152),
+                (32, 2, 152),
+                (32, 5, "Homo sapiens"),
+                (43, 0, 0.00),
+                (43, 1, 16),
+                (43, 2, 16),
+                (43, 5, "Saccharomyces cerevisiae S288C"),
+            ],
+        ),
+        (
+            "2612_pe-ERR5766176-db2.kraken2.report.txt.gz",
+            [
+                (0, 0, 99.97),
+                (0, 1, 627680),
+                (0, 2, 627680),
+                (0, 5, "unclassified"),
+                (1, 0, 0.03),
+                (1, 1, 168),
+                (1, 2, 0),
+                (1, 5, "root"),
+                (32, 0, 0.02),
+                (32, 1, 152),
+                (32, 2, 152),
+                (32, 5, "Homo sapiens"),
+                (43, 0, 0.00),
+                (43, 1, 16),
+                (43, 2, 16),
+                (43, 5, "Saccharomyces cerevisiae S288C"),
+            ],
+        ),
+    ],
+)
+def test_read(
+    kraken2_data_dir: Path,
+    filename: str,
+    checks: List[Tuple[int, int, Union[float, int, str]]],
+):
+    profile = Kraken2ProfileReader.read(kraken2_data_dir / filename)
+    for (row, col, value) in checks:
+        assert profile.iat[row, col] == value
