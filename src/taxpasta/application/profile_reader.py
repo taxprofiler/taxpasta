@@ -17,13 +17,12 @@
 
 
 from abc import ABC, abstractmethod
-from os import PathLike
 from typing import AnyStr, BinaryIO, TextIO, Union
 
 import pandas as pd
 
 
-ProfileSource = Union[TextIO, BinaryIO, PathLike[AnyStr], AnyStr]
+ProfileSource = Union[TextIO, BinaryIO, "PathLike[AnyStr]", AnyStr]
 
 
 class ProfileReader(ABC):
