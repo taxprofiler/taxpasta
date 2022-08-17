@@ -35,6 +35,7 @@ class Kraken2ProfileReader(ProfileReader):
             sep="\t",
             header=None,
             index_col=False,
+            skipinitialspace=True,
         )
         if len(result.columns) == 6:
             result.columns = [
