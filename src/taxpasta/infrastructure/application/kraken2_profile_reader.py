@@ -42,7 +42,7 @@ class Kraken2ProfileReader(ProfileReader):
                 "percent",
                 "clade_assigned_reads",
                 "direct_assigned_reads",
-                "rank",
+                "taxonomy_lvl",
                 "taxonomy_id",
                 "name",
             ]
@@ -53,7 +53,7 @@ class Kraken2ProfileReader(ProfileReader):
                 "direct_assigned_reads",
                 "num_minimizers",
                 "distinct_minimizers",
-                "rank",
+                "taxonomy_lvl",
                 "taxonomy_id",
                 "name",
             ]
