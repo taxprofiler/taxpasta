@@ -17,20 +17,15 @@
 
 
 from pathlib import Path
-from typing import Union, Tuple, List
+from typing import List, Tuple, Union
 
 import pytest
 
 from taxpasta.infrastructure.application import Kraken2ProfileReader
 
 
-@pytest.fixture(scope="module")
-def kraken2_data_dir(data_dir) -> Path:
-    return data_dir / "kraken2"
-
-
 @pytest.mark.parametrize(
-    "filename, checks",
+    ("filename", "checks"),
     [
         (
             "2611_se-ERR5766174-db1.kraken2.report.txt",
@@ -118,7 +113,7 @@ def kraken2_data_dir(data_dir) -> Path:
         ),
     ],
 )
-def test_read(
+def test_read_correctness(
     kraken2_data_dir: Path,
     filename: str,
     checks: List[Tuple[int, int, Union[float, int, str]]],
