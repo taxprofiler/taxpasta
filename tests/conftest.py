@@ -13,6 +13,9 @@
 # limitations under the License.
 
 
+"""Provide fixtures to all pytest modules."""
+
+
 from pathlib import Path
 
 import pytest
@@ -20,9 +23,11 @@ import pytest
 
 @pytest.fixture(scope="session")
 def data_dir() -> Path:
+    """Provide the path to the global data directory."""
     return Path(__file__).parent / "data"
 
 
 @pytest.fixture(scope="module")
 def kraken2_data_dir(data_dir) -> Path:
+    """Provide the path to the kraken2 data directory."""
     return data_dir / "kraken2"

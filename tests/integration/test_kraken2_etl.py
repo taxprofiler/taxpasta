@@ -48,6 +48,7 @@ def test_read_correctness(
     kraken2_data_dir: Path,
     filename: str,
 ):
+    """Test that kraken2 profiles are read, validated, and transformed correctly."""
     Kraken2ProfileStandardisationService.transform(
         Kraken2ProfileReader.read(kraken2_data_dir / filename)
     )
