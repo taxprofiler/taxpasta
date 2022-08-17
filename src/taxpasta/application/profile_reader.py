@@ -17,9 +17,13 @@
 
 
 from abc import ABC, abstractmethod
-from typing import AnyStr, BinaryIO, TextIO, Union
+from typing import TYPE_CHECKING, AnyStr, BinaryIO, TextIO, Union
 
 import pandas as pd
+
+
+if TYPE_CHECKING:
+    from os import PathLike
 
 
 ProfileSource = Union[TextIO, BinaryIO, "PathLike[AnyStr]", AnyStr]
