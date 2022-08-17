@@ -89,6 +89,7 @@ from taxpasta.infrastructure.application import Kraken2Profile
     ],
 )
 def test_column_presence(columns: Collection[str]):
+    """Test that column names and order are validated."""
     Kraken2Profile.validate(pd.DataFrame(columns=columns, data=[]))
 
 
@@ -134,6 +135,7 @@ def test_column_presence(columns: Collection[str]):
     ],
 )
 def test_percent(table: pd.DataFrame):
+    """Test that the percent column is checked."""
     Kraken2Profile.validate(table)
 
 
@@ -176,6 +178,7 @@ def test_percent(table: pd.DataFrame):
     ],
 )
 def test_clade_assigned_reads(table: pd.DataFrame):
+    """Test that the clade_assigned_reads column is checked."""
     Kraken2Profile.validate(table)
 
 
@@ -218,4 +221,5 @@ def test_clade_assigned_reads(table: pd.DataFrame):
     ],
 )
 def test_direct_assigned_reads(table: pd.DataFrame):
+    """Test that the direct_assigned_reads column is checked."""
     Kraken2Profile.validate(table)
