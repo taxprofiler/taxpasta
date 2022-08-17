@@ -27,7 +27,7 @@ from pandera.typing import Series
 class Kraken2Profile(pa.SchemaModel):
     """Define the expected kraken2 profile format."""
 
-    percentage: Series[float] = pa.Field(ge=0.0, le=100.0)
+    percent: Series[float] = pa.Field(ge=0.0, le=100.0)
     clade_assigned_reads: Series[int] = pa.Field(ge=0)
     direct_assigned_reads: Series[int] = pa.Field(ge=0)
     num_minimizers: Optional[Series[int]] = pa.Field(ge=0)
@@ -36,13 +36,15 @@ class Kraken2Profile(pa.SchemaModel):
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
     name: Series[str] = pa.Field()
 
+    @pa.check("percent", name="compositionality")
     @classmethod
-    @pa.check("percentage", name="compositionality")
-    def check_compositionality(cls, percentage: Series[float]) -> bool:
-        """Check that the percentages add up to a hundred."""
+    def check_compositionality(cls, percent: Series[float]) -> bool:
+        """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         # Kraken2 reports percentages only to the second decimal, so we expect
         # some deviation.
-        return bool(np.isclose(percentage.sum(), 100.0, atol=0.01))
+        return len(percent) == 0 or bool(
+            np.isclose(percent[:2].sum(), 100.0, atol=0.01)
+        )
 
     class Config:
         """Configure the schema model."""
