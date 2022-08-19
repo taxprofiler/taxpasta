@@ -1,5 +1,9 @@
 @startuml "taxpasta_profiler_support_overview"
 
+allowmixing
+
+set namespaceSeparator .
+
 abstract class application.ProfileReader <<Service>> {
     + {static} {abstract} read(profile: pathlib.Path) -> pandas.DataFrame
 }
@@ -25,6 +29,30 @@ infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2
 
 domain.StandardProfile <.. application.ProfileStandardisationService
 domain.StandardProfile <.. infrastructure.application.Kraken2ProfileStandardisationService
+
+set namespaceSeparator /
+
+folder "tests/data/" {
+    component "kraken2"
+}
+
+folder "tests/unit/infrastructure/application/" {
+    component "test_kraken2_profile.py"
+    component "test_kraken2_profile_reader.py"
+
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_profile.py"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_profile_reader.py"
+    "kraken2" <.. "test_kraken2_profile_reader.py"
+}
+
+folder "tests/integration/" {
+    component "test_kraken2_etl.py"
+
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_etl.py"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_etl.py"
+    infrastructure.application.Kraken2ProfileStandardisationService <.. "test_kraken2_etl.py"
+    "kraken2" <.. "test_kraken2_etl.py"
+}
 
 hide empty members
 
