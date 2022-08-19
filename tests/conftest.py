@@ -28,6 +28,6 @@ def data_dir() -> Path:
 
 
 @pytest.fixture(scope="module")
-def kraken2_data_dir(data_dir) -> Path:
+def kraken2_data_dir(data_dir: Path) -> Path:
     """Provide the path to the kraken2 data directory."""
     return data_dir / "kraken2"
