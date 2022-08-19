@@ -45,8 +45,9 @@ plugins:
   - mkdocstrings:
       handlers:
         python:
-          paths:
-            - src
+          paths: [src]
+          options:
+            show_submodules: true
       default_handler: python
 
 extra:
