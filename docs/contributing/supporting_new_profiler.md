@@ -1,6 +1,6 @@
 # Supporting New Taxonomic Profilers
 
-A good way to contribute to the taxpasta project, is to add support for a new taxonomic profiler. This mostly boils down to creating three new Python modules and filling them with life.
+A good way to contribute to the taxpasta project, is to add support for a new taxonomic profiler. This mostly boils down to creating three new Python files (modules) and filling them with life.
 
 The taxpasta package is designed to follow a [hexagonal architectural](https://en.wikipedia.org/wiki/Hexagonal_architecture_(software)) style. That means, the directory structure may be somewhat unfamiliar to you. Fortunately, three new Python modules only need to be placed in `taxpasta/infrastructure/application/` so it's rather simple.
 
