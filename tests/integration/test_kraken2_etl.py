@@ -44,7 +44,7 @@ from taxpasta.infrastructure.application import (
         ),
     ],
 )
-def test_read_correctness(
+def test_kraken2_etl(
     kraken2_data_dir: Path,
     filename: str,
 ):
