@@ -22,15 +22,18 @@ import pandera as pa
 from pandera.typing import Series
 from typing import Dict
 
-rank_prefixes = dict({
-            'k': 'kingdom',
-            'p': 'phylum',
-            'c': 'class',
-            'o': 'order',
-            'f': 'family',
-            'g': 'genus',
-            's': 'species',
-        })
+rank_prefixes = dict(
+    {
+        "k": "kingdom",
+        "p": "phylum",
+        "c": "class",
+        "o": "order",
+        "f": "family",
+        "g": "genus",
+        "s": "species",
+    }
+)
+
 
 class MetaphlanProfile(pa.SchemaModel):
     """Define the expected metaphlan profile format."""
@@ -43,7 +46,9 @@ class MetaphlanProfile(pa.SchemaModel):
 
     @classmethod
     @pa.check("relative_abundance", groupby="rank", name="compositionality")
-    def check_compositionality(cls, grouped_value: Dict[pd.CategoricalDtype, Series[float]]) -> bool:
+    def check_compositionality(
+        cls, grouped_value: Dict[pd.CategoricalDtype, Series[float]]
+    ) -> bool:
         """Check that the percentages add up to a hundred."""
         is_compositional = True
         for r in rank_prefixes.values():

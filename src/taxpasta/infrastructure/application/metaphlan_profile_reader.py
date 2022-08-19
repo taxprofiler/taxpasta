@@ -53,6 +53,10 @@ class MetaphlanProfileReader(ProfileReader):
             )
 
         result = result.assign(
-            rank =result.clade_name.str.split('|').str[-1].str.split("__").str[0].map(rank_prefixes)
+            rank=result.clade_name.str.split("|")
+            .str[-1]
+            .str.split("__")
+            .str[0]
+            .map(rank_prefixes)
         )
         return result
