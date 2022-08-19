@@ -19,5 +19,5 @@
 __author__ = "Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli"
 __email__ = (
     "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, "
-    "Jianhong Ou <jianhong.ou@duke.edu>, Sofia Stamouli <sophia.stamouli@gmail.com>"
+    "Jianhong Ou <jianhong.ou@duke.edu>, Sofia Stamouli <sofia.stamouli@scilifelab.se>"
 )

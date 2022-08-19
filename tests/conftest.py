@@ -13,23 +13,21 @@
 # limitations under the License.
 
 
-"""Provide a description of the standard profile format."""
+"""Provide fixtures to all pytest modules."""
 
 
-import pandas as pd
-import pandera as pa
-from pandera.typing import Series
+from pathlib import Path
+
+import pytest
 
 
-class StandardProfile(pa.SchemaModel):
-    """Define the standard profile format."""
+@pytest.fixture(scope="session")
+def data_dir() -> Path:
+    """Provide the path to the global data directory."""
+    return Path(__file__).parent / "data"
 
-    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
-    count: Series[int] = pa.Field(ge=0)
 
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
+@pytest.fixture(scope="module")
+def kraken2_data_dir(data_dir) -> Path:
+    """Provide the path to the kraken2 data directory."""
+    return data_dir / "kraken2"

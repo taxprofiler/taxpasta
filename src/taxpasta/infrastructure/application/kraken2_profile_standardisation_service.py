@@ -29,7 +29,7 @@ class Kraken2ProfileStandardisationService(ProfileStandardisationService):
     """Define a standardisation service for kraken2 profiles."""
 
     @classmethod
-    @pa.check_types
+    @pa.check_types(lazy=True)
     def transform(
         cls, profile: DataFrame[Kraken2Profile]
     ) -> DataFrame[StandardProfile]:
