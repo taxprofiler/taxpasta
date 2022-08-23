@@ -29,7 +29,20 @@ class Kraken2ProfileReader(ProfileReader):
 
     @classmethod
     def read(cls, profile: ProfileSource) -> DataFrame[Kraken2Profile]:
-        """Read a kraken2 taxonomic profile from a file."""
+        """
+        Read a kraken2 taxonomic profile from the given source.
+
+        Args:
+            profile: A source that contains a tab-separated taxonomic profile generated
+                by kraken2.
+
+        Returns:
+            A data frame representation of the kraken2 profile.
+
+        Raises:
+            ValueError: In case the table does not contain exactly six or eight columns.
+
+        """
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
