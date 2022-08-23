@@ -18,8 +18,8 @@ modules only need to be placed in
 What do those three new modules need to do? Basically, taxpasta needs to be able
 to read a taxonomic profile, validate its correctness as much as possible, and
 finally transform it to what we call the
-[`StandardProfile`][taxpasta.domain.standard_profile.StandardProfile]. All
-further processing and logic is based on the `StandardProfile` so you don't need
+[`StandardProfile`][taxpasta.domain.StandardProfile]. All
+further processing and logic is based on the [`StandardProfile`][taxpasta.domain.StandardProfile] so you don't need
 to change anything else!
 
 ```mermaid
@@ -194,7 +194,7 @@ The `pa.check_types` decorator validates the class method's input and output
 using the type annotations and the defined schema models.
 
 The `transform` class method itself needs to modify the given `pandas.DataFrame` such that
-the returned result looks like the [`StandardProfile`][].
+the returned result looks like the [`StandardProfile`][taxpasta.domain.StandardProfile].
 
 In order to ensure that the whole three step process from the diagram: read, validate, transform
 produces expected results, we will now create a new kind of test; an integration test that
