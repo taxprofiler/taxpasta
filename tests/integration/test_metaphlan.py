@@ -29,9 +29,7 @@ from taxpasta.infrastructure.application import (
 
 @pytest.mark.parametrize(
     "filename",
-    [
-        "mpa_valid.tsv",
-    ],
+    ["mpa_valid_simple.tsv", "mpa_valid_complex.tsv"],
 )
 def test_read_correctness(
     metaphlan_data_dir: Path,

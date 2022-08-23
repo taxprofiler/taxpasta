@@ -16,6 +16,7 @@
 """Provide a reader for kraken2 profiles."""
 
 
+from ctypes.wintypes import LARGE_INTEGER
 from pathlib import Path
 
 import pandas as pd
@@ -23,12 +24,14 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader
 
-from .metaphlan_profile import MetaphlanProfile, rank_prefixes
+from .metaphlan_profile import MetaphlanProfile, RANK_PREFIXES
 
 
 class MetaphlanProfileReader(ProfileReader):
     """Define a reader for kraken2 profiles."""
-    large_integer = 10e6
+
+    LARGE_INTEGER = int(10e6)
+
     @classmethod
     def read(cls, profile: Path) -> DataFrame[MetaphlanProfile]:
         """Read a kraken2 taxonomic profile from a file."""
@@ -57,7 +60,8 @@ class MetaphlanProfileReader(ProfileReader):
             .str[-1]
             .str.split("__")
             .str[0]
-            .map(rank_prefixes),
-            count=result.relative_abundance * .astype(int),
+            .map(RANK_PREFIXES),
+            count=result.relative_abundance.map(lambda x: int(x * cls.LARGE_INTEGER)),
         )
+        print(result.columns)
         return result

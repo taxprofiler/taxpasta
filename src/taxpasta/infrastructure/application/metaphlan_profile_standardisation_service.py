@@ -46,5 +46,5 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         result = profile[
             [MetaphlanProfile.taxonomy_id, MetaphlanProfile.relative_abundance]
         ].copy()
-        result.columns = ["taxonomy_id", "relative_abundance"]
+        result.columns = ["taxonomy_id", "count"]
         return result
