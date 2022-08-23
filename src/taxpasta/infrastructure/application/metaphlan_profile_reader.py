@@ -56,12 +56,7 @@ class MetaphlanProfileReader(ProfileReader):
             )
 
         result = result.assign(
-            rank=result.clade_name.str.split("|")
-            .str[-1]
-            .str.split("__")
-            .str[0]
-            .map(RANK_PREFIXES),
+            rank=result.clade_name.str.split("|").str[-1].str[0].map(RANK_PREFIXES),
             count=result.relative_abundance.map(lambda x: int(x * cls.LARGE_INTEGER)),
         )
-        print(result.columns)
         return result

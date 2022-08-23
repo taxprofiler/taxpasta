@@ -29,7 +29,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
     """Define a standardisation service for metaphlan profiles."""
 
     @classmethod
-    @pa.check_types
+    @pa.check_types(lazy=True)
     def transform(
         cls, profile: DataFrame[MetaphlanProfile]
     ) -> DataFrame[StandardProfile]:
