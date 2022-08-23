@@ -1,0 +1,59 @@
+@startuml "taxpasta_profiler_support_overview"
+
+allowmixing
+
+set namespaceSeparator .
+
+abstract class application.ProfileReader <<Service>> {
+    + {static} {abstract} read(profile: pathlib.Path) -> pandas.DataFrame
+}
+class infrastructure.application.Kraken2ProfileReader <<Service>> {
+    + {static} read(profile: pathlib.Path) -> Kraken2Profile
+}
+application.ProfileReader <|. infrastructure.application.Kraken2ProfileReader : realizes
+
+
+abstract class application.ProfileStandardisationService <<Service>> {
+    + {static} {abstract} transform(profile: pandas.DataFrame) -> StandardProfile
+}
+class infrastructure.application.Kraken2ProfileStandardisationService <<Service>> {
+    + {static} transform(profile: Kraken2Profile) -> StandardProfile
+}
+application.ProfileStandardisationService <|. infrastructure.application.Kraken2ProfileStandardisationService : realizes
+
+class domain.StandardProfile <<SchemaModel>>
+class infrastructure.application.Kraken2Profile <<SchemaModel>>
+
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileReader
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileStandardisationService
+
+domain.StandardProfile <.. application.ProfileStandardisationService
+domain.StandardProfile <.. infrastructure.application.Kraken2ProfileStandardisationService
+
+set namespaceSeparator /
+
+folder "tests/data/" {
+    component "kraken2"
+}
+
+folder "tests/unit/infrastructure/application/" {
+    component "test_kraken2_profile.py"
+    component "test_kraken2_profile_reader.py"
+
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_profile.py"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_profile_reader.py"
+    "kraken2" <.. "test_kraken2_profile_reader.py"
+}
+
+folder "tests/integration/" {
+    component "test_kraken2_etl.py"
+
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_etl.py"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_etl.py"
+    infrastructure.application.Kraken2ProfileStandardisationService <.. "test_kraken2_etl.py"
+    "kraken2" <.. "test_kraken2_etl.py"
+}
+
+hide empty members
+
+@enduml
