@@ -22,7 +22,9 @@ markdown_extensions:
 theme:
   features:
     - content.code.annotate
+    - navigation.indexes
     - navigation.instant
+    - navigation.tracking
     - navigation.top
   name: material
   palette:
@@ -42,6 +44,7 @@ theme:
         name: Switch to light mode
 
 plugins:
+  - search
   - mkdocstrings:
       handlers:
         python:
@@ -52,6 +55,7 @@ plugins:
             show_if_no_docstring: true
             show_signature_annotations: true
       default_handler: python
+  - awesome-pages
 
 extra:
   social:

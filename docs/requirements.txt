@@ -1,2 +1,3 @@
 mkdocs-material ~=8.4
 mkdocstrings[python] ~=0.19
+mkdocs-awesome-pages-plugin ~=2.8
