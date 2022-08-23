@@ -48,6 +48,9 @@ plugins:
           paths: [src]
           options:
             show_submodules: true
+            show_category_heading: true
+            show_if_no_docstring: true
+            show_signature_annotations: true
       default_handler: python
 
 extra:
