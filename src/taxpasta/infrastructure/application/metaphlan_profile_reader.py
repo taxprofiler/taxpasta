@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a reader for kraken2 profiles."""
+"""Provide a reader for metaphlan profiles."""
 
 
 from ctypes.wintypes import LARGE_INTEGER
@@ -22,7 +22,7 @@ from pathlib import Path
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader
+from taxpasta.application import ProfileReader, ProfileSource
 
 from .metaphlan_profile import MetaphlanProfile, RANK_PREFIXES
 
@@ -33,7 +33,7 @@ class MetaphlanProfileReader(ProfileReader):
     LARGE_INTEGER = int(10e6)
 
     @classmethod
-    def read(cls, profile: Path) -> DataFrame[MetaphlanProfile]:
+    def read(cls, profile: ProfileSource) -> DataFrame[MetaphlanProfile]:
         """Read a kraken2 taxonomic profile from a file."""
         result = pd.read_table(
             filepath_or_buffer=profile,
