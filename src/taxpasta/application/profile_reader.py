@@ -35,4 +35,4 @@ class ProfileReader(ABC):
     @classmethod
     @abstractmethod
     def read(cls, profile: ProfileSource) -> pd.DataFrame:
-        """Read a taxonomic profile from a file."""
+        """Read a taxonomic profile from the given source."""
