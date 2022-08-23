@@ -20,7 +20,7 @@ import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series
-from typing import Dict
+from typing import Dict, Optional
 
 rank_prefixes = dict(
     {
@@ -41,7 +41,7 @@ class MetaphlanProfile(pa.SchemaModel):
     clade_name: Series[str] = pa.Field()
     taxonomy_id: Series[str] = pa.Field()
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
-    additional_species: Series[str] = pa.Field()
+    additional_species: Optional[Series[str]] = pa.Field(nullable=True)
     rank: Series[pd.CategoricalDtype] = pa.Field(isin=rank_prefixes.values())
 
     @classmethod

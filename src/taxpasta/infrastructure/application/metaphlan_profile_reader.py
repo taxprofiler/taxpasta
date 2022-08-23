@@ -23,14 +23,14 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader
 
-from .metaphlan_profile import MetaphanProfile, rank_prefixes
+from .metaphlan_profile import MetaphlanProfile, rank_prefixes
 
 
 class MetaphlanProfileReader(ProfileReader):
     """Define a reader for kraken2 profiles."""
-
+    large_integer = 10e6
     @classmethod
-    def read(cls, profile: Path) -> DataFrame[MetaphanProfile]:
+    def read(cls, profile: Path) -> DataFrame[MetaphlanProfile]:
         """Read a kraken2 taxonomic profile from a file."""
         result = pd.read_table(
             filepath_or_buffer=profile,
@@ -57,6 +57,7 @@ class MetaphlanProfileReader(ProfileReader):
             .str[-1]
             .str.split("__")
             .str[0]
-            .map(rank_prefixes)
+            .map(rank_prefixes),
+            count=result.relative_abundance * .astype(int),
         )
         return result

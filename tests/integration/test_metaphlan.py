@@ -13,12 +13,31 @@
 # limitations under the License.
 
 
-from .kraken2_profile import Kraken2Profile
-from .kraken2_profile_reader import Kraken2ProfileReader
-from .kraken2_profile_standardisation_service import (
-    Kraken2ProfileStandardisationService,
-)
-from .metaphlan_profile_reader import MetaphlanProfileReader
-from .metaphlan_profile_standardisation_service import (
+"""Test that kraken2 profiles are read, validated, and transformed correctly."""
+
+
+from pathlib import Path
+
+import pytest
+from pandera.errors import SchemaErrors
+
+from taxpasta.infrastructure.application import (
+    MetaphlanProfileReader,
     MetaphlanProfileStandardisationService,
 )
+
+
+@pytest.mark.parametrize(
+    "filename",
+    [
+        "mpa_valid.tsv",
+    ],
+)
+def test_read_correctness(
+    metaphlan_data_dir: Path,
+    filename: str,
+):
+    """Test that kraken2 profiles are read, validated, and transformed correctly."""
+    MetaphlanProfileStandardisationService.transform(
+        MetaphlanProfileReader.read(metaphlan_data_dir / filename)
+    )
