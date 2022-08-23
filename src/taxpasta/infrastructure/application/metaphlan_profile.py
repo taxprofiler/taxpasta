@@ -42,7 +42,7 @@ class MetaphlanProfile(pa.SchemaModel):
     taxonomy_id: Series[str] = pa.Field()
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
     additional_species: Optional[Series[str]] = pa.Field(nullable=True)
-    rank: Series[pd.CategoricalDtype] = pa.Field(isin=RANK_PREFIXES.values())
+    rank: Series[pd.CategoricalDtype] = pa.Field(isin=list(RANK_PREFIXES.values()))
     count: Series[int] = pa.Field()
 
     @classmethod
@@ -52,7 +52,7 @@ class MetaphlanProfile(pa.SchemaModel):
     ) -> bool:
         """Check that the percentages add up to a hundred."""
         is_compositional = True
-        for r in RANK_PREFIXES.values():
+        for r in list(RANK_PREFIXES.values()):
             if not np.isclose(grouped_value[r].sum(), 100.0, atol=1.0):
                 return False
         return is_compositional
