@@ -53,7 +53,7 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/slack
-      link: https://nfcore.slack.com/
+      link: https://nfcore.slack.com/archives/C031QH57DSS
       name: "Join the nf-core Slack, channel #taxprofiler"
     - icon: fontawesome/brands/github
       link: https://github.com/taxprofiler
