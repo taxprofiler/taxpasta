@@ -15,16 +15,12 @@
 
 """Provide a reader for metaphlan profiles."""
 
-
-from ctypes.wintypes import LARGE_INTEGER
-from pathlib import Path
-
 import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader, ProfileSource
 
-from .metaphlan_profile import MetaphlanProfile, RANK_PREFIXES
+from .metaphlan_profile import RANK_PREFIXES, MetaphlanProfile
 
 
 class MetaphlanProfileReader(ProfileReader):

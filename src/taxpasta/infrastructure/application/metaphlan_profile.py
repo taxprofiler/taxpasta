@@ -16,11 +16,13 @@
 """Provide a description of the kraken2 profile format."""
 
 
+from typing import Dict, Optional
+
 import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series
-from typing import Dict, Optional
+
 
 RANK_PREFIXES = dict(
     {
@@ -58,6 +60,8 @@ class MetaphlanProfile(pa.SchemaModel):
         return is_compositional
 
     class Config:
+        """Configure the schema model."""
+
         coerce = True
         ordered = True
         strict = True
