@@ -46,5 +46,5 @@ class Kraken2ProfileStandardisationService(ProfileStandardisationService):
         result = profile[
             [Kraken2Profile.taxonomy_id, Kraken2Profile.direct_assigned_reads]
         ].copy()
-        result.columns = ["taxonomy_id", "count"]
+        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         return result
