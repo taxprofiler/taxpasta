@@ -27,7 +27,7 @@ def data_dir() -> Path:
     return Path(__file__).parent / "data"
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def kraken2_data_dir(data_dir: Path) -> Path:
     """Provide the path to the kraken2 data directory."""
     return data_dir / "kraken2"
