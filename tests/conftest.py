@@ -33,6 +33,12 @@ def kraken2_data_dir(data_dir: Path) -> Path:
     return data_dir / "kraken2"
 
 
+@pytest.fixture(scope="session")
+def bracken_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the Bracken data directory."""
+    return data_dir / "bracken"
+
+
 @pytest.fixture(scope="module")
 def metaphlan_data_dir(data_dir: Path) -> Path:
     """Provide the path to the metaphlan data directory."""
