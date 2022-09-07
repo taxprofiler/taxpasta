@@ -16,5 +16,6 @@ module = [
     "pandas",
     "pandera",
     "pandera.typing",
+    "typer",
 ]
 ignore_missing_imports = true

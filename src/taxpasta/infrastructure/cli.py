@@ -20,16 +20,15 @@ from enum import Enum, unique
 from pathlib import Path
 from typing import List, Optional
 
+import pandas as pd
 import typer
 
-from taxpasta.application.sample_merging_application import SampleMergingApplication
-
-
-@unique
-class SupportedProfiler(Enum):
-
-    kraken2 = "kraken2"
-    bracken = "bracken"
+from taxpasta.application import SampleMergingService
+from taxpasta.infrastructure.application import (
+    ApplicationServiceRegistry,
+    SampleSheet,
+    SupportedProfiler,
+)
 
 
 @unique
@@ -38,7 +37,7 @@ class SupportedOutputFormat(Enum):
     TSV = "TSV"
     CSV = "CSV"
     ODS = "ODS"
-    excel = "excel"
+    XLSX = "XLSX"
     arrow = "arrow"
 
 
@@ -108,21 +107,66 @@ def merge(
     ),
     output_format: Optional[SupportedOutputFormat] = typer.Option(
         None,
+        case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
     ),
 ):
+    # Perform input validation.
+    # Ensure that we can write to the output directory.
+    output.parent.mkdir(parents=True, exist_ok=True)
+    # Detect the output format if it isn't given.
+    if output_format is None:
+        # Set of all suffixes without the dot.
+        suffixes = {suffix[1:].upper() for suffix in output.suffixes}
+        # Mapping of supported output formats.
+        supported_formats = {
+            option.name.upper(): option for option in SupportedOutputFormat
+        }
+        common = suffixes.intersection(supported_formats)
+        if not common:
+            raise ValueError(
+                f"Unrecognized output file type extension {''.join(output.suffixes)}. "
+                f"Please rename the output or set the --output-format explicitly."
+            )
+        elif len(common) > 1:
+            raise ValueError(
+                f"Ambiguous output file type extension {''.join(output.suffixes)}. "
+                f"Please rename the output or set the --output-format explicitly."
+            )
+        else:
+            output_format = supported_formats[common.pop()]
+    #
+    reader = ApplicationServiceRegistry.profile_reader(profiler)
+    standardiser = ApplicationServiceRegistry.profile_standardisation_service(profiler)
+    # Extract and transform sample data.
     if len(profiles) == 1:
-        # Parse table of samples.
-        pass
+        # Parse sample sheet.
+        sheet = pd.read_table(profiles[0], sep="\t")
+        assert len(sheet) > 1, "Need at least two samples to merge any profiles."
+        SampleSheet.validate(sheet)
+        data = [
+            (row.sample, Path(row.profile)) for row in sheet.itertuples(index=False)
+        ]
     else:
-        # TODO: create application service registry
-        # TODO: use enum to get profile reader
-        pass
-    samples = []
+        # Parse sample names from filenames.
+        data = [(prof.name, prof) for prof in profiles]
+    samples = [
+        (name, standardiser.transform(reader.read(profile))) for name, profile in data
+    ]
     if wide_format:
-        result = SampleMergingApplication.merge_wide(samples)
+        result = SampleMergingService.merge_wide(samples)
     else:
-        result = SampleMergingApplication.merge_long(samples)
+        result = SampleMergingService.merge_long(samples)
     # TODO: Write result to output in correct format
+    if output_format is SupportedOutputFormat.TSV:
+        result.to_csv(output, sep="\t", index=False)
+    elif output_format is SupportedOutputFormat.CSV:
+        result.to_csv(output, index=False)
+    elif output_format is SupportedOutputFormat.XLSX:
+        result.to_excel(output, index=False, engine="openpyxl")
+    elif output_format is SupportedOutputFormat.ODS:
+        result.to_excel(output, index=False, engine="odf")
+    elif output_format is SupportedOutputFormat.arrow:
+        result.to_feather(output)
