@@ -49,3 +49,4 @@ from .metaphlan import (
     MetaphlanProfileStandardisationService,
 )
 from .application_service_registry import ApplicationServiceRegistry, SupportedProfiler
+from .sample_sheet import SampleSheet
