@@ -14,7 +14,7 @@
 # limitations under the License.
 
 
-"""Provide a sample merging application that summarizes two or more samples."""
+"""Provide a sample merging service that summarizes two or more samples."""
 
 
 from typing import Iterable, Tuple
@@ -25,8 +25,8 @@ from pandera.typing import DataFrame
 from taxpasta.domain import StandardProfile
 
 
-class SampleMergingApplication:
-    """Define a sample merging application that summarizes one or more samples."""
+class SampleMergingService:
+    """Define a sample merging service that summarizes one or more samples."""
 
     @classmethod
     def merge_wide(
