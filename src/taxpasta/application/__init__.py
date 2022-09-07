@@ -15,3 +15,4 @@
 
 from .profile_reader import ProfileReader, ProfileSource
 from .profile_standardisation_service import ProfileStandardisationService
+from .sample_merging_service import SampleMergingService

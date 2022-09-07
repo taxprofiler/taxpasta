@@ -23,7 +23,7 @@ import pytest
 from pandas.testing import assert_frame_equal
 from pandera.typing import DataFrame
 
-from taxpasta.application.sample_merging_application import SampleMergingApplication
+from taxpasta.application.sample_merging_service import SampleMergingService
 from taxpasta.domain import StandardProfile
 
 
@@ -44,7 +44,7 @@ from taxpasta.domain import StandardProfile
 def test_merge_wide(
     samples: Iterable[Tuple[str, DataFrame[StandardProfile]]], expected: pd.DataFrame
 ):
-    assert_frame_equal(SampleMergingApplication.merge_wide(samples), expected)
+    assert_frame_equal(SampleMergingService.merge_wide(samples), expected)
 
 
 @pytest.mark.parametrize(
@@ -68,4 +68,4 @@ def test_merge_wide(
 def test_merge_long(
     samples: Iterable[Tuple[str, DataFrame[StandardProfile]]], expected: pd.DataFrame
 ):
-    assert_frame_equal(SampleMergingApplication.merge_long(samples), expected)
+    assert_frame_equal(SampleMergingService.merge_long(samples), expected)
