@@ -23,31 +23,29 @@ from .centrifuge import (
     CentrifugeProfileReader,
     CentrifugeProfileStandardisationService,
 )
+from .diamond import (
+    DiamondProfile,
+    DiamondProfileReader,
+    DiamondProfileStandardisationService,
+)
 from .kaiju import (
     KaijuProfile,
     KaijuProfileReader,
     KaijuProfileStandardisationService,
 )
-
 from .kraken2 import (
     Kraken2Profile,
     Kraken2ProfileReader,
     Kraken2ProfileStandardisationService,
+)
+from .malt import (
+    MaltProfile,
+    MaltProfileReader,
+    MaltProfileStandardisationService,
 )
 from .metaphlan import (
     MetaphlanProfile,
     MetaphlanProfileReader,
     MetaphlanProfileStandardisationService,
 )
-
-from .diamond import (
-    DiamondProfile,
-    DiamondProfileReader,
-    DiamondProfileStandardisationService,
-)
-
-from .malt import (
-    MaltProfile,
-    MaltProfileReader,
-    MaltProfileStandardisationService,
-)
+from .application_service_registry import ApplicationServiceRegistry, SupportedProfiler
