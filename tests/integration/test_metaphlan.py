@@ -13,12 +13,14 @@
 # limitations under the License.
 
 
-"""Test that kraken2 profiles are read, validated, and transformed correctly."""
+"""Test that metaphlan profiles are read, validated, and transformed correctly."""
 
 
 from pathlib import Path
 
 import pytest
+from pandas.errors import ParserError
+from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
     MetaphlanProfileReader,
@@ -28,7 +30,18 @@ from taxpasta.infrastructure.application import (
 
 @pytest.mark.parametrize(
     "filename",
-    ["mpa_valid_simple.tsv", "mpa_valid_complex.tsv"],
+    [
+        "mpa_valid_simple.tsv",
+        "mpa_valid_complex.tsv",
+        pytest.param(
+            "mpa_invalid_tabs.tsv",
+            marks=pytest.mark.raises(exception=ParserError),
+        ),
+        pytest.param(
+            "mpa_invalid_abundance_sum.tsv",
+            marks=pytest.mark.raises(exception=SchemaErrors),
+        ),
+    ],
 )
 def test_read_correctness(
     metaphlan_data_dir: Path,

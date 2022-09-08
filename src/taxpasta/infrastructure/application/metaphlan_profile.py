@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a description of the kraken2 profile format."""
+"""Provide a description of the metaphlan profile format."""
 
 
 from typing import Dict, Optional

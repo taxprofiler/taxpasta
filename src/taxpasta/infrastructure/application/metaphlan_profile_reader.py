@@ -24,13 +24,13 @@ from .metaphlan_profile import RANK_PREFIXES, MetaphlanProfile
 
 
 class MetaphlanProfileReader(ProfileReader):
-    """Define a reader for kraken2 profiles."""
+    """Define a reader for Metaphlan profiles."""
 
     LARGE_INTEGER = int(10e6)
 
     @classmethod
     def read(cls, profile: ProfileSource) -> DataFrame[MetaphlanProfile]:
-        """Read a kraken2 taxonomic profile from a file."""
+        """Read a metaphlan taxonomic profile from a file."""
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
