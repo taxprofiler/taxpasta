@@ -47,17 +47,16 @@ class MetaphlanProfile(pa.SchemaModel):
     rank: Series[pd.CategoricalDtype] = pa.Field(isin=list(RANK_PREFIXES.values()))
     count: Series[int] = pa.Field()
 
-    @classmethod
     @pa.check("relative_abundance", groupby="rank", name="compositionality")
+    @classmethod
     def check_compositionality(
         cls, grouped_value: Dict[pd.CategoricalDtype, Series[float]]
     ) -> bool:
         """Check that the percentages add up to a hundred."""
-        is_compositional = True
-        for r in list(RANK_PREFIXES.values()):
-            if not np.isclose(grouped_value[r].sum(), 100.0, atol=1.0):
-                return False
-        return is_compositional
+        return all(
+            np.isclose(grouped_value[r].sum(), 100.0, atol=1.0)
+            for r in RANK_PREFIXES.values()
+        )
 
     class Config:
         """Configure the schema model."""
