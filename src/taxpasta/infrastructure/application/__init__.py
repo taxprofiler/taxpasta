@@ -24,3 +24,9 @@ from .centrifuge_profile_reader import CentrifugeProfileReader
 from .centrifuge_profile_standardisation_service import (
     CentrifugeProfileStandardisationService,
 )
+
+from .kaiju_profile import KaijuProfile
+from .kaiju_profile_reader import KaijuProfileReader
+from .kaiju_profile_standardisation_service import (
+    KaijuProfileStandardisationService,
+)
