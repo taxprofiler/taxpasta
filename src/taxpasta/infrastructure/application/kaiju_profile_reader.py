@@ -62,4 +62,5 @@ class KaijuProfileReader(ProfileReader):
                 f"Unexpected kaiju report format. It has {len(result.columns)} "
                 f"columns but only 5 are expected."
             )
+        result["taxonomy_id"].fillna("-1", inplace=True)
         return result
