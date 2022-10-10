@@ -71,7 +71,10 @@ def test_column_presence(columns: Collection[str]):
     [
         pd.DataFrame(
             {
-                "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                "file": [
+                    "barcode41_se-barcode41-kaiju.tsv",
+                    "barcode42_se-barcode42-kaiju.tsv",
+                ],
                 "percent": [99.1, 0.9],
                 "reads": [0, 0],
                 "taxonomy_id": ["NA", "1"],
@@ -81,7 +84,10 @@ def test_column_presence(columns: Collection[str]):
         pytest.param(
             pd.DataFrame(
                 {
-                    "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                    "file": [
+                        "barcode41_se-barcode41-kaiju.tsv",
+                        "barcode42_se-barcode42-kaiju.tsv",
+                    ],
                     "percent": [99.1, 1.9],
                     "reads": [0, 0],
                     "taxonomy_id": ["NA", "1"],
@@ -93,7 +99,10 @@ def test_column_presence(columns: Collection[str]):
         pytest.param(
             pd.DataFrame(
                 {
-                     "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                    "file": [
+                        "barcode41_se-barcode41-kaiju.tsv",
+                        "barcode42_se-barcode42-kaiju.tsv",
+                    ],
                     "percent": [79.1, 1.9],
                     "reads": [0, 0],
                     "taxonomy_id": ["NA", "1"],
@@ -114,7 +123,10 @@ def test_percent(table: pd.DataFrame):
     [
         pd.DataFrame(
             {
-                 "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                "file": [
+                    "barcode41_se-barcode41-kaiju.tsv",
+                    "barcode42_se-barcode42-kaiju.tsv",
+                ],
                 "percent": [99.1, 0.9],
                 "reads": [0, 0],
                 "taxonomy_id": ["NA", "1"],
@@ -123,7 +135,10 @@ def test_percent(table: pd.DataFrame):
         ),
         pd.DataFrame(
             {
-                "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                "file": [
+                    "barcode41_se-barcode41-kaiju.tsv",
+                    "barcode42_se-barcode42-kaiju.tsv",
+                ],
                 "percent": [99.1, 0.9],
                 "reads": [42, 10_000_000],
                 "taxonomy_id": ["NA", "1"],
@@ -133,7 +148,10 @@ def test_percent(table: pd.DataFrame):
         pytest.param(
             pd.DataFrame(
                 {
-                    "file": ["barcode41_se-barcode41-kaiju.tsv", "barcode42_se-barcode42-kaiju.tsv"],
+                    "file": [
+                        "barcode41_se-barcode41-kaiju.tsv",
+                        "barcode42_se-barcode42-kaiju.tsv",
+                    ],
                     "percent": [99.1, 0.9],
                     "reads": [-1, 0],
                     "taxonomy_id": ["NA", "1"],
