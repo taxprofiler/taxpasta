@@ -34,7 +34,7 @@ def kraken2_data_dir(data_dir: Path) -> Path:
 
 
 @pytest.fixture(scope="module")
-def metaphlan_data_dir(data_dir) -> Path:
+def metaphlan_data_dir(data_dir: Path) -> Path:
     """Provide the path to the metaphlan data directory."""
     return data_dir / "metaphlan"
 
