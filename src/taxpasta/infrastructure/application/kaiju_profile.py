@@ -15,10 +15,6 @@
 
 """Provide a description of the kaiju profile format."""
 
-
-from typing import Optional
-from unicodedata import category
-
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -40,6 +36,12 @@ class KaijuProfile(pa.SchemaModel):
         """Check that the percentages add up to a hundred."""
         # Kaiju reports percentages with sixth decimals
         return len(percent) == 0 or bool(np.isclose(percent.sum(), 100.0, atol=1e-06))
+
+    @pa.check("file", name="unique_filename")
+    @classmethod
+    def check_unique_filename(cls, file_col: Series[str]) -> bool:
+        """Check that Kaiju filename is unique."""
+        return file_col.nunique() == 1
 
     class Config:
         """Configure the schema model."""
