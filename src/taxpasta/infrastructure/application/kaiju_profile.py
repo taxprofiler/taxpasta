@@ -41,7 +41,7 @@ class KaijuProfile(pa.SchemaModel):
     @classmethod
     def check_unique_filename(cls, file_col: Series[str]) -> bool:
         """Check that Kaiju filename is unique."""
-        return file_col.nunique() == 1
+        return len(file_col) == 0 or file_col.nunique() == 1
 
     class Config:
         """Configure the schema model."""
