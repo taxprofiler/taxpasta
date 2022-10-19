@@ -45,7 +45,7 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
         Raises:
             pandera.errors.SchemaErrors: If the given profile does not conform with the
                 `BrackenProfile` or the transformed output does not conform with the
-                `StandardProfile`.
+                `StandardProfile`.  # noqa: DAR402
 
         """
         result = profile[
