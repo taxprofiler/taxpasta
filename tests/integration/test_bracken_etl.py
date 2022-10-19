@@ -29,7 +29,21 @@ from taxpasta.infrastructure.application import (
 
 @pytest.mark.parametrize(
     "filename",
-    [],
+    [
+        "2611_se-ERR5766174-db1_S.tsv",
+        "2612_pe-ERR5766176-db1_S.tsv",
+        "2613_pe-ERR5766181-db1_S.tsv",
+        "2612_pe-ERR5766176_B-db1_S.tsv",
+        "2612_se-ERR5766180-db1_S.tsv",
+        pytest.param(
+            "2611_se-ERR5766174-db1_S_invalid.tsv",
+            marks=pytest.mark.raises(exception=SchemaErrors),
+        ),
+        pytest.param(
+            "2612_pe-ERR5766176_B-db1_S_invalid.tsv",
+            marks=pytest.mark.raises(exception=SchemaErrors),
+        ),
+    ],
 )
 def test_bracken_etl(
     bracken_data_dir: Path,
