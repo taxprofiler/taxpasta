@@ -18,6 +18,11 @@ from .kraken2_profile_reader import Kraken2ProfileReader
 from .kraken2_profile_standardisation_service import (
     Kraken2ProfileStandardisationService,
 )
+from .metaphlan_profile import MetaphlanProfile
+from .metaphlan_profile_reader import MetaphlanProfileReader
+from .metaphlan_profile_standardisation_service import (
+    MetaphlanProfileStandardisationService,
+)
 
 from .centrifuge_profile import CentrifugeProfile
 from .centrifuge_profile_reader import CentrifugeProfileReader
