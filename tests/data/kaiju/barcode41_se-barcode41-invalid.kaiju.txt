@@ -1,0 +1,3 @@
+barcode41_se-barcode41-kaiju.tsv	0.547283	154	10239	Viruses
+barcode41_se-barcode41-kaiju.tsv	14.296884	4023	NA	cannot be assigned to a (non-viral) species
+barcode41_se-barcode41-kaiju.tsv	59.486836	16739	NA	unclassified
