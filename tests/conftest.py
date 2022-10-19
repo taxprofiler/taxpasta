@@ -34,6 +34,18 @@ def kraken2_data_dir(data_dir: Path) -> Path:
 
 
 @pytest.fixture(scope="module")
+def metaphlan_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the metaphlan data directory."""
+    return data_dir / "metaphlan"
+
+
+@pytest.fixture(scope="module")
 def centrifuge_data_dir(data_dir: Path) -> Path:
     """Provide the path to the centrifuge data directory."""
     return data_dir / "centrifuge"
+
+
+@pytest.fixture(scope="module")
+def kaiju_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the kaiju data directory."""
+    return data_dir / "kaiju"
