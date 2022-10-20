@@ -17,6 +17,7 @@
 
 
 import logging
+from enum import Enum, unique
 from pathlib import Path
 from typing import List, Optional
 
@@ -35,6 +36,16 @@ from .application import (
 
 
 logger = logging.getLogger("taxpasta")
+
+
+@unique
+class LoggingLevel(str, Enum):
+
+    DEBUG = "DEBUG"
+    INFO = "INFO"
+    WARNING = "WARNING"
+    ERROR = "ERROR"
+    CRITICAL = "CRITICAL"
 
 
 def validate_output_format(
@@ -159,10 +170,32 @@ def version_callback(is_set: bool) -> None:
 def initialize(
     context: typer.Context,
     version: Optional[bool] = typer.Option(  # noqa: B008
-        None, "--version", callback=version_callback, is_eager=True
+        None,
+        "--version",
+        callback=version_callback,
+        is_eager=True,
+        help="Print only the current tool version and exit.",
+    ),
+    log_level: LoggingLevel = typer.Option(  # noqa: B008
+        LoggingLevel.INFO.name,
+        "--log-level",
+        "-l",
+        case_sensitive=False,
+        help="Set the desired log level.",
     ),
 ):
     """Initialize logging and rich printing if available."""
+    try:
+        from rich.logging import RichHandler
+
+        logging.basicConfig(
+            level=log_level.name,
+            format="%(message)s",
+            datefmt="[%X]",
+            handlers=[RichHandler(rich_tracebacks=True, tracebacks_suppress=[typer])],
+        )
+    except ModuleNotFoundError:
+        logging.basicConfig(level=log_level.name, format="[%(levelname)s] %(message)s")
 
 
 @app.command()
@@ -237,6 +270,7 @@ def merge(
     # Extract and transform sample data.
     if sample_sheet is not None:
         valid_sample_format = validate_sample_format(sample_sheet, sample_format)
+        logger.info("Read sample sheet from '%s'.", str(sample_sheet))
         sheet = read_sample_sheet(sample_sheet, valid_sample_format)
         data = [(row.sample, row.profile) for row in sheet.itertuples(index=False)]
     else:
@@ -253,4 +287,5 @@ def merge(
     )
     result = merging_app.run(data, wide_format)
 
+    logger.info("Write result to '%s'.", str(output))
     SupportedTabularFileFormat.write_table(result, output, valid_output_format)
