@@ -24,8 +24,10 @@ import pandera.errors
 import typer
 from pandera.typing import DataFrame
 
-from taxpasta.infrastructure.application import (
-    SampleMergingApplication,
+from taxpasta.application import SampleMergingApplication
+
+from .application import (
+    ApplicationServiceRegistry,
     SampleSheet,
     SupportedProfiler,
     SupportedTabularFileFormat,
@@ -243,7 +245,12 @@ def merge(
         # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
-    merging_app = SampleMergingApplication(profiler=profiler)
+    merging_app = SampleMergingApplication(
+        profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
+        profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
+            profiler
+        ),
+    )
     result = merging_app.run(data, wide_format)
 
     SupportedTabularFileFormat.write_table(result, output, valid_output_format)
