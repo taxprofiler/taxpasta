@@ -23,15 +23,15 @@ from .bracken import (
     BrackenProfileReader,
     BrackenProfileStandardisationService,
 )
+from .centrifuge import (
+    CentrifugeProfile,
+    CentrifugeProfileReader,
+    CentrifugeProfileStandardisationService,
+)
 from .metaphlan_profile import MetaphlanProfile
 from .metaphlan_profile_reader import MetaphlanProfileReader
 from .metaphlan_profile_standardisation_service import (
     MetaphlanProfileStandardisationService,
-)
-from .centrifuge_profile import CentrifugeProfile
-from .centrifuge_profile_reader import CentrifugeProfileReader
-from .centrifuge_profile_standardisation_service import (
-    CentrifugeProfileStandardisationService,
 )
 from .kaiju_profile import KaijuProfile
 from .kaiju_profile_reader import KaijuProfileReader
