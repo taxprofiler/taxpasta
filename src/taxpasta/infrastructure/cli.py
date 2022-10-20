@@ -35,7 +35,7 @@ from taxpasta.infrastructure.application import (
 logger = logging.getLogger("taxpasta")
 
 
-def output_format_callback(
+def validate_output_format(
     output: Path, output_format: Optional[SupportedTabularFileFormat]
 ) -> SupportedTabularFileFormat:
     """
@@ -69,7 +69,7 @@ def output_format_callback(
     return result
 
 
-def sample_format_callback(
+def validate_sample_format(
     sample_sheet: Path, sample_format: Optional[SupportedTabularFileFormat]
 ) -> SupportedTabularFileFormat:
     """
@@ -104,7 +104,7 @@ def sample_format_callback(
     return result
 
 
-def sample_sheet_callback(
+def read_sample_sheet(
     sample_sheet: Path, sample_format: SupportedTabularFileFormat
 ) -> DataFrame[SampleSheet]:
     """
@@ -230,17 +230,17 @@ def merge(
     # Perform input validation.
     # Ensure that we can write to the output directory.
     output.parent.mkdir(parents=True, exist_ok=True)
-    valid_output_format = output_format_callback(output, output_format)
+    valid_output_format = validate_output_format(output, output_format)
 
     # Extract and transform sample data.
     if sample_sheet is not None:
-        valid_sample_format = sample_format_callback(sample_sheet, sample_format)
-        sheet = sample_sheet_callback(sample_sheet, valid_sample_format)
+        valid_sample_format = validate_sample_format(sample_sheet, sample_format)
+        sheet = read_sample_sheet(sample_sheet, valid_sample_format)
         data = [(row.sample, row.profile) for row in sheet.itertuples(index=False)]
     else:
         assert profiles is not None  # nosec assert_used
         assert len(profiles) > 1  # nosec assert_used
-        # Parse sample names from filenames.
+        # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
     merging_app = SampleMergingApplication(profiler=profiler)
