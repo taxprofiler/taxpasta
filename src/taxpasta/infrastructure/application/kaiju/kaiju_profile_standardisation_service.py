@@ -42,5 +42,5 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
 
         """
         result = profile[[KaijuProfile.taxonomy_id, KaijuProfile.reads]].copy()
-        result.columns = ["taxonomy_id", "count"]
+        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         return result
