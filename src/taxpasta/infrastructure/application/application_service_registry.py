@@ -30,32 +30,52 @@ class ApplicationServiceRegistry:
     @classmethod
     def profile_reader(cls, profiler: SupportedProfiler) -> Type[ProfileReader]:
         """Return a profile reader of the correct type."""
-        if profiler is SupportedProfiler.kraken2:
-            from .kraken2_profile_reader import Kraken2ProfileReader
-
-            return Kraken2ProfileReader
-        elif profiler is SupportedProfiler.bracken:
-            from .bracken_profile_reader import BrackenProfileReader
+        if profiler is SupportedProfiler.bracken:
+            from .bracken import BrackenProfileReader
 
             return BrackenProfileReader
+        elif profiler is SupportedProfiler.centrifuge:
+            from .centrifuge import CentrifugeProfileReader
+
+            return CentrifugeProfileReader
+        elif profiler is SupportedProfiler.kraken2:
+            from .kraken2 import Kraken2ProfileReader
+
+            return Kraken2ProfileReader
+        elif profiler is SupportedProfiler.kaiju:
+            from .kaiju import KaijuProfileReader
+
+            return KaijuProfileReader
+        elif profiler is SupportedProfiler.metaphlan:
+            from .metaphlan import MetaphlanProfileReader
+
+            return MetaphlanProfileReader
 
     @classmethod
     def profile_standardisation_service(
         cls, profiler: SupportedProfiler
     ) -> Type[ProfileStandardisationService]:
         """Return a profile standardisation service of the correct type."""
-        if profiler is SupportedProfiler.kraken2:
-            from .kraken2_profile_standardisation_service import (
-                Kraken2ProfileStandardisationService,
-            )
-
-            return Kraken2ProfileStandardisationService
-        elif profiler is SupportedProfiler.bracken:
-            from .bracken_profile_standardisation_service import (
-                BrackenProfileStandardisationService,
-            )
+        if profiler is SupportedProfiler.bracken:
+            from .bracken import BrackenProfileStandardisationService
 
             return BrackenProfileStandardisationService
+        elif profiler is SupportedProfiler.centrifuge:
+            from .centrifuge import CentrifugeProfileStandardisationService
+
+            return CentrifugeProfileStandardisationService
+        elif profiler is SupportedProfiler.kaiju:
+            from .kaiju import KaijuProfileStandardisationService
+
+            return KaijuProfileStandardisationService
+        elif profiler is SupportedProfiler.kraken2:
+            from .kraken2 import Kraken2ProfileStandardisationService
+
+            return Kraken2ProfileStandardisationService
+        elif profiler is SupportedProfiler.metaphlan:
+            from .metaphlan import MetaphlanProfileStandardisationService
+
+            return MetaphlanProfileStandardisationService
 
     @classmethod
     def output_writer(cls):

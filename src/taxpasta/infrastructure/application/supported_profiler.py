@@ -23,5 +23,8 @@ from enum import Enum, unique
 class SupportedProfiler(Enum):
     """Define supported taxonomic profilers."""
 
-    kraken2 = "kraken2"
     bracken = "bracken"
+    centrifuge = "centrifuge"
+    kaiju = "kaiju"
+    kraken2 = "kraken2"
+    metaphlan = "metaphlan"
