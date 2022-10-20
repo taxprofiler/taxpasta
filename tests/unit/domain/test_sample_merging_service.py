@@ -57,7 +57,11 @@ from taxpasta.domain import Sample, SampleMergingService, StandardProfile
 )
 def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
     """Expect that samples are merged in wide format."""
-    assert_frame_equal(SampleMergingService.merge_wide(samples), expected)
+    # On Windows the `astype` conversion may change the dtype from int64 to int32.
+    # For compatibility, we disable the exact dtype match here.
+    assert_frame_equal(
+        SampleMergingService.merge_wide(samples), expected, check_dtype=False
+    )
 
 
 @pytest.mark.parametrize(
