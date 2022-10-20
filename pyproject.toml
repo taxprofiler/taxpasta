@@ -20,6 +20,7 @@ module = [
     "pandera.errors",
     "pandera.typing",
     "pyarrow",
+    "rich.logging",
     "typer",
 ]
 ignore_missing_imports = true
