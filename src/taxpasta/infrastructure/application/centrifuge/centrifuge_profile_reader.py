@@ -48,16 +48,17 @@ class CentrifugeProfileReader(ProfileReader):
             sep="\t",
             header=None,
             index_col=False,
+            dtype={"taxonomy_id": str},
             skipinitialspace=True,
         )
         if len(result.columns) == 6:
             result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "taxonomy_level",
-                "taxonomy_id",
-                "name",
+                CentrifugeProfile.percent,
+                CentrifugeProfile.clade_assigned_reads,
+                CentrifugeProfile.direct_assigned_reads,
+                CentrifugeProfile.taxonomy_level,
+                CentrifugeProfile.taxonomy_id,
+                CentrifugeProfile.name,
             ]
         else:
             raise ValueError(
