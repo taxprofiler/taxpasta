@@ -46,5 +46,5 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
         result = profile[
             [CentrifugeProfile.taxonomy_id, CentrifugeProfile.direct_assigned_reads]
         ].copy()
-        result.columns = ["taxonomy_id", "count"]
+        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         return result
