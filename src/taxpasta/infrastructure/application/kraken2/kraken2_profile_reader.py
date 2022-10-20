@@ -53,23 +53,23 @@ class Kraken2ProfileReader(ProfileReader):
         )
         if len(result.columns) == 6:
             result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "taxonomy_lvl",
-                "taxonomy_id",
-                "name",
+                Kraken2Profile.percent,
+                Kraken2Profile.clade_assigned_reads,
+                Kraken2Profile.direct_assigned_reads,
+                Kraken2Profile.taxonomy_lvl,
+                Kraken2Profile.taxonomy_id,
+                Kraken2Profile.name,
             ]
         elif len(result.columns) == 8:
             result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "num_minimizers",
-                "distinct_minimizers",
-                "taxonomy_lvl",
-                "taxonomy_id",
-                "name",
+                Kraken2Profile.percent,
+                Kraken2Profile.clade_assigned_reads,
+                Kraken2Profile.direct_assigned_reads,
+                Kraken2Profile.num_minimizers,
+                Kraken2Profile.distinct_minimizers,
+                Kraken2Profile.taxonomy_lvl,
+                Kraken2Profile.taxonomy_id,
+                Kraken2Profile.name,
             ]
         else:
             raise ValueError(
