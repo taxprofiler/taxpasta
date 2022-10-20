@@ -17,33 +17,39 @@
 
 
 from pathlib import Path
-from typing import Iterable, Tuple
+from typing import Iterable, Tuple, Type
 
 from pandera.typing import DataFrame
 
 from taxpasta.domain import Sample, SampleMergingService
 
-from .application_service_registry import ApplicationServiceRegistry
-from .supported_profiler import SupportedProfiler
+from .profile_reader import ProfileReader
+from .profile_standardisation_service import ProfileStandardisationService
 
 
 class SampleMergingApplication:
     """Define a sample merging application."""
 
-    def __init__(self, *, profiler: SupportedProfiler, **kwargs):
+    def __init__(
+        self,
+        *,
+        profile_reader: Type[ProfileReader],
+        profile_standardiser: Type[ProfileStandardisationService],
+        **kwargs
+    ):
         """
         Initialize the application for a particular taxonomic profiler.
 
         Args:
-            profiler: One of the supported profilers.
+            profile_reader: A profile reader for a specific taxonomic profile format.
+            profile_standardiser: A profile standardisation service for a specific
+                taxonomic profile format.
             **kwargs: Passed on for inheritance.
 
         """
         super().__init__(**kwargs)
-        self.reader = ApplicationServiceRegistry.profile_reader(profiler)
-        self.standardiser = ApplicationServiceRegistry.profile_standardisation_service(
-            profiler
-        )
+        self.reader = profile_reader
+        self.standardiser = profile_standardiser
 
     def run(self, profiles: Iterable[Tuple[str, Path]], wide_format: bool) -> DataFrame:
         """
@@ -55,6 +61,10 @@ class SampleMergingApplication:
 
         Returns:
             A single table containing all samples in the desired format.
+
+        Raises:
+            pandera.error.SchemaErrors: If any of the given profiles does not match the
+                validation schema.  # noqa: DAR402
 
         """
         samples = [
