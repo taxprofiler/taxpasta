@@ -14,8 +14,7 @@
 
 
 """Provide a standardisation service for metaphlan profiles."""
-
-
+import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -27,6 +26,9 @@ from .metaphlan_profile import MetaphlanProfile
 
 class MetaphlanProfileStandardisationService(ProfileStandardisationService):
     """Define a standardisation service for metaphlan profiles."""
+
+    # Metaphlan only reports up to six decimals so this number should be large enough.
+    LARGE_INTEGER = int(1e6)
 
     @classmethod
     @pa.check_types(lazy=True)
@@ -43,8 +45,13 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[
-            [MetaphlanProfile.taxonomy_id, MetaphlanProfile.relative_abundance]
-        ].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        return result
+        return pd.DataFrame(
+            {
+                StandardProfile.taxonomy_id: profile[MetaphlanProfile.taxonomy_id]
+                .str.rsplit("|", n=1)
+                .str[-1],
+                StandardProfile.count: profile[MetaphlanProfile.relative_abundance].map(
+                    lambda abundance: int(abundance * cls.LARGE_INTEGER)
+                ),
+            }
+        )
