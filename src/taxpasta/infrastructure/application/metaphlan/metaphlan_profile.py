@@ -54,8 +54,8 @@ class MetaphlanProfile(pa.SchemaModel):
     ) -> bool:
         """Check that the percentages add up to a hundred."""
         return all(
-            np.isclose(grouped_value[r].sum(), 100.0, atol=1.0)
-            for r in RANK_PREFIXES.values()
+            np.isclose(grouped_value[prefix].sum(), 100.0, atol=1.0)
+            for prefix in RANK_PREFIXES.values()
         )
 
     class Config:
