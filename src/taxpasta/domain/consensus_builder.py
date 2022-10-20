@@ -20,13 +20,15 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
+from .sample import Sample
+
 
 class ConsensusBuilder(ABC):
     """Define a builder service for creating a consensus between many profiles."""
 
     @abstractmethod
-    def add_profile(self, profile: pd.DataFrame) -> None:
-        """Add a profile to the consensus builder."""
+    def add_sample(self, sample: Sample) -> None:
+        """Add a sample to the consensus builder."""
 
     @abstractmethod
     def build(self) -> pd.DataFrame:

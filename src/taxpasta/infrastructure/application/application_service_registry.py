@@ -17,18 +17,11 @@
 """Provide an application service registry."""
 
 
-from enum import Enum, unique
 from typing import Type
 
 from taxpasta.application import ProfileReader, ProfileStandardisationService
 
-
-@unique
-class SupportedProfiler(Enum):
-    """Define supported taxonomic profilers."""
-
-    kraken2 = "kraken2"
-    bracken = "bracken"
+from .supported_profiler import SupportedProfiler
 
 
 class ApplicationServiceRegistry:

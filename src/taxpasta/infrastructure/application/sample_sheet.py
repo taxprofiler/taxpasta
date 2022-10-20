@@ -16,15 +16,30 @@
 """Provide a description of samples and profile locations."""
 
 
+from pathlib import Path
+from typing import cast
+
 import pandera as pa
-from pandera.typing import Series
+from pandera.typing import DataFrame, Series
 
 
 class SampleSheet(pa.SchemaModel):
     """Define a description of samples and profile locations."""
 
     sample: Series[str] = pa.Field()
-    profile: Series[str] = pa.Field()
+    profile: Series[Path] = pa.Field()
+
+    @pa.dataframe_check
+    @classmethod
+    def check_number_samples(cls, table: DataFrame) -> bool:
+        """Check that there are at least two samples."""
+        return (table[cls.sample].notnull() & table[cls.profile].notnull()).sum() > 1
+
+    @pa.check("profile", name="profile_presence")
+    @classmethod
+    def check_profile_presence(cls, profile: Series[Path]) -> Series[bool]:
+        """Check that every profile is present at the specified location."""
+        return cast(Series[bool], profile.map(Path.is_file))
 
     class Config:
         """Configure the schema model."""

@@ -17,26 +17,25 @@
 """Provide a sample merging service that summarizes two or more samples."""
 
 
-from typing import Iterable, Tuple
+from typing import Iterable
 
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.domain import StandardProfile
+from .sample import Sample
+from .standard_profile import StandardProfile
 
 
 class SampleMergingService:
     """Define a sample merging service that summarizes one or more samples."""
 
     @classmethod
-    def merge_wide(
-        cls, samples: Iterable[Tuple[str, DataFrame[StandardProfile]]]
-    ) -> DataFrame:
+    def merge_wide(cls, samples: Iterable[Sample]) -> DataFrame:
         """
         Merge two or more sample profiles into a wide-format table.
 
         Args:
-            samples: Pairs of sample name and standard profile.
+            samples: Two or more samples.
 
         Returns:
             A single table containing one row per taxon, one column for the taxonomy
@@ -46,24 +45,22 @@ class SampleMergingService:
         # `set_index` creates a copy of the original profile which is convenient so that
         # we do not modify existing profiles but, of course, doubles the memory used.
         counts = [
-            profile.set_index(
+            sample.profile.set_index(
                 keys=StandardProfile.taxonomy_id, verify_integrity=True
-            ).rename(columns={StandardProfile.count: name})
-            for name, profile in samples
+            ).rename(columns={StandardProfile.count: sample.name})
+            for sample in samples
         ]
         return (
             counts[0].join(counts[1:], how="outer").fillna(0).astype(int).reset_index()
         )
 
     @classmethod
-    def merge_long(
-        cls, samples: Iterable[Tuple[str, DataFrame[StandardProfile]]]
-    ) -> DataFrame:
+    def merge_long(cls, samples: Iterable[Sample]) -> DataFrame:
         """
         Merge two or more sample profiles into a summary table.
 
         Args:
-            samples: Pairs of sample name and standard profile.
+            samples: Two or more samples.
 
         Returns:
             A single table containing three columns: taxonomy identifier, abundance
@@ -73,6 +70,7 @@ class SampleMergingService:
         # `assign` creates a copy of the original profile which is convenient so that
         # we do not modify existing profiles but, of course, doubles the memory used.
         return pd.concat(
-            [profile.assign(sample=name) for name, profile in samples],
+            [sample.profile.assign(sample=sample.name) for sample in samples],
             ignore_index=True,
+            copy=False,
         )

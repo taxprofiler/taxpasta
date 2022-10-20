@@ -16,29 +16,115 @@
 """Provide a command-line interface (CLI) for taxpasta functionality."""
 
 
-from enum import Enum, unique
+import logging
 from pathlib import Path
 from typing import List, Optional
 
-import pandas as pd
+import pandera.errors
 import typer
+from pandera.typing import DataFrame
 
-from taxpasta.application import SampleMergingService
 from taxpasta.infrastructure.application import (
-    ApplicationServiceRegistry,
+    SampleMergingApplication,
     SampleSheet,
     SupportedProfiler,
+    SupportedTabularFileFormat,
 )
 
 
-@unique
-class SupportedOutputFormat(Enum):
+logger = logging.getLogger("taxpasta")
 
-    TSV = "TSV"
-    CSV = "CSV"
-    ODS = "ODS"
-    XLSX = "XLSX"
-    arrow = "arrow"
+
+def output_format_callback(
+    output: Path, output_format: Optional[SupportedTabularFileFormat]
+) -> SupportedTabularFileFormat:
+    """
+    Detect the output format if it isn't given.
+
+    Args:
+        output: Path for the output.
+        output_format: The selected file format if any.
+
+    Returns:
+        The validated output file format.
+
+    """
+    if output_format is None:
+        try:
+            result = SupportedTabularFileFormat.guess_format(output)
+        except ValueError as error:
+            logger.error(
+                "%s\nPlease rename the output or set the --output-format explicitly.",
+                error.args[0],
+            )
+        typer.Exit(2)
+    else:
+        result = output_format
+    try:
+        SupportedTabularFileFormat.check_dependencies(result)
+    except ImportError as error:
+        logger.debug("", exc_info=error)
+        logger.error(str(error))
+        typer.Exit(1)
+    return result
+
+
+def sample_format_callback(
+    sample_sheet: Path, sample_format: Optional[SupportedTabularFileFormat]
+) -> SupportedTabularFileFormat:
+    """
+    Detect the sample sheet format if it isn't given.
+
+    Args:
+        sample_sheet: Path to the sample sheet.
+        sample_format: The selected file format if any.
+
+    Returns:
+        The validated sample sheet format.
+
+    """
+    if sample_format is None:
+        try:
+            result = SupportedTabularFileFormat.guess_format(sample_sheet)
+        except ValueError as error:
+            logger.error(
+                "%s\nPlease rename the sample sheet or set the --sample-format "
+                "explicitly.",
+                error.args[0],
+            )
+        typer.Exit(2)
+    else:
+        result = sample_format
+    try:
+        SupportedTabularFileFormat.check_dependencies(result)
+    except ImportError as error:
+        logger.debug("", exc_info=error)
+        logger.error(str(error))
+        typer.Exit(1)
+    return result
+
+
+def sample_sheet_callback(
+    sample_sheet: Path, sample_format: SupportedTabularFileFormat
+) -> DataFrame[SampleSheet]:
+    """
+    Extract and validate the sample sheet.
+
+    Args:
+        sample_sheet: Path to the sample sheet.
+        sample_format: The determined file format.
+
+    Returns:
+        A pandas data frame in the form of a sample sheet.
+
+    """
+    result = SupportedTabularFileFormat.read_table(sample_sheet, sample_format)
+    try:
+        SampleSheet.validate(result, lazy=True)
+    except pandera.errors.SchemaErrors as error:
+        logger.error(str(error))
+        typer.Exit(1)
+    return result
 
 
 app = typer.Typer(
@@ -48,6 +134,13 @@ app = typer.Typer(
 
 
 def version_callback(is_set: bool) -> None:
+    """
+    Print the tool version if desired.
+
+    Args:
+        is_set: Whether the version was requested as a command line option.
+
+    """
     if is_set:
         import taxpasta._version
 
@@ -63,7 +156,7 @@ def version_callback(is_set: bool) -> None:
 @app.callback(invoke_without_command=True)
 def initialize(
     context: typer.Context,
-    version: Optional[bool] = typer.Option(
+    version: Optional[bool] = typer.Option(  # noqa: B008
         None, "--version", callback=version_callback, is_eager=True
     ),
 ):
@@ -72,40 +165,60 @@ def initialize(
 
 @app.command()
 def consensus():
+    """Form a consensus for the same sample but from different taxonomic profiles."""
     raise NotImplementedError("Coming soon™")
 
 
 @app.command()
 def merge(
-    profiles: List[Path] = typer.Argument(
-        ...,
-        metavar="PROFILE [...]",
-        help="Either a single file which should be a table with two columns, the first "
-        "column named 'sample' which can be any string and the second column named "
-        "'profile' which "
-        "must be a file path to an actual taxonomic abundance profile; or at least two "
-        "file "
-        "paths to profiles in which case the filenames will be parsed as sample names.",
+    profiles: Optional[List[Path]] = typer.Argument(  # noqa: B008
+        None,
+        metavar="[PROFILE1 PROFILE2 [...]]",
+        help="Two or more files containing taxonomic profiles. Required unless there is"
+        " a sample sheet. Filenames will be parsed as sample names.",
     ),
-    profiler: SupportedProfiler = typer.Option(
+    profiler: SupportedProfiler = typer.Option(  # noqa: B008
         ...,
+        "--profiler",
+        "-p",
         case_sensitive=False,
         help="The taxonomic profiler used. All provided profiles must come from the "
         "same tool!",
     ),
-    wide_format: bool = typer.Option(
+    sample_sheet: Optional[Path] = typer.Option(  # noqa: B008
+        None,
+        "--samplesheet",
+        "-s",
+        help="A table with a header and two columns: the first "
+        "column named 'sample' which can be any string and the second column named "
+        "'profile' which "
+        "must be a file path to an actual taxonomic abundance profile. If this option "
+        "is provided, any arguments are ignored.",
+        exists=True,
+        file_okay=True,
+        dir_okay=False,
+        readable=True,
+    ),
+    sample_format: Optional[SupportedTabularFileFormat] = typer.Option(  # noqa: B008
+        None,
+        case_sensitive=False,
+        help="The file format of the sample sheet. Depending on the choice, additional "
+        "package dependencies may apply. Will be parsed from the sample sheet "
+        "file name but can be set explicitly.",
+    ),
+    wide_format: bool = typer.Option(  # noqa: B008
         True,
         "--wide/--long",
         help="Output merged abundance data in either wide or (tidy) long format.",
     ),
-    output: Path = typer.Option(
+    output: Path = typer.Option(  # noqa: B008
         ...,
         "--output",
         "-o",
         help="The desired output file. By default, the file extension will be used to "
         "determine the output format.",
     ),
-    output_format: Optional[SupportedOutputFormat] = typer.Option(
+    output_format: Optional[SupportedTabularFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
@@ -113,60 +226,24 @@ def merge(
         "set explicitly.",
     ),
 ):
+    """Merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
     # Ensure that we can write to the output directory.
     output.parent.mkdir(parents=True, exist_ok=True)
-    # Detect the output format if it isn't given.
-    if output_format is None:
-        # Set of all suffixes without the dot.
-        suffixes = {suffix[1:].upper() for suffix in output.suffixes}
-        # Mapping of supported output formats.
-        supported_formats = {
-            option.name.upper(): option for option in SupportedOutputFormat
-        }
-        common = suffixes.intersection(supported_formats)
-        if not common:
-            raise ValueError(
-                f"Unrecognized output file type extension {''.join(output.suffixes)}. "
-                f"Please rename the output or set the --output-format explicitly."
-            )
-        elif len(common) > 1:
-            raise ValueError(
-                f"Ambiguous output file type extension {''.join(output.suffixes)}. "
-                f"Please rename the output or set the --output-format explicitly."
-            )
-        else:
-            output_format = supported_formats[common.pop()]
-    #
-    reader = ApplicationServiceRegistry.profile_reader(profiler)
-    standardiser = ApplicationServiceRegistry.profile_standardisation_service(profiler)
+    valid_output_format = output_format_callback(output, output_format)
+
     # Extract and transform sample data.
-    if len(profiles) == 1:
-        # Parse sample sheet.
-        sheet = pd.read_table(profiles[0], sep="\t")
-        assert len(sheet) > 1, "Need at least two samples to merge any profiles."
-        SampleSheet.validate(sheet)
-        data = [
-            (row.sample, Path(row.profile)) for row in sheet.itertuples(index=False)
-        ]
+    if sample_sheet is not None:
+        valid_sample_format = sample_format_callback(sample_sheet, sample_format)
+        sheet = sample_sheet_callback(sample_sheet, valid_sample_format)
+        data = [(row.sample, row.profile) for row in sheet.itertuples(index=False)]
     else:
+        assert profiles is not None  # nosec assert_used
+        assert len(profiles) > 1  # nosec assert_used
         # Parse sample names from filenames.
-        data = [(prof.name, prof) for prof in profiles]
-    samples = [
-        (name, standardiser.transform(reader.read(profile))) for name, profile in data
-    ]
-    if wide_format:
-        result = SampleMergingService.merge_wide(samples)
-    else:
-        result = SampleMergingService.merge_long(samples)
-    # TODO: Write result to output in correct format
-    if output_format is SupportedOutputFormat.TSV:
-        result.to_csv(output, sep="\t", index=False)
-    elif output_format is SupportedOutputFormat.CSV:
-        result.to_csv(output, index=False)
-    elif output_format is SupportedOutputFormat.XLSX:
-        result.to_excel(output, index=False, engine="openpyxl")
-    elif output_format is SupportedOutputFormat.ODS:
-        result.to_excel(output, index=False, engine="odf")
-    elif output_format is SupportedOutputFormat.arrow:
-        result.to_feather(output)
+        data = [(prof.stem, prof) for prof in profiles]
+
+    merging_app = SampleMergingApplication(profiler=profiler)
+    result = merging_app.run(data, wide_format)
+
+    SupportedTabularFileFormat.write_table(result, output, valid_output_format)

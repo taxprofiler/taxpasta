@@ -16,24 +16,38 @@
 """Test that the multiple samples are merged as expected."""
 
 
-from typing import Iterable, Tuple
+from typing import Iterable
 
 import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
-from pandera.typing import DataFrame
 
-from taxpasta.application.sample_merging_service import SampleMergingService
-from taxpasta.domain import StandardProfile
+from taxpasta.domain import Sample, SampleMergingService, StandardProfile
 
 
 @pytest.mark.parametrize(
-    "samples, expected",
+    ("samples", "expected"),
     [
         (
             [
-                ("s1", pd.DataFrame({"taxonomy_id": ["1", "2"], "count": [23, 42]})),
-                ("s2", pd.DataFrame({"taxonomy_id": ["2", "3"], "count": [33, 55]})),
+                Sample(
+                    name="s1",
+                    profile=pd.DataFrame(
+                        {
+                            StandardProfile.taxonomy_id: ["1", "2"],
+                            StandardProfile.count: [23, 42],
+                        }
+                    ),
+                ),
+                Sample(
+                    name="s2",
+                    profile=pd.DataFrame(
+                        {
+                            StandardProfile.taxonomy_id: ["2", "3"],
+                            StandardProfile.count: [33, 55],
+                        }
+                    ),
+                ),
             ],
             pd.DataFrame(
                 {"taxonomy_id": ["1", "2", "3"], "s1": [23, 42, 0], "s2": [0, 33, 55]}
@@ -41,19 +55,34 @@ from taxpasta.domain import StandardProfile
         )
     ],
 )
-def test_merge_wide(
-    samples: Iterable[Tuple[str, DataFrame[StandardProfile]]], expected: pd.DataFrame
-):
+def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
+    """Expect that samples are merged in wide format."""
     assert_frame_equal(SampleMergingService.merge_wide(samples), expected)
 
 
 @pytest.mark.parametrize(
-    "samples, expected",
+    ("samples", "expected"),
     [
         (
             [
-                ("s1", pd.DataFrame({"taxonomy_id": ["1", "2"], "count": [23, 42]})),
-                ("s2", pd.DataFrame({"taxonomy_id": ["2", "3"], "count": [33, 55]})),
+                Sample(
+                    name="s1",
+                    profile=pd.DataFrame(
+                        {
+                            StandardProfile.taxonomy_id: ["1", "2"],
+                            StandardProfile.count: [23, 42],
+                        }
+                    ),
+                ),
+                Sample(
+                    name="s2",
+                    profile=pd.DataFrame(
+                        {
+                            StandardProfile.taxonomy_id: ["2", "3"],
+                            StandardProfile.count: [33, 55],
+                        }
+                    ),
+                ),
             ],
             pd.DataFrame(
                 {
@@ -65,7 +94,6 @@ def test_merge_wide(
         )
     ],
 )
-def test_merge_long(
-    samples: Iterable[Tuple[str, DataFrame[StandardProfile]]], expected: pd.DataFrame
-):
+def test_merge_long(samples: Iterable[Sample], expected: pd.DataFrame):
+    """Expect that samples are merged in long format."""
     assert_frame_equal(SampleMergingService.merge_long(samples), expected)
