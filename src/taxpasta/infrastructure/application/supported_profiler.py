@@ -13,7 +13,15 @@
 # limitations under the License.
 
 
-from .standard_profile import StandardProfile
-from .sample import Sample
-from .sample_merging_service import SampleMergingService
-from .consensus_builder import ConsensusBuilder
+"""Provide an enumeration of supported taxonomic profilers."""
+
+
+from enum import Enum, unique
+
+
+@unique
+class SupportedProfiler(Enum):
+    """Define supported taxonomic profilers."""
+
+    kraken2 = "kraken2"
+    bracken = "bracken"

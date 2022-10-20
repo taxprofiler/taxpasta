@@ -13,9 +13,13 @@ python-version = ['py38']
 [[tool.mypy.overrides]]
 module = [
     "numpy",
+    "odf",
+    "openpyxl",
     "pandas",
     "pandera",
+    "pandera.errors",
     "pandera.typing",
+    "pyarrow",
     "typer",
 ]
 ignore_missing_imports = true
