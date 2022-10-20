@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that the schema model validates kraken2 profiles correctly."""
+"""Test that the schema model validates bracken profiles correctly."""
 
 
 from typing import Collection
