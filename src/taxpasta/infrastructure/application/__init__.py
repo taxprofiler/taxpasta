@@ -28,13 +28,9 @@ from .centrifuge import (
     CentrifugeProfileReader,
     CentrifugeProfileStandardisationService,
 )
+from .kaiju import KaijuProfile, KaijuProfileReader, KaijuProfileStandardisationService
 from .metaphlan_profile import MetaphlanProfile
 from .metaphlan_profile_reader import MetaphlanProfileReader
 from .metaphlan_profile_standardisation_service import (
     MetaphlanProfileStandardisationService,
-)
-from .kaiju_profile import KaijuProfile
-from .kaiju_profile_reader import KaijuProfileReader
-from .kaiju_profile_standardisation_service import (
-    KaijuProfileStandardisationService,
 )
