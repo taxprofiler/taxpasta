@@ -44,11 +44,11 @@ class BrackenProfile(pa.SchemaModel):
 
     @pa.dataframe_check
     @classmethod
-    def check_added_reads_consistency(cls, table: DataFrame) -> Series[bool]:
+    def check_added_reads_consistency(cls, profile: DataFrame) -> Series[bool]:
         """Check that Bracken added reads are consistent."""
         return (
-            table[cls.kraken_assigned_reads] + table[cls.added_reads]
-            == table[cls.new_est_reads]
+            profile[cls.kraken_assigned_reads] + profile[cls.added_reads]
+            == profile[cls.new_est_reads]
         )
 
     class Config:
