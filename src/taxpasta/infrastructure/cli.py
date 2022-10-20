@@ -39,7 +39,8 @@ logger = logging.getLogger("taxpasta")
 
 
 @unique
-class LoggingLevel(str, Enum):
+class LogLevel(str, Enum):
+    """Define the choices for the log level option."""
 
     DEBUG = "DEBUG"
     INFO = "INFO"
@@ -176,8 +177,8 @@ def initialize(
         is_eager=True,
         help="Print only the current tool version and exit.",
     ),
-    log_level: LoggingLevel = typer.Option(  # noqa: B008
-        LoggingLevel.INFO.name,
+    log_level: LogLevel = typer.Option(  # noqa: B008
+        LogLevel.INFO.name,
         "--log-level",
         "-l",
         case_sensitive=False,
