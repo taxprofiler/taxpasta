@@ -17,6 +17,7 @@
 
 
 import pandera as pa
+import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileStandardisationService
@@ -43,6 +44,7 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
+
         result = profile[[DiamondProfile.query_id, DiamondProfile.taxonomy_id]].copy()
         result = (
             result.groupby("taxonomy_id")
@@ -50,5 +52,9 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
             .reset_index()
             .rename(columns={"query_id": "count"})
         )
-        result.columns = ["taxonomy_id", "count"]
-        return result
+        return pd.DataFrame(
+            {
+                StandardProfile.taxonomy_id: result["taxonomy_id"],
+                StandardProfile.count: result["count"],
+            }
+        )

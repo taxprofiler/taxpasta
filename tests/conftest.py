@@ -55,3 +55,9 @@ def centrifuge_data_dir(data_dir: Path) -> Path:
 def kaiju_data_dir(data_dir: Path) -> Path:
     """Provide the path to the kaiju data directory."""
     return data_dir / "kaiju"
+
+
+@pytest.fixture(scope="session")
+def diamond_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the kaiju data directory."""
+    return data_dir / "diamond"
