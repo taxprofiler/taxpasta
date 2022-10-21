@@ -13,24 +13,8 @@
 # limitations under the License.
 
 
-from .bracken import (
-    BrackenProfile,
-    BrackenProfileReader,
+from .bracken_profile import BrackenProfile
+from .bracken_profile_reader import BrackenProfileReader
+from .bracken_profile_standardisation_service import (
     BrackenProfileStandardisationService,
-)
-from .centrifuge import (
-    CentrifugeProfile,
-    CentrifugeProfileReader,
-    CentrifugeProfileStandardisationService,
-)
-from .kaiju import KaijuProfile, KaijuProfileReader, KaijuProfileStandardisationService
-from .kraken2 import (
-    Kraken2Profile,
-    Kraken2ProfileReader,
-    Kraken2ProfileStandardisationService,
-)
-from .metaphlan import (
-    MetaphlanProfile,
-    MetaphlanProfileReader,
-    MetaphlanProfileStandardisationService,
 )

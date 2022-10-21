@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a reader for kraken2 profiles."""
+"""Provide a reader for Centrifuge profiles."""
 
 
 import pandas as pd
@@ -21,26 +21,26 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader, ProfileSource
 
-from .kraken2_profile import Kraken2Profile
+from .centrifuge_profile import CentrifugeProfile
 
 
-class Kraken2ProfileReader(ProfileReader):
-    """Define a reader for kraken2 profiles."""
+class CentrifugeProfileReader(ProfileReader):
+    """Define a reader for centrifuge profiles."""
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[Kraken2Profile]:
+    def read(cls, profile: ProfileSource) -> DataFrame[CentrifugeProfile]:
         """
-        Read a kraken2 taxonomic profile from the given source.
+        Read a centrifuge taxonomic profile from the given source.
 
         Args:
             profile: A source that contains a tab-separated taxonomic profile generated
-                by kraken2.
+                by centrifuge.
 
         Returns:
-            A data frame representation of the kraken2 profile.
+            A data frame representation of the centrifuge profile.
 
         Raises:
-            ValueError: In case the table does not contain exactly six or eight columns.
+            ValueError: In case the table does not contain exactly six.
 
         """
         result = pd.read_table(
@@ -53,27 +53,16 @@ class Kraken2ProfileReader(ProfileReader):
         )
         if len(result.columns) == 6:
             result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "taxonomy_lvl",
-                "taxonomy_id",
-                "name",
-            ]
-        elif len(result.columns) == 8:
-            result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "num_minimizers",
-                "distinct_minimizers",
-                "taxonomy_lvl",
-                "taxonomy_id",
-                "name",
+                CentrifugeProfile.percent,
+                CentrifugeProfile.clade_assigned_reads,
+                CentrifugeProfile.direct_assigned_reads,
+                CentrifugeProfile.taxonomy_level,
+                CentrifugeProfile.taxonomy_id,
+                CentrifugeProfile.name,
             ]
         else:
             raise ValueError(
-                f"Unexpected kraken2 report format. It has {len(result.columns)} "
-                f"columns but only 6 or 8 are expected."
+                f"Unexpected centrifuge report format. It has {len(result.columns)} "
+                f"columns but only 6 are expected."
             )
         return result

@@ -16,25 +16,12 @@
 """Provide a description of the metaphlan profile format."""
 
 
-from typing import Dict, Optional
+from typing import Optional
 
 import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series
-
-
-RANK_PREFIXES = dict(
-    {
-        "k": "kingdom",
-        "p": "phylum",
-        "c": "class",
-        "o": "order",
-        "f": "family",
-        "g": "genus",
-        "s": "species",
-    }
-)
 
 
 class MetaphlanProfile(pa.SchemaModel):
@@ -44,19 +31,14 @@ class MetaphlanProfile(pa.SchemaModel):
     taxonomy_id: Series[str] = pa.Field()
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
     additional_species: Optional[Series[str]] = pa.Field(nullable=True)
-    rank: Series[pd.CategoricalDtype] = pa.Field(isin=list(RANK_PREFIXES.values()))
-    count: Series[int] = pa.Field()
 
-    @pa.check("relative_abundance", groupby="rank", name="compositionality")
+    @pa.dataframe_check
     @classmethod
-    def check_compositionality(
-        cls, grouped_value: Dict[pd.CategoricalDtype, Series[float]]
-    ) -> bool:
-        """Check that the percentages add up to a hundred."""
-        return all(
-            np.isclose(grouped_value[r].sum(), 100.0, atol=1.0)
-            for r in RANK_PREFIXES.values()
-        )
+    def check_compositionality(cls, profile: pd.DataFrame) -> bool:
+        """Check that the percentages per rank add up to a hundred."""
+        # Parse the rank from the given lineage.
+        rank = profile[cls.clade_name].str.rsplit("|", n=1).str[-1].str[0]
+        return np.allclose(profile.groupby(rank, sort=False).sum(), 100.0, atol=1.0)
 
     class Config:
         """Configure the schema model."""

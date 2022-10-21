@@ -20,13 +20,11 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader, ProfileSource
 
-from .metaphlan_profile import RANK_PREFIXES, MetaphlanProfile
+from .metaphlan_profile import MetaphlanProfile
 
 
 class MetaphlanProfileReader(ProfileReader):
     """Define a reader for Metaphlan profiles."""
-
-    LARGE_INTEGER = int(10e6)
 
     @classmethod
     def read(cls, profile: ProfileSource) -> DataFrame[MetaphlanProfile]:
@@ -37,22 +35,18 @@ class MetaphlanProfileReader(ProfileReader):
             header=None,
             index_col=False,
             comment="#",
+            dtype={"taxonomy_id": str},
         )
         if len(result.columns) == 4:
             result.columns = [
-                "clade_name",
-                "taxonomy_id",
-                "relative_abundance",
-                "additional_species",
+                MetaphlanProfile.clade_name,
+                MetaphlanProfile.taxonomy_id,
+                MetaphlanProfile.relative_abundance,
+                MetaphlanProfile.additional_species,
             ]
         else:
             raise ValueError(
                 f"Unexpected metaphlan report format. It has {len(result.columns)} "
                 f"columns but only 4 are expected."
             )
-
-        result = result.assign(
-            rank=result.clade_name.str.split("|").str[-1].str[0].map(RANK_PREFIXES),
-            count=result.relative_abundance.map(lambda x: int(x * cls.LARGE_INTEGER)),
-        )
         return result

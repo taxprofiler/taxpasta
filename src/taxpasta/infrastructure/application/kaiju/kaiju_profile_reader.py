@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a reader for Centrifuge profiles."""
+"""Provide a reader for kaiju profiles."""
 
 
 import pandas as pd
@@ -21,47 +21,47 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileReader, ProfileSource
 
-from .centrifuge_profile import CentrifugeProfile
+from .kaiju_profile import KaijuProfile
 
 
-class CentrifugeProfileReader(ProfileReader):
-    """Define a reader for centrifuge profiles."""
+class KaijuProfileReader(ProfileReader):
+    """Define a reader for kaiju profiles."""
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[CentrifugeProfile]:
+    def read(cls, profile: ProfileSource) -> DataFrame[KaijuProfile]:
         """
-        Read a centrifuge taxonomic profile from the given source.
+        Read a kaiju taxonomic profile from the given source.
 
         Args:
             profile: A source that contains a tab-separated taxonomic profile generated
-                by centrifuge.
+                by kaiju.
 
         Returns:
-            A data frame representation of the centrifuge profile.
+            A data frame representation of the kaiju profile.
 
         Raises:
-            ValueError: In case the table does not contain exactly six.
+            ValueError: In case the table does not contain exactly five columns.
 
         """
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            header=None,
+            header=0,
             index_col=False,
-            skipinitialspace=True,
+            dtype={"taxonomy_id": str},
         )
-        if len(result.columns) == 6:
+        if len(result.columns) == 5:
             result.columns = [
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "taxonomy_level",
-                "taxonomy_id",
-                "name",
+                KaijuProfile.file,
+                KaijuProfile.percent,
+                KaijuProfile.reads,
+                KaijuProfile.taxonomy_id,
+                KaijuProfile.name,
             ]
         else:
             raise ValueError(
-                f"Unexpected centrifuge report format. It has {len(result.columns)} "
-                f"columns but only 6 are expected."
+                f"Unexpected kaiju report format. It has {len(result.columns)} "
+                f"columns but only 5 are expected."
             )
+        result[KaijuProfile.taxonomy_id].fillna("-1", inplace=True)
         return result
