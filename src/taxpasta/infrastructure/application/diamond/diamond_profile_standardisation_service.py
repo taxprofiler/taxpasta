@@ -16,8 +16,8 @@
 """Provide a standardisation service for diamond profiles."""
 
 
-import pandera as pa
 import pandas as pd
+import pandera as pa
 from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileStandardisationService

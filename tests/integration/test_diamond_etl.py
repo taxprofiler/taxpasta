@@ -20,7 +20,6 @@ from pathlib import Path
 
 import pytest
 from pandas.errors import ParserError
-from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
     DiamondProfileReader,
