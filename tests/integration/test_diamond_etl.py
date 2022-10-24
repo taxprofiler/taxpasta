@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that mdiamond profiles are read, validated, and transformed correctly."""
+"""Test that diamond profiles are read, validated, and transformed correctly."""
 
 
 from pathlib import Path
