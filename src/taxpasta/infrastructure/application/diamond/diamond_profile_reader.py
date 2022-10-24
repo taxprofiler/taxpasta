@@ -41,9 +41,9 @@ class DiamondProfileReader(ProfileReader):
         )
         if len(result.columns) == nb_expected_columns:
             result.columns = [
-                "query_id",
-                "taxonomy_id",
-                "e_value",
+                DiamondProfile.query_id,
+                DiamondProfile.taxonomy_id,
+                DiamondProfile.e_value,
             ]
         else:
             raise ValueError(

@@ -47,14 +47,14 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
 
         result = profile[[DiamondProfile.query_id, DiamondProfile.taxonomy_id]].copy()
         result = (
-            result.groupby("taxonomy_id")
+            result.groupby(DiamondProfile.taxonomy_id)
             .count()
             .reset_index()
-            .rename(columns={"query_id": "count"})
+            .rename(columns={DiamondProfile.query_id: "count"})
         )
         return pd.DataFrame(
             {
-                StandardProfile.taxonomy_id: result["taxonomy_id"],
+                StandardProfile.taxonomy_id: result[DiamondProfile.taxonomy_id],
                 StandardProfile.count: result["count"],
             }
         )

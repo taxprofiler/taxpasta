@@ -24,7 +24,7 @@ class DiamondProfile(pa.SchemaModel):
     """Define the expected diamond profile format."""
 
     query_id: Series[str] = pa.Field()
-    taxonomy_id: Series[int] = pa.Field(ge=0)
+    taxonomy_id: Series[str] = pa.Field(ge=0)
     e_value: Series[float] = pa.Field(ge=0.0, le=1.0)
 
     class Config:
