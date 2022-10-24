@@ -54,7 +54,9 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
         )
         return pd.DataFrame(
             {
-                StandardProfile.taxonomy_id: result[DiamondProfile.taxonomy_id],
+                StandardProfile.taxonomy_id: result[DiamondProfile.taxonomy_id].astype(
+                    str
+                ),
                 StandardProfile.count: result["count"],
             }
         )
