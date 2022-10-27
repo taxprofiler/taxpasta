@@ -13,8 +13,8 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import DataSource, BinaryFileSource
-from .table_reader import TableReader
+from .arrow_table_reader import ArrowTableReader
+from .csv_table_reader import CSVTableReader
+from .ods_table_reader import ODSTableReader
+from .tsv_table_reader import TSVTableReader
+from .xlsx_table_reader import XLSXTableReader

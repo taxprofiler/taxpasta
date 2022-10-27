@@ -13,10 +13,12 @@
 # limitations under the License.
 
 
-from typing import TYPE_CHECKING, Union, TextIO, BinaryIO, AnyStr
+from typing import TYPE_CHECKING, AnyStr, BinaryIO, TextIO, Union
+
 
 if TYPE_CHECKING:
     from os import PathLike
 
 
-DataSource = Union[TextIO, BinaryIO, "PathLike[AnyStr]", AnyStr]
+BinaryFileSource = Union[BinaryIO, "PathLike[AnyStr]", AnyStr]
+DataSource = Union[TextIO, BinaryFileSource]
