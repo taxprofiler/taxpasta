@@ -21,3 +21,10 @@ __email__ = (
     "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, "
     "Jianhong Ou <jianhong.ou@duke.edu>, Sofia Stamouli <sofia.stamouli@scilifelab.se>"
 )
+
+try:
+    from ._version import get_versions
+
+    __version__ = get_versions().get("version", "undefined")
+except ImportError:
+    __version__ = "undefined"
