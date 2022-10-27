@@ -13,8 +13,18 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import DataSource, BinaryFileSource
-from .table_reader import TableReader
+"""Provide a TSV reader."""
+
+
+import pandas as pd
+
+from taxpasta.application import DataSource, TableReader
+
+
+class TSVTableReader(TableReader):
+    """Define the TSV reader."""
+
+    @classmethod
+    def read(cls, source: DataSource, **kwargs) -> pd.DataFrame:
+        """Read TSV from the given source."""
+        return pd.read_table(source, sep="\t", **kwargs)

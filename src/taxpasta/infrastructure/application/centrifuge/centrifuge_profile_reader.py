@@ -19,7 +19,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, DataSource
+from taxpasta.application import DataSource, ProfileReader
 
 from .centrifuge_profile import CentrifugeProfile
 

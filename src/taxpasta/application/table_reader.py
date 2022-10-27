@@ -13,8 +13,20 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import DataSource, BinaryFileSource
-from .table_reader import TableReader
+"""Provide an abstract base class for reading tables."""
+
+
+from abc import ABC, abstractmethod
+
+import pandas as pd
+
+from ._types import DataSource
+
+
+class TableReader(ABC):
+    """Define an abstract base class for reading tables."""
+
+    @classmethod
+    @abstractmethod
+    def read(cls, source: DataSource, **kwargs) -> pd.DataFrame:
+        """Read a table from the given source."""

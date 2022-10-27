@@ -19,8 +19,13 @@
 
 from typing import Type
 
-from taxpasta.application import ProfileReader, ProfileStandardisationService
+from taxpasta.application import (
+    ProfileReader,
+    ProfileStandardisationService,
+    TableReader,
+)
 
+from . import SupportedTabularFileFormat
 from .supported_profiler import SupportedProfiler
 
 
@@ -76,6 +81,30 @@ class ApplicationServiceRegistry:
             from .metaphlan import MetaphlanProfileStandardisationService
 
             return MetaphlanProfileStandardisationService
+
+    @classmethod
+    def table_reader(cls, file_format: SupportedTabularFileFormat) -> Type[TableReader]:
+        """Return a table reader of the correct type."""
+        if file_format is SupportedTabularFileFormat.TSV:
+            from .table_reader import TSVTableReader
+
+            return TSVTableReader
+        elif file_format is SupportedTabularFileFormat.CSV:
+            from .table_reader import CSVTableReader
+
+            return CSVTableReader
+        elif file_format is SupportedTabularFileFormat.XLSX:
+            from .table_reader import XLSXTableReader
+
+            return XLSXTableReader
+        elif file_format is SupportedTabularFileFormat.ODS:
+            from .table_reader import ODSTableReader
+
+            return ODSTableReader
+        elif file_format is SupportedTabularFileFormat.arrow:
+            from .table_reader import ArrowTableReader
+
+            return ArrowTableReader
 
     @classmethod
     def output_writer(cls):

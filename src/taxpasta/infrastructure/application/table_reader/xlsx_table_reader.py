@@ -13,8 +13,18 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import DataSource, BinaryFileSource
-from .table_reader import TableReader
+"""Provide an XLSX reader."""
+
+
+import pandas as pd
+
+from taxpasta.application import BinaryFileSource, TableReader
+
+
+class XLSXTableReader(TableReader):
+    """Define the XLSX reader."""
+
+    @classmethod
+    def read(cls, source: BinaryFileSource, **kwargs) -> pd.DataFrame:
+        """Read XLSX from the given source."""
+        return pd.read_excel(source, engine="openpyxl", **kwargs)

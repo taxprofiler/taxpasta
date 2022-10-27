@@ -18,7 +18,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, DataSource
+from taxpasta.application import DataSource, ProfileReader
 
 from .metaphlan_profile import MetaphlanProfile
 
