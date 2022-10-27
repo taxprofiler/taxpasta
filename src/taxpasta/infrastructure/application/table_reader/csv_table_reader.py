@@ -18,13 +18,13 @@
 
 import pandas as pd
 
-from taxpasta.application import DataSource, TableReader
+from taxpasta.application import BufferOrFilepath, TableReader
 
 
 class CSVTableReader(TableReader):
     """Define the CSV reader."""
 
     @classmethod
-    def read(cls, source: DataSource, **kwargs) -> pd.DataFrame:
+    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
         """Read CSV from the given source."""
         return pd.read_csv(source, **kwargs)

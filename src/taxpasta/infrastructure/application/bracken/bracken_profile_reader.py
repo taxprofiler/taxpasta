@@ -19,7 +19,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import DataSource, ProfileReader
+from taxpasta.application import BufferOrFilepath, ProfileReader
 
 from .bracken_profile import BrackenProfile
 
@@ -28,7 +28,7 @@ class BrackenProfileReader(ProfileReader):
     """Define a reader for Bracken profiles."""
 
     @classmethod
-    def read(cls, profile: DataSource) -> DataFrame[BrackenProfile]:
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[BrackenProfile]:
         """
         Read a Bracken taxonomic profile from the given source.
 

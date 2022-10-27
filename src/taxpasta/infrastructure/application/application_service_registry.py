@@ -107,6 +107,25 @@ class ApplicationServiceRegistry:
             return ArrowTableReader
 
     @classmethod
-    def output_writer(cls):
-        """Return a result writer of the correct type."""
-        raise NotImplementedError()
+    def table_writer(cls, file_format: SupportedTabularFileFormat) -> Type[TableReader]:
+        """Return a table reader of the correct type."""
+        if file_format is SupportedTabularFileFormat.TSV:
+            from .table_reader import TSVTableReader
+
+            return TSVTableReader
+        elif file_format is SupportedTabularFileFormat.CSV:
+            from .table_reader import CSVTableReader
+
+            return CSVTableReader
+        elif file_format is SupportedTabularFileFormat.XLSX:
+            from .table_reader import XLSXTableReader
+
+            return XLSXTableReader
+        elif file_format is SupportedTabularFileFormat.ODS:
+            from .table_reader import ODSTableReader
+
+            return ODSTableReader
+        elif file_format is SupportedTabularFileFormat.arrow:
+            from .table_reader import ArrowTableReader
+
+            return ArrowTableReader

@@ -19,7 +19,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import DataSource, ProfileReader
+from taxpasta.application import BufferOrFilepath, ProfileReader
 
 from .kaiju_profile import KaijuProfile
 
@@ -28,7 +28,7 @@ class KaijuProfileReader(ProfileReader):
     """Define a reader for kaiju profiles."""
 
     @classmethod
-    def read(cls, profile: DataSource) -> DataFrame[KaijuProfile]:
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[KaijuProfile]:
         """
         Read a kaiju taxonomic profile from the given source.
 

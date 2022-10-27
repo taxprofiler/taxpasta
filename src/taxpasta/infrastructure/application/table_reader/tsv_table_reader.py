@@ -18,13 +18,13 @@
 
 import pandas as pd
 
-from taxpasta.application import DataSource, TableReader
+from taxpasta.application import BufferOrFilepath, TableReader
 
 
 class TSVTableReader(TableReader):
     """Define the TSV reader."""
 
     @classmethod
-    def read(cls, source: DataSource, **kwargs) -> pd.DataFrame:
+    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
         """Read TSV from the given source."""
         return pd.read_table(source, sep="\t", **kwargs)
