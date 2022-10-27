@@ -11,9 +11,9 @@ This architectural style is reflected by the Python package organization which h
 sub-packages: [`taxpasta.domain`][taxpasta.domain], [`taxpasta.application`][taxpasta.application], and [`taxpasta.infrastructure`][taxpasta.infrastructure].
 Fortunately, you don't really need to care about that (unless you want to :wink:), as long
 as you follow this guide. For supporting a new taxonomic profiler, three new Python
-modules only need to be placed in
-`taxpasta/infrastructure/application/` and their tests mostly in
-`tests/unit/infrastructure/application/`.
+modules need to be placed in a package of their own named for the profiler, for example,
+`src/taxpasta/infrastructure/application/kraken2/` and their tests mostly in
+`tests/unit/infrastructure/application/kraken2/`.
 
 What do those three new modules need to do? Basically, taxpasta needs to be able
 to read a taxonomic profile, validate its correctness as much as possible, and
@@ -27,7 +27,7 @@ graph LR
   A[Taxonomic Profile] -->|read| B[pandas.DataFrame];
   B -->|validate| C{ };
   C -->|transform| D[StandardProfile];
-  C --> E[pandera.SchemaError];
+  C --> E[pandera.errors.SchemaErrors];
 ```
 
 ## Development Process
@@ -50,22 +50,22 @@ Should this assumption somehow not hold, please contact us on [Slack](https://nf
 In order to perform validation of tabular data, we use [pandera schema
 models](https://pandera.readthedocs.io/en/stable/schema_models.html). Therefore, 
 please place a
-new Python module into `taxpasta/infrastructure/application/` that will contain the
+new Python module into `src/taxpasta/infrastructure/application/<profiler name>` that will contain the
 schema model expressing the shape and form of your data. The name of the class that you
-create should follow Python conventions (be in [Pascal-case](https://en.wikipedia.org/wiki/Camel_case)) and should be composed of
+create should follow Python conventions (be in [Pascal case](https://en.wikipedia.org/wiki/Camel_case)) and should be composed of
 the tool name, for example, `Kraken2Profile` for the kraken2 tool. Your new module (Python file)
 should be named like your class, except be all lower case and with underscores `_`
-separating words, e.g., `kraken2_profile.py`.
+separating words, e.g., `kraken2_profile.py` ([snake case](https://en.wikipedia.org/wiki/Snake_case)).
 
 When creating your schema model, you need to think about what columns should be there,
 what data types they represent, and what kind of constraints should be placed on them
 for validation. Below follows an example for kraken2. Please read up on [pandera schema
 models](https://pandera.readthedocs.io/en/stable/schema_models.html) to understand
-all the details but briefly: we expect particularly named columns, in the order defined
+all the details. Briefly: we expect particularly named columns, in the order defined
 in the class, with specific data types, and we expect the numeric data types to be
 within certain intervals.
 
-```python
+```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile.py"
 from typing import Optional
 
 import pandas as pd
@@ -94,17 +94,17 @@ class Kraken2Profile(pa.SchemaModel):
 ```
 
 In order to test this schema, you need to place a test module in the equivalent directory 
-`tests/unit/infrastructure/application/`. The name of the file should be the same as your module above
+`tests/unit/infrastructure/application/<profiler name>/`. The name of the file should be the same as your module above
 but prefixed with `test_`, for example, `test_kraken2_profile.py`. In there, you need to import
 your code module and perform a number of tests on it. In general, pandera is a well tested Python
 package itself so we can assume that it works as advertised. These tests are there to confirm
 that the data structure that you have in mind for the profile and your schema model match up. Also,
 in case you need to modify the schema, these tests will ensure that your previous assumptions
-still hold. You can look at existing tests cases for inspiration.
+still hold. You can look at existing test cases for inspiration.
 
 ### 2. Reader
 
-You could then continue to either with the reading or transformation part of the schema presented above.
+You could then continue either with the reading or transformation part of the schema presented above.
 We will begin with the reader so that you can get some real data into Python.
 
 For reading a taxonomic profile from a new tool, you need to inherit a new class
@@ -114,7 +114,7 @@ as an example `Kraken2ProfileReader` to support `kraken2` in `kraken2_profile_re
 your base class from a different package branch, you should use an absolute
 import.
 
-```python
+```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile_reader.py"
 from taxpasta.application import ProfileReader
 
 
@@ -128,12 +128,12 @@ calling the `read` class method follows the schema that you have defined before.
 you can look at existing code for inspiration.
 
 Don't forget to test that your reader creates expected output by adding a few test cases
-into a module that you place in `tests/unit/infrastructure/application/`. To test your
-reader you probably want to add some appropriate files into `tests/data/<tool>`, too, and
+into a module that you place in `tests/unit/infrastructure/application/<profiler name>/`. To test your
+reader you probably want to add some appropriate files into `tests/data/<profiler name>`, too, and
 make them accessible with a pytest fixture function which you place into `tests/conftest.py`.
 Take a look at the kraken2 fixture:
 
-```python
+```python title="tests/conftest.py"
 @pytest.fixture(scope="module")
 def kraken2_data_dir(data_dir: Path) -> Path:
     """Provide the path to the kraken2 data directory."""
@@ -146,7 +146,7 @@ def kraken2_data_dir(data_dir: Path) -> Path:
 validation is automatically performed by decorating with [`pandera.check_types`](https://pandera.readthedocs.io/en/stable/schema_models.html) and annotating the
 `transform` class method of the standardisation service, for example,
 
-```python
+```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile_standardisation_service.py"
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -158,21 +158,24 @@ from .kraken2_profile import Kraken2Profile
 
 class Kraken2ProfileStandardisationService(ProfileStandardisationService):
     @classmethod
-    @pa.check_types
+    @pa.check_types(lazy=True)  # (1)
     def transform(
         cls, profile: DataFrame[Kraken2Profile]
     ) -> DataFrame[StandardProfile]:
 ```
 
+1. The argument `lazy=True` ensures that all schema errors are reported and not just the
+    first one.
+
 Finally, we need to transform the specific taxonomic profile into our standard
 profile. Similarly to the profile reader, there exists an abstract
 [`ProfileStandardisationService`][taxpasta.application.ProfileStandardisationService]
 that you need to inherit from. The new module should be placed into
-`taxpasta/infrastructure/application/` and the naming should follow the
+`src/taxpasta/infrastructure/application/<profiler name>/` and the naming should follow the
 conventions, as an example, `Kraken2ProfileStandardisationService` class in a
 `kraken2_profile_standardisation_service.py` module.
 
-```python
+```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile_standardisation_service.py"
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -196,15 +199,17 @@ using the type annotations and the defined schema models.
 The `transform` class method itself needs to modify the given `pandas.DataFrame` such that
 the returned result looks like the [`StandardProfile`][taxpasta.domain.StandardProfile].
 
-In order to ensure that the whole three step process from the diagram: read, validate, transform
+In order to ensure that the whole three-step process from the diagram: read, validate, transform
 produces expected results, we will now create a new kind of test; an integration test that
-uses all the classes that we have created. Thus we need a new test module in `tests/integration/`,
+uses all the classes that we have created. Thus, we need a new test module in `tests/integration/`,
 you can name it `test_<tool>_etl.py`, e.g., `test_kraken2_etl.py`.
 
 This test has few lines of code but thanks to the `pa.check_types` decorator performs
 all the work that we need. Again, for kraken2 this looks like:
 
-```python
+```python title="tests/integration/test_kraken2_etl.py"
+from pathlib import Path
+
 from taxpasta.infrastructure.application import (
     Kraken2ProfileReader,
     Kraken2ProfileStandardisationService,
@@ -223,6 +228,31 @@ def test_kraken2_etl(
 
 It is a good idea to include some known invalid files such that you can be sure that
 your schema catches input errors.
+
+### 4. Imports
+
+To be able to import your classes from `taxpasta.infrastructure.application` as shown in the test above,
+you need to create the right imports. First, import the classes in your profiler-specific package.
+For kraken2, this looks like:
+
+
+```python title="src/taxpasta/infrastructure/application/kraken2/__init__.py"
+from .kraken2_profile import Kraken2Profile
+from .kraken2_profile_reader import Kraken2ProfileReader
+from .kraken2_profile_standardisation_service import (
+    Kraken2ProfileStandardisationService,
+)
+```
+
+Then, import the classes again in the main application package.
+
+```python title="src/taxpasta/infrastructure/application/__init__.py"
+from .kraken2 import (
+    Kraken2Profile,
+    Kraken2ProfileReader,
+    Kraken2ProfileStandardisationService,
+)
+```
 
 ## Overview
 

@@ -24,11 +24,11 @@ application.ProfileStandardisationService <|. infrastructure.application.Kraken2
 class domain.StandardProfile <<SchemaModel>>
 class infrastructure.application.Kraken2Profile <<SchemaModel>>
 
-infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileReader
-infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileStandardisationService
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileReader : "depends on"
+infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileStandardisationService : "depends on"
 
-domain.StandardProfile <.. application.ProfileStandardisationService
-domain.StandardProfile <.. infrastructure.application.Kraken2ProfileStandardisationService
+domain.StandardProfile <.. application.ProfileStandardisationService : "depends on"
+domain.StandardProfile <.. infrastructure.application.Kraken2ProfileStandardisationService : "depends on"
 
 set namespaceSeparator /
 
@@ -36,22 +36,22 @@ folder "tests/data/" {
     component "kraken2"
 }
 
-folder "tests/unit/infrastructure/application/" {
+folder "tests/unit/infrastructure/application/kraken2/" {
     component "test_kraken2_profile.py"
     component "test_kraken2_profile_reader.py"
 
-    infrastructure.application.Kraken2Profile <.. "test_kraken2_profile.py"
-    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_profile_reader.py"
-    "kraken2" <.. "test_kraken2_profile_reader.py"
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_profile.py" : "depends on"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_profile_reader.py" : "depends on"
+    "kraken2" <.. "test_kraken2_profile_reader.py" : "depends on"
 }
 
 folder "tests/integration/" {
     component "test_kraken2_etl.py"
 
-    infrastructure.application.Kraken2Profile <.. "test_kraken2_etl.py"
-    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_etl.py"
-    infrastructure.application.Kraken2ProfileStandardisationService <.. "test_kraken2_etl.py"
-    "kraken2" <.. "test_kraken2_etl.py"
+    infrastructure.application.Kraken2Profile <.. "test_kraken2_etl.py" : "depends on"
+    infrastructure.application.Kraken2ProfileReader <.. "test_kraken2_etl.py" : "depends on"
+    infrastructure.application.Kraken2ProfileStandardisationService <.. "test_kraken2_etl.py" : "depends on"
+    "kraken2" <.. "test_kraken2_etl.py" : "depends on"
 }
 
 hide empty members
