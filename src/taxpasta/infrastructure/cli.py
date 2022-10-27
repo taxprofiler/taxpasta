@@ -281,7 +281,13 @@ def merge(
             profiler
         ),
     )
-    result = merging_app.run(data, wide_format)
+    try:
+        result = merging_app.run(data, wide_format)
+    except pandera.errors.SchemaErrors as errors:
+        breakpoint()
+        print(dir(errors))
+        logger.error(errors.failure_cases)
+        return 1
 
     logger.info("Write result to '%s'.", str(output))
     writer = ApplicationServiceRegistry.table_writer(valid_output_format)
