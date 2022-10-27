@@ -16,7 +16,6 @@
 """Provide a description of the kaiju profile format."""
 
 import numpy as np
-import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
@@ -27,8 +26,8 @@ class KaijuProfile(pa.SchemaModel):
     file: Series[str] = pa.Field()
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
     reads: Series[int] = pa.Field(ge=0)
-    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
-    name: Series[str] = pa.Field()
+    taxon_id: Series[int] = pa.Field()
+    taxon_name: Series[str] = pa.Field()
 
     @pa.check("percent", name="compositionality")
     @classmethod

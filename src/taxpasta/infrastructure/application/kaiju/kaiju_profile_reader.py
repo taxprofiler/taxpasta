@@ -48,20 +48,11 @@ class KaijuProfileReader(ProfileReader):
             sep="\t",
             header=0,
             index_col=False,
-            dtype={"taxonomy_id": str},
         )
-        if len(result.columns) == 5:
-            result.columns = [
-                KaijuProfile.file,
-                KaijuProfile.percent,
-                KaijuProfile.reads,
-                KaijuProfile.taxonomy_id,
-                KaijuProfile.name,
-            ]
-        else:
+        if len(result.columns) != 5:
             raise ValueError(
                 f"Unexpected kaiju report format. It has {len(result.columns)} "
                 f"columns but only 5 are expected."
             )
-        result[KaijuProfile.taxonomy_id].fillna("-1", inplace=True)
+        result[KaijuProfile.taxon_id].fillna(-1, inplace=True)
         return result

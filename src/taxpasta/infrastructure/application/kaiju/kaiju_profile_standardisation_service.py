@@ -41,6 +41,13 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[[KaijuProfile.taxonomy_id, KaijuProfile.reads]].copy()
+        result = profile[[KaijuProfile.taxon_id, KaijuProfile.reads]].copy()
         result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
+        result.loc[
+            profile[KaijuProfile.taxon_name] == "unclassified",
+            StandardProfile.taxonomy_id,
+        ] = 0
+        result[StandardProfile.taxonomy_id] = result[
+            StandardProfile.taxonomy_id
+        ].astype(str)
         return result

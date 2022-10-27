@@ -32,31 +32,31 @@ from taxpasta.infrastructure.application import KaijuProfile
             "file",
             "percent",
             "reads",
-            "taxonomy_id",
-            "name",
+            "taxon_id",
+            "taxon_name",
         ),
         pytest.param(
             (
                 "file",
                 "percent",
                 "reads",
-                "name",
+                "taxon_name",
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
-                message="column 'taxonomy_id' not in dataframe",
+                message="column 'taxon_id' not in dataframe",
             ),
         ),
         pytest.param(
             (
                 "file",
-                "taxonomy_id",
+                "taxon_id",
                 "reads",
                 "percent",
-                "name",
+                "taxon_name",
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_id' out-of-order"
+                exception=SchemaError, message="column 'taxon_id' out-of-order"
             ),
         ),
     ],
@@ -77,8 +77,8 @@ def test_column_presence(columns: Collection[str]):
                 ],
                 "percent": [99.1, 0.9],
                 "reads": [0, 0],
-                "taxonomy_id": ["-1", "1"],
-                "name": ["unclassified", "Viruses"],
+                "taxon_id": [-1, 1],
+                "taxon_name": ["unclassified", "Viruses"],
             }
         ),
         pytest.param(
@@ -90,8 +90,8 @@ def test_column_presence(columns: Collection[str]):
                     ],
                     "percent": [99.1, 1.9],
                     "reads": [0, 0],
-                    "taxonomy_id": ["-1", "1"],
-                    "name": ["unclassified", "Viruses"],
+                    "taxon_id": [-1, 1],
+                    "taxon_name": ["unclassified", "Viruses"],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),
@@ -105,8 +105,8 @@ def test_column_presence(columns: Collection[str]):
                     ],
                     "percent": [79.1, 1.9],
                     "reads": [0, 0],
-                    "taxonomy_id": ["-1", "1"],
-                    "name": ["unclassified", "Viruses"],
+                    "taxon_id": [-1, 1],
+                    "taxon_name": ["unclassified", "Viruses"],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),
@@ -129,8 +129,8 @@ def test_percent(table: pd.DataFrame):
                 ],
                 "percent": [99.1, 0.9],
                 "reads": [0, 0],
-                "taxonomy_id": ["-1", "1"],
-                "name": ["unclassified", "Viruses"],
+                "taxon_id": [-1, 1],
+                "taxon_name": ["unclassified", "Viruses"],
             }
         ),
         pd.DataFrame(
@@ -141,8 +141,8 @@ def test_percent(table: pd.DataFrame):
                 ],
                 "percent": [99.1, 0.9],
                 "reads": [42, 10_000_000],
-                "taxonomy_id": ["-1", "1"],
-                "name": ["unclassified", "Viruses"],
+                "taxon_id": [-1, 1],
+                "taxon_name": ["unclassified", "Viruses"],
             }
         ),
         pytest.param(
@@ -154,8 +154,8 @@ def test_percent(table: pd.DataFrame):
                     ],
                     "percent": [99.1, 0.9],
                     "reads": [-1, 0],
-                    "taxonomy_id": ["-1", "1"],
-                    "name": ["unclassified", "Viruses"],
+                    "taxon_id": [-1, 1],
+                    "taxon_name": ["unclassified", "Viruses"],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),
