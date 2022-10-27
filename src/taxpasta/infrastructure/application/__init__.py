@@ -45,3 +45,9 @@ from .diamond import (
     DiamondProfileReader,
     DiamondProfileStandardisationService,
 )
+
+from .malt import (
+    MaltProfile,
+    MaltProfileReader,
+    MaltProfileStandardisationService,
+)
