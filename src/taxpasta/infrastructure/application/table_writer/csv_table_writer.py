@@ -13,9 +13,18 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath
-from .table_reader import TableReader
-from .table_writer import TableWriter
+"""Provide an CSV writer."""
+
+
+import pandas as pd
+
+from taxpasta.application import BufferOrFilepath, TableWriter
+
+
+class CSVTableWriter(TableWriter):
+    """Define the CSV writer."""
+
+    @classmethod
+    def write(cls, table: pd.DataFrame, target: BufferOrFilepath, **kwargs) -> None:
+        """Write the given table to the given buffer or file."""
+        table.to_csv(target, index=False, **kwargs)

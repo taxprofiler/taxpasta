@@ -13,9 +13,20 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath
-from .table_reader import TableReader
-from .table_writer import TableWriter
+"""Provide an XLSX writer."""
+
+
+import pandas as pd
+
+from taxpasta.application import BinaryBufferOrFilepath, TableWriter
+
+
+class XLSXTableWriter(TableWriter):
+    """Define the XLSX writer."""
+
+    @classmethod
+    def write(
+        cls, table: pd.DataFrame, target: BinaryBufferOrFilepath, **kwargs
+    ) -> None:
+        """Write the given table to the given buffer or file."""
+        table.to_excel(target, index=False, engine="openpyxl", **kwargs)
