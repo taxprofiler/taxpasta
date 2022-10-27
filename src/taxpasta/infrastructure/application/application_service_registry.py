@@ -25,8 +25,8 @@ from taxpasta.application import (
     TableReader,
 )
 
-from . import SupportedTabularFileFormat
 from .supported_profiler import SupportedProfiler
+from .supported_tabular_file_format import SupportedTabularFileFormat
 
 
 class ApplicationServiceRegistry:

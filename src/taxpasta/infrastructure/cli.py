@@ -132,7 +132,8 @@ def read_sample_sheet(
         A pandas data frame in the form of a sample sheet.
 
     """
-    result = SupportedTabularFileFormat.read_table(sample_sheet, sample_format)
+    reader = ApplicationServiceRegistry.table_reader(sample_format)
+    result = reader.read(sample_sheet)
     try:
         SampleSheet.validate(result, lazy=True)
     except pandera.errors.SchemaErrors as error:

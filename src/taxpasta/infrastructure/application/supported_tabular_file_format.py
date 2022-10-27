@@ -104,32 +104,6 @@ class SupportedTabularFileFormat(str, Enum):
                 ) from error
 
     @classmethod
-    def read_table(
-        cls, filename: Path, file_format: SupportedTabularFileFormat
-    ) -> pd.DataFrame:
-        """
-        Read a table from a specifically formatted file.
-
-        Args:
-            filename: The path where the file should be read.
-            file_format: The desired input file format.
-
-        Returns:
-            The read table as a pandas data frame.
-
-        """
-        if file_format is cls.TSV:
-            return pd.read_table(filename, sep="\t")
-        elif file_format is cls.CSV:
-            return pd.read_csv(filename)
-        elif file_format is cls.XLSX:
-            return pd.read_excel(filename, engine="openpyxl")
-        elif file_format is cls.ODS:
-            return pd.read_excel(filename, engine="odf")
-        elif file_format is cls.arrow:
-            return pd.read_feather(filename)
-
-    @classmethod
     def write_table(
         cls,
         table: pd.DataFrame,
