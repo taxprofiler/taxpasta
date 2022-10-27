@@ -290,4 +290,5 @@ def merge(
     result = merging_app.run(data, wide_format)
 
     logger.info("Write result to '%s'.", str(output))
-    SupportedTabularFileFormat.write_table(result, output, valid_output_format)
+    writer = ApplicationServiceRegistry.table_writer(valid_output_format)
+    writer.write(result, output)

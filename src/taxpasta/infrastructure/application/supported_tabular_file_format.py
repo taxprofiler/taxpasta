@@ -102,33 +102,3 @@ class SupportedTabularFileFormat(str, Enum):
                     f"The desired file format '{file_format}' is currently not "
                     f"available. Please install the package 'pyarrow' to support it."
                 ) from error
-
-    @classmethod
-    def write_table(
-        cls,
-        table: pd.DataFrame,
-        filename: Path,
-        file_format: SupportedTabularFileFormat,
-        **kwargs,
-    ) -> None:
-        """
-        Write a table to a file in the desired format.
-
-        Args:
-            table: The table to be written.
-            filename: The path where the file should be written.
-            file_format: The desired output file format.
-            kwargs: Any keyword arguments are passed to the underlying writing method
-                allowing for additional customization.
-
-        """
-        if file_format is cls.TSV:
-            table.to_csv(filename, sep="\t", index=False, **kwargs)
-        elif file_format is cls.CSV:
-            table.to_csv(filename, index=False, **kwargs)
-        elif file_format is cls.XLSX:
-            table.to_excel(filename, index=False, engine="openpyxl", **kwargs)
-        elif file_format is cls.ODS:
-            table.to_excel(filename, index=False, engine="odf", **kwargs)
-        elif file_format is cls.arrow:
-            table.to_feather(filename, **kwargs)
