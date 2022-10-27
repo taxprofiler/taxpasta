@@ -20,7 +20,7 @@ from enum import Enum, unique
 
 
 @unique
-class SupportedProfiler(Enum):
+class SupportedProfiler(str, Enum):
     """Define supported taxonomic profilers."""
 
     bracken = "bracken"

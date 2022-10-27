@@ -25,7 +25,7 @@ import pandas as pd
 
 
 @unique
-class SupportedTabularFileFormat(Enum):
+class SupportedTabularFileFormat(str, Enum):
     """Define the supported tabular file formats."""
 
     TSV = "TSV"
