@@ -13,36 +13,35 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid diamond profiles."""
+"""Test that MALT-rma2info profiles are read, validated, and transformed correctly."""
 
 
 from pathlib import Path
-from typing import List, Tuple, Union
 
 import pytest
+from pandas.errors import ParserError
 
-from taxpasta.infrastructure.application import DiamondProfileReader
+from taxpasta.infrastructure.application import (
+    MaltProfileReader,
+    MaltProfileStandardisationService,
+)
 
 
 @pytest.mark.parametrize(
-    ("filename", "checks"),
+    "filename",
     [
-        (
-            "diamond_valid_1.tsv",
-            [
-                (1, 1, 511145),
-                (2, 2, 1.55e-12),
-                (4, 0, "escherichia_coli_962/1"),
-            ],
+        "malt_rma2info_valid.txt.gz",
+        pytest.param(
+            "malt_rma2info_invalid_1.txt.gz",
+            marks=pytest.mark.raises(exception=ParserError),
         ),
     ],
 )
 def test_read_correctness(
-    diamond_data_dir: Path,
+    malt_data_dir: Path,
     filename: str,
-    checks: List[Tuple[int, int, Union[int, float, str]]],
 ):
-    """Test that the reader can parse valid diamond profiles."""
-    profile = DiamondProfileReader.read(diamond_data_dir / filename)
-    for (row, col, value) in checks:
-        assert profile.iat[row, col] == value
+    """Test that malt profiles are read, validated, and transformed correctly."""
+    MaltProfileStandardisationService.transform(
+        MaltProfileReader.read(malt_data_dir / filename)
+    )

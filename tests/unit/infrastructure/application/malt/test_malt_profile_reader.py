@@ -21,28 +21,28 @@ from typing import List, Tuple, Union
 
 import pytest
 
-from taxpasta.infrastructure.application import DiamondProfileReader
+from taxpasta.infrastructure.application import MaltProfileReader
 
 
 @pytest.mark.parametrize(
     ("filename", "checks"),
     [
         (
-            "diamond_valid_1.tsv",
+            "malt_rma2info_valid.txt.gz",
             [
-                (1, 1, 511145),
-                (2, 2, 1.55e-12),
-                (4, 0, "escherichia_coli_962/1"),
+                (1, 1, 3.0),
+                (2, 0, 10),
+                (5, 1, 9.0),
             ],
         ),
     ],
 )
 def test_read_correctness(
-    diamond_data_dir: Path,
+    malt_data_dir: Path,
     filename: str,
     checks: List[Tuple[int, int, Union[int, float, str]]],
 ):
-    """Test that the reader can parse valid diamond profiles."""
-    profile = DiamondProfileReader.read(diamond_data_dir / filename)
+    """Test that the reader can parse valid malt profiles."""
+    profile = MaltProfileReader.read(malt_data_dir / filename)
     for (row, col, value) in checks:
         assert profile.iat[row, col] == value

@@ -59,5 +59,11 @@ def kaiju_data_dir(data_dir: Path) -> Path:
 
 @pytest.fixture(scope="session")
 def diamond_data_dir(data_dir: Path) -> Path:
-    """Provide the path to the kaiju data directory."""
+    """Provide the path to the diamond data directory."""
     return data_dir / "diamond"
+
+
+@pytest.fixture(scope="session")
+def malt_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the MALT-rma2info data directory."""
+    return data_dir / "malt"
