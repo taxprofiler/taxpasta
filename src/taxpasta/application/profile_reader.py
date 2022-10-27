@@ -20,7 +20,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from ._types import DataSource
+from ._types import BufferOrFilepath
 
 
 class ProfileReader(ABC):
@@ -28,5 +28,5 @@ class ProfileReader(ABC):
 
     @classmethod
     @abstractmethod
-    def read(cls, profile: DataSource) -> pd.DataFrame:
+    def read(cls, profile: BufferOrFilepath) -> pd.DataFrame:
         """Read a taxonomic profile from the given source."""

@@ -20,7 +20,7 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from ._types import DataSource
+from ._types import BufferOrFilepath
 
 
 class TableReader(ABC):
@@ -28,5 +28,5 @@ class TableReader(ABC):
 
     @classmethod
     @abstractmethod
-    def read(cls, source: DataSource, **kwargs) -> pd.DataFrame:
+    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
         """Read a table from the given source."""

@@ -18,13 +18,13 @@
 
 import pandas as pd
 
-from taxpasta.application import BinaryFileSource, TableReader
+from taxpasta.application import BinaryBufferOrFilepath, TableReader
 
 
 class ODSTableReader(TableReader):
     """Define the ODS reader."""
 
     @classmethod
-    def read(cls, source: BinaryFileSource, **kwargs) -> pd.DataFrame:
+    def read(cls, source: BinaryBufferOrFilepath, **kwargs) -> pd.DataFrame:
         """Read ODS from the given source."""
         return pd.read_excel(source, engine="odf", **kwargs)
