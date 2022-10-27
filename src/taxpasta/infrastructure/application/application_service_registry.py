@@ -23,6 +23,7 @@ from taxpasta.application import (
     ProfileReader,
     ProfileStandardisationService,
     TableReader,
+    TableWriter,
 )
 
 from .supported_profiler import SupportedProfiler
@@ -107,25 +108,25 @@ class ApplicationServiceRegistry:
             return ArrowTableReader
 
     @classmethod
-    def table_writer(cls, file_format: SupportedTabularFileFormat) -> Type[TableReader]:
+    def table_writer(cls, file_format: SupportedTabularFileFormat) -> Type[TableWriter]:
         """Return a table reader of the correct type."""
         if file_format is SupportedTabularFileFormat.TSV:
-            from .table_reader import TSVTableReader
+            from .table_writer import TSVTableWriter
 
-            return TSVTableReader
+            return TSVTableWriter
         elif file_format is SupportedTabularFileFormat.CSV:
-            from .table_reader import CSVTableReader
+            from .table_writer import CSVTableWriter
 
-            return CSVTableReader
+            return CSVTableWriter
         elif file_format is SupportedTabularFileFormat.XLSX:
-            from .table_reader import XLSXTableReader
+            from .table_writer import XLSXTableWriter
 
-            return XLSXTableReader
+            return XLSXTableWriter
         elif file_format is SupportedTabularFileFormat.ODS:
-            from .table_reader import ODSTableReader
+            from .table_writer import ODSTableWriter
 
-            return ODSTableReader
+            return ODSTableWriter
         elif file_format is SupportedTabularFileFormat.arrow:
-            from .table_reader import ArrowTableReader
+            from .table_writer import ArrowTableWriter
 
-            return ArrowTableReader
+            return ArrowTableWriter
