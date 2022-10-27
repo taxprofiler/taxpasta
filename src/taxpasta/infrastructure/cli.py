@@ -25,6 +25,7 @@ import pandera.errors
 import typer
 from pandera.typing import DataFrame
 
+import taxpasta
 from taxpasta.application import SampleMergingApplication
 
 from .application import (
@@ -157,14 +158,7 @@ def version_callback(is_set: bool) -> None:
 
     """
     if is_set:
-        import taxpasta._version
-
-        get_versions = getattr(taxpasta._version, "get_versions", None)
-
-        if get_versions:
-            print(get_versions().get("version", "undefined"))
-        else:
-            print("undefined")
+        print(taxpasta.__version__)
         typer.Exit()
 
 
