@@ -13,7 +13,10 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import DataSource
+from typing import TYPE_CHECKING, Union, TextIO, BinaryIO, AnyStr
+
+if TYPE_CHECKING:
+    from os import PathLike
+
+
+DataSource = Union[TextIO, BinaryIO, "PathLike[AnyStr]", AnyStr]

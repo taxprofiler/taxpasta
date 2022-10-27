@@ -18,7 +18,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, ProfileSource
+from taxpasta.application import ProfileReader, DataSource
 
 from .metaphlan_profile import MetaphlanProfile
 
@@ -27,7 +27,7 @@ class MetaphlanProfileReader(ProfileReader):
     """Define a reader for Metaphlan profiles."""
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[MetaphlanProfile]:
+    def read(cls, profile: DataSource) -> DataFrame[MetaphlanProfile]:
         """Read a metaphlan taxonomic profile from a file."""
         result = pd.read_table(
             filepath_or_buffer=profile,

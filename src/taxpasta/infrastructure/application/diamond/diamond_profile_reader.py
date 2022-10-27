@@ -18,7 +18,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, ProfileSource
+from taxpasta.application import ProfileReader, DataSource
 
 from .diamond_profile import DiamondProfile
 
@@ -29,7 +29,7 @@ class DiamondProfileReader(ProfileReader):
     LARGE_INTEGER = int(10e6)
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[DiamondProfile]:
+    def read(cls, profile: DataSource) -> DataFrame[DiamondProfile]:
         """Read a diamond taxonomic profile from a file."""
         nb_expected_columns = 3
         result = pd.read_table(

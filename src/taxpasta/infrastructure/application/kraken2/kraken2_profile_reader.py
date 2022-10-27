@@ -19,7 +19,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, ProfileSource
+from taxpasta.application import ProfileReader, DataSource
 
 from .kraken2_profile import Kraken2Profile
 
@@ -28,7 +28,7 @@ class Kraken2ProfileReader(ProfileReader):
     """Define a reader for kraken2 profiles."""
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[Kraken2Profile]:
+    def read(cls, profile: DataSource) -> DataFrame[Kraken2Profile]:
         """
         Read a kraken2 taxonomic profile from the given source.
 
