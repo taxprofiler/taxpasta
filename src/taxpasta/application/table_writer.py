@@ -13,9 +13,20 @@
 # limitations under the License.
 
 
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .sample_merging_application import SampleMergingApplication
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath
-from .table_reader import TableReader
-from .table_writer import TableWriter
+"""Provide an abstract base class for writing tables."""
+
+
+from abc import ABC, abstractmethod
+
+import pandas as pd
+
+from ._types import BufferOrFilepath
+
+
+class TableWriter(ABC):
+    """Define an abstract base class for writing tables."""
+
+    @classmethod
+    @abstractmethod
+    def write(cls, table: pd.DataFrame, target: BufferOrFilepath, **kwargs) -> None:
+        """Write a table to the given buffer or file."""
