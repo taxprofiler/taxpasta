@@ -21,8 +21,6 @@ from __future__ import annotations
 from enum import Enum, unique
 from pathlib import Path
 
-import pandas as pd
-
 
 @unique
 class SupportedTabularFileFormat(str, Enum):
