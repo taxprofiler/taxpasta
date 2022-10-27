@@ -254,6 +254,25 @@ from .kraken2 import (
 )
 ```
 
+### 5. Enable Support
+
+Finally, to make your profiler fully available to taxpasta, you have to add your profiler name
+to the [SupportedProfiler][taxpasta.infrastructure.application.SupportedProfiler] enumeration.
+
+```python title="src/taxpasta/infrastructure/application/supported_profiler.py"
+from enum import Enum, unique
+
+
+@unique
+class SupportedProfiler(str, Enum):
+    """Define supported taxonomic profilers."""
+
+    kraken2 = "kraken2"
+    <profiler name> = "<profiler name>"
+```
+
+Congratulations! :tada:
+
 ## Overview
 
 Overall, taking kraken2 as an example once more, your classes should have the same relationships as shown in the diagram below (open the image in a new tab for a better view).
