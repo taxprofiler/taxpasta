@@ -27,7 +27,7 @@ class SampleSheet(pa.SchemaModel):
     """Define a description of samples and profile locations."""
 
     sample: Series[str] = pa.Field()
-    profile: Series[Path] = pa.Field()  # type: ignore
+    profile: Series[str] = pa.Field()  # type: ignore
 
     @pa.dataframe_check
     @classmethod
@@ -38,10 +38,10 @@ class SampleSheet(pa.SchemaModel):
     @pa.check("profile", name="profile_presence")
     @classmethod
     def check_profile_presence(
-        cls, profile: Series[Path]  # type: ignore
+        cls, profile: Series[str]  # type: ignore
     ) -> Series[bool]:
         """Check that every profile is present at the specified location."""
-        return cast(Series[bool], profile.map(Path.is_file))
+        return cast(Series[bool], profile.map(lambda path: Path(path).is_file()))
 
     class Config:
         """Configure the schema model."""
