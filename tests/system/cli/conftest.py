@@ -30,25 +30,25 @@ from taxpasta.infrastructure.application import (
 )
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def runner() -> CliRunner:
     """Return a CLI runner instance for testing."""
     return CliRunner(mix_stderr=False)
 
 
-@pytest.fixture(scope="module", params=list(SupportedProfiler))
+@pytest.fixture(scope="session", params=list(SupportedProfiler))
 def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
     """Provide each supported profiler in turn."""
     return request.param
 
 
-@pytest.fixture(scope="module", params=list(SupportedTabularFileFormat))
+@pytest.fixture(scope="session", params=list(SupportedTabularFileFormat))
 def file_format(request: pytest.FixtureRequest) -> SupportedTabularFileFormat:
     """Provide each supported tabular file format in turn."""
     return request.param
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def profiles(
     profiler: SupportedProfiler,
     data_dir: Path,
@@ -61,7 +61,7 @@ def profiles(
     ]
 
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="session")
 def samplesheet(
     profiler: SupportedProfiler,
     file_format: SupportedTabularFileFormat,
