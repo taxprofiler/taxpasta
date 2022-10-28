@@ -50,13 +50,13 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
             result.groupby(DiamondProfile.taxonomy_id)
             .count()
             .reset_index()
-            .rename(columns={DiamondProfile.query_id: "count"})
+            .rename(columns={DiamondProfile.query_id: StandardProfile.count})
         )
         return pd.DataFrame(
             {
                 StandardProfile.taxonomy_id: result[DiamondProfile.taxonomy_id].astype(
                     str
                 ),
-                StandardProfile.count: result["count"],
+                StandardProfile.count: result[StandardProfile.count],
             }
         )
