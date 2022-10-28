@@ -38,7 +38,11 @@ class MetaphlanProfile(pa.SchemaModel):
         """Check that the percentages per rank add up to a hundred."""
         # Parse the rank from the given lineage.
         rank = profile[cls.clade_name].str.rsplit("|", n=1).str[-1].str[0]
-        return np.allclose(profile.groupby(rank, sort=False).sum(), 100.0, atol=1.0)
+        return np.allclose(
+            profile.groupby(rank, sort=False)[cls.relative_abundance].sum(),
+            100.0,
+            atol=1.0,
+        )
 
     class Config:
         """Configure the schema model."""
