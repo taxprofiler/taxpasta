@@ -48,7 +48,6 @@ class CentrifugeProfileReader(ProfileReader):
             sep="\t",
             header=None,
             index_col=False,
-            dtype={"taxonomy_id": str},
             skipinitialspace=True,
         )
         if len(result.columns) == 6:
