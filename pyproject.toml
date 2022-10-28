@@ -12,6 +12,9 @@ python-version = ['py38']
 
 [[tool.mypy.overrides]]
 module = [
+    "biom",
+    "biom.table",
+    "biom.util",
     "numpy",
     "odf",
     "openpyxl",

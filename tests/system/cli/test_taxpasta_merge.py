@@ -20,6 +20,8 @@ from pathlib import Path
 from typing import List
 
 import pytest
+from biom.table import Table
+from biom.util import biom_open
 from typer.testing import CliRunner
 
 from taxpasta.domain import StandardProfile
@@ -53,6 +55,27 @@ def test_merge_profiles_wide(
     df = reader.read(output)
     assert df.columns[0] == StandardProfile.taxonomy_id
     assert len(df.columns) == len(profiles) + 1
+
+
+def test_merge_profiles_biom(
+    runner: CliRunner,
+    profiler: SupportedProfiler,
+    profiles: List[str],
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that for each profiler and file format, a wide format can be created."""
+    monkeypatch.chdir(tmp_path)
+    output = "result.biom"
+    result = runner.invoke(
+        app,
+        ["merge", "--biom", "--profiler", profiler.name, "--output", output, *profiles],
+    )
+    assert result.exit_code == 0, result.stderr
+    assert Path(output).is_file()
+    with biom_open(output) as handle:
+        container = Table.from_hdf5(handle)
+    assert len(container.ids()) == len(profiles)
 
 
 def test_merge_profiles_long(
@@ -116,6 +139,41 @@ def test_merge_samplesheet_wide(
     assert df.columns[0] == StandardProfile.taxonomy_id
     assert len(df.columns) == len(samples) + 1
     assert set(df.columns[1:]) == set(samples)
+
+
+def test_merge_samplesheet_biom(
+    runner: CliRunner,
+    profiler: SupportedProfiler,
+    samplesheet: Path,
+    file_format: SupportedTabularFileFormat,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that for each profiler and file format, a wide format can be created."""
+    monkeypatch.chdir(tmp_path)
+    output = "result.biom"
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--biom",
+            "--profiler",
+            profiler.name,
+            "--output",
+            output,
+            "--samplesheet",
+            str(samplesheet),
+        ],
+    )
+    assert result.exit_code == 0, result.stderr
+    assert Path(output).is_file()
+    reader = ApplicationServiceRegistry.table_reader(file_format)
+    sheet = reader.read(samplesheet)
+    samples = sheet[SampleSheet.sample]
+    with biom_open(output) as handle:
+        container = Table.from_hdf5(handle)
+    assert len(container.ids()) == len(samples)
+    assert set(container.ids()) == set(samples)
 
 
 def test_merge_samplesheet_long(

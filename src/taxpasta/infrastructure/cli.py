@@ -19,7 +19,7 @@
 import logging
 from enum import Enum, unique
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import pandera.errors
 import typer
@@ -31,6 +31,7 @@ from taxpasta.application import SampleMergingApplication
 from .application import (
     ApplicationServiceRegistry,
     SampleSheet,
+    SupportedContainerFileFormat,
     SupportedProfiler,
     SupportedTabularFileFormat,
 )
@@ -77,7 +78,7 @@ def validate_output_format(
         result = output_format
     try:
         SupportedTabularFileFormat.check_dependencies(result)
-    except ImportError as error:
+    except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
         typer.Exit(1)
@@ -240,7 +241,8 @@ def merge(
     wide_format: bool = typer.Option(  # noqa: B008
         True,
         "--wide/--long",
-        help="Output merged abundance data in either wide or (tidy) long format.",
+        help="Output merged abundance data in either wide or (tidy) long format. "
+        "Ignored when the desired output format is BIOM.",
     ),
     output: Path = typer.Option(  # noqa: B008
         ...,
@@ -256,12 +258,22 @@ def merge(
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
     ),
+    biom: bool = typer.Option(  # noqa: B008
+        False,
+        "--biom",
+        help="Output merged abundance data in BIOM format.",
+    ),
 ):
     """Merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
     # Ensure that we can write to the output directory.
     output.parent.mkdir(parents=True, exist_ok=True)
-    valid_output_format = validate_output_format(output, output_format)
+    valid_output_format: Union[SupportedTabularFileFormat, SupportedContainerFileFormat]
+    if biom:
+        valid_output_format = SupportedContainerFileFormat.BIOM
+        wide_format = True
+    else:
+        valid_output_format = validate_output_format(output, output_format)
 
     # Extract and transform sample data.
     if sample_sheet is not None:
@@ -288,5 +300,11 @@ def merge(
         return 1
 
     logger.info("Write result to '%s'.", str(output))
-    writer = ApplicationServiceRegistry.table_writer(valid_output_format)
+    if isinstance(valid_output_format, SupportedTabularFileFormat):
+        writer = ApplicationServiceRegistry.table_writer(valid_output_format)
+    elif isinstance(valid_output_format, SupportedContainerFileFormat):
+        writer = ApplicationServiceRegistry.container_writer(valid_output_format)
+    else:
+        logger.error("Should never get here.")
+        return 1
     writer.write(result, output)
