@@ -103,6 +103,6 @@ def test_taxonomy_id(table: pd.DataFrame):
         ),
     ],
 )
-def test_e_value(table: pd.DataFrame):
-    """Test that the reads column is checked."""
+def test_count(table: pd.DataFrame):
+    """Test that the count column is checked."""
     MaltProfile.validate(table)
