@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test the taxpasta command line interface."""
+"""Test the taxpasta merge command."""
 
 
 from pathlib import Path
@@ -22,7 +22,6 @@ from typing import List
 import pytest
 from typer.testing import CliRunner
 
-import taxpasta
 from taxpasta.domain import StandardProfile
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
@@ -32,73 +31,7 @@ from taxpasta.infrastructure.application import (
 from taxpasta.infrastructure.cli import app
 
 
-@pytest.fixture(scope="module")
-def runner() -> CliRunner:
-    """Return a CLI runner instance for testing."""
-    return CliRunner(mix_stderr=False)
-
-
-@pytest.fixture(scope="module", params=list(SupportedProfiler))
-def profiler(request) -> SupportedProfiler:
-    """Provide each supported profiler in turn."""
-    return request.param
-
-
-@pytest.fixture(scope="module", params=list(SupportedTabularFileFormat))
-def file_format(request) -> SupportedTabularFileFormat:
-    """Provide each supported tabular file format in turn."""
-    return request.param
-
-
-@pytest.fixture(scope="module")
-def profiles(
-    profiler: SupportedProfiler,
-    data_dir: Path,
-) -> List[str]:
-    """Provide valid profiles for each profiler in turn."""
-    return [
-        str(filename)
-        for filename in (data_dir / profiler.name).glob("*")
-        if "invalid" not in filename.name
-    ]
-
-
-@pytest.mark.parametrize("args", [["-h", "--help"]])
-def test_help(runner: CliRunner, args: List[str]):
-    """Expect that the help can be requested successfully."""
-    result = runner.invoke(app, args)
-    assert result.exit_code == 0
-
-
-def test_version(runner: CliRunner):
-    """Expect that the version can be requested successfully."""
-    result = runner.invoke(app, ["--version"])
-    assert result.exit_code == 0
-    assert result.stdout.strip() == taxpasta.__version__
-
-
-@pytest.mark.parametrize(
-    "args",
-    [
-        ["--log-level", "DEBUG"],
-        ["--log-level", "INFO"],
-        ["--log-level", "WARNING"],
-        ["--log-level", "ERROR"],
-        ["--log-level", "CRITICAL"],
-        ["-l", "DEBUG"],
-        ["-l", "INFO"],
-        ["-l", "WARNING"],
-        ["-l", "ERROR"],
-        ["-l", "CRITICAL"],
-    ],
-)
-def test_log_level(runner: CliRunner, args: List[str]):
-    """Expect that the log level can be set successfully."""
-    result = runner.invoke(app, args)
-    assert result.exit_code == 0
-
-
-def test_merge_wide(
+def test_merge_profiles_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: List[str],
@@ -121,7 +54,7 @@ def test_merge_wide(
     assert len(df.columns) == len(profiles) + 1
 
 
-def test_merge_long(
+def test_merge_profiles_long(
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: List[str],
