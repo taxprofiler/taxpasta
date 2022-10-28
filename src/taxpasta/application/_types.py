@@ -20,5 +20,6 @@ if TYPE_CHECKING:
     from os import PathLike
 
 
-BinaryBufferOrFilepath = Union[BinaryIO, "PathLike[AnyStr]", AnyStr]
+Filepath = Union["PathLike[AnyStr]", AnyStr]
+BinaryBufferOrFilepath = Union[BinaryIO, Filepath]
 BufferOrFilepath = Union[TextIO, BinaryBufferOrFilepath]
