@@ -284,8 +284,6 @@ def merge(
     try:
         result = merging_app.run(data, wide_format)
     except pandera.errors.SchemaErrors as errors:
-        breakpoint()
-        print(dir(errors))
         logger.error(errors.failure_cases)
         return 1
 
