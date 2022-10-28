@@ -26,6 +26,7 @@ from taxpasta.application import (
     TableWriter,
 )
 
+from .supported_container_file_format import SupportedContainerFileFormat
 from .supported_profiler import SupportedProfiler
 from .supported_tabular_file_format import SupportedTabularFileFormat
 
@@ -109,7 +110,7 @@ class ApplicationServiceRegistry:
 
     @classmethod
     def table_writer(cls, file_format: SupportedTabularFileFormat) -> Type[TableWriter]:
-        """Return a table reader of the correct type."""
+        """Return a table writer of the correct type."""
         if file_format is SupportedTabularFileFormat.TSV:
             from .table_writer import TSVTableWriter
 
@@ -130,3 +131,23 @@ class ApplicationServiceRegistry:
             from .table_writer import ArrowTableWriter
 
             return ArrowTableWriter
+        else:
+            ValueError(
+                f"The given file format {file_format.name} is not a supported table "
+                f"writer."
+            )
+
+    @classmethod
+    def container_writer(
+        cls, file_format: SupportedContainerFileFormat
+    ) -> Type[TableWriter]:
+        """Return a container writer of the correct type."""
+        if file_format is SupportedContainerFileFormat.BIOM:
+            from .container_writer import BIOMContainerWriter
+
+            return BIOMContainerWriter
+        else:
+            ValueError(
+                f"The given file format {file_format.name} is not a supported "
+                f"container writer."
+            )

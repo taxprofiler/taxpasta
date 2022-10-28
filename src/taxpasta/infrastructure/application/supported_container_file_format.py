@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a service for supported tabular file formats."""
+"""Provide a service for supported container file formats."""
 
 
 from __future__ import annotations
@@ -23,17 +23,13 @@ from pathlib import Path
 
 
 @unique
-class SupportedTabularFileFormat(str, Enum):
-    """Define the supported tabular file formats."""
+class SupportedContainerFileFormat(str, Enum):
+    """Define the supported container file formats."""
 
-    TSV = "TSV"
-    CSV = "CSV"
-    ODS = "ODS"
-    XLSX = "XLSX"
-    arrow = "arrow"
+    BIOM = "BIOM"
 
     @classmethod
-    def guess_format(cls, filename: Path) -> SupportedTabularFileFormat:
+    def guess_format(cls, filename: Path) -> SupportedContainerFileFormat:
         """
         Guess the desired format from a file's extensions.
 
@@ -65,7 +61,7 @@ class SupportedTabularFileFormat(str, Enum):
             return supported_formats[common.pop()]
 
     @classmethod
-    def check_dependencies(cls, file_format: SupportedTabularFileFormat) -> None:
+    def check_dependencies(cls, file_format: SupportedContainerFileFormat) -> None:
         """
         Test that relevant dependencies are installed.
 
@@ -76,27 +72,11 @@ class SupportedTabularFileFormat(str, Enum):
             RuntimeError: If the required dependency could not be imported.
 
         """
-        if file_format is cls.ODS:
+        if file_format is cls.BIOM:
             try:
-                import odf  # noqa: F401
+                import biom  # noqa: F401
             except ImportError as error:
                 raise RuntimeError(
                     f"The desired file format '{file_format}' is currently not "
-                    f"available. Please install 'taxpasta[ods]' to support it."
-                ) from error
-        elif file_format is cls.XLSX:
-            try:
-                import openpyxl  # noqa: F401
-            except ImportError as error:
-                raise RuntimeError(
-                    f"The desired file format '{file_format}' is currently not "
-                    f"available. Please install 'taxpasta[xlsx]' to support it."
-                ) from error
-        elif file_format is cls.arrow:
-            try:
-                import pyarrow  # noqa: F401
-            except ImportError as error:
-                raise RuntimeError(
-                    f"The desired file format '{file_format}' is currently not "
-                    f"available. Please install 'taxpasta[arrow]' to support it."
+                    f"available. Please install 'taxpasta[biom]' to support it."
                 ) from error
