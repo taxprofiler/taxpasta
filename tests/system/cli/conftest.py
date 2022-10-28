@@ -19,10 +19,12 @@
 from pathlib import Path
 from typing import List
 
+import pandas as pd
 import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
+    ApplicationServiceRegistry,
     SupportedProfiler,
     SupportedTabularFileFormat,
 )
@@ -35,13 +37,13 @@ def runner() -> CliRunner:
 
 
 @pytest.fixture(scope="module", params=list(SupportedProfiler))
-def profiler(request) -> SupportedProfiler:
+def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
     """Provide each supported profiler in turn."""
     return request.param
 
 
 @pytest.fixture(scope="module", params=list(SupportedTabularFileFormat))
-def file_format(request) -> SupportedTabularFileFormat:
+def file_format(request: pytest.FixtureRequest) -> SupportedTabularFileFormat:
     """Provide each supported tabular file format in turn."""
     return request.param
 
@@ -57,3 +59,28 @@ def profiles(
         for filename in (data_dir / profiler.name).glob("*")
         if "invalid" not in filename.name
     ]
+
+
+@pytest.fixture(scope="module")
+def samplesheet(
+    profiler: SupportedProfiler,
+    file_format: SupportedTabularFileFormat,
+    data_dir: Path,
+    tmp_path_factory: pytest.TempPathFactory,
+) -> Path:
+    """Provide a sample sheet for each profiler in turn."""
+    sheet = pd.DataFrame(
+        data=[
+            (filename.stem, str(filename))
+            for filename in (data_dir / profiler.name).glob("*")
+            if "invalid" not in filename.name
+        ],
+        columns=["sample", "profile"],
+    )
+    path = (
+        tmp_path_factory.mktemp(profiler.name)
+        / f"samplesheet.{file_format.name.lower()}"
+    )
+    writer = ApplicationServiceRegistry.table_writer(file_format)
+    writer.write(sheet, path)
+    return path

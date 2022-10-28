@@ -25,6 +25,7 @@ from typer.testing import CliRunner
 from taxpasta.domain import StandardProfile
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
+    SampleSheet,
     SupportedProfiler,
     SupportedTabularFileFormat,
 )
@@ -80,3 +81,78 @@ def test_merge_profiles_long(
         StandardProfile.count,
         "sample",
     ]
+
+
+def test_merge_samplesheet_wide(
+    runner: CliRunner,
+    profiler: SupportedProfiler,
+    samplesheet: Path,
+    file_format: SupportedTabularFileFormat,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a wide format output can be generated from a sample sheet."""
+    monkeypatch.chdir(tmp_path)
+    output = f"result.{file_format.name.lower()}"
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--wide",
+            "--profiler",
+            profiler.name,
+            "--output",
+            output,
+            "--samplesheet",
+            str(samplesheet),
+        ],
+    )
+    assert result.exit_code == 0, result.stderr
+    assert Path(output).is_file()
+    reader = ApplicationServiceRegistry.table_reader(file_format)
+    df = reader.read(output)
+    sheet = reader.read(samplesheet)
+    samples = sheet[SampleSheet.sample]
+    assert df.columns[0] == StandardProfile.taxonomy_id
+    assert len(df.columns) == len(samples) + 1
+    assert set(df.columns[1:]) == set(samples)
+
+
+def test_merge_samplesheet_long(
+    runner: CliRunner,
+    profiler: SupportedProfiler,
+    samplesheet: Path,
+    file_format: SupportedTabularFileFormat,
+    data_dir: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a long format output can be generated from a sample sheet."""
+    monkeypatch.chdir(tmp_path)
+    output = f"result.{file_format.name.lower()}"
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--long",
+            "--profiler",
+            profiler.name,
+            "--output",
+            output,
+            "--samplesheet",
+            str(samplesheet),
+        ],
+    )
+    assert result.exit_code == 0, result.stderr
+    assert Path(output).is_file()
+    reader = ApplicationServiceRegistry.table_reader(file_format)
+    df = reader.read(output)
+    sheet = reader.read(samplesheet)
+    samples = sheet[SampleSheet.sample]
+    assert len(df.columns) == 3
+    assert df.columns.tolist() == [
+        StandardProfile.taxonomy_id,
+        StandardProfile.count,
+        "sample",
+    ]
+    assert set(df["sample"].unique()) == set(samples)
