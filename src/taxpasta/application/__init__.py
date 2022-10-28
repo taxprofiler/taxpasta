@@ -16,6 +16,6 @@
 from .profile_reader import ProfileReader
 from .profile_standardisation_service import ProfileStandardisationService
 from .sample_merging_application import SampleMergingApplication
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath
+from ._types import BufferOrFilepath, BinaryBufferOrFilepath, Filepath
 from .table_reader import TableReader
 from .table_writer import TableWriter
