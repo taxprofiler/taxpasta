@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that the schema model validates diamond profiles correctly."""
+"""Test that the schema model validates MALT-rma2info profiles correctly."""
 
 
 from typing import Collection
