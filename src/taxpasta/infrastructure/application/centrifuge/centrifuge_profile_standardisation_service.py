@@ -16,6 +16,8 @@
 """Provide a standardisation service for centrifuge profiles."""
 
 
+import logging
+
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -23,6 +25,9 @@ from taxpasta.application import ProfileStandardisationService
 from taxpasta.domain import StandardProfile
 
 from .centrifuge_profile import CentrifugeProfile
+
+
+logger = logging.getLogger(__name__)
 
 
 class CentrifugeProfileStandardisationService(ProfileStandardisationService):
@@ -47,4 +52,7 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
             [CentrifugeProfile.taxonomy_id, CentrifugeProfile.direct_assigned_reads]
         ].copy()
         result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
+        result[StandardProfile.taxonomy_id] = result[
+            StandardProfile.taxonomy_id
+        ].astype(str)
         return result
