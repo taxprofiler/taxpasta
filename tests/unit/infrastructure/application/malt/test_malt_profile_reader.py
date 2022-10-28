@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid diamond profiles."""
+"""Test that the reader can parse valid MALT-rma2info profiles."""
 
 
 from pathlib import Path
