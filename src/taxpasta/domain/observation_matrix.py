@@ -13,9 +13,23 @@
 # limitations under the License.
 
 
-from .standard_profile import StandardProfile
-from .sample import Sample
-from .tidy_observation_table import TidyObservationTable
-from .observation_matrix import ObservationMatrix
-from .sample_merging_service import SampleMergingService
-from .consensus_builder import ConsensusBuilder
+"""Provide a description of an observation matrix."""
+
+
+import pandas as pd
+import pandera as pa
+from pandera.typing import Series
+
+
+class ObservationMatrix(pa.SchemaModel):
+    """Define the observation matrix."""
+
+    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    # This field uses a regex to match all columns that are not `taxonomy_id`.
+    any_samples: Series[int] = pa.Field(ge=0, alias="^(?!taxonomy_id$).*", regex=True)
+
+    class Config:
+        """Configure the schema model."""
+
+        coerce = True
+        ordered = True

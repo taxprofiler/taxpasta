@@ -13,9 +13,24 @@
 # limitations under the License.
 
 
-from .standard_profile import StandardProfile
-from .sample import Sample
-from .tidy_observation_table import TidyObservationTable
-from .observation_matrix import ObservationMatrix
-from .sample_merging_service import SampleMergingService
-from .consensus_builder import ConsensusBuilder
+"""Provide a description of a tidy observation table."""
+
+
+import pandas as pd
+import pandera as pa
+from pandera.typing import Series
+
+
+class TidyObservationTable(pa.SchemaModel):
+    """Define the tidy observation table."""
+
+    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    count: Series[int] = pa.Field(ge=0)
+    sample: Series[pd.CategoricalDtype] = pa.Field()
+
+    class Config:
+        """Configure the schema model."""
+
+        coerce = True
+        ordered = True
+        strict = True
