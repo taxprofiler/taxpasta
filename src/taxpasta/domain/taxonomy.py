@@ -13,10 +13,10 @@
 # limitations under the License.
 
 
-from .standard_profile import StandardProfile
-from .sample import Sample
-from .tidy_observation_table import TidyObservationTable
-from .observation_matrix import ObservationMatrix
-from .taxonomy import Taxonomy
-from .sample_merging_service import SampleMergingService
-from .consensus_builder import ConsensusBuilder
+"""Provide a taxonomy model."""
+
+
+class Taxonomy:
+    """Define a taxonomy model."""
+
+    pass
