@@ -13,29 +13,18 @@
 # limitations under the License.
 
 
-"""Provide an abstract base class for a profile standardisation service."""
+"""Provide a description of a sample."""
 
 
-from abc import ABC, abstractmethod
+from typing import NamedTuple
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain import StandardProfile
+from taxpasta.domain.model.standard_profile import StandardProfile
 
 
-class ProfileStandardisationService(ABC):
-    """Define an abstract base class for a profile standardisation service."""
+class Sample(NamedTuple):
+    """Define a sample."""
 
-    @classmethod
-    @abstractmethod
-    def transform(cls, profile: DataFrame) -> DataFrame[StandardProfile]:
-        """
-        Tidy up and standardize a given taxonomic profile.
-
-        Args:
-            profile: The taxonomic profile of a particular tool.
-
-        Returns:
-            A standardized profile.
-
-        """
+    name: str
+    profile: DataFrame[StandardProfile]

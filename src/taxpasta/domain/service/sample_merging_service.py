@@ -23,10 +23,7 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
-from .observation_matrix import ObservationMatrix
-from .sample import Sample
-from .standard_profile import StandardProfile
-from .tidy_observation_table import TidyObservationTable
+from ..model import ObservationMatrix, Sample, StandardProfile, TidyObservationTable
 
 
 class SampleMergingService:

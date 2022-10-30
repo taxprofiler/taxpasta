@@ -13,18 +13,8 @@
 # limitations under the License.
 
 
-"""Provide a CSV reader."""
-
-
-import pandas as pd
-
-from taxpasta.application.service import BufferOrFilepath, TableReader
-
-
-class CSVTableReader(TableReader):
-    """Define the CSV reader."""
-
-    @classmethod
-    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
-        """Read CSV from the given source."""
-        return pd.read_csv(source, **kwargs)
+from .standard_profile import StandardProfile
+from .sample import Sample
+from .tidy_observation_table import TidyObservationTable
+from .observation_matrix import ObservationMatrix
+from .taxonomy import Taxonomy

@@ -20,8 +20,8 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileStandardisationService
-from taxpasta.domain import StandardProfile
+from taxpasta.application.service import ProfileStandardisationService
+from taxpasta.domain.model import StandardProfile
 
 from .diamond_profile import DiamondProfile
 

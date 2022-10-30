@@ -13,18 +13,8 @@
 # limitations under the License.
 
 
-"""Provide a description of a sample."""
-
-
-from typing import NamedTuple
-
-from pandera.typing import DataFrame
-
-from .standard_profile import StandardProfile
-
-
-class Sample(NamedTuple):
-    """Define a sample."""
-
-    name: str
-    profile: DataFrame[StandardProfile]
+from ._types import BufferOrFilepath, BinaryBufferOrFilepath, Filepath
+from .profile_reader import ProfileReader
+from .profile_standardisation_service import ProfileStandardisationService
+from .table_reader import TableReader
+from .table_writer import TableWriter

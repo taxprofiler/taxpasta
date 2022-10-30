@@ -18,7 +18,7 @@
 
 import pandas as pd
 
-from taxpasta.application import BinaryBufferOrFilepath, TableReader
+from taxpasta.application.service import BinaryBufferOrFilepath, TableReader
 
 
 class ODSTableReader(TableReader):

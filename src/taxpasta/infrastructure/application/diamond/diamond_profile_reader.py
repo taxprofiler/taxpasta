@@ -18,7 +18,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import BufferOrFilepath, ProfileReader
+from taxpasta.application.service import BufferOrFilepath, ProfileReader
 
 from .diamond_profile import DiamondProfile
 

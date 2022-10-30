@@ -13,18 +13,29 @@
 # limitations under the License.
 
 
-"""Provide a CSV reader."""
+"""Provide an abstract base class for a profile standardisation service."""
 
 
-import pandas as pd
+from abc import ABC, abstractmethod
 
-from taxpasta.application.service import BufferOrFilepath, TableReader
+from pandera.typing import DataFrame
+
+from taxpasta.domain.model import StandardProfile
 
 
-class CSVTableReader(TableReader):
-    """Define the CSV reader."""
+class ProfileStandardisationService(ABC):
+    """Define an abstract base class for a profile standardisation service."""
 
     @classmethod
-    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
-        """Read CSV from the given source."""
-        return pd.read_csv(source, **kwargs)
+    @abstractmethod
+    def transform(cls, profile: DataFrame) -> DataFrame[StandardProfile]:
+        """
+        Tidy up and standardize a given taxonomic profile.
+
+        Args:
+            profile: The taxonomic profile of a particular tool.
+
+        Returns:
+            A standardized profile.
+
+        """
