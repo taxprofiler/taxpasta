@@ -13,18 +13,23 @@
 # limitations under the License.
 
 
-"""Provide a CSV reader."""
+"""Provide a builder service for creating a consensus between many profiles."""
 
+
+from abc import ABC, abstractmethod
 
 import pandas as pd
 
-from taxpasta.application.service import BufferOrFilepath, TableReader
+from taxpasta.domain.model.sample import Sample
 
 
-class CSVTableReader(TableReader):
-    """Define the CSV reader."""
+class ConsensusBuilder(ABC):
+    """Define a builder service for creating a consensus between many profiles."""
 
-    @classmethod
-    def read(cls, source: BufferOrFilepath, **kwargs) -> pd.DataFrame:
-        """Read CSV from the given source."""
-        return pd.read_csv(source, **kwargs)
+    @abstractmethod
+    def add_sample(self, sample: Sample) -> None:
+        """Add a sample to the consensus builder."""
+
+    @abstractmethod
+    def build(self) -> pd.DataFrame:
+        """Build the consensus between all added profiles."""

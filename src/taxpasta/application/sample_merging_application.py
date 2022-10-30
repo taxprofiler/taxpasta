@@ -21,10 +21,12 @@ from typing import Iterable, Tuple, Type
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain import Sample, SampleMergingService
-
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
+from taxpasta.application.service.profile_reader import ProfileReader
+from taxpasta.application.service.profile_standardisation_service import (
+    ProfileStandardisationService,
+)
+from taxpasta.domain.model import Sample
+from taxpasta.domain.service import SampleMergingService
 
 
 class SampleMergingApplication:

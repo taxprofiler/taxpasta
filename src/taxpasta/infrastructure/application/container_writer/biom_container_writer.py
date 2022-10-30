@@ -20,7 +20,7 @@ import pandas as pd
 from biom.table import Table
 from biom.util import biom_open
 
-from taxpasta.application import Filepath, TableWriter
+from taxpasta.application.service import Filepath, TableWriter
 
 
 class BIOMContainerWriter(TableWriter):

@@ -22,7 +22,8 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from taxpasta.domain import Sample, SampleMergingService, StandardProfile
+from taxpasta.domain.model import Sample, StandardProfile
+from taxpasta.domain.service import SampleMergingService
 
 
 @pytest.mark.parametrize(

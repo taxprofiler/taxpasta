@@ -18,7 +18,7 @@
 
 import pandas as pd
 
-from taxpasta.application import BufferOrFilepath, TableReader
+from taxpasta.application.service import BufferOrFilepath, TableReader
 
 
 class TSVTableReader(TableReader):

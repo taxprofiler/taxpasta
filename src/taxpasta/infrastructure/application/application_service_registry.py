@@ -19,7 +19,7 @@
 
 from typing import Type
 
-from taxpasta.application import (
+from taxpasta.application.service import (
     ProfileReader,
     ProfileStandardisationService,
     TableReader,

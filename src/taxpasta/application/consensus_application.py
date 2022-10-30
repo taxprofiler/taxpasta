@@ -22,7 +22,7 @@ from typing import Iterable
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain import StandardProfile
+from taxpasta.domain.model import StandardProfile
 
 
 class ConsensusApplication(ABC):

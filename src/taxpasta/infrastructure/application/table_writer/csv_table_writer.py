@@ -18,7 +18,7 @@
 
 import pandas as pd
 
-from taxpasta.application import BufferOrFilepath, TableWriter
+from taxpasta.application.service import BufferOrFilepath, TableWriter
 
 
 class CSVTableWriter(TableWriter):

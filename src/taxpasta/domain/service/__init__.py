@@ -13,23 +13,5 @@
 # limitations under the License.
 
 
-"""Provide a builder service for creating a consensus between many profiles."""
-
-
-from abc import ABC, abstractmethod
-
-import pandas as pd
-
-from .sample import Sample
-
-
-class ConsensusBuilder(ABC):
-    """Define a builder service for creating a consensus between many profiles."""
-
-    @abstractmethod
-    def add_sample(self, sample: Sample) -> None:
-        """Add a sample to the consensus builder."""
-
-    @abstractmethod
-    def build(self) -> pd.DataFrame:
-        """Build the consensus between all added profiles."""
+from .sample_merging_service import SampleMergingService
+from .consensus_builder import ConsensusBuilder

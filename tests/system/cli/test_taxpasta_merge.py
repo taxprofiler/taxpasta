@@ -24,7 +24,7 @@ from biom.table import Table
 from biom.util import biom_open
 from typer.testing import CliRunner
 
-from taxpasta.domain import StandardProfile
+from taxpasta.domain.model import StandardProfile
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     SampleSheet,
