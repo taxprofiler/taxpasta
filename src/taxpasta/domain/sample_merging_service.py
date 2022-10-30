@@ -20,19 +20,23 @@
 from typing import Iterable
 
 import pandas as pd
+import pandera as pa
 from pandera.typing import DataFrame
 
+from .observation_matrix import ObservationMatrix
 from .sample import Sample
 from .standard_profile import StandardProfile
+from .tidy_observation_table import TidyObservationTable
 
 
 class SampleMergingService:
     """Define a sample merging service that summarizes one or more samples."""
 
     @classmethod
-    def merge_wide(cls, samples: Iterable[Sample]) -> DataFrame:
+    @pa.check_types(lazy=True)
+    def merge_wide(cls, samples: Iterable[Sample]) -> DataFrame[ObservationMatrix]:
         """
-        Merge two or more sample profiles into a wide-format table.
+        Merge two or more sample profiles into a wide-format observation matrix.
 
         Args:
             samples: Two or more samples.
@@ -50,14 +54,19 @@ class SampleMergingService:
             ).rename(columns={StandardProfile.count: sample.name})
             for sample in samples
         ]
+        # Please note that `set_index` restores the underlying dtype of the categorical
+        # column `taxonomy_id`. Thus, when we `reset_index` the column is of dtype
+        # object but, due to schema coercion, this is automatically converted into a
+        # categorical dtype again when pandera checks the return type.
         return (
             counts[0].join(counts[1:], how="outer").fillna(0).astype(int).reset_index()
         )
 
     @classmethod
-    def merge_long(cls, samples: Iterable[Sample]) -> DataFrame:
+    @pa.check_types(lazy=True)
+    def merge_long(cls, samples: Iterable[Sample]) -> DataFrame[TidyObservationTable]:
         """
-        Merge two or more sample profiles into a summary table.
+        Merge two or more sample profiles into a tidy observation table.
 
         Args:
             samples: Two or more samples.
@@ -69,6 +78,11 @@ class SampleMergingService:
         """
         # `assign` creates a copy of the original profile which is convenient so that
         # we do not modify existing profiles but, of course, doubles the memory used.
+        # Please note that `concat` restores the underlying dtype of the categorical
+        # column `taxonomy_id`. Thus, the column is of dtype
+        # object but, due to schema coercion, this is automatically converted into a
+        # categorical dtype again when pandera checks the return type. The same holds
+        # for the `sample` column.
         return pd.concat(
             [sample.profile.assign(sample=sample.name) for sample in samples],
             ignore_index=True,

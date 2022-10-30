@@ -34,7 +34,9 @@ from taxpasta.domain import Sample, SampleMergingService, StandardProfile
                     name="s1",
                     profile=pd.DataFrame(
                         {
-                            StandardProfile.taxonomy_id: ["1", "2"],
+                            StandardProfile.taxonomy_id: pd.Series(
+                                ["1", "2"], dtype="category"
+                            ),
                             StandardProfile.count: [23, 42],
                         }
                     ),
@@ -43,14 +45,20 @@ from taxpasta.domain import Sample, SampleMergingService, StandardProfile
                     name="s2",
                     profile=pd.DataFrame(
                         {
-                            StandardProfile.taxonomy_id: ["2", "3"],
+                            StandardProfile.taxonomy_id: pd.Series(
+                                ["2", "3"], dtype="category"
+                            ),
                             StandardProfile.count: [33, 55],
                         }
                     ),
                 ),
             ],
             pd.DataFrame(
-                {"taxonomy_id": ["1", "2", "3"], "s1": [23, 42, 0], "s2": [0, 33, 55]}
+                {
+                    "taxonomy_id": pd.Series(["1", "2", "3"], dtype="category"),
+                    "s1": [23, 42, 0],
+                    "s2": [0, 33, 55],
+                }
             ),
         )
     ],
@@ -73,7 +81,9 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
                     name="s1",
                     profile=pd.DataFrame(
                         {
-                            StandardProfile.taxonomy_id: ["1", "2"],
+                            StandardProfile.taxonomy_id: pd.Series(
+                                ["1", "2"], dtype="category"
+                            ),
                             StandardProfile.count: [23, 42],
                         }
                     ),
@@ -82,7 +92,9 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
                     name="s2",
                     profile=pd.DataFrame(
                         {
-                            StandardProfile.taxonomy_id: ["2", "3"],
+                            StandardProfile.taxonomy_id: pd.Series(
+                                ["2", "3"], dtype="category"
+                            ),
                             StandardProfile.count: [33, 55],
                         }
                     ),
@@ -90,9 +102,9 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
             ],
             pd.DataFrame(
                 {
-                    "taxonomy_id": ["1", "2", "2", "3"],
+                    "taxonomy_id": pd.Series(["1", "2", "2", "3"], dtype="category"),
                     "count": [23, 42, 33, 55],
-                    "sample": ["s1", "s1", "s2", "s2"],
+                    "sample": pd.Series(["s1", "s1", "s2", "s2"], dtype="category"),
                 }
             ),
         )
