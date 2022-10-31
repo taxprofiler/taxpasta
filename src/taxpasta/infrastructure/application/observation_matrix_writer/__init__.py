@@ -13,18 +13,9 @@
 # limitations under the License.
 
 
-"""Provide an CSV writer."""
-
-
-import pandas as pd
-
-from taxpasta.application.service import BufferOrFilepath, TableWriter
-
-
-class CSVTableWriter(TableWriter):
-    """Define the CSV writer."""
-
-    @classmethod
-    def write(cls, table: pd.DataFrame, target: BufferOrFilepath, **kwargs) -> None:
-        """Write the given table to the given buffer or file."""
-        table.to_csv(target, index=False, **kwargs)
+from .arrow_observation_matrix_writer import ArrowObservationMatrixWriter
+from .biom_container_writer import BIOMObservationMatrixWriter
+from .csv_observation_matrix_writer import CSVObservationMatrixWriter
+from .ods_observation_matrix_writer import ODSObservationMatrixWriter
+from .tsv_observation_matrix_writer import TSVObservationMatrixWriter
+from .xlsx_observation_matrix_writer import XLSXObservationMatrixWriter

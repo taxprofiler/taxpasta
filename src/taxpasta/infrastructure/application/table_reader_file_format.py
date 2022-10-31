@@ -13,4 +13,22 @@
 # limitations under the License.
 
 
-from .biom_container_writer import BIOMContainerWriter
+"""Provide a service for supported tabular file formats."""
+
+
+from __future__ import annotations
+
+from enum import Enum, unique
+
+from .file_format_mixin import FileFormatMixin
+
+
+@unique
+class TableReaderFileFormat(FileFormatMixin["TableReaderFileFormat"], str, Enum):
+    """Define the supported tabular file formats."""
+
+    TSV = "TSV"
+    CSV = "CSV"
+    ODS = "ODS"
+    XLSX = "XLSX"
+    arrow = "arrow"

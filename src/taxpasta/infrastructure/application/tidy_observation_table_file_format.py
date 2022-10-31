@@ -13,8 +13,24 @@
 # limitations under the License.
 
 
-from .arrow_table_writer import ArrowTableWriter
-from .csv_table_writer import CSVTableWriter
-from .ods_table_writer import ODSTableWriter
-from .tsv_table_writer import TSVTableWriter
-from .xlsx_table_writer import XLSXTableWriter
+"""Provide a service for supported tabular file formats."""
+
+
+from __future__ import annotations
+
+from enum import Enum, unique
+
+from .file_format_mixin import FileFormatMixin
+
+
+@unique
+class TidyObservationTableFileFormat(
+    FileFormatMixin["TidyObservationTableFileFormat"], str, Enum
+):
+    """Define the supported tabular file formats."""
+
+    TSV = "TSV"
+    CSV = "CSV"
+    ODS = "ODS"
+    XLSX = "XLSX"
+    arrow = "arrow"

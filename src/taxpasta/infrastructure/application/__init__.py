@@ -48,8 +48,9 @@ from .metaphlan import (
     MetaphlanProfileReader,
     MetaphlanProfileStandardisationService,
 )
+from .table_reader_file_format import TableReaderFileFormat
+from .tidy_observation_table_file_format import TidyObservationTableFileFormat
+from .observation_matrix_file_format import ObservationMatrixFileFormat
+from .supported_profiler import SupportedProfiler
 from .application_service_registry import ApplicationServiceRegistry
 from .sample_sheet import SampleSheet
-from .supported_profiler import SupportedProfiler
-from .supported_tabular_file_format import SupportedTabularFileFormat
-from .supported_container_file_format import SupportedContainerFileFormat
