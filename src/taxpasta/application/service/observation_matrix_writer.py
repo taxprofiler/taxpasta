@@ -13,20 +13,29 @@
 # limitations under the License.
 
 
-"""Provide an arrow writer."""
+"""Provide an abstract base class for writing observation matrices."""
 
 
-import pandas as pd
+from abc import ABC, abstractmethod
+from typing import Optional
 
-from taxpasta.application.service import BinaryBufferOrFilepath, TableWriter
+from pandera.typing import DataFrame
+
+from taxpasta.domain.model import ObservationMatrix, Taxonomy
+
+from ._types import BufferOrFilepath
 
 
-class ArrowTableWriter(TableWriter):
-    """Define the arrow writer."""
+class ObservationMatrixWriter(ABC):
+    """Define an abstract base class for writing observation matrices."""
 
     @classmethod
+    @abstractmethod
     def write(
-        cls, table: pd.DataFrame, target: BinaryBufferOrFilepath, **kwargs
+        cls,
+        matrix: DataFrame[ObservationMatrix],
+        target: BufferOrFilepath,
+        taxonomy: Optional[Taxonomy] = None,
+        **kwargs
     ) -> None:
-        """Write the given table to the given buffer or file."""
-        table.to_feather(target, **kwargs)
+        """Write an observation matrix to the given buffer or file."""

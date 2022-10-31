@@ -20,15 +20,17 @@
 from typing import Type
 
 from taxpasta.application.service import (
+    ObservationMatrixWriter,
     ProfileReader,
     ProfileStandardisationService,
     TableReader,
-    TableWriter,
+    TidyObservationTableWriter,
 )
 
-from .supported_container_file_format import SupportedContainerFileFormat
+from .observation_matrix_file_format import ObservationMatrixFileFormat
 from .supported_profiler import SupportedProfiler
-from .supported_tabular_file_format import SupportedTabularFileFormat
+from .table_reader_file_format import TableReaderFileFormat
+from .tidy_observation_table_file_format import TidyObservationTableFileFormat
 
 
 class ApplicationServiceRegistry:
@@ -85,69 +87,96 @@ class ApplicationServiceRegistry:
             return MetaphlanProfileStandardisationService
 
     @classmethod
-    def table_reader(cls, file_format: SupportedTabularFileFormat) -> Type[TableReader]:
+    def table_reader(cls, file_format: TableReaderFileFormat) -> Type[TableReader]:
         """Return a table reader of the correct type."""
-        if file_format is SupportedTabularFileFormat.TSV:
+        if file_format is TableReaderFileFormat.TSV:
             from .table_reader import TSVTableReader
 
             return TSVTableReader
-        elif file_format is SupportedTabularFileFormat.CSV:
+        elif file_format is TableReaderFileFormat.CSV:
             from .table_reader import CSVTableReader
 
             return CSVTableReader
-        elif file_format is SupportedTabularFileFormat.XLSX:
+        elif file_format is TableReaderFileFormat.XLSX:
             from .table_reader import XLSXTableReader
 
             return XLSXTableReader
-        elif file_format is SupportedTabularFileFormat.ODS:
+        elif file_format is TableReaderFileFormat.ODS:
             from .table_reader import ODSTableReader
 
             return ODSTableReader
-        elif file_format is SupportedTabularFileFormat.arrow:
+        elif file_format is TableReaderFileFormat.arrow:
             from .table_reader import ArrowTableReader
 
             return ArrowTableReader
-
-    @classmethod
-    def table_writer(cls, file_format: SupportedTabularFileFormat) -> Type[TableWriter]:
-        """Return a table writer of the correct type."""
-        if file_format is SupportedTabularFileFormat.TSV:
-            from .table_writer import TSVTableWriter
-
-            return TSVTableWriter
-        elif file_format is SupportedTabularFileFormat.CSV:
-            from .table_writer import CSVTableWriter
-
-            return CSVTableWriter
-        elif file_format is SupportedTabularFileFormat.XLSX:
-            from .table_writer import XLSXTableWriter
-
-            return XLSXTableWriter
-        elif file_format is SupportedTabularFileFormat.ODS:
-            from .table_writer import ODSTableWriter
-
-            return ODSTableWriter
-        elif file_format is SupportedTabularFileFormat.arrow:
-            from .table_writer import ArrowTableWriter
-
-            return ArrowTableWriter
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported table "
-                f"writer."
+                f"reader format."
             )
 
     @classmethod
-    def container_writer(
-        cls, file_format: SupportedContainerFileFormat
-    ) -> Type[TableWriter]:
-        """Return a container writer of the correct type."""
-        if file_format is SupportedContainerFileFormat.BIOM:
-            from .container_writer import BIOMContainerWriter
+    def tidy_observation_table_writer(
+        cls, file_format: TidyObservationTableFileFormat
+    ) -> Type[TidyObservationTableWriter]:
+        """Return a table writer of the correct type."""
+        if file_format is TidyObservationTableFileFormat.TSV:
+            from .tidy_observation_table_writer import TSVTidyObservationTableWriter
 
-            return BIOMContainerWriter
+            return TSVTidyObservationTableWriter
+        elif file_format is TidyObservationTableFileFormat.CSV:
+            from .tidy_observation_table_writer import CSVTidyObservationTableWriter
+
+            return CSVTidyObservationTableWriter
+        elif file_format is TidyObservationTableFileFormat.XLSX:
+            from .tidy_observation_table_writer import XLSXTidyObservationTableWriter
+
+            return XLSXTidyObservationTableWriter
+        elif file_format is TidyObservationTableFileFormat.ODS:
+            from .tidy_observation_table_writer import ODSTidyObservationTableWriter
+
+            return ODSTidyObservationTableWriter
+        elif file_format is TidyObservationTableFileFormat.arrow:
+            from .tidy_observation_table_writer import ArrowTidyObservationTableWriter
+
+            return ArrowTidyObservationTableWriter
+        else:
+            ValueError(
+                f"The given file format {file_format.name} is not a supported tidy "
+                f"observation table writer format."
+            )
+
+    @classmethod
+    def observation_matrix_writer(
+        cls, file_format: ObservationMatrixFileFormat
+    ) -> Type[ObservationMatrixWriter]:
+        """Return a container writer of the correct type."""
+        if file_format is ObservationMatrixFileFormat.TSV:
+            from .observation_matrix_writer import TSVObservationMatrixWriter
+
+            return TSVObservationMatrixWriter
+        elif file_format is ObservationMatrixFileFormat.CSV:
+            from .observation_matrix_writer import CSVObservationMatrixWriter
+
+            return CSVObservationMatrixWriter
+        elif file_format is ObservationMatrixFileFormat.XLSX:
+            from .observation_matrix_writer import XLSXObservationMatrixWriter
+
+            return XLSXObservationMatrixWriter
+        elif file_format is ObservationMatrixFileFormat.ODS:
+            from .observation_matrix_writer import ODSObservationMatrixWriter
+
+            return ODSObservationMatrixWriter
+        elif file_format is ObservationMatrixFileFormat.arrow:
+            from .observation_matrix_writer import ArrowObservationMatrixWriter
+
+            return ArrowObservationMatrixWriter
+        elif file_format is ObservationMatrixFileFormat.BIOM:
+            from .observation_matrix_writer import BIOMObservationMatrixWriter
+
+            return BIOMObservationMatrixWriter
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported "
-                f"container writer."
+                f"observation matrix writer format."
             )

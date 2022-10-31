@@ -16,17 +16,24 @@
 """Provide an ODS writer."""
 
 
-import pandas as pd
+from typing import Optional
 
-from taxpasta.application.service import BinaryBufferOrFilepath, TableWriter
+from pandera.typing import DataFrame
+
+from taxpasta.application.service import BinaryBufferOrFilepath, ObservationMatrixWriter
+from taxpasta.domain.model import ObservationMatrix, Taxonomy
 
 
-class ODSTableWriter(TableWriter):
+class ODSObservationMatrixWriter(ObservationMatrixWriter):
     """Define the ODS writer."""
 
     @classmethod
     def write(
-        cls, table: pd.DataFrame, target: BinaryBufferOrFilepath, **kwargs
+        cls,
+        matrix: DataFrame[ObservationMatrix],
+        target: BinaryBufferOrFilepath,
+        taxonomy: Optional[Taxonomy] = None,
+        **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""
-        table.to_excel(target, index=False, engine="odf", **kwargs)
+        matrix.to_excel(target, index=False, engine="odf", **kwargs)

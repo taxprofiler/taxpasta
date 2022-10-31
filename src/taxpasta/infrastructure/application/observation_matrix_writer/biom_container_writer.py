@@ -16,29 +16,33 @@
 """Provide a Biological Observation Matrix (BIOM) writer."""
 
 
-import pandas as pd
+from typing import Optional
+
 from biom.table import Table
 from biom.util import biom_open
+from pandera.typing import DataFrame
 
-from taxpasta.application.service import Filepath, TableWriter
+from taxpasta.application.service import Filepath, ObservationMatrixWriter
+from taxpasta.domain.model import ObservationMatrix, Taxonomy
 
 
-class BIOMContainerWriter(TableWriter):
+class BIOMObservationMatrixWriter(ObservationMatrixWriter):
     """Define the Biological Observation Matrix (BIOM) writer."""
 
     @classmethod
     def write(
         cls,
-        table: pd.DataFrame,
+        matrix: DataFrame[ObservationMatrix],
         target: Filepath,
+        taxonomy: Optional[Taxonomy] = None,
         generated_by: str = "taxpasta",
         **kwargs
     ) -> None:
         """Write the given data to the given buffer or file."""
         result = Table(
-            data=table.iloc[:, 1:].values,
-            observation_ids=table.iloc[:, 0],
-            sample_ids=table.columns[1:],
+            data=matrix.iloc[:, 1:].values,
+            observation_ids=matrix.iloc[:, 0],
+            sample_ids=matrix.columns[1:],
         )
         with biom_open(str(target), permission="w") as handle:
             result.to_hdf5(handle, generated_by=generated_by)

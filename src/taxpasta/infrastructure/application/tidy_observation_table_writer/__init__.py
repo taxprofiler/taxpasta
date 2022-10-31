@@ -13,9 +13,8 @@
 # limitations under the License.
 
 
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath, Filepath
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .table_reader import TableReader
-from .tidy_observation_table_writer import TidyObservationTableWriter
-from .observation_matrix_writer import ObservationMatrixWriter
+from .arrow_table_writer import ArrowTidyObservationTableWriter
+from .csv_table_writer import CSVTidyObservationTableWriter
+from .ods_table_writer import ODSTidyObservationTableWriter
+from .tsv_table_writer import TSVTidyObservationTableWriter
+from .xlsx_table_writer import XLSXTidyObservationTableWriter

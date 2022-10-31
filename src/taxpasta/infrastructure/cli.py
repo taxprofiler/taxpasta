@@ -30,10 +30,11 @@ from taxpasta.application import SampleMergingApplication
 
 from .application import (
     ApplicationServiceRegistry,
+    ObservationMatrixFileFormat,
     SampleSheet,
-    SupportedContainerFileFormat,
     SupportedProfiler,
-    SupportedTabularFileFormat,
+    TableReaderFileFormat,
+    TidyObservationTableFileFormat,
 )
 
 
@@ -51,9 +52,9 @@ class LogLevel(str, Enum):
     CRITICAL = "CRITICAL"
 
 
-def validate_output_format(
-    output: Path, output_format: Optional[SupportedTabularFileFormat]
-) -> SupportedTabularFileFormat:
+def validate_observation_matrix_format(
+    output: Path, output_format: Optional[str]
+) -> ObservationMatrixFileFormat:
     """
     Detect the output format if it isn't given.
 
@@ -67,17 +68,51 @@ def validate_output_format(
     """
     if output_format is None:
         try:
-            result = SupportedTabularFileFormat.guess_format(output)
+            result = ObservationMatrixFileFormat.guess_format(output)
         except ValueError as error:
             logger.error(
                 "%s\nPlease rename the output or set the --output-format explicitly.",
                 error.args[0],
             )
-        typer.Exit(2)
+            typer.Exit(2)
     else:
-        result = output_format
+        result = ObservationMatrixFileFormat(output_format)
     try:
-        SupportedTabularFileFormat.check_dependencies(result)
+        ObservationMatrixFileFormat.check_dependencies(result)
+    except RuntimeError as error:
+        logger.debug("", exc_info=error)
+        logger.error(str(error))
+        typer.Exit(1)
+    return result
+
+
+def validate_tidy_observation_table_format(
+    output: Path, output_format: Optional[str]
+) -> TidyObservationTableFileFormat:
+    """
+    Detect the output format if it isn't given.
+
+    Args:
+        output: Path for the output.
+        output_format: The selected file format if any.
+
+    Returns:
+        The validated output file format.
+
+    """
+    if output_format is None:
+        try:
+            result = TidyObservationTableFileFormat.guess_format(output)
+        except ValueError as error:
+            logger.error(
+                "%s\nPlease rename the output or set the --output-format explicitly.",
+                error.args[0],
+            )
+            typer.Exit(2)
+    else:
+        result = TidyObservationTableFileFormat(output_format)
+    try:
+        TidyObservationTableFileFormat.check_dependencies(result)
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
@@ -86,8 +121,8 @@ def validate_output_format(
 
 
 def validate_sample_format(
-    sample_sheet: Path, sample_format: Optional[SupportedTabularFileFormat]
-) -> SupportedTabularFileFormat:
+    sample_sheet: Path, sample_format: Optional[TableReaderFileFormat]
+) -> TableReaderFileFormat:
     """
     Detect the sample sheet format if it isn't given.
 
@@ -101,18 +136,18 @@ def validate_sample_format(
     """
     if sample_format is None:
         try:
-            result = SupportedTabularFileFormat.guess_format(sample_sheet)
+            result = TableReaderFileFormat.guess_format(sample_sheet)
         except ValueError as error:
             logger.error(
                 "%s\nPlease rename the sample sheet or set the --sample-format "
                 "explicitly.",
                 error.args[0],
             )
-        typer.Exit(2)
+            typer.Exit(2)
     else:
         result = sample_format
     try:
-        SupportedTabularFileFormat.check_dependencies(result)
+        TableReaderFileFormat.check_dependencies(result)
     except ImportError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
@@ -121,7 +156,7 @@ def validate_sample_format(
 
 
 def read_sample_sheet(
-    sample_sheet: Path, sample_format: SupportedTabularFileFormat
+    sample_sheet: Path, sample_format: TableReaderFileFormat
 ) -> DataFrame[SampleSheet]:
     """
     Extract and validate the sample sheet.
@@ -142,6 +177,14 @@ def read_sample_sheet(
         logger.error(str(error))
         typer.Exit(1)
     return result
+
+
+def format_as_string(file_format) -> Optional[str]:
+    """Return the string value of an enum field or `None`."""
+    if file_format is not None:
+        return file_format.value
+    else:
+        return None
 
 
 app = typer.Typer(
@@ -231,7 +274,7 @@ def merge(
         dir_okay=False,
         readable=True,
     ),
-    sample_format: Optional[SupportedTabularFileFormat] = typer.Option(  # noqa: B008
+    sample_format: Optional[TableReaderFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The file format of the sample sheet. Depending on the choice, additional "
@@ -251,29 +294,36 @@ def merge(
         help="The desired output file. By default, the file extension will be used to "
         "determine the output format.",
     ),
-    output_format: Optional[SupportedTabularFileFormat] = typer.Option(  # noqa: B008
+    output_format: Optional[ObservationMatrixFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
     ),
-    biom: bool = typer.Option(  # noqa: B008
-        False,
-        "--biom",
-        help="Output merged abundance data in BIOM format.",
-    ),
 ):
     """Merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
-    # Ensure that we can write to the output directory.
-    output.parent.mkdir(parents=True, exist_ok=True)
-    valid_output_format: Union[SupportedTabularFileFormat, SupportedContainerFileFormat]
-    if biom:
-        valid_output_format = SupportedContainerFileFormat.BIOM
+    valid_output_format: Union[
+        TidyObservationTableFileFormat, ObservationMatrixFileFormat
+    ]
+    # When a BIOM output format is chosen, the result can only be a wide format BIOM.
+    if output.suffix.lower() == ".biom" or (
+        output_format is not None and output_format is ObservationMatrixFileFormat.BIOM
+    ):
+        valid_output_format = ObservationMatrixFileFormat.BIOM
         wide_format = True
     else:
-        valid_output_format = validate_output_format(output, output_format)
+        if wide_format:
+            valid_output_format = validate_observation_matrix_format(
+                output, format_as_string(output_format)
+            )
+        else:
+            valid_output_format = validate_tidy_observation_table_format(
+                output, format_as_string(output_format)
+            )
+    # Ensure that we can write to the output directory.
+    output.parent.mkdir(parents=True, exist_ok=True)
 
     # Extract and transform sample data.
     if sample_sheet is not None:
@@ -282,8 +332,17 @@ def merge(
         sheet = read_sample_sheet(sample_sheet, valid_sample_format)
         data = [(row.sample, row.profile) for row in sheet.itertuples(index=False)]
     else:
-        assert profiles is not None  # nosec assert_used
-        assert len(profiles) > 1  # nosec assert_used
+        if not profiles:
+            logger.critical(
+                "Neither a sample sheet nor any profiles were provided. Please adjust "
+                "the command."
+            )
+            return 2
+        elif len(profiles) == 1:
+            logger.critical(
+                "Only a single profile was provided. Please provide at least two."
+            )
+            return 2
         # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
@@ -300,11 +359,18 @@ def merge(
         return 1
 
     logger.info("Write result to '%s'.", str(output))
-    if isinstance(valid_output_format, SupportedTabularFileFormat):
-        writer = ApplicationServiceRegistry.table_writer(valid_output_format)
-    elif isinstance(valid_output_format, SupportedContainerFileFormat):
-        writer = ApplicationServiceRegistry.container_writer(valid_output_format)
+    if wide_format:
+        assert isinstance(  # nosec assert_used
+            valid_output_format, ObservationMatrixFileFormat
+        )
+        writer = ApplicationServiceRegistry.observation_matrix_writer(
+            valid_output_format
+        )
     else:
-        logger.error("Should never get here.")
-        return 1
+        assert isinstance(  # nosec assert_used
+            valid_output_format, TidyObservationTableFileFormat
+        )
+        writer = ApplicationServiceRegistry.tidy_observation_table_writer(
+            valid_output_format  # type: ignore
+        )
     writer.write(result, output)

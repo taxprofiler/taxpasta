@@ -24,9 +24,9 @@ import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
-    ApplicationServiceRegistry,
+    ObservationMatrixFileFormat,
     SupportedProfiler,
-    SupportedTabularFileFormat,
+    TidyObservationTableFileFormat,
 )
 
 
@@ -42,9 +42,19 @@ def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
     return request.param
 
 
-@pytest.fixture(scope="session", params=list(SupportedTabularFileFormat))
-def file_format(request: pytest.FixtureRequest) -> SupportedTabularFileFormat:
-    """Provide each supported tabular file format in turn."""
+@pytest.fixture(scope="session", params=list(ObservationMatrixFileFormat))
+def observation_matrix_format(
+    request: pytest.FixtureRequest,
+) -> ObservationMatrixFileFormat:
+    """Provide each supported observation matrix file format in turn."""
+    return request.param
+
+
+@pytest.fixture(scope="session", params=list(TidyObservationTableFileFormat))
+def tidy_observation_table_format(
+    request: pytest.FixtureRequest,
+) -> TidyObservationTableFileFormat:
+    """Provide each supported tidy observation table file format in turn."""
     return request.param
 
 
@@ -64,7 +74,6 @@ def profiles(
 @pytest.fixture(scope="session")
 def samplesheet(
     profiler: SupportedProfiler,
-    file_format: SupportedTabularFileFormat,
     data_dir: Path,
     tmp_path_factory: pytest.TempPathFactory,
 ) -> Path:
@@ -77,10 +86,6 @@ def samplesheet(
         ],
         columns=["sample", "profile"],
     )
-    path = (
-        tmp_path_factory.mktemp(profiler.name)
-        / f"samplesheet.{file_format.name.lower()}"
-    )
-    writer = ApplicationServiceRegistry.table_writer(file_format)
-    writer.write(sheet, path)
+    path = tmp_path_factory.mktemp(profiler.name) / "samplesheet.tsv"
+    sheet.to_csv(path, sep="\t", index=False)
     return path

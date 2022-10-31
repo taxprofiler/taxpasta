@@ -13,18 +13,27 @@
 # limitations under the License.
 
 
-"""Provide an TSV writer."""
+"""Provide an XLSX writer."""
 
 
-import pandas as pd
+from typing import Optional
 
-from taxpasta.application.service import BufferOrFilepath, TableWriter
+from pandera.typing import DataFrame
+
+from taxpasta.application.service import BinaryBufferOrFilepath, ObservationMatrixWriter
+from taxpasta.domain.model import ObservationMatrix, Taxonomy
 
 
-class TSVTableWriter(TableWriter):
-    """Define the TSV writer."""
+class XLSXObservationMatrixWriter(ObservationMatrixWriter):
+    """Define the XLSX writer."""
 
     @classmethod
-    def write(cls, table: pd.DataFrame, target: BufferOrFilepath, **kwargs) -> None:
+    def write(
+        cls,
+        matrix: DataFrame[ObservationMatrix],
+        target: BinaryBufferOrFilepath,
+        taxonomy: Optional[Taxonomy] = None,
+        **kwargs
+    ) -> None:
         """Write the given table to the given buffer or file."""
-        table.to_csv(target, sep="\t", index=False, **kwargs)
+        matrix.to_excel(target, index=False, engine="openpyxl", **kwargs)

@@ -13,9 +13,25 @@
 # limitations under the License.
 
 
-from ._types import BufferOrFilepath, BinaryBufferOrFilepath, Filepath
-from .profile_reader import ProfileReader
-from .profile_standardisation_service import ProfileStandardisationService
-from .table_reader import TableReader
-from .tidy_observation_table_writer import TidyObservationTableWriter
-from .observation_matrix_writer import ObservationMatrixWriter
+"""Provide a service for supported container file formats."""
+
+
+from __future__ import annotations
+
+from enum import Enum, unique
+
+from .file_format_mixin import FileFormatMixin
+
+
+@unique
+class ObservationMatrixFileFormat(
+    FileFormatMixin["ObservationMatrixFileFormat"], str, Enum
+):
+    """Define the supported container file formats."""
+
+    TSV = "TSV"
+    CSV = "CSV"
+    ODS = "ODS"
+    XLSX = "XLSX"
+    arrow = "arrow"
+    BIOM = "BIOM"
