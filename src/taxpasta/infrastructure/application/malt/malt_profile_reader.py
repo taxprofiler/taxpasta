@@ -34,7 +34,7 @@ class MaltProfileReader(ProfileReader):
         nb_expected_columns = 2
         result = pd.read_table(
             filepath_or_buffer=profile,
-            compression="gzip",
+            compression="infer",
             sep="\t",
             names=[MaltProfile.taxonomy_id, MaltProfile.count],
             index_col=False,
