@@ -37,8 +37,6 @@ class ConsensusApplication(ABC):
         Args:
             profiles: Standardized profiles.
 
-        Returns:
-
         """
         # FIXME: Rough idea on application.
         # builder = ConsensusBuilder()
