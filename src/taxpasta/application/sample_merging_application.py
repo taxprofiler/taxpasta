@@ -37,7 +37,7 @@ class SampleMergingApplication:
         *,
         profile_reader: Type[ProfileReader],
         profile_standardiser: Type[ProfileStandardisationService],
-        **kwargs
+        **kwargs: dict
     ):
         """
         Initialize the application for a particular taxonomic profiler.
