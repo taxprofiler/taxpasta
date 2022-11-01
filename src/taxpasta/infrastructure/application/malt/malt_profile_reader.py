@@ -18,7 +18,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, ProfileSource
+from taxpasta.application.service import BufferOrFilepath, ProfileReader
 
 from .malt_profile import MaltProfile
 
@@ -29,7 +29,7 @@ class MaltProfileReader(ProfileReader):
     LARGE_INTEGER = int(10e6)
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[MaltProfile]:
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[MaltProfile]:
         """Read a MALT-rma2info taxonomic profile from a file."""
         nb_expected_columns = 2
         result = pd.read_table(
