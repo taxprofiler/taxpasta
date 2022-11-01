@@ -36,7 +36,7 @@ jobs:
         python -m pip install tox tox-gh-actions
 
     - name: Test with tox
-      run: tox -- --cov-report=xml
+      run: tox -- -n 2 --cov-report=xml
 
     - name: Report coverage
       shell: bash
