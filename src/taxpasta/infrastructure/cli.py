@@ -273,12 +273,6 @@ def merge(
         "package dependencies may apply. Will be parsed from the sample sheet "
         "file name but can be set explicitly.",
     ),
-    wide_format: bool = typer.Option(  # noqa: B008
-        True,
-        "--wide/--long",
-        help="Output merged abundance data in either wide or (tidy) long format. "
-        "Ignored when the desired output format is BIOM.",
-    ),
     output: Path = typer.Option(  # noqa: B008
         ...,
         "--output",
@@ -292,6 +286,12 @@ def merge(
         help="The desired output format. Depending on the choice, additional package "
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
+    ),
+    wide_format: bool = typer.Option(  # noqa: B008
+        True,
+        "--wide/--long",
+        help="Output merged abundance data in either wide or (tidy) long format. "
+        "Ignored when the desired output format is BIOM.",
     ),
 ):
     """Merge two or more taxonomic profiles into a single table."""
