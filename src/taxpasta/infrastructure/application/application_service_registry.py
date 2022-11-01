@@ -90,23 +90,23 @@ class ApplicationServiceRegistry:
     def table_reader(cls, file_format: TableReaderFileFormat) -> Type[TableReader]:
         """Return a table reader of the correct type."""
         if file_format is TableReaderFileFormat.TSV:
-            from .table_reader import TSVTableReader
+            from .table_reader.tsv_table_reader import TSVTableReader
 
             return TSVTableReader
         elif file_format is TableReaderFileFormat.CSV:
-            from .table_reader import CSVTableReader
+            from .table_reader.csv_table_reader import CSVTableReader
 
             return CSVTableReader
         elif file_format is TableReaderFileFormat.XLSX:
-            from .table_reader import XLSXTableReader
+            from .table_reader.xlsx_table_reader import XLSXTableReader
 
             return XLSXTableReader
         elif file_format is TableReaderFileFormat.ODS:
-            from .table_reader import ODSTableReader
+            from .table_reader.ods_table_reader import ODSTableReader
 
             return ODSTableReader
         elif file_format is TableReaderFileFormat.arrow:
-            from .table_reader import ArrowTableReader
+            from .table_reader.arrow_table_reader import ArrowTableReader
 
             return ArrowTableReader
         else:
@@ -121,23 +121,33 @@ class ApplicationServiceRegistry:
     ) -> Type[TidyObservationTableWriter]:
         """Return a table writer of the correct type."""
         if file_format is TidyObservationTableFileFormat.TSV:
-            from .tidy_observation_table_writer import TSVTidyObservationTableWriter
+            from .tidy_observation_table_writer.tsv_table_writer import (
+                TSVTidyObservationTableWriter,
+            )
 
             return TSVTidyObservationTableWriter
         elif file_format is TidyObservationTableFileFormat.CSV:
-            from .tidy_observation_table_writer import CSVTidyObservationTableWriter
+            from .tidy_observation_table_writer.csv_table_writer import (
+                CSVTidyObservationTableWriter,
+            )
 
             return CSVTidyObservationTableWriter
         elif file_format is TidyObservationTableFileFormat.XLSX:
-            from .tidy_observation_table_writer import XLSXTidyObservationTableWriter
+            from .tidy_observation_table_writer.xlsx_table_writer import (
+                XLSXTidyObservationTableWriter,
+            )
 
             return XLSXTidyObservationTableWriter
         elif file_format is TidyObservationTableFileFormat.ODS:
-            from .tidy_observation_table_writer import ODSTidyObservationTableWriter
+            from .tidy_observation_table_writer.ods_table_writer import (
+                ODSTidyObservationTableWriter,
+            )
 
             return ODSTidyObservationTableWriter
         elif file_format is TidyObservationTableFileFormat.arrow:
-            from .tidy_observation_table_writer import ArrowTidyObservationTableWriter
+            from .tidy_observation_table_writer.arrow_table_writer import (
+                ArrowTidyObservationTableWriter,
+            )
 
             return ArrowTidyObservationTableWriter
         else:
@@ -152,27 +162,39 @@ class ApplicationServiceRegistry:
     ) -> Type[ObservationMatrixWriter]:
         """Return a container writer of the correct type."""
         if file_format is ObservationMatrixFileFormat.TSV:
-            from .observation_matrix_writer import TSVObservationMatrixWriter
+            from .observation_matrix_writer.tsv_observation_matrix_writer import (
+                TSVObservationMatrixWriter,
+            )
 
             return TSVObservationMatrixWriter
         elif file_format is ObservationMatrixFileFormat.CSV:
-            from .observation_matrix_writer import CSVObservationMatrixWriter
+            from .observation_matrix_writer.csv_observation_matrix_writer import (
+                CSVObservationMatrixWriter,
+            )
 
             return CSVObservationMatrixWriter
         elif file_format is ObservationMatrixFileFormat.XLSX:
-            from .observation_matrix_writer import XLSXObservationMatrixWriter
+            from .observation_matrix_writer.xlsx_observation_matrix_writer import (
+                XLSXObservationMatrixWriter,
+            )
 
             return XLSXObservationMatrixWriter
         elif file_format is ObservationMatrixFileFormat.ODS:
-            from .observation_matrix_writer import ODSObservationMatrixWriter
+            from .observation_matrix_writer.ods_observation_matrix_writer import (
+                ODSObservationMatrixWriter,
+            )
 
             return ODSObservationMatrixWriter
         elif file_format is ObservationMatrixFileFormat.arrow:
-            from .observation_matrix_writer import ArrowObservationMatrixWriter
+            from .observation_matrix_writer.arrow_observation_matrix_writer import (
+                ArrowObservationMatrixWriter,
+            )
 
             return ArrowObservationMatrixWriter
         elif file_format is ObservationMatrixFileFormat.BIOM:
-            from .observation_matrix_writer import BIOMObservationMatrixWriter
+            from .observation_matrix_writer.biom_container_writer import (
+                BIOMObservationMatrixWriter,
+            )
 
             return BIOMObservationMatrixWriter
         else:

@@ -11,11 +11,3 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-
-from .arrow_observation_matrix_writer import ArrowObservationMatrixWriter
-from .biom_container_writer import BIOMObservationMatrixWriter
-from .csv_observation_matrix_writer import CSVObservationMatrixWriter
-from .ods_observation_matrix_writer import ODSObservationMatrixWriter
-from .tsv_observation_matrix_writer import TSVObservationMatrixWriter
-from .xlsx_observation_matrix_writer import XLSXObservationMatrixWriter
