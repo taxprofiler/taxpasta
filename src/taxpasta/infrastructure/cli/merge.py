@@ -13,11 +13,10 @@
 # limitations under the License.
 
 
-"""Provide a command-line interface (CLI) for taxpasta functionality."""
+"""Add the `merge` command to the taxpasta CLI."""
 
 
 import logging
-from enum import Enum, unique
 from pathlib import Path
 from typing import List, Optional, Union, cast
 
@@ -25,11 +24,9 @@ import pandera.errors
 import typer
 from pandera.typing import DataFrame
 
-import taxpasta
 from taxpasta.application import SampleMergingApplication
 from taxpasta.application.error import StandardisationError
-
-from .application import (
+from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     ObservationMatrixFileFormat,
     SampleSheet,
@@ -38,19 +35,10 @@ from .application import (
     TidyObservationTableFileFormat,
 )
 
+from .taxpasta import app
 
-logger = logging.getLogger("taxpasta")
 
-
-@unique
-class LogLevel(str, Enum):
-    """Define the choices for the log level option."""
-
-    DEBUG = "DEBUG"
-    INFO = "INFO"
-    WARNING = "WARNING"
-    ERROR = "ERROR"
-    CRITICAL = "CRITICAL"
+logger = logging.getLogger(__name__)
 
 
 def validate_observation_matrix_format(
@@ -204,66 +192,6 @@ def read_sample_sheet(
         logger.critical(errors.failure_cases)
         raise typer.Exit(code=1)
     return result
-
-
-app = typer.Typer(
-    help="TAXonomic Profile Aggregation and STAndardisation",
-    context_settings={"help_option_names": ["-h", "--help"]},
-)
-
-
-def version_callback(is_set: bool) -> None:
-    """
-    Print the tool version if desired.
-
-    Args:
-        is_set: Whether the version was requested as a command line option.
-
-    Raises:
-        Exit: With default code 0 to signal normal program end.
-
-    """
-    if is_set:
-        print(taxpasta.__version__)
-        raise typer.Exit()
-
-
-@app.callback(invoke_without_command=True)
-def initialize(
-    context: typer.Context,
-    version: Optional[bool] = typer.Option(  # noqa: B008
-        None,
-        "--version",
-        callback=version_callback,
-        is_eager=True,
-        help="Print only the current tool version and exit.",
-    ),
-    log_level: LogLevel = typer.Option(  # noqa: B008
-        LogLevel.INFO.name,
-        "--log-level",
-        "-l",
-        case_sensitive=False,
-        help="Set the desired log level.",
-    ),
-):
-    """Initialize logging and rich printing if available."""
-    try:
-        from rich.logging import RichHandler
-
-        logging.basicConfig(
-            level=log_level.name,
-            format="%(message)s",
-            datefmt="[%X]",
-            handlers=[RichHandler(rich_tracebacks=True, tracebacks_suppress=[typer])],
-        )
-    except ModuleNotFoundError:
-        logging.basicConfig(level=log_level.name, format="[%(levelname)s] %(message)s")
-
-
-@app.command()
-def consensus():
-    """Form a consensus for the same sample but from different taxonomic profiles."""
-    raise NotImplementedError("Coming soon™")
 
 
 @app.command()

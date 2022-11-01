@@ -13,10 +13,6 @@
 # limitations under the License.
 
 
-"""Support the Python mechanism for calling the taxpasta package."""
-
-
-from taxpasta.infrastructure.cli import app
-
-
-app(prog_name="taxpasta")
+from .taxpasta import app
+from . import consensus
+from . import merge
