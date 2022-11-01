@@ -303,6 +303,7 @@ def merge(
     if output.suffix.lower() == ".biom" or (
         output_format is not None and output_format is ObservationMatrixFileFormat.BIOM
     ):
+        ObservationMatrixFileFormat.check_dependencies(ObservationMatrixFileFormat.BIOM)
         valid_output_format = ObservationMatrixFileFormat.BIOM
         wide_format = True
     else:
