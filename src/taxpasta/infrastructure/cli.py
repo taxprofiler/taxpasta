@@ -74,7 +74,7 @@ def validate_observation_matrix_format(
                 "%s\nPlease rename the output or set the --output-format explicitly.",
                 error.args[0],
             )
-            typer.Exit(2)
+            raise typer.Exit(code=2)
     else:
         result = ObservationMatrixFileFormat(output_format)
     try:
@@ -82,7 +82,7 @@ def validate_observation_matrix_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
-        typer.Exit(1)
+        raise typer.Exit(code=1)
     return result
 
 
@@ -108,7 +108,7 @@ def validate_tidy_observation_table_format(
                 "%s\nPlease rename the output or set the --output-format explicitly.",
                 error.args[0],
             )
-            typer.Exit(2)
+            raise typer.Exit(code=2)
     else:
         result = TidyObservationTableFileFormat(output_format)
     try:
@@ -116,7 +116,7 @@ def validate_tidy_observation_table_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
-        typer.Exit(1)
+        raise typer.Exit(code=1)
     return result
 
 
@@ -143,7 +143,7 @@ def validate_sample_format(
                 "explicitly.",
                 error.args[0],
             )
-            typer.Exit(2)
+            raise typer.Exit(code=2)
     else:
         result = sample_format
     try:
@@ -151,7 +151,7 @@ def validate_sample_format(
     except ImportError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
-        typer.Exit(1)
+        raise typer.Exit(code=1)
     return result
 
 
@@ -173,9 +173,10 @@ def read_sample_sheet(
     result = reader.read(sample_sheet)
     try:
         SampleSheet.validate(result, lazy=True)
-    except pandera.errors.SchemaErrors as error:
-        logger.error(str(error))
-        typer.Exit(1)
+    except pandera.errors.SchemaErrors as errors:
+        logger.debug("", exc_info=errors)
+        logger.error(errors.failure_cases)
+        raise typer.Exit(code=1)
     return result
 
 
@@ -195,7 +196,7 @@ def version_callback(is_set: bool) -> None:
     """
     if is_set:
         print(taxpasta.__version__)
-        typer.Exit()
+        raise typer.Exit()
 
 
 @app.callback(invoke_without_command=True)
@@ -330,12 +331,12 @@ def merge(
                 "Neither a sample sheet nor any profiles were provided. Please adjust "
                 "the command."
             )
-            return 2
+            raise typer.Exit(code=2)
         elif len(profiles) == 1:
             logger.critical(
                 "Only a single profile was provided. Please provide at least two."
             )
-            return 2
+            raise typer.Exit(code=2)
         # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
@@ -350,11 +351,11 @@ def merge(
     except ValueError as error:
         logger.debug("", exc_info=error)
         logger.error(str(error))
-        return 1
+        raise typer.Exit(code=1)
     except pandera.errors.SchemaErrors as errors:
         logger.debug("", exc_info=errors)
         logger.error(errors.failure_cases)
-        return 1
+        raise typer.Exit(code=1)
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
