@@ -266,7 +266,7 @@ def merge(
         dir_okay=False,
         readable=True,
     ),
-    sample_format: Optional[TableReaderFileFormat] = typer.Option(  # noqa: B008
+    samplesheet_format: Optional[TableReaderFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The file format of the sample sheet. Depending on the choice, additional "
@@ -319,7 +319,7 @@ def merge(
 
     # Extract and transform sample data.
     if sample_sheet is not None:
-        valid_sample_format = validate_sample_format(sample_sheet, sample_format)
+        valid_sample_format = validate_sample_format(sample_sheet, samplesheet_format)
         logger.info("Read sample sheet from '%s'.", str(sample_sheet))
         sheet = read_sample_sheet(sample_sheet, valid_sample_format)
         data = [(row.sample, row.profile) for row in sheet.itertuples(index=False)]
