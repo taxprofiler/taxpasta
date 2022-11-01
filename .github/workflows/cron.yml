@@ -25,5 +25,7 @@ jobs:
         python -m pip install --upgrade pip setuptools wheel
         python -m pip install tox tox-gh-actions
     - name: Test with tox
-      run: tox
+      env:
+        TOX_PARALLEL_NO_SPINNER: 1
+      run: tox --parallel auto
 
