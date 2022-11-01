@@ -47,18 +47,24 @@ class ApplicationServiceRegistry:
             from .centrifuge import CentrifugeProfileReader
 
             return CentrifugeProfileReader
-        elif profiler is SupportedProfiler.kraken2:
-            from .kraken2 import Kraken2ProfileReader
-
-            return Kraken2ProfileReader
         elif profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileReader
 
             return KaijuProfileReader
+        elif profiler is SupportedProfiler.kraken2:
+            from .kraken2 import Kraken2ProfileReader
+
+            return Kraken2ProfileReader
+        elif profiler is SupportedProfiler.malt:
+            from .malt import MaltProfileReader
+
+            return MaltProfileReader
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileReader
 
             return MetaphlanProfileReader
+        else:
+            raise ValueError("Unexpected")
 
     @classmethod
     def profile_standardisation_service(
@@ -81,10 +87,16 @@ class ApplicationServiceRegistry:
             from .kraken2 import Kraken2ProfileStandardisationService
 
             return Kraken2ProfileStandardisationService
+        elif profiler is SupportedProfiler.malt:
+            from .malt import MaltProfileStandardisationService
+
+            return MaltProfileStandardisationService
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileStandardisationService
 
             return MetaphlanProfileStandardisationService
+        else:
+            raise ValueError("Unexpected")
 
     @classmethod
     def table_reader(cls, file_format: TableReaderFileFormat) -> Type[TableReader]:
