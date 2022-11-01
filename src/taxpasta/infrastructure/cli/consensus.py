@@ -13,10 +13,13 @@
 # limitations under the License.
 
 
-"""Support the Python mechanism for calling the taxpasta package."""
+"""Add the `consensus` command to the taxpasta CLI."""
 
 
-from taxpasta.infrastructure.cli import app
+from .taxpasta import app
 
 
-app(prog_name="taxpasta")
+@app.command()
+def consensus():
+    """Form a consensus for the same sample but from different taxonomic profiles."""
+    raise NotImplementedError("Coming soon™")
