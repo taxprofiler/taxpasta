@@ -19,8 +19,10 @@
 from pathlib import Path
 from typing import Iterable, Tuple, Type
 
+from pandera.errors import SchemaErrors
 from pandera.typing import DataFrame
 
+from taxpasta.application.error import StandardisationError
 from taxpasta.application.service.profile_reader import ProfileReader
 from taxpasta.application.service.profile_standardisation_service import (
     ProfileStandardisationService,
@@ -53,29 +55,51 @@ class SampleMergingApplication:
         self.reader = profile_reader
         self.standardiser = profile_standardiser
 
-    def run(self, profiles: Iterable[Tuple[str, Path]], wide_format: bool) -> DataFrame:
+    def run(
+        self,
+        profiles: Iterable[Tuple[str, Path]],
+        wide_format: bool,
+        ignore_error: bool = False,
+    ) -> DataFrame:
         """
         Extract and transform profiles into samples, then merge them.
 
         Args:
             profiles: Pairs of name and profile path.
             wide_format: Whether to create wide or (tidy) long format output.
+            ignore_error: Whether to ignore profiles that contain errors.
 
         Returns:
             A single table containing all samples in the desired format.
 
         Raises:
-            pandera.error.SchemaErrors: If any of the given profiles does not match the
-                validation schema.  # noqa: DAR402
+            StandardisationError: If any of the given profiles does not match the
+                validation schema.
 
         """
-        samples = [
-            Sample(
-                name=name,
-                profile=self.standardiser.transform(self.reader.read(profile)),
-            )
-            for name, profile in profiles
-        ]
+        samples = []
+        for name, profile in profiles:
+            try:
+                samples.append(
+                    Sample(
+                        name=name,
+                        profile=self.standardiser.transform(self.reader.read(profile)),
+                    )
+                )
+            except SchemaErrors as errors:
+                if ignore_error:
+                    continue
+                else:
+                    raise StandardisationError(
+                        sample=name, profile=profile, message=str(errors.failure_cases)
+                    ) from errors
+            except ValueError as error:
+                if ignore_error:
+                    continue
+                else:
+                    raise StandardisationError(
+                        sample=name, profile=profile, message=str(error.args)
+                    ) from error
 
         if wide_format:
             return SampleMergingService.merge_wide(samples)
