@@ -346,7 +346,12 @@ def merge(
     )
     try:
         result = merging_app.run(data, wide_format)
+    except ValueError as error:
+        logger.debug("", exc_info=error)
+        logger.error(str(error))
+        return 1
     except pandera.errors.SchemaErrors as errors:
+        logger.debug("", exc_info=errors)
         logger.error(errors.failure_cases)
         return 1
 
