@@ -13,21 +13,5 @@
 # limitations under the License.
 
 
-"""Provide a service for supported container file formats."""
-
-
-from enum import Enum, unique
-
-from ._dependency_check_mixin import DependencyCheckMixin
-
-
-@unique
-class ObservationMatrixFileFormat(str, DependencyCheckMixin, Enum):
-    """Define the supported container file formats."""
-
-    TSV = "TSV"
-    CSV = "CSV"
-    ODS = "ODS"
-    XLSX = "XLSX"
-    arrow = "arrow"
-    BIOM = "BIOM"
+from .taxpasta_error import TaxpastaError
+from .standardisation_error import StandardisationError

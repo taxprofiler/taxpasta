@@ -19,7 +19,7 @@
 import logging
 from enum import Enum, unique
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Optional, Union, cast
 
 import pandera.errors
 import typer
@@ -27,6 +27,7 @@ from pandera.typing import DataFrame
 
 import taxpasta
 from taxpasta.application import SampleMergingApplication
+from taxpasta.application.error import StandardisationError
 
 from .application import (
     ApplicationServiceRegistry,
@@ -72,11 +73,14 @@ def validate_observation_matrix_format(
     """
     if output_format is None:
         try:
-            result = ObservationMatrixFileFormat.guess_format(output)
+            result = cast(
+                ObservationMatrixFileFormat,
+                ObservationMatrixFileFormat.guess_format(output),
+            )
         except ValueError as error:
-            logger.error(
-                "%s\nPlease rename the output or set the --output-format explicitly.",
-                error.args[0],
+            logger.critical(str(error))
+            logger.critical(
+                "Please rename the output or set the '--output-format' explicitly."
             )
             raise typer.Exit(code=2)
     else:
@@ -85,7 +89,7 @@ def validate_observation_matrix_format(
         ObservationMatrixFileFormat.check_dependencies(result)
     except RuntimeError as error:
         logger.debug("", exc_info=error)
-        logger.error(str(error))
+        logger.critical(str(error))
         raise typer.Exit(code=1)
     return result
 
@@ -110,11 +114,14 @@ def validate_tidy_observation_table_format(
     """
     if output_format is None:
         try:
-            result = TidyObservationTableFileFormat.guess_format(output)
+            result = cast(
+                TidyObservationTableFileFormat,
+                TidyObservationTableFileFormat.guess_format(output),
+            )
         except ValueError as error:
-            logger.error(
-                "%s\nPlease rename the output or set the --output-format explicitly.",
-                error.args[0],
+            logger.critical(str(error))
+            logger.critical(
+                "Please rename the output or set the '--output-format' explicitly."
             )
             raise typer.Exit(code=2)
     else:
@@ -123,7 +130,7 @@ def validate_tidy_observation_table_format(
         TidyObservationTableFileFormat.check_dependencies(result)
     except RuntimeError as error:
         logger.debug("", exc_info=error)
-        logger.error(str(error))
+        logger.critical(str(error))
         raise typer.Exit(code=1)
     return result
 
@@ -148,12 +155,15 @@ def validate_sample_format(
     """
     if sample_format is None:
         try:
-            result = TableReaderFileFormat.guess_format(sample_sheet)
+            result = cast(
+                TableReaderFileFormat,
+                TableReaderFileFormat.guess_format(sample_sheet),
+            )
         except ValueError as error:
-            logger.error(
-                "%s\nPlease rename the sample sheet or set the --sample-format "
-                "explicitly.",
-                error.args[0],
+            logger.critical(str(error))
+            logger.critical(
+                "Please rename the sample sheet or set the '--samplesheet-format' "
+                "explicitly."
             )
             raise typer.Exit(code=2)
     else:
@@ -162,7 +172,7 @@ def validate_sample_format(
         TableReaderFileFormat.check_dependencies(result)
     except ImportError as error:
         logger.debug("", exc_info=error)
-        logger.error(str(error))
+        logger.critical(str(error))
         raise typer.Exit(code=1)
     return result
 
@@ -190,7 +200,8 @@ def read_sample_sheet(
         SampleSheet.validate(result, lazy=True)
     except pandera.errors.SchemaErrors as errors:
         logger.debug("", exc_info=errors)
-        logger.error(errors.failure_cases)
+        logger.critical("Parsing the sample sheet '%s' failed.", str(sample_sheet))
+        logger.critical(errors.failure_cases)
         raise typer.Exit(code=1)
     return result
 
@@ -328,7 +339,7 @@ def merge(
             )
         except RuntimeError as error:
             logger.debug("", exc_info=error)
-            logger.error(str(error))
+            logger.critical(str(error))
             raise typer.Exit(code=1)
         valid_output_format = ObservationMatrixFileFormat.BIOM
         wide_format = True
@@ -342,7 +353,12 @@ def merge(
                 output, None if output_format is None else output_format.value
             )
     # Ensure that we can write to the output directory.
-    output.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        output.parent.mkdir(parents=True, exist_ok=True)
+    except OSError as error:
+        logger.critical("Failed to create the parent directory for the output.")
+        logger.critical(str(error))
+        raise typer.Exit(1)
 
     # Extract and transform sample data.
     if sample_sheet is not None:
@@ -373,13 +389,12 @@ def merge(
     )
     try:
         result = merging_app.run(data, wide_format)
-    except ValueError as error:
+    except StandardisationError as error:
         logger.debug("", exc_info=error)
-        logger.error(str(error))
-        raise typer.Exit(code=1)
-    except pandera.errors.SchemaErrors as errors:
-        logger.debug("", exc_info=errors)
-        logger.error(errors.failure_cases)
+        logger.critical(
+            "Error in sample '%s' with profile '%s'.", error.sample, error.profile
+        )
+        logger.critical(error.message)
         raise typer.Exit(code=1)
 
     logger.info("Write result to '%s'.", str(output))
@@ -397,4 +412,9 @@ def merge(
         writer = ApplicationServiceRegistry.tidy_observation_table_writer(
             valid_output_format  # type: ignore
         )
-    writer.write(result, output)
+    try:
+        writer.write(result, output)
+    except OSError as error:
+        logger.critical("Failed to write the output result.")
+        logger.critical(str(error))
+        raise typer.Exit(1)

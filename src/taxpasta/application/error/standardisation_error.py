@@ -13,21 +13,20 @@
 # limitations under the License.
 
 
-"""Provide a service for supported container file formats."""
+"""Provide an exception for errors during profile extraction and transformation."""
 
 
-from enum import Enum, unique
+from pathlib import Path
 
-from ._dependency_check_mixin import DependencyCheckMixin
+from .taxpasta_error import TaxpastaError
 
 
-@unique
-class ObservationMatrixFileFormat(str, DependencyCheckMixin, Enum):
-    """Define the supported container file formats."""
+class StandardisationError(TaxpastaError):
+    """Define an exception for errors during profile extraction and transformation."""
 
-    TSV = "TSV"
-    CSV = "CSV"
-    ODS = "ODS"
-    XLSX = "XLSX"
-    arrow = "arrow"
-    BIOM = "BIOM"
+    def __init__(self, *, sample: str, profile: Path, message: str, **kwargs) -> None:
+        """Initialize a taxpasta standardisation error."""
+        super().__init__(**kwargs)
+        self.sample = sample
+        self.profile = profile
+        self.message = message
