@@ -35,6 +35,14 @@ from taxpasta.infrastructure.application import (
             "malt_rma2info_invalid_1.txt.gz",
             marks=pytest.mark.raises(exception=ParserError),
         ),
+        "ERX5474930_ERR5766174_1.txt.gz",
+        "ERX5474932_ERR5766176_1.txt.gz",
+        "ERX5474932_ERR5766176_2.txt.gz",
+        "ERX5474932_ERR5766176_B_1.txt.gz",
+        "ERX5474932_ERR5766176_B_2.txt.gz",
+        "ERX5474936_ERR5766180_1.txt.gz",
+        "ERX5474937_ERR5766181_1.txt.gz",
+        "ERX5474937_ERR5766181_2.txt.gz",
     ],
 )
 def test_read_correctness(
