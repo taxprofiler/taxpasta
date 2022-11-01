@@ -27,4 +27,5 @@ class SupportedProfiler(str, Enum):
     centrifuge = "centrifuge"
     kaiju = "kaiju"
     kraken2 = "kraken2"
+    malt = "malt"
     metaphlan = "metaphlan"
