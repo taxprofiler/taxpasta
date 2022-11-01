@@ -65,6 +65,10 @@ def validate_observation_matrix_format(
     Returns:
         The validated output file format.
 
+    Raises:
+        Exit: Early abortion of program when the format cannot be guessed or
+            dependencies are missing.
+
     """
     if output_format is None:
         try:
@@ -99,6 +103,10 @@ def validate_tidy_observation_table_format(
     Returns:
         The validated output file format.
 
+    Raises:
+        Exit: Early abortion of program when the format cannot be guessed or
+            dependencies are missing.
+
     """
     if output_format is None:
         try:
@@ -132,6 +140,10 @@ def validate_sample_format(
 
     Returns:
         The validated sample sheet format.
+
+    Raises:
+        Exit: Early abortion of program when the format cannot be guessed or
+            dependencies are missing.
 
     """
     if sample_format is None:
@@ -168,6 +180,9 @@ def read_sample_sheet(
     Returns:
         A pandas data frame in the form of a sample sheet.
 
+    Raises:
+        Exit: Early abortion of program when there is a schema error.
+
     """
     reader = ApplicationServiceRegistry.table_reader(sample_format)
     result = reader.read(sample_sheet)
@@ -192,6 +207,9 @@ def version_callback(is_set: bool) -> None:
 
     Args:
         is_set: Whether the version was requested as a command line option.
+
+    Raises:
+        Exit: With default code 0 to signal normal program end.
 
     """
     if is_set:
