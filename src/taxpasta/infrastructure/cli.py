@@ -179,14 +179,6 @@ def read_sample_sheet(
     return result
 
 
-def format_as_string(file_format) -> Optional[str]:
-    """Return the string value of an enum field or `None`."""
-    if file_format is not None:
-        return file_format.value
-    else:
-        return None
-
-
 app = typer.Typer(
     help="TAXonomic Profile Aggregation and STAndardisation",
     context_settings={"help_option_names": ["-h", "--help"]},
@@ -316,11 +308,11 @@ def merge(
     else:
         if wide_format:
             valid_output_format = validate_observation_matrix_format(
-                output, format_as_string(output_format)
+                output, None if output_format is None else output_format.value
             )
         else:
             valid_output_format = validate_tidy_observation_table_format(
-                output, format_as_string(output_format)
+                output, None if output_format is None else output_format.value
             )
     # Ensure that we can write to the output directory.
     output.parent.mkdir(parents=True, exist_ok=True)
