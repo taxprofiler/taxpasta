@@ -131,7 +131,7 @@ def test_merge_samplesheet_long(
     [
         (TableReaderFileFormat.XLSX, ("openpyxl",)),
         (TableReaderFileFormat.ODS, ("odf",)),
-        (TableReaderFileFormat.arrow, ("arrow",)),
+        (TableReaderFileFormat.arrow, ("pyarrow",)),
     ],
 )
 def test_missing_samplesheet_dependencies(
@@ -169,7 +169,7 @@ def test_missing_samplesheet_dependencies(
     [
         (WideObservationTableFileFormat.XLSX, ("openpyxl",)),
         (WideObservationTableFileFormat.ODS, ("odf",)),
-        (WideObservationTableFileFormat.arrow, ("arrow",)),
+        (WideObservationTableFileFormat.arrow, ("pyarrow",)),
         (WideObservationTableFileFormat.BIOM, ("biom",)),
     ],
 )
@@ -208,12 +208,12 @@ def test_missing_wide_table_dependencies(
     [
         (TidyObservationTableFileFormat.XLSX, ("openpyxl",)),
         (TidyObservationTableFileFormat.ODS, ("odf",)),
-        (TidyObservationTableFileFormat.arrow, ("arrow",)),
+        (TidyObservationTableFileFormat.arrow, ("pyarrow",)),
     ],
 )
 def test_missing_tidy_table_dependencies(
     runner: CliRunner,
-    tidy_table_format: WideObservationTableFileFormat,
+    tidy_table_format: TidyObservationTableFileFormat,
     dependencies: Iterable[str],
     caplog: pytest.LogCaptureFixture,
     tmp_path: Path,
