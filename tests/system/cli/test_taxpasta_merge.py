@@ -14,16 +14,16 @@
 
 
 """Test the taxpasta merge command."""
-
-
+import sys
 from pathlib import Path
-from typing import List
+from typing import Iterable, List
 
 import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
     SupportedProfiler,
+    TableReaderFileFormat,
     TidyObservationTableFileFormat,
     WideObservationTableFileFormat,
 )
@@ -124,3 +124,118 @@ def test_merge_samplesheet_long(
     )
     assert result.exit_code == 0, result.stderr
     assert Path(output).is_file()
+
+
+@pytest.mark.parametrize(
+    ("samplesheet_format", "dependencies"),
+    [
+        (TableReaderFileFormat.XLSX, ("openpyxl",)),
+        (TableReaderFileFormat.ODS, ("odf",)),
+        (TableReaderFileFormat.arrow, ("arrow",)),
+    ],
+)
+def test_missing_samplesheet_dependencies(
+    runner: CliRunner,
+    samplesheet_format: TableReaderFileFormat,
+    dependencies: Iterable[str],
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Ensure that unsupported sample sheet formats exit with an error."""
+    monkeypatch.chdir(tmp_path)
+    for dep in dependencies:
+        monkeypatch.setitem(sys.modules, dep, None)
+    sheet = Path(f"samples.{samplesheet_format.value.lower()}")
+    sheet.touch()
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--profiler",
+            SupportedProfiler.kraken2.value,
+            "--output",
+            "results.tsv",
+            "--samplesheet",
+            str(sheet),
+        ],
+    )
+    assert result.exit_code == 1
+    assert any("pip install" in msg for msg in caplog.messages)
+
+
+@pytest.mark.parametrize(
+    ("wide_table_format", "dependencies"),
+    [
+        (WideObservationTableFileFormat.XLSX, ("openpyxl",)),
+        (WideObservationTableFileFormat.ODS, ("odf",)),
+        (WideObservationTableFileFormat.arrow, ("arrow",)),
+        (WideObservationTableFileFormat.BIOM, ("biom",)),
+    ],
+)
+def test_missing_wide_table_dependencies(
+    runner: CliRunner,
+    wide_table_format: WideObservationTableFileFormat,
+    dependencies: Iterable[str],
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Ensure that unsupported wide observation table formats exit with an error."""
+    monkeypatch.chdir(tmp_path)
+    for dep in dependencies:
+        monkeypatch.setitem(sys.modules, dep, None)
+    sheet = Path("samples.tsv")
+    sheet.touch()
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--profiler",
+            SupportedProfiler.kraken2.value,
+            "--output",
+            f"results.{wide_table_format.value}",
+            "--samplesheet",
+            str(sheet),
+        ],
+    )
+    assert result.exit_code == 1
+    assert any("pip install" in msg for msg in caplog.messages)
+
+
+@pytest.mark.parametrize(
+    ("tidy_table_format", "dependencies"),
+    [
+        (TidyObservationTableFileFormat.XLSX, ("openpyxl",)),
+        (TidyObservationTableFileFormat.ODS, ("odf",)),
+        (TidyObservationTableFileFormat.arrow, ("arrow",)),
+    ],
+)
+def test_missing_tidy_table_dependencies(
+    runner: CliRunner,
+    tidy_table_format: WideObservationTableFileFormat,
+    dependencies: Iterable[str],
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Ensure that unsupported tidy observation table formats exit with an error."""
+    monkeypatch.chdir(tmp_path)
+    for dep in dependencies:
+        monkeypatch.setitem(sys.modules, dep, None)
+    sheet = Path("samples.tsv")
+    sheet.touch()
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--profiler",
+            SupportedProfiler.kraken2.value,
+            "--output",
+            f"results.{tidy_table_format.value}",
+            "--samplesheet",
+            str(sheet),
+        ],
+    )
+    assert result.exit_code == 1
+    assert any("pip install" in msg for msg in caplog.messages)
