@@ -18,4 +18,4 @@ from .profile_reader import ProfileReader
 from .profile_standardisation_service import ProfileStandardisationService
 from .table_reader import TableReader
 from .tidy_observation_table_writer import TidyObservationTableWriter
-from .observation_matrix_writer import ObservationMatrixWriter
+from .wide_observation_table_writer import WideObservationTableWriter

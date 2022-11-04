@@ -20,14 +20,14 @@
 from typing import Type
 
 from taxpasta.application.service import (
-    ObservationMatrixWriter,
     ProfileReader,
     ProfileStandardisationService,
     TableReader,
     TidyObservationTableWriter,
+    WideObservationTableWriter,
 )
 
-from .observation_matrix_file_format import ObservationMatrixFileFormat
+from .observation_matrix_file_format import WideObservationTableFileFormat
 from .supported_profiler import SupportedProfiler
 from .table_reader_file_format import TableReaderFileFormat
 from .tidy_observation_table_file_format import TidyObservationTableFileFormat
@@ -131,7 +131,7 @@ class ApplicationServiceRegistry:
     def tidy_observation_table_writer(
         cls, file_format: TidyObservationTableFileFormat
     ) -> Type[TidyObservationTableWriter]:
-        """Return a table writer of the correct type."""
+        """Return a tidy table writer of the correct type."""
         if file_format is TidyObservationTableFileFormat.TSV:
             from .tidy_observation_table_writer.tsv_table_writer import (
                 TSVTidyObservationTableWriter,
@@ -169,46 +169,46 @@ class ApplicationServiceRegistry:
             )
 
     @classmethod
-    def observation_matrix_writer(
-        cls, file_format: ObservationMatrixFileFormat
-    ) -> Type[ObservationMatrixWriter]:
-        """Return a container writer of the correct type."""
-        if file_format is ObservationMatrixFileFormat.TSV:
-            from .observation_matrix_writer.tsv_observation_matrix_writer import (
-                TSVObservationMatrixWriter,
+    def wide_observation_table_writer(
+        cls, file_format: WideObservationTableFileFormat
+    ) -> Type[WideObservationTableWriter]:
+        """Return a writer for wide observation tables in the specified format."""
+        if file_format is WideObservationTableFileFormat.TSV:
+            from .observation_matrix_writer.tsv_wide_observation_table_writer import (
+                TSVWideObservationTableWriter,
             )
 
-            return TSVObservationMatrixWriter
-        elif file_format is ObservationMatrixFileFormat.CSV:
-            from .observation_matrix_writer.csv_observation_matrix_writer import (
-                CSVObservationMatrixWriter,
+            return TSVWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.CSV:
+            from .observation_matrix_writer.csv_wide_observation_table_writer import (
+                CSVWideObservationTableWriter,
             )
 
-            return CSVObservationMatrixWriter
-        elif file_format is ObservationMatrixFileFormat.XLSX:
-            from .observation_matrix_writer.xlsx_observation_matrix_writer import (
-                XLSXObservationMatrixWriter,
+            return CSVWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.XLSX:
+            from .observation_matrix_writer.xlsx_wide_observation_table_writer import (
+                XLSXWideObservationTableWriter,
             )
 
-            return XLSXObservationMatrixWriter
-        elif file_format is ObservationMatrixFileFormat.ODS:
-            from .observation_matrix_writer.ods_observation_matrix_writer import (
-                ODSObservationMatrixWriter,
+            return XLSXWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.ODS:
+            from .observation_matrix_writer.ods_wide_observation_table_writer import (
+                ODSWideObservationTableWriter,
             )
 
-            return ODSObservationMatrixWriter
-        elif file_format is ObservationMatrixFileFormat.arrow:
-            from .observation_matrix_writer.arrow_observation_matrix_writer import (
-                ArrowObservationMatrixWriter,
+            return ODSWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.arrow:
+            from .observation_matrix_writer.arrow_wide_observation_table_writer import (
+                ArrowWideObservationTableWriter,
             )
 
-            return ArrowObservationMatrixWriter
-        elif file_format is ObservationMatrixFileFormat.BIOM:
-            from .observation_matrix_writer.biom_container_writer import (
-                BIOMObservationMatrixWriter,
+            return ArrowWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.BIOM:
+            from .observation_matrix_writer.biom_wide_observation_table_writer import (
+                BIOMWideObservationTableWriter,
             )
 
-            return BIOMObservationMatrixWriter
+            return BIOMWideObservationTableWriter
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported "

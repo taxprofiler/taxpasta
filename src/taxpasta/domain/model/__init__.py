@@ -16,5 +16,5 @@
 from .standard_profile import StandardProfile
 from .sample import Sample
 from .tidy_observation_table import TidyObservationTable
-from .observation_matrix import ObservationMatrix
+from .wide_observation_table import WideObservationTable
 from .taxonomy import Taxonomy

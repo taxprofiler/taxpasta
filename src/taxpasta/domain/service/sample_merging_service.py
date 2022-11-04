@@ -23,7 +23,7 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
-from ..model import ObservationMatrix, Sample, StandardProfile, TidyObservationTable
+from ..model import Sample, StandardProfile, TidyObservationTable, WideObservationTable
 
 
 class SampleMergingService:
@@ -31,7 +31,7 @@ class SampleMergingService:
 
     @classmethod
     @pa.check_types(lazy=True)
-    def merge_wide(cls, samples: Iterable[Sample]) -> DataFrame[ObservationMatrix]:
+    def merge_wide(cls, samples: Iterable[Sample]) -> DataFrame[WideObservationTable]:
         """
         Merge two or more sample profiles into a wide-format observation matrix.
 

@@ -13,27 +13,30 @@
 # limitations under the License.
 
 
-"""Provide an arrow writer."""
+"""Provide an XLSX writer."""
 
 
 from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.application.service import BinaryBufferOrFilepath, ObservationMatrixWriter
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.application.service import (
+    BinaryBufferOrFilepath,
+    WideObservationTableWriter,
+)
+from taxpasta.domain.model import Taxonomy, WideObservationTable
 
 
-class ArrowObservationMatrixWriter(ObservationMatrixWriter):
-    """Define the arrow writer."""
+class XLSXWideObservationTableWriter(WideObservationTableWriter):
+    """Define the XLSX writer."""
 
     @classmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
+        matrix: DataFrame[WideObservationTable],
         target: BinaryBufferOrFilepath,
         taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""
-        matrix.to_feather(target, **kwargs)
+        matrix.to_excel(target, index=False, engine="openpyxl", **kwargs)

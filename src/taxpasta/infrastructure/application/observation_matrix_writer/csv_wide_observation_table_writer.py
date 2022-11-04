@@ -13,29 +13,27 @@
 # limitations under the License.
 
 
-"""Provide an abstract base class for writing observation matrices."""
+"""Provide a CSV writer."""
 
 
-from abc import ABC, abstractmethod
 from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.application.service import BufferOrFilepath, WideObservationTableWriter
+from taxpasta.domain.model import Taxonomy, WideObservationTable
 
-from ._types import BufferOrFilepath
 
-
-class ObservationMatrixWriter(ABC):
-    """Define an abstract base class for writing observation matrices."""
+class CSVWideObservationTableWriter(WideObservationTableWriter):
+    """Define the CSV writer."""
 
     @classmethod
-    @abstractmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
+        matrix: DataFrame[WideObservationTable],
         target: BufferOrFilepath,
         taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
-        """Write an observation matrix to the given buffer or file."""
+        """Write the given table to the given buffer or file."""
+        matrix.to_csv(target, index=False, **kwargs)

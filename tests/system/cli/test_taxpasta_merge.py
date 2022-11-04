@@ -23,9 +23,9 @@ import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
-    ObservationMatrixFileFormat,
     SupportedProfiler,
     TidyObservationTableFileFormat,
+    WideObservationTableFileFormat,
 )
 from taxpasta.infrastructure.cli import app
 
@@ -34,7 +34,7 @@ def test_merge_profiles_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: List[str],
-    observation_matrix_format: ObservationMatrixFileFormat,
+    observation_matrix_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
@@ -73,7 +73,7 @@ def test_merge_samplesheet_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     samplesheet: Path,
-    observation_matrix_format: ObservationMatrixFileFormat,
+    observation_matrix_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):

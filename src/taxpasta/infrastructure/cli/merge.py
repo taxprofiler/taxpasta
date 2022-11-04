@@ -28,11 +28,11 @@ from taxpasta.application import SampleMergingApplication
 from taxpasta.application.error import StandardisationError
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
-    ObservationMatrixFileFormat,
     SampleSheet,
     SupportedProfiler,
     TableReaderFileFormat,
     TidyObservationTableFileFormat,
+    WideObservationTableFileFormat,
 )
 
 from .taxpasta import app
@@ -43,7 +43,7 @@ logger = logging.getLogger(__name__)
 
 def validate_observation_matrix_format(
     output: Path, output_format: Optional[str]
-) -> ObservationMatrixFileFormat:
+) -> WideObservationTableFileFormat:
     """
     Detect the output format if it isn't given.
 
@@ -62,8 +62,8 @@ def validate_observation_matrix_format(
     if output_format is None:
         try:
             result = cast(
-                ObservationMatrixFileFormat,
-                ObservationMatrixFileFormat.guess_format(output),
+                WideObservationTableFileFormat,
+                WideObservationTableFileFormat.guess_format(output),
             )
         except ValueError as error:
             logger.critical(str(error))
@@ -72,9 +72,9 @@ def validate_observation_matrix_format(
             )
             raise typer.Exit(code=2)
     else:
-        result = ObservationMatrixFileFormat(output_format)
+        result = WideObservationTableFileFormat(output_format)
     try:
-        ObservationMatrixFileFormat.check_dependencies(result)
+        WideObservationTableFileFormat.check_dependencies(result)
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
@@ -238,7 +238,9 @@ def merge(
         help="The desired output file. By default, the file extension will be used to "
         "determine the output format.",
     ),
-    output_format: Optional[ObservationMatrixFileFormat] = typer.Option(  # noqa: B008
+    output_format: Optional[
+        WideObservationTableFileFormat
+    ] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
@@ -255,21 +257,22 @@ def merge(
     """Merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
     valid_output_format: Union[
-        TidyObservationTableFileFormat, ObservationMatrixFileFormat
+        TidyObservationTableFileFormat, WideObservationTableFileFormat
     ]
     # When a BIOM output format is chosen, the result can only be a wide format BIOM.
     if output.suffix.lower() == ".biom" or (
-        output_format is not None and output_format is ObservationMatrixFileFormat.BIOM
+        output_format is not None
+        and output_format is WideObservationTableFileFormat.BIOM
     ):
         try:
-            ObservationMatrixFileFormat.check_dependencies(
-                ObservationMatrixFileFormat.BIOM
+            WideObservationTableFileFormat.check_dependencies(
+                WideObservationTableFileFormat.BIOM
             )
         except RuntimeError as error:
             logger.debug("", exc_info=error)
             logger.critical(str(error))
             raise typer.Exit(code=1)
-        valid_output_format = ObservationMatrixFileFormat.BIOM
+        valid_output_format = WideObservationTableFileFormat.BIOM
         wide_format = True
     else:
         if wide_format:
@@ -328,9 +331,9 @@ def merge(
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
         assert isinstance(  # nosec assert_used
-            valid_output_format, ObservationMatrixFileFormat
+            valid_output_format, WideObservationTableFileFormat
         )
-        writer = ApplicationServiceRegistry.observation_matrix_writer(
+        writer = ApplicationServiceRegistry.wide_observation_table_writer(
             valid_output_format
         )
     else:

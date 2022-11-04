@@ -13,27 +13,29 @@
 # limitations under the License.
 
 
-"""Provide an XLSX writer."""
+"""Provide an abstract base class for writing observation matrices."""
 
 
+from abc import ABC, abstractmethod
 from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.application.service import BinaryBufferOrFilepath, ObservationMatrixWriter
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.domain.model import Taxonomy, WideObservationTable
+
+from ._types import BufferOrFilepath
 
 
-class XLSXObservationMatrixWriter(ObservationMatrixWriter):
-    """Define the XLSX writer."""
+class WideObservationTableWriter(ABC):
+    """Define an abstract base class for writing observation matrices."""
 
     @classmethod
+    @abstractmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
-        target: BinaryBufferOrFilepath,
+        matrix: DataFrame[WideObservationTable],
+        target: BufferOrFilepath,
         taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
-        """Write the given table to the given buffer or file."""
-        matrix.to_excel(target, index=False, engine="openpyxl", **kwargs)
+        """Write an observation matrix to the given buffer or file."""
