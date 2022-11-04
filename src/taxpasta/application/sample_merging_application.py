@@ -16,6 +16,9 @@
 """Provide a sample merging application."""
 
 
+from __future__ import annotations
+
+import logging
 from pathlib import Path
 from typing import Iterable, Tuple, Type
 
@@ -27,8 +30,16 @@ from taxpasta.application.service.profile_reader import ProfileReader
 from taxpasta.application.service.profile_standardisation_service import (
     ProfileStandardisationService,
 )
-from taxpasta.domain.model import Sample
+from taxpasta.domain.model import (
+    Sample,
+    StandardProfile,
+    TidyObservationTable,
+    WideObservationTable,
+)
 from taxpasta.domain.service import SampleMergingService
+
+
+logger = logging.getLogger(__name__)
 
 
 class SampleMergingApplication:
@@ -39,7 +50,7 @@ class SampleMergingApplication:
         *,
         profile_reader: Type[ProfileReader],
         profile_standardiser: Type[ProfileStandardisationService],
-        **kwargs: dict
+        **kwargs: dict,
     ):
         """
         Initialize the application for a particular taxonomic profiler.
@@ -60,7 +71,7 @@ class SampleMergingApplication:
         profiles: Iterable[Tuple[str, Path]],
         wide_format: bool,
         ignore_error: bool = False,
-    ) -> DataFrame:
+    ) -> DataFrame[WideObservationTable] | DataFrame[TidyObservationTable]:
         """
         Extract and transform profiles into samples, then merge them.
 
@@ -102,6 +113,19 @@ class SampleMergingApplication:
                     ) from error
 
         if wide_format:
-            return SampleMergingService.merge_wide(samples)
+            wide_table = SampleMergingService.merge_wide(samples)
+            # If any profile did not have all the same taxonomy IDs as the combined
+            # table, additional zeroes were introduced.
+            if any(
+                not sample.profile[StandardProfile.taxonomy_id]
+                .isin(wide_table[WideObservationTable.taxonomy_id])
+                .all()
+                for sample in samples
+            ):
+                logger.warning(
+                    "The merged profiles contained different taxa. Additional "
+                    "zeroes were introduced for missing taxa."
+                )
+            return
         else:
             return SampleMergingService.merge_long(samples)
