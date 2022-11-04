@@ -24,9 +24,9 @@ import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
-    ObservationMatrixFileFormat,
     SupportedProfiler,
     TidyObservationTableFileFormat,
+    WideObservationTableFileFormat,
 )
 
 
@@ -42,10 +42,10 @@ def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
     return request.param
 
 
-@pytest.fixture(scope="session", params=list(ObservationMatrixFileFormat))
+@pytest.fixture(scope="session", params=list(WideObservationTableFileFormat))
 def observation_matrix_format(
     request: pytest.FixtureRequest,
-) -> ObservationMatrixFileFormat:
+) -> WideObservationTableFileFormat:
     """Provide each supported observation matrix file format in turn."""
     return request.param
 

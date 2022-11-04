@@ -13,27 +13,30 @@
 # limitations under the License.
 
 
-"""Provide an TSV writer."""
+"""Provide an arrow writer."""
 
 
 from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.application.service import BufferOrFilepath, ObservationMatrixWriter
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.application.service import (
+    BinaryBufferOrFilepath,
+    WideObservationTableWriter,
+)
+from taxpasta.domain.model import Taxonomy, WideObservationTable
 
 
-class TSVObservationMatrixWriter(ObservationMatrixWriter):
-    """Define the TSV writer."""
+class ArrowWideObservationTableWriter(WideObservationTableWriter):
+    """Define the arrow writer."""
 
     @classmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
-        target: BufferOrFilepath,
+        matrix: DataFrame[WideObservationTable],
+        target: BinaryBufferOrFilepath,
         taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""
-        matrix.to_csv(target, sep="\t", index=False, **kwargs)
+        matrix.to_feather(target, **kwargs)

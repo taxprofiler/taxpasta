@@ -20,17 +20,20 @@ from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.application.service import BinaryBufferOrFilepath, ObservationMatrixWriter
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.application.service import (
+    BinaryBufferOrFilepath,
+    WideObservationTableWriter,
+)
+from taxpasta.domain.model import Taxonomy, WideObservationTable
 
 
-class ODSObservationMatrixWriter(ObservationMatrixWriter):
+class ODSWideObservationTableWriter(WideObservationTableWriter):
     """Define the ODS writer."""
 
     @classmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
+        matrix: DataFrame[WideObservationTable],
         target: BinaryBufferOrFilepath,
         taxonomy: Optional[Taxonomy] = None,
         **kwargs

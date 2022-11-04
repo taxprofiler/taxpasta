@@ -22,17 +22,17 @@ from biom.table import Table
 from biom.util import biom_open
 from pandera.typing import DataFrame
 
-from taxpasta.application.service import Filepath, ObservationMatrixWriter
-from taxpasta.domain.model import ObservationMatrix, Taxonomy
+from taxpasta.application.service import Filepath, WideObservationTableWriter
+from taxpasta.domain.model import Taxonomy, WideObservationTable
 
 
-class BIOMObservationMatrixWriter(ObservationMatrixWriter):
+class BIOMWideObservationTableWriter(WideObservationTableWriter):
     """Define the Biological Observation Matrix (BIOM) writer."""
 
     @classmethod
     def write(
         cls,
-        matrix: DataFrame[ObservationMatrix],
+        matrix: DataFrame[WideObservationTable],
         target: Filepath,
         taxonomy: Optional[Taxonomy] = None,
         generated_by: str = "taxpasta",

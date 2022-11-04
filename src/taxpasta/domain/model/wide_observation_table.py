@@ -21,7 +21,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class ObservationMatrix(pa.SchemaModel):
+class WideObservationTable(pa.SchemaModel):
     """Define the observation matrix."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()

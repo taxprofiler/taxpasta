@@ -22,7 +22,7 @@ from ._dependency_check_mixin import DependencyCheckMixin
 
 
 @unique
-class ObservationMatrixFileFormat(str, DependencyCheckMixin, Enum):
+class WideObservationTableFileFormat(str, DependencyCheckMixin, Enum):
     """Define the supported container file formats."""
 
     TSV = "TSV"
