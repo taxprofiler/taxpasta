@@ -158,7 +158,7 @@ def validate_sample_format(
         result = sample_format
     try:
         TableReaderFileFormat.check_dependencies(result)
-    except ImportError as error:
+    except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
         raise typer.Exit(code=1)
