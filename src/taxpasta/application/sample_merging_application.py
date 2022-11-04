@@ -126,6 +126,6 @@ class SampleMergingApplication:
                     "The merged profiles contained different taxa. Additional "
                     "zeroes were introduced for missing taxa."
                 )
-            return
+            return wide_table
         else:
             return SampleMergingService.merge_long(samples)
