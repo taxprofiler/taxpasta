@@ -232,6 +232,7 @@ def test_missing_tidy_table_dependencies(
             app,
             [
                 "merge",
+                "--long",
                 "--profiler",
                 SupportedProfiler.kraken2.value,
                 "--output",
