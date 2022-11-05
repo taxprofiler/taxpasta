@@ -16,6 +16,7 @@
 """Test the main taxpasta command line interface."""
 
 
+import sys
 from typing import List
 
 import pytest
@@ -54,7 +55,31 @@ def test_version(runner: CliRunner):
         ["-l", "CRITICAL"],
     ],
 )
-def test_log_level(runner: CliRunner, args: List[str]):
+def test_log_level_with_rich(runner: CliRunner, args: List[str]):
     """Expect that the log level can be set successfully."""
+    result = runner.invoke(app, args)
+    assert result.exit_code == 0
+
+
+@pytest.mark.parametrize(
+    "args",
+    [
+        ["--log-level", "DEBUG"],
+        ["--log-level", "INFO"],
+        ["--log-level", "WARNING"],
+        ["--log-level", "ERROR"],
+        ["--log-level", "CRITICAL"],
+        ["-l", "DEBUG"],
+        ["-l", "INFO"],
+        ["-l", "WARNING"],
+        ["-l", "ERROR"],
+        ["-l", "CRITICAL"],
+    ],
+)
+def test_log_level_without_rich(
+    runner: CliRunner, args: List[str], monkeypatch: pytest.MonkeyPatch
+):
+    """Expect that the log level can be set successfully."""
+    monkeypatch.setitem(sys.modules, "rich", None)
     result = runner.invoke(app, args)
     assert result.exit_code == 0
