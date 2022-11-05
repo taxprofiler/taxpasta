@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Iterable, Tuple, Type
+from typing import Iterable, List, Tuple, Type
 
 from pandera.errors import SchemaErrors
 from pandera.typing import DataFrame
@@ -85,13 +85,37 @@ class SampleMergingApplication:
 
         Raises:
             StandardisationError: If any of the given profiles does not match the
-                validation schema.
+                validation schema.  # noqa: DAR402
 
         """
-        samples = []
+        samples = self._etl_samples(profiles, ignore_error)
+
+        if wide_format:
+            wide_table = SampleMergingService.merge_wide(samples)
+            # If any profile did not have all the same taxonomy IDs as the combined
+            # table, additional zeroes were introduced.
+            if any(
+                not wide_table[WideObservationTable.taxonomy_id]
+                .isin(sample.profile[StandardProfile.taxonomy_id])
+                .all()
+                for sample in samples
+            ):
+                logger.warning(
+                    "The merged profiles contained different taxa. Additional "
+                    "zeroes were introduced for missing taxa."
+                )
+            return wide_table
+        else:
+            return SampleMergingService.merge_long(samples)
+
+    def _etl_samples(
+        self, profiles: Iterable[Tuple[str, Path]], ignore_error: bool
+    ) -> List[Sample]:
+        """Extract, transform, and load profiles into samples."""
+        result = []
         for name, profile in profiles:
             try:
-                samples.append(
+                result.append(
                     Sample(
                         name=name,
                         profile=self.standardiser.transform(self.reader.read(profile)),
@@ -111,21 +135,4 @@ class SampleMergingApplication:
                     raise StandardisationError(
                         sample=name, profile=profile, message=str(error.args)
                     ) from error
-
-        if wide_format:
-            wide_table = SampleMergingService.merge_wide(samples)
-            # If any profile did not have all the same taxonomy IDs as the combined
-            # table, additional zeroes were introduced.
-            if any(
-                not sample.profile[StandardProfile.taxonomy_id]
-                .isin(wide_table[WideObservationTable.taxonomy_id])
-                .all()
-                for sample in samples
-            ):
-                logger.warning(
-                    "The merged profiles contained different taxa. Additional "
-                    "zeroes were introduced for missing taxa."
-                )
-            return wide_table
-        else:
-            return SampleMergingService.merge_long(samples)
+        return result
