@@ -28,7 +28,9 @@ from taxpasta.infrastructure.application import (
 )
 
 
-def test_zero_warning(tmp_path: Path, caplog: pytest.LogCaptureFixture):
+def test_zero_warning(
+    tmp_path: Path, caplog: pytest.LogCaptureFixture, monkeypatch: pytest.MonkeyPatch
+):
     """Expect that a warning is emitted about additional zeroes."""
     monkeypatch.chdir(tmp_path)
     profile_1 = Path("profile_1.tsv")
