@@ -299,3 +299,90 @@ def test_samplesheet_formats(
     )
     assert result.exit_code == 0, result.stderr
     assert output.is_file()
+
+
+def test_bad_wide_output(
+    runner: CliRunner,
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a bad wide table output file extension is caught."""
+    monkeypatch.chdir(tmp_path)
+    output = Path("result.txt")
+    output.touch()
+    sheet = Path("samples.tsv")
+    sheet.touch()
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--profiler",
+                "kraken2",
+                "--output",
+                str(output),
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
+    assert result.exit_code == 2, result.stderr
+    assert any("extension" in msg for msg in caplog.messages)
+
+
+def test_bad_long_output(
+    runner: CliRunner,
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a bad long table output file extension is caught."""
+    monkeypatch.chdir(tmp_path)
+    output = Path("result.txt")
+    output.touch()
+    sheet = Path("samples.tsv")
+    sheet.touch()
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--long",
+                "--profiler",
+                "kraken2",
+                "--output",
+                str(output),
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
+    assert result.exit_code == 2, result.stderr
+    assert any("extension" in msg for msg in caplog.messages)
+
+
+def test_bad_samplesheet_extension(
+    runner: CliRunner,
+    caplog: pytest.LogCaptureFixture,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a bad sample sheet file extension is caught."""
+    monkeypatch.chdir(tmp_path)
+    sheet = Path("result.txt")
+    sheet.touch()
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--long",
+                "--profiler",
+                "kraken2",
+                "--output",
+                str(sheet),
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
+    assert result.exit_code == 2, result.stderr
+    assert any("extension" in msg for msg in caplog.messages)
