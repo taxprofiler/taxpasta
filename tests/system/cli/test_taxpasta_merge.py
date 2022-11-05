@@ -148,18 +148,19 @@ def test_missing_samplesheet_dependencies(
         monkeypatch.setitem(sys.modules, dep, None)
     sheet = Path(f"samples.{samplesheet_format.value.lower()}")
     sheet.touch()
-    result = runner.invoke(
-        app,
-        [
-            "merge",
-            "--profiler",
-            SupportedProfiler.kraken2.value,
-            "--output",
-            "results.tsv",
-            "--samplesheet",
-            str(sheet),
-        ],
-    )
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--profiler",
+                SupportedProfiler.kraken2.value,
+                "--output",
+                "results.tsv",
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
     assert result.exit_code == 1
     assert any("pip install" in msg for msg in caplog.messages)
 
@@ -187,18 +188,19 @@ def test_missing_wide_table_dependencies(
         monkeypatch.setitem(sys.modules, dep, None)
     sheet = Path("samples.tsv")
     sheet.touch()
-    result = runner.invoke(
-        app,
-        [
-            "merge",
-            "--profiler",
-            SupportedProfiler.kraken2.value,
-            "--output",
-            f"results.{wide_table_format.value}",
-            "--samplesheet",
-            str(sheet),
-        ],
-    )
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--profiler",
+                SupportedProfiler.kraken2.value,
+                "--output",
+                f"results.{wide_table_format.value}",
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
     assert result.exit_code == 1
     assert any("pip install" in msg for msg in caplog.messages)
 
@@ -225,17 +227,18 @@ def test_missing_tidy_table_dependencies(
         monkeypatch.setitem(sys.modules, dep, None)
     sheet = Path("samples.tsv")
     sheet.touch()
-    result = runner.invoke(
-        app,
-        [
-            "merge",
-            "--profiler",
-            SupportedProfiler.kraken2.value,
-            "--output",
-            f"results.{tidy_table_format.value}",
-            "--samplesheet",
-            str(sheet),
-        ],
-    )
+    with caplog.at_level("CRITICAL"):
+        result = runner.invoke(
+            app,
+            [
+                "merge",
+                "--profiler",
+                SupportedProfiler.kraken2.value,
+                "--output",
+                f"results.{tidy_table_format.value}",
+                "--samplesheet",
+                str(sheet),
+            ],
+        )
     assert result.exit_code == 1
     assert any("pip install" in msg for msg in caplog.messages)
