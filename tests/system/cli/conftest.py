@@ -72,7 +72,7 @@ def profiles(
 
 
 @pytest.fixture(scope="session")
-def samplesheet(
+def tsv_samplesheet(
     profiler: SupportedProfiler,
     data_dir: Path,
     tmp_path_factory: pytest.TempPathFactory,

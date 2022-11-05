@@ -14,20 +14,50 @@
 
 
 """Test the taxpasta merge command."""
+
+
 import sys
 from pathlib import Path
 from typing import Iterable, List
 
+import pandas as pd
 import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
+    ApplicationServiceRegistry,
     SupportedProfiler,
     TableReaderFileFormat,
     TidyObservationTableFileFormat,
     WideObservationTableFileFormat,
 )
 from taxpasta.infrastructure.cli import app
+
+
+@pytest.fixture(scope="session", params=list(TableReaderFileFormat))
+def kraken2_samplesheet(
+    data_dir: Path,
+    tmp_path_factory: pytest.TempPathFactory,
+    request: pytest.FixtureRequest,
+) -> Path:
+    """Provide a sample sheet for each profiler in turn."""
+    sheet = pd.DataFrame(
+        data=[
+            (filename.stem, str(filename))
+            for filename in (data_dir / SupportedProfiler.kraken2.value).glob("*")
+            if "invalid" not in filename.name
+        ],
+        columns=["sample", "profile"],
+    )
+    path = (
+        tmp_path_factory.mktemp(SupportedProfiler.kraken2.value)
+        / f"samplesheet.{request.param.value.lower()}"
+    )
+    writer = ApplicationServiceRegistry.tidy_observation_table_writer(
+        TidyObservationTableFileFormat(request.param.value)
+    )
+    writer.write(sheet, path)
+    return path
 
 
 def test_merge_profiles_wide(
@@ -72,7 +102,7 @@ def test_merge_profiles_long(
 def test_merge_samplesheet_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
-    samplesheet: Path,
+    tsv_samplesheet,
     observation_matrix_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -90,7 +120,7 @@ def test_merge_samplesheet_wide(
             "--output",
             output,
             "--samplesheet",
-            str(samplesheet),
+            str(tsv_samplesheet),
         ],
     )
     assert result.exit_code == 0, result.stderr
@@ -100,7 +130,7 @@ def test_merge_samplesheet_wide(
 def test_merge_samplesheet_long(
     runner: CliRunner,
     profiler: SupportedProfiler,
-    samplesheet: Path,
+    tsv_samplesheet,
     tidy_observation_table_format: TidyObservationTableFileFormat,
     data_dir: Path,
     tmp_path: Path,
@@ -119,7 +149,7 @@ def test_merge_samplesheet_long(
             "--output",
             output,
             "--samplesheet",
-            str(samplesheet),
+            str(tsv_samplesheet),
         ],
     )
     assert result.exit_code == 0, result.stderr
@@ -243,3 +273,29 @@ def test_missing_tidy_table_dependencies(
         )
     assert result.exit_code == 1
     assert any("pip install" in msg for msg in caplog.messages)
+
+
+def test_samplesheet_formats(
+    runner: CliRunner,
+    kraken2_samplesheet: Path,
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+):
+    """Test that a sample sheet can be read in from every supported format."""
+    monkeypatch.chdir(tmp_path)
+    output = Path("result.tsv")
+    result = runner.invoke(
+        app,
+        [
+            "merge",
+            "--long",
+            "--profiler",
+            "kraken2",
+            "--output",
+            str(output),
+            "--samplesheet",
+            str(kraken2_samplesheet),
+        ],
+    )
+    assert result.exit_code == 0, result.stderr
+    assert output.is_file()
