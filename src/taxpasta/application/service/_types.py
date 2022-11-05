@@ -16,7 +16,7 @@
 from typing import TYPE_CHECKING, AnyStr, BinaryIO, TextIO, Union
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from os import PathLike
 
 
