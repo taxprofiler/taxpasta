@@ -50,7 +50,7 @@ from .metaphlan import (
 )
 from .table_reader_file_format import TableReaderFileFormat
 from .tidy_observation_table_file_format import TidyObservationTableFileFormat
-from .observation_matrix_file_format import WideObservationTableFileFormat
+from .wide_observation_table_file_format import WideObservationTableFileFormat
 from .supported_profiler import SupportedProfiler
 from .application_service_registry import ApplicationServiceRegistry
 from .sample_sheet import SampleSheet

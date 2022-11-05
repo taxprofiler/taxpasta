@@ -27,10 +27,10 @@ from taxpasta.application.service import (
     WideObservationTableWriter,
 )
 
-from .observation_matrix_file_format import WideObservationTableFileFormat
 from .supported_profiler import SupportedProfiler
 from .table_reader_file_format import TableReaderFileFormat
 from .tidy_observation_table_file_format import TidyObservationTableFileFormat
+from .wide_observation_table_file_format import WideObservationTableFileFormat
 
 
 class ApplicationServiceRegistry:
@@ -174,37 +174,37 @@ class ApplicationServiceRegistry:
     ) -> Type[WideObservationTableWriter]:
         """Return a writer for wide observation tables in the specified format."""
         if file_format is WideObservationTableFileFormat.TSV:
-            from .observation_matrix_writer.tsv_wide_observation_table_writer import (
+            from .wide_observation_table_writer.tsv_wide_observation_table_writer import (
                 TSVWideObservationTableWriter,
             )
 
             return TSVWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.CSV:
-            from .observation_matrix_writer.csv_wide_observation_table_writer import (
+            from .wide_observation_table_writer.csv_wide_observation_table_writer import (
                 CSVWideObservationTableWriter,
             )
 
             return CSVWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.XLSX:
-            from .observation_matrix_writer.xlsx_wide_observation_table_writer import (
+            from .wide_observation_table_writer.xlsx_wide_observation_table_writer import (
                 XLSXWideObservationTableWriter,
             )
 
             return XLSXWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.ODS:
-            from .observation_matrix_writer.ods_wide_observation_table_writer import (
+            from .wide_observation_table_writer.ods_wide_observation_table_writer import (
                 ODSWideObservationTableWriter,
             )
 
             return ODSWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.arrow:
-            from .observation_matrix_writer.arrow_wide_observation_table_writer import (
+            from .wide_observation_table_writer.arrow_wide_observation_table_writer import (
                 ArrowWideObservationTableWriter,
             )
 
             return ArrowWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.BIOM:
-            from .observation_matrix_writer.biom_wide_observation_table_writer import (
+            from .wide_observation_table_writer.biom_wide_observation_table_writer import (
                 BIOMWideObservationTableWriter,
             )
 
