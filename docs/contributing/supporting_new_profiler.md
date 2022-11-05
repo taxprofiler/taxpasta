@@ -257,9 +257,9 @@ from .kraken2 import (
 ### 5. Enable Support
 
 Finally, to make your profiler fully available to taxpasta, you have to add your profiler name
-to the [SupportedProfiler][taxpasta.infrastructure.application.SupportedProfiler] enumeration.
+to the [`SupportedProfiler`][taxpasta.infrastructure.application.SupportedProfiler] enumeration.
 
-```python title="src/taxpasta/infrastructure/application/supported_profiler.py"
+```python title="src/taxpasta/infrastructure/application/supported_profiler.py" hl_lines="9"
 from enum import Enum, unique
 
 
@@ -271,7 +271,52 @@ class SupportedProfiler(str, Enum):
     <profiler name> = "<profiler name>"
 ```
 
-Congratulations! :tada:
+Once that entry is made. Add your reader and standardisation service to the
+[`ApplicationServiceRegistry`][taxpasta.infrastructure.application.ApplicationServiceRegistry].
+First, add a condition to the `profile_reader` class method as shown here for kraken2.
+
+```python title="src/taxpasta/infrastructure/application/application_service_registry.py" hl_lines="11-14"
+class ApplicationServiceRegistry:
+    """Define an application service registry."""
+
+    @classmethod
+    def profile_reader(cls, profiler: SupportedProfiler) -> Type[ProfileReader]:
+        """Return a profile reader of the correct type."""
+        if profiler is SupportedProfiler.bracken:
+            from .bracken import BrackenProfileReader
+
+            return BrackenProfileReader
+        elif profiler is SupportedProfiler.kraken2:
+            from .kraken2 import Kraken2ProfileReader
+
+            return Kraken2ProfileReader
+        else:
+            raise ValueError("Unexpected")
+```
+
+Second, add a condition to the `profile_standardisation_service` class method in a similar manner.
+
+```python title="src/taxpasta/infrastructure/application/application_service_registry.py" hl_lines="12-15"
+class ApplicationServiceRegistry:
+    """Define an application service registry."""
+
+    def profile_standardisation_service(
+        cls, profiler: SupportedProfiler
+    ) -> Type[ProfileStandardisationService]:
+        """Return a profile standardisation service of the correct type."""
+        if profiler is SupportedProfiler.bracken:
+            from .bracken import BrackenProfileStandardisationService
+
+            return BrackenProfileStandardisationService
+        elif profiler is SupportedProfiler.kraken2:
+            from .kraken2 import Kraken2ProfileStandardisationService
+
+            return Kraken2ProfileStandardisationService
+        else:
+            raise ValueError("Unexpected")
+```
+
+Congratulations! :tada: You are now ready to use your added profiler in the taxpasta commands.
 
 ## Overview
 
