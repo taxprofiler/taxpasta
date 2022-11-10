@@ -16,9 +16,6 @@
 """Provide a description of the KrakenUniq profile format."""
 
 
-from typing import Optional
-
-import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series

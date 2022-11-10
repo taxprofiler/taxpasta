@@ -13,9 +13,7 @@
       "project_short_description": "TAXonomic Profile Aggregation and STAndardisation",
       "release_date": "2022-06-03",
       "year": "2022",
-      "_extensions": [
-        "jinja2_time.TimeExtension"
-      ],
+      "_extensions": ["jinja2_time.TimeExtension"],
       "_template": "https://github.com/opencobra/cookiecutter-python-package"
     }
   },

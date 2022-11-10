@@ -37,7 +37,6 @@ from taxpasta.infrastructure.application import KrakenUniqProfileReader
         ),
     ],
 )
-
 def test_read_correctness(
     krakenuniq_data_dir: Path,
     filename: str,

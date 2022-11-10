@@ -63,8 +63,7 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
                 "kmers",
                 "dup",
                 "cov",
-                "rank"
-                "taxName",
+                "rank" "taxName",
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxID' out-of-order"
@@ -76,41 +75,49 @@ def test_column_presence(columns: Collection[str]):
     """Test that column names and order are validated."""
     KrakenUniqProfile.validate(pd.DataFrame(columns=columns, data=[]))
 
+
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
             {
                 "percent": [100, 100],
-                "reads":  [100, 100],
+                "reads": [100, 100],
                 "taxReads": [0, 100],
                 "kmers": [7556, 7556],
                 "dup": [1.3, 1.3],
                 "cov": [0.1268, 0.1268],
                 "taxID": [100, 2697049],
                 "rank": ["no rank", "species"],
-                "taxName": ["Severe acute respiratory syndrome-related coronavirus", "Severe acute respiratory syndrome coronavirus 2"],
-
+                "taxName": [
+                    "Severe acute respiratory syndrome-related coronavirus",
+                    "Severe acute respiratory syndrome coronavirus 2",
+                ],
             }
         ),
         pytest.param(
             pd.DataFrame(
-                {   
-		    "percent": [100, 100],
-		    "reads":  [100, 100],
-	      	    "taxReads": ["Severe acute respiratory syndrome coronavirus 2", 100],
-		    "kmers": [7556, 7556],
+                {
+                    "percent": [100, 100],
+                    "reads": [100, 100],
+                    "taxReads": [
+                        "Severe acute respiratory syndrome coronavirus 2",
+                        100,
+                    ],
+                    "kmers": [7556, 7556],
                     "dup": [1.3, 1.3],
                     "cov": [0.1268, 0.1268],
                     "taxID": [2697049, 100],
-		    "taxName": ["Severe acute respiratory syndrome-related coronavirus", "Severe acute respiratory syndrome coronavirus 2"],
+                    "taxName": [
+                        "Severe acute respiratory syndrome-related coronavirus",
+                        "Severe acute respiratory syndrome coronavirus 2",
+                    ],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),
         ),
     ],
 )
-
 def test_taxonomy_id(table: pd.DataFrame):
     """Test that the taxonomy_id column is checked."""
     KrakenUniqProfile.validate(table)
@@ -121,30 +128,35 @@ def test_taxonomy_id(table: pd.DataFrame):
     [
         pd.DataFrame(
             {
-		"percent": [100, 100],
-                "reads":  [100, 100],
-		"taxReads": [0, 694009],
-		"kmers": [7556, 7556],
-		"dup": [1.3, 1.3],
+                "percent": [100, 100],
+                "reads": [100, 100],
+                "taxReads": [0, 694009],
+                "kmers": [7556, 7556],
+                "dup": [1.3, 1.3],
                 "cov": [0.1268, 0.1268],
                 "taxID": [100, 2697049],
-		"rank": ["no rank", "species"],
-                "taxName": ["Severe acute respiratory syndrome-related coronavirus", "Severe acute respiratory syndrome coronavirus 2"],
-
+                "rank": ["no rank", "species"],
+                "taxName": [
+                    "Severe acute respiratory syndrome-related coronavirus",
+                    "Severe acute respiratory syndrome coronavirus 2",
+                ],
             }
         ),
         pytest.param(
             pd.DataFrame(
                 {
                     "percent": [100, 100],
-                    "reads":  [100, 100],
+                    "reads": [100, 100],
                     "taxReads": ["one hundred", 694009],
-		    "kmers": [7556, 7556],
+                    "kmers": [7556, 7556],
                     "dup": [1.3, 1.3],
                     "cov": [0.1268, 0.1268],
                     "taxID": [100, 2697049],
                     "rank": ["no rank", "species"],
-                    "taxName": ["Severe acute respiratory syndrome-related coronavirus", "Severe acute respiratory syndrome coronavirus 2"],
+                    "taxName": [
+                        "Severe acute respiratory syndrome-related coronavirus",
+                        "Severe acute respiratory syndrome coronavirus 2",
+                    ],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),

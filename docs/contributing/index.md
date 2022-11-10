@@ -6,4 +6,4 @@ channel](https://nfcore.slack.com/archives/C031QH57DSS) or in GitHub issues,
 writing documentation and providing examples, testing the software in various
 settings, or submitting code through pull requests.
 
-* [Supporting new taxonomic profilers](supporting_new_profiler.md)
+-   [Supporting new taxonomic profilers](supporting_new_profiler.md)

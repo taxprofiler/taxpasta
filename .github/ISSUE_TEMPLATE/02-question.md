@@ -8,9 +8,9 @@ about: Ask a question
 <!-- To help keep this issue tracker clean and focused, please make sure that you have
  tried *all* of the following resources before submitting your question. -->
 
-- [ ] I searched the [documentation](https://taxpasta.readthedocs.io).
-- [ ] I looked through [similar issues on GitHub](https://github.com/taxprofiler/taxpasta/issues).
-- [ ] I looked up "How to do ... in taxpasta" on a search engine.
+-   [ ] I searched the [documentation](https://taxpasta.readthedocs.io).
+-   [ ] I looked through [similar issues on GitHub](https://github.com/taxprofiler/taxpasta/issues).
+-   [ ] I looked up "How to do ... in taxpasta" on a search engine.
 
 ### Question
 
