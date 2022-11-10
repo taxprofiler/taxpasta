@@ -17,9 +17,8 @@
 
 
 from pathlib import Path
-
 import pytest
-from pandas.errors import ParserError
+from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
     KrakenUniqProfileReader,
@@ -31,10 +30,9 @@ from taxpasta.infrastructure.application import (
     "filename",
     [
         "test1.krakenuniq.report.txt",
-        "test2.krakenuniq.report.txt",
         pytest.param(
             "test1-invalid.krakenuniq.report.txt",
-            marks=pytest.mark.raises(exception=ParserError),
+            marks=pytest.mark.raises(exception=SchemaErrors),
         ),
     ],
 )

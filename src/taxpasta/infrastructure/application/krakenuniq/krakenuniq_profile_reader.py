@@ -19,7 +19,7 @@
 import pandas as pd
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileReader, ProfileSource
+from taxpasta.application.service import BufferOrFilepath, ProfileReader
 
 from .krakenuniq_profile import KrakenUniqProfile
 
@@ -28,7 +28,7 @@ class KrakenUniqProfileReader(ProfileReader):
     """Define a reader for KrakenUniq profiles."""
 
     @classmethod
-    def read(cls, profile: ProfileSource) -> DataFrame[KrakenUniqProfile]:
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[KrakenUniqProfile]:
         """
         Read a krakenUniq taxonomic profile from the given source.
 
@@ -46,7 +46,7 @@ class KrakenUniqProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            header=None,
+            header=0,
             index_col=False,
             comment="#",
             dtype={"taxID": str},

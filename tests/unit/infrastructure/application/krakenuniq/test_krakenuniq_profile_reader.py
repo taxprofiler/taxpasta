@@ -28,15 +28,16 @@ from taxpasta.infrastructure.application import KrakenUniqProfileReader
     ("filename", "checks"),
     [
         (
-            "test2.krakenuniq.report.txt",
+            "test1.krakenuniq.report.txt",
             [
-                (0, 0, 100),
+                (1, 0, 100),
                 (1, 3, 7556),
                 (0, 4, 1.3),
             ],
         ),
     ],
 )
+
 def test_read_correctness(
     krakenuniq_data_dir: Path,
     filename: str,

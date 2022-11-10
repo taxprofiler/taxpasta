@@ -19,8 +19,8 @@
 import pandera as pa
 from pandera.typing import DataFrame
 
-from taxpasta.application import ProfileStandardisationService
-from taxpasta.domain import StandardProfile
+from taxpasta.application.service import ProfileStandardisationService
+from taxpasta.domain.model import StandardProfile
 
 from .krakenuniq_profile import KrakenUniqProfile
 
@@ -43,8 +43,6 @@ class KrakenUniqProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[
-            [KrakenUniqProfile.taxID, KrakenUniqProfile.taxReads]
-        ].copy()
+        result = profile[[KrakenUniqProfile.taxID, KrakenUniqProfile.taxReads]].copy()
         result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         return result
