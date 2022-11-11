@@ -67,3 +67,9 @@ def diamond_data_dir(data_dir: Path) -> Path:
 def malt_data_dir(data_dir: Path) -> Path:
     """Provide the path to the MALT-rma2info data directory."""
     return data_dir / "malt"
+
+
+@pytest.fixture(scope="session")
+def krakenuniq_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the krakenuniq data directory."""
+    return data_dir / "krakenuniq"
