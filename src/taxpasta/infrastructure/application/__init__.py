@@ -38,6 +38,11 @@ from .kraken2 import (
     Kraken2ProfileReader,
     Kraken2ProfileStandardisationService,
 )
+from .krakenuniq import (
+    KrakenUniqProfile,
+    KrakenUniqProfileReader,
+    KrakenUniqProfileStandardisationService,
+)
 from .malt import (
     MaltProfile,
     MaltProfileReader,

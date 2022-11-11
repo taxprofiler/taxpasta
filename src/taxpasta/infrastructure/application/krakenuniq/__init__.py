@@ -13,20 +13,8 @@
 # limitations under the License.
 
 
-"""Provide an enumeration of supported taxonomic profilers."""
-
-
-from enum import Enum, unique
-
-
-@unique
-class SupportedProfiler(str, Enum):
-    """Define supported taxonomic profilers."""
-
-    bracken = "bracken"
-    centrifuge = "centrifuge"
-    kaiju = "kaiju"
-    kraken2 = "kraken2"
-    krakenuniq = "krakenuniq"
-    malt = "malt"
-    metaphlan = "metaphlan"
+from .krakenuniq_profile import KrakenUniqProfile
+from .krakenuniq_profile_reader import KrakenUniqProfileReader
+from .krakenuniq_profile_standardisation_service import (
+    KrakenUniqProfileStandardisationService,
+)

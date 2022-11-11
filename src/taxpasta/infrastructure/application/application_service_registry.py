@@ -55,6 +55,10 @@ class ApplicationServiceRegistry:
             from .kraken2 import Kraken2ProfileReader
 
             return Kraken2ProfileReader
+        elif profiler is SupportedProfiler.krakenuniq:
+            from .krakenuniq import KrakenUniqProfileReader
+
+            return KrakenUniqProfileReader
         elif profiler is SupportedProfiler.malt:
             from .malt import MaltProfileReader
 
@@ -87,6 +91,10 @@ class ApplicationServiceRegistry:
             from .kraken2 import Kraken2ProfileStandardisationService
 
             return Kraken2ProfileStandardisationService
+        elif profiler is SupportedProfiler.krakenuniq:
+            from .krakenuniq import KrakenUniqProfileStandardisationService
+
+            return KrakenUniqProfileStandardisationService
         elif profiler is SupportedProfiler.malt:
             from .malt import MaltProfileStandardisationService
 
