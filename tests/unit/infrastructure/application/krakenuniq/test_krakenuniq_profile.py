@@ -167,4 +167,3 @@ def test_taxonomy_id(table: pd.DataFrame):
 def test_count(table: pd.DataFrame):
     """Test that the count column is checked."""
     KrakenUniqProfile.validate(table)
-
