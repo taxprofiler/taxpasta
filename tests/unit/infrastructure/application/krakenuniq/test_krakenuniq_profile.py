@@ -25,30 +25,30 @@ from pandera.errors import SchemaError
 from taxpasta.infrastructure.application import KrakenUniqProfile
 
 
-@pytest.mark.parametrize(
+ @pytest.mark.parametrize(
     "columns",
     [
         (
             "percent",
             "reads",
-            "taxReads",
+            "tax_reads",
             "kmers",
-            "dup",
-            "cov",
-            "taxID",
+            "duplicates",
+            "coverage",
+            "tax_id",
             "rank",
-            "taxName",
+            "tax_name",
         ),
         pytest.param(
             (
                 "percent",
                 "reads",
-                "taxReads",
+                "tax_reads",
                 "kmers",
-                "dup",
-                "cov",
-                "taxID",
-                "taxName",
+                "duplicates",
+                "coverage",
+                "tax_id",
+                "tax_name",
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'rank' not in dataframe"
@@ -57,13 +57,14 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
         pytest.param(
             (
                 "percent",
-                "taxID",
+                "tax_id",
                 "reads",
-                "taxReads",
+                "tax_reads",
                 "kmers",
-                "dup",
-                "cov",
-                "rank" "taxName",
+                "duplicates",
+                "coverage",
+                "rank",
+                "tax_name",
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxID' out-of-order"
@@ -83,13 +84,13 @@ def test_column_presence(columns: Collection[str]):
             {
                 "percent": [100, 100],
                 "reads": [100, 100],
-                "taxReads": [0, 100],
+                "tax_reads": [0, 100],
                 "kmers": [7556, 7556],
-                "dup": [1.3, 1.3],
-                "cov": [0.1268, 0.1268],
-                "taxID": [100, 2697049],
+                "duplicates": [1.3, 1.3],
+                "coverage": [0.1268, 0.1268],
+                "tax_id": [100, 2697049],
                 "rank": ["no rank", "species"],
-                "taxName": [
+                "tax_name": [
                     "Severe acute respiratory syndrome-related coronavirus",
                     "Severe acute respiratory syndrome coronavirus 2",
                 ],
@@ -100,15 +101,15 @@ def test_column_presence(columns: Collection[str]):
                 {
                     "percent": [100, 100],
                     "reads": [100, 100],
-                    "taxReads": [
+                    "tax_reads": [
                         "Severe acute respiratory syndrome coronavirus 2",
                         100,
                     ],
                     "kmers": [7556, 7556],
-                    "dup": [1.3, 1.3],
-                    "cov": [0.1268, 0.1268],
-                    "taxID": [2697049, 100],
-                    "taxName": [
+                    "duplicates": [1.3, 1.3],
+                    "coverage": [0.1268, 0.1268],
+                    "tax_id": [2697049, 100],
+                    "tax_name": [
                         "Severe acute respiratory syndrome-related coronavirus",
                         "Severe acute respiratory syndrome coronavirus 2",
                     ],
@@ -130,13 +131,13 @@ def test_taxonomy_id(table: pd.DataFrame):
             {
                 "percent": [100, 100],
                 "reads": [100, 100],
-                "taxReads": [0, 694009],
+                "tax_reads": [0, 694009],
                 "kmers": [7556, 7556],
-                "dup": [1.3, 1.3],
-                "cov": [0.1268, 0.1268],
-                "taxID": [100, 2697049],
+                "duplicates": [1.3, 1.3],
+                "coverage": [0.1268, 0.1268],
+                "tax_id": [100, 2697049],
                 "rank": ["no rank", "species"],
-                "taxName": [
+                "tax_name": [
                     "Severe acute respiratory syndrome-related coronavirus",
                     "Severe acute respiratory syndrome coronavirus 2",
                 ],
@@ -147,13 +148,13 @@ def test_taxonomy_id(table: pd.DataFrame):
                 {
                     "percent": [100, 100],
                     "reads": [100, 100],
-                    "taxReads": ["one hundred", 694009],
+                    "tax_reads": ["one hundred", 694009],
                     "kmers": [7556, 7556],
-                    "dup": [1.3, 1.3],
-                    "cov": [0.1268, 0.1268],
-                    "taxID": [100, 2697049],
+                    "duplicates": [1.3, 1.3],
+                    "coverage": [0.1268, 0.1268],
+                    "tax_id": [100, 2697049],
                     "rank": ["no rank", "species"],
-                    "taxName": [
+                    "tax_name": [
                         "Severe acute respiratory syndrome-related coronavirus",
                         "Severe acute respiratory syndrome coronavirus 2",
                     ],
@@ -166,3 +167,4 @@ def test_taxonomy_id(table: pd.DataFrame):
 def test_count(table: pd.DataFrame):
     """Test that the count column is checked."""
     KrakenUniqProfile.validate(table)
+
