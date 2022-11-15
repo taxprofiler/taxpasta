@@ -24,15 +24,15 @@ from pandera.typing import Series
 class KrakenUniqProfile(pa.SchemaModel):
     """Define the expected KrakenUniq profile format."""
 
-    percent: Series[float] = pa.Field(ge=0.0, le=100.0)
+    percent: Series[float] = pa.Field(ge=0.0, le=100.0, alias="%")
     reads: Series[int] = pa.Field(ge=0)
-    taxReads: Series[int] = pa.Field(ge=0)
+    tax_reads: Series[int] = pa.Field(ge=0, alias="taxReads")
     kmers: Series[int] = pa.Field(ge=0)
-    dup: Series[float] = pa.Field(ge=0.0)
-    cov: Series[float] = pa.Field(ge=0.0)
-    taxID: Series[pd.CategoricalDtype] = pa.Field()
+    duplicates: Series[float] = pa.Field(ge=0.0, alias="dup")
+    coverage: Series[float] = pa.Field(ge=0.0, alias="cov")
+    tax_id: Series[pd.CategoricalDtype] = pa.Field(alias="taxID")
     rank: Series[pd.CategoricalDtype] = pa.Field()
-    taxName: Series[str] = pa.Field()
+    tax_name: Series[str] = pa.Field(alias="taxName")
 
     class Config:
         """Configure the schema model."""
