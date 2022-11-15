@@ -52,19 +52,7 @@ class KrakenUniqProfileReader(ProfileReader):
             dtype={"taxID": str},
             skipinitialspace=True,
         )
-        if len(result.columns) == 9:
-            result.columns = [
-                KrakenUniqProfile.percent,
-                KrakenUniqProfile.reads,
-                KrakenUniqProfile.taxReads,
-                KrakenUniqProfile.kmers,
-                KrakenUniqProfile.dup,
-                KrakenUniqProfile.cov,
-                KrakenUniqProfile.taxID,
-                KrakenUniqProfile.rank,
-                KrakenUniqProfile.taxName,
-            ]
-        else:
+        if len(result.columns) != 9:
             raise ValueError(
                 f"Unexpected KrakenUniq report format. It has {len(result.columns)} "
                 f"columns but only 9 are expected."
