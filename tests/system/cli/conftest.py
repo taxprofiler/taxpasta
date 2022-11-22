@@ -43,10 +43,10 @@ def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
 
 
 @pytest.fixture(scope="session", params=list(WideObservationTableFileFormat))
-def observation_matrix_format(
+def wide_observation_table_format(
     request: pytest.FixtureRequest,
 ) -> WideObservationTableFileFormat:
-    """Provide each supported observation matrix file format in turn."""
+    """Provide each supported wide observation table file format in turn."""
     return request.param
 
 

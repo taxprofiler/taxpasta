@@ -64,13 +64,13 @@ def test_merge_profiles_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: List[str],
-    observation_matrix_format: WideObservationTableFileFormat,
+    wide_observation_table_format,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Test that for each profiler and file format, a wide format can be created."""
     monkeypatch.chdir(tmp_path)
-    output = f"result.{observation_matrix_format.name.lower()}"
+    output = f"result.{wide_observation_table_format.name.lower()}"
     result = runner.invoke(
         app,
         ["merge", "--wide", "--profiler", profiler.name, "--output", output, *profiles],
@@ -103,13 +103,13 @@ def test_merge_samplesheet_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     tsv_samplesheet,
-    observation_matrix_format: WideObservationTableFileFormat,
+    wide_observation_table_format,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Test that a wide format output can be generated from a sample sheet."""
     monkeypatch.chdir(tmp_path)
-    output = f"result.{observation_matrix_format.name.lower()}"
+    output = f"result.{wide_observation_table_format.name.lower()}"
     result = runner.invoke(
         app,
         [
