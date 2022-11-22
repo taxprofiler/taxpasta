@@ -13,19 +13,27 @@
 # limitations under the License.
 
 
-"""Provide an abstract base class for writing a consensus profile."""
+"""Provide a CSV writer."""
 
 
-from abc import ABC, abstractmethod
-from pathlib import Path
+from typing import Optional
 
-import pandas as pd
+from pandera.typing import DataFrame
+
+from taxpasta.application.service import BufferOrFilepath, StandardProfileWriter
+from taxpasta.domain.model import StandardProfile, Taxonomy
 
 
-class ProfileWriter(ABC):
-    """Define an abstract base class for writing a consensus profile."""
+class CSVStandardProfileWriter(StandardProfileWriter):
+    """Define the CSV writer."""
 
     @classmethod
-    @abstractmethod
-    def write(cls, consensus: pd.DataFrame, filename: Path) -> None:
-        """Write a consensus profile to a file."""
+    def write(
+        cls,
+        profile: DataFrame[StandardProfile],
+        target: BufferOrFilepath,
+        taxonomy: Optional[Taxonomy] = None,
+        **kwargs
+    ) -> None:
+        """Write the given standardized profile to the given buffer or file."""
+        profile.to_csv(target, index=False, **kwargs)

@@ -22,11 +22,13 @@ from typing import Type
 from taxpasta.application.service import (
     ProfileReader,
     ProfileStandardisationService,
+    StandardProfileWriter,
     TableReader,
     TidyObservationTableWriter,
     WideObservationTableWriter,
 )
 
+from .standard_profile_file_format import StandardProfileFileFormat
 from .supported_profiler import SupportedProfiler
 from .table_reader_file_format import TableReaderFileFormat
 from .tidy_observation_table_file_format import TidyObservationTableFileFormat
@@ -105,6 +107,47 @@ class ApplicationServiceRegistry:
             return MetaphlanProfileStandardisationService
         else:
             raise ValueError("Unexpected")
+
+    @classmethod
+    def standard_profile_writer(
+        cls, file_format: StandardProfileFileFormat
+    ) -> Type[StandardProfileWriter]:
+        """Return a standard profile writer of the correct type."""
+        if file_format is StandardProfileFileFormat.TSV:
+            from .standard_profile_writer.tsv_standard_profile_writer import (
+                TSVStandardProfileWriter,
+            )
+
+            return TSVStandardProfileWriter
+        elif file_format is StandardProfileFileFormat.CSV:
+            from .standard_profile_writer.csv_standard_profile_writer import (
+                CSVStandardProfileWriter,
+            )
+
+            return CSVStandardProfileWriter
+        elif file_format is StandardProfileFileFormat.XLSX:
+            from .standard_profile_writer.xlsx_standard_profile_writer import (
+                XLSXStandardProfileWriter,
+            )
+
+            return XLSXStandardProfileWriter
+        elif file_format is StandardProfileFileFormat.ODS:
+            from .standard_profile_writer.ods_standard_profile_writer import (
+                ODSStandardProfileWriter,
+            )
+
+            return ODSStandardProfileWriter
+        elif file_format is StandardProfileFileFormat.arrow:
+            from .standard_profile_writer.arrow_standard_profile_writer import (
+                ArrowStandardProfileWriter,
+            )
+
+            return ArrowStandardProfileWriter
+        else:
+            ValueError(
+                f"The given file format {file_format.name} is not a supported tidy "
+                f"observation table writer format."
+            )
 
     @classmethod
     def table_reader(cls, file_format: TableReaderFileFormat) -> Type[TableReader]:
