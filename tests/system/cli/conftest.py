@@ -24,6 +24,7 @@ import pytest
 from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
+    StandardProfileFileFormat,
     SupportedProfiler,
     TidyObservationTableFileFormat,
     WideObservationTableFileFormat,
@@ -42,6 +43,14 @@ def profiler(request: pytest.FixtureRequest) -> SupportedProfiler:
     return request.param
 
 
+@pytest.fixture(scope="session", params=list(StandardProfileFileFormat))
+def standard_profile_format(
+    request: pytest.FixtureRequest,
+) -> StandardProfileFileFormat:
+    """Provide each supported wide observation table file format in turn."""
+    return request.param
+
+
 @pytest.fixture(scope="session", params=list(WideObservationTableFileFormat))
 def wide_observation_table_format(
     request: pytest.FixtureRequest,
@@ -56,6 +65,19 @@ def tidy_observation_table_format(
 ) -> TidyObservationTableFileFormat:
     """Provide each supported tidy observation table file format in turn."""
     return request.param
+
+
+@pytest.fixture(scope="session")
+def profile(
+    profiler: SupportedProfiler,
+    data_dir: Path,
+) -> Path:
+    """Provide a valid profile for each profiler in turn."""
+    return next(
+        filename
+        for filename in (data_dir / profiler.name).glob("*")
+        if "invalid" not in filename.name
+    )
 
 
 @pytest.fixture(scope="session")

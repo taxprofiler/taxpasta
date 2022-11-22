@@ -53,6 +53,7 @@ from .metaphlan import (
     MetaphlanProfileReader,
     MetaphlanProfileStandardisationService,
 )
+from .sample_etl_application import SampleETLApplication
 from .standard_profile_file_format import StandardProfileFileFormat
 from .table_reader_file_format import TableReaderFileFormat
 from .tidy_observation_table_file_format import TidyObservationTableFileFormat
