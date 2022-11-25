@@ -201,6 +201,7 @@ def merge(
         metavar="[PROFILE1 PROFILE2 [...]]",
         help="Two or more files containing taxonomic profiles. Required unless there is"
         " a sample sheet. Filenames will be parsed as sample names.",
+        show_default=False,
     ),
     profiler: SupportedProfiler = typer.Option(  # noqa: B008
         ...,
@@ -209,6 +210,7 @@ def merge(
         case_sensitive=False,
         help="The taxonomic profiler used. All provided profiles must come from the "
         "same tool!",
+        show_default=False,
     ),
     sample_sheet: Optional[Path] = typer.Option(  # noqa: B008
         None,
@@ -237,6 +239,7 @@ def merge(
         "-o",
         help="The desired output file. By default, the file extension will be used to "
         "determine the output format.",
+        show_default=False,
     ),
     output_format: Optional[
         WideObservationTableFileFormat
