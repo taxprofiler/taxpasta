@@ -77,12 +77,16 @@ def validate_output_format(
     return result
 
 
-@app.command()
+@app.command(
+    no_args_is_help=True, help="Standardise a taxonomic profile (alias 'standardize')."
+)
+@app.command("standardize", hidden=True)
 def standardise(
     profile: Path = typer.Argument(  # noqa: B008
         ...,
         metavar="PROFILE",
         help="A file containing a taxonomic profile.",
+        show_default=False,
     ),
     profiler: SupportedProfiler = typer.Option(  # noqa: B008
         ...,
@@ -90,6 +94,7 @@ def standardise(
         "-p",
         case_sensitive=False,
         help="The taxonomic profiler used.",
+        show_default=False,
     ),
     output: Path = typer.Option(  # noqa: B008
         ...,
@@ -97,6 +102,7 @@ def standardise(
         "-o",
         help="The desired output file. By default, the file extension will be used to "
         "determine the output format.",
+        show_default=False,
     ),
     output_format: Optional[StandardProfileFileFormat] = typer.Option(  # noqa: B008
         None,
@@ -105,53 +111,6 @@ def standardise(
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
     ),
-):
-    """Standardise a taxonomic profile."""
-    _standardise(
-        profile=profile, profiler=profiler, output=output, output_format=output_format
-    )
-
-
-@app.command()
-def standardize(
-    profile: Path = typer.Argument(  # noqa: B008
-        ...,
-        metavar="PROFILE",
-        help="A file containing a taxonomic profile.",
-    ),
-    profiler: SupportedProfiler = typer.Option(  # noqa: B008
-        ...,
-        "--profiler",
-        "-p",
-        case_sensitive=False,
-        help="The taxonomic profiler used.",
-    ),
-    output: Path = typer.Option(  # noqa: B008
-        ...,
-        "--output",
-        "-o",
-        help="The desired output file. By default, the file extension will be used to "
-        "determine the output format.",
-    ),
-    output_format: Optional[StandardProfileFileFormat] = typer.Option(  # noqa: B008
-        None,
-        case_sensitive=False,
-        help="The desired output format. Depending on the choice, additional package "
-        "dependencies may apply. Will be parsed from the output file name but can be "
-        "set explicitly.",
-    ),
-):
-    """Standardize a taxonomic profile."""
-    _standardise(
-        profile=profile, profiler=profiler, output=output, output_format=output_format
-    )
-
-
-def _standardise(
-    profile: Path,
-    profiler: SupportedProfiler,
-    output: Path,
-    output_format: Optional[StandardProfileFileFormat] = None,
 ):
     """Standardise a taxonomic profile."""
     # Perform input validation.
