@@ -257,7 +257,7 @@ def merge(
         "Ignored when the desired output format is BIOM.",
     ),
 ):
-    """Merge two or more taxonomic profiles into a single table."""
+    """Standardise and merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
     valid_output_format: Union[
         TidyObservationTableFileFormat, WideObservationTableFileFormat
