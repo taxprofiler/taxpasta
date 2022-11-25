@@ -78,7 +78,7 @@ def validate_output_format(
 
 
 @app.command(
-    no_args_is_help=True, help="Standardise a taxonomic profile (alias 'standardize')."
+    no_args_is_help=True, help="Standardise a taxonomic profile (alias: 'standardize')."
 )
 @app.command("standardize", hidden=True)
 def standardise(
