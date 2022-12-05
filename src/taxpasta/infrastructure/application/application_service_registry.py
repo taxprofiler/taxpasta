@@ -69,8 +69,10 @@ class ApplicationServiceRegistry:
             from .metaphlan import MetaphlanProfileReader
 
             return MetaphlanProfileReader
-        else:
-            raise ValueError("Unexpected")
+        elif profiler is SupportedProfiler.motus:
+            from .motus import MotusProfileStandardisationService
+
+            return MotusProfileStandardisationService
 
     @classmethod
     def profile_standardisation_service(
@@ -101,6 +103,10 @@ class ApplicationServiceRegistry:
             from .malt import MaltProfileStandardisationService
 
             return MaltProfileStandardisationService
+        elif profiler is SupportedProfiler.motus:
+            from .motus import MotusProfileStandardisationService
+
+            return MotusProfileStandardisationService
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileStandardisationService
 

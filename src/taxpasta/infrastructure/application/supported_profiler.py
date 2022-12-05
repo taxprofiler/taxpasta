@@ -30,3 +30,4 @@ class SupportedProfiler(str, Enum):
     krakenuniq = "krakenuniq"
     malt = "malt"
     metaphlan = "metaphlan"
+    motus = "motus"
