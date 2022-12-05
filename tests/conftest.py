@@ -73,3 +73,9 @@ def malt_data_dir(data_dir: Path) -> Path:
 def krakenuniq_data_dir(data_dir: Path) -> Path:
     """Provide the path to the KrakenUniq data directory."""
     return data_dir / "krakenuniq"
+
+
+@pytest.fixture(scope="session")
+def motus_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the mOTUs data directory."""
+    return data_dir / "motus"
