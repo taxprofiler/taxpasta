@@ -1,0 +1,15 @@
+# git tag version 3.0.3 |  motus version 3.0.3 | map_tax 3.0.3 | gene database: nr3.0.3 | calc_mgc 3.0.3 -y insert.scaled_counts -l 75 | calc_motu 3.0.3 -k mOTU -C no_CAMI -g 3 -c -p | taxonomy: ref_mOTU_3.0.3 meta_mOTU_3.0.3
+# call: python /usr/local/bin/../share/motus-3.0.1//motus profile -p -c -s ERX5474936_ERR5766180_1.fastq.gz -db db_mOTU -t 2 -n 2612_se-ERR5766180-db_mOTU -o 2612_se-ERR5766180-db_mOTU.out
+#consensus_taxonomy	NCBI_tax_id	2612_se-ERR5766180-db_mOTU
+Leptospira alexanderi [ref_mOTU_v3_00001]	100053	0
+Leptospira weilii [ref_mOTU_v3_00002]	28184	0
+Chryseobacterium sp. [ref_mOTU_v3_00004]	NA	0
+Chryseobacterium gallinarum [ref_mOTU_v3_00005]	1324352	0
+Chryseobacterium indologenes [ref_mOTU_v3_00006]	253	0
+Chryseobacterium artocarpi/ureilyticum [ref_mOTU_v3_00007]	NA	0
+Chryseobacterium jejuense [ref_mOTU_v3_00008]	445960	0
+Chryseobacterium sp. G972 [ref_mOTU_v3_00009]	1805473	0
+Chryseobacterium contaminans [ref_mOTU_v3_00010]	1423959	0
+Chryseobacterium indologenes [ref_mOTU_v3_00011]	253	0
+Chryseobacterium arthrosphaerae [ref_mOTU_v3_00012]	651561	0
+Chryseobacterium sp. [ref_mOTU_v3_00013]
