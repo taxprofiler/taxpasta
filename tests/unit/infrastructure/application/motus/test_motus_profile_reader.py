@@ -30,7 +30,7 @@ from taxpasta.infrastructure.application import MotusProfileReader
         (
             "2612_se-ERR5766180-db_mOTU.out",
             [
-                (1, 1, 253.0),
+                (1, 1, 28184),
 
             ],
         ),

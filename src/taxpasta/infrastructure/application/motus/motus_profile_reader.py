@@ -32,7 +32,6 @@ class MotusProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            comment="#",
             header=2,
             index_col=False,
         )

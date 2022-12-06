@@ -29,23 +29,22 @@ from taxpasta.infrastructure.application import MotusProfile
     "columns",
     [
         (
-            "consensus_taxonomy"
+            "#consensus_taxonomy"
             "NCBI_tax_id",
             "read_count",
         ),
         pytest.param(
             (
-                "consensus_taxonomy"
+                "#consensus_taxonomy"
                 "NCBI_tax_id",
-                "query_id",
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'query_id' not in dataframe"
+                exception=SchemaError, message="column 'read_count' not in dataframe"
             ),
         ),
         pytest.param(
             (
-                "consensus_taxonomy"
+                "#consensus_taxonomy"
                 "read_count",
                 "NCBI_tax_id",
             ),
@@ -65,7 +64,7 @@ def test_column_presence(columns: Collection[str]):
     [
         pd.DataFrame(
             {
-                "consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
                 "NCBI_tax_id": [100053, 28184],
                 "read_count": [0, 0],
             }
@@ -73,7 +72,7 @@ def test_column_presence(columns: Collection[str]):
         pytest.param(
             pd.DataFrame(
                 {
-                    "consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                    "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
                     "NCBI_tax_id": [ "Leptospira alexanderi [ref_mOTU_v3_00001]", 28184 ],
                     "read_count": [0, 0],
                 }
@@ -92,7 +91,7 @@ def test_taxonomy_id(table: pd.DataFrame):
     [
         pd.DataFrame(
             {
-                "consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
                 "NCBI_tax_id": [100053, 28184],
                 "read_count": [0, 0],
             }
@@ -100,7 +99,7 @@ def test_taxonomy_id(table: pd.DataFrame):
         pytest.param(
             pd.DataFrame(
                 {
-                    "consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                    "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
                     "NCBI_tax_id": [100053, 28184],
                     "read_count": ["zero", 0],
                 }
