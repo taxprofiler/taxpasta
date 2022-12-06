@@ -41,11 +41,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        return pd.DataFrame(
-            {
-                StandardProfile.taxonomy_id: profile[MotusProfile.taxonomy_id].astype(
-                    str
-                ),
-                StandardProfile.count: profile[MotusProfile.count],
-            }
-        )
+        result = profile[[MotusProfile.NCBI_tax_id, MotusProfile.read_count]].copy()
+        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
+        return result
+        

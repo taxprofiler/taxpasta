@@ -29,19 +29,18 @@ class MotusProfileReader(ProfileReader):
     @classmethod
     def read(cls, profile: BufferOrFilepath) -> DataFrame[MotusProfile]:
         """Read a mOTUs taxonomic profile from a file."""
-        nb_expected_columns = 2
         result = pd.read_table(
             filepath_or_buffer=profile,
-            compression="infer",
             sep="\t",
-            names=[MotusProfile.taxonomy_id, MotusProfile.count],
+            comment="#",
+            header=2,
             index_col=False,
         )
-        if len(result.columns) != nb_expected_columns:
+        if len(result.columns) != 3:
             raise ValueError(
                 f"Unexpected mOTUs report format. It has {len(result.columns)} "
-                f"columns but only 2 are expected."
+                f"columns but only 3 are expected."
             )
 
-        result[MotusProfile.taxonomy_id].fillna("-1", inplace=True)
+        result[MotusProfile.NCBI_tax_id].fillna("-1", inplace=True)
         return result
