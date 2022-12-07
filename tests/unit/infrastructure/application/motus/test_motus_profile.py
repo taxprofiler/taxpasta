@@ -28,52 +28,51 @@ from taxpasta.infrastructure.application import MotusProfile
 @pytest.mark.parametrize(
     "columns",
     [
-        (
-            "#consensus_taxonomy"
-            "NCBI_tax_id",
-            "read_count",
-        ),
+        {
+            "taxonomy":pd.Series(dtype=str),
+            "tax_id":pd.Series(dtype=str),
+            "read_count":pd.Series(dtype=int),
+        },
         pytest.param(
-            (
-                "#consensus_taxonomy"
-                "NCBI_tax_id",
-            ),
+        {
+            "taxonomy":pd.Series(dtype=str),
+            "tax_id":pd.Series(dtype=str),
+        },
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'read_count' not in dataframe"
             ),
         ),
         pytest.param(
-            (
-                "#consensus_taxonomy"
-                "read_count",
-                "NCBI_tax_id",
-            ),
+        {
+            "taxonomy":pd.Series(dtype=str),
+            "read_count":pd.Series(dtype=int),
+            "tax_id":pd.Series(dtype=str),
+        },
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'NCBI_tax_id' out-of-order"
+                exception=SchemaError, message="column 'tax_id' out-of-order"
             ),
         ),
     ],
 )
 def test_column_presence(columns: Collection[str]):
     """Test that column names and order are validated."""
-    MotusProfile.validate(pd.DataFrame(columns=columns, data=[]))
-
+    MotusProfile.validate(pd.DataFrame(columns))
 
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
             {
-                "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
-                "NCBI_tax_id": [100053, 28184],
+                "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "tax_id": ["100053", "28184"],
                 "read_count": [0, 0],
             }
         ),
         pytest.param(
             pd.DataFrame(
                 {
-                    "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
-                    "NCBI_tax_id": [ "Leptospira alexanderi [ref_mOTU_v3_00001]", 28184 ],
+                    "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                    "tax_id": [ "Leptospira alexanderi [ref_mOTU_v3_00001]", "28184" ],
                     "read_count": [0, 0],
                 }
             ),
@@ -91,16 +90,16 @@ def test_taxonomy_id(table: pd.DataFrame):
     [
         pd.DataFrame(
             {
-                "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
-                "NCBI_tax_id": [100053, 28184],
+                "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "tax_id": ["100053", "28184"],
                 "read_count": [0, 0],
             }
         ),
         pytest.param(
             pd.DataFrame(
                 {
-                    "#consensus_taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
-                    "NCBI_tax_id": [100053, 28184],
+                    "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                    "tax_id": ["100053", "28184"],
                     "read_count": ["zero", 0],
                 }
             ),

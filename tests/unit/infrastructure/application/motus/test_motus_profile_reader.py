@@ -30,7 +30,8 @@ from taxpasta.infrastructure.application import MotusProfileReader
         (
             "2612_se-ERR5766180-db_mOTU.out",
             [
-                (1, 1, 28184),
+                (0, 1, 100053.0),
+                (1, 1, 28184.0),
 
             ],
         ),
@@ -41,7 +42,7 @@ def test_read_correctness(
     filename: str,
     checks: List[Tuple[int, int, Union[int, float, str]]],
 ):
-    """Test that the reader can parse valid malt profiles."""
+    """Test that the reader can parse valid motus profiles."""
     profile = MotusProfileReader.read(motus_data_dir / filename)
     for (row, col, value) in checks:
         assert profile.iat[row, col] == value
