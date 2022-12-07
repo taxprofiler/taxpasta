@@ -32,14 +32,15 @@ class MotusProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            header=2,
+            comment="#",
+            header=None,names=["taxonomy", "tax_id", "read_count"],
             index_col=False,
         )
+
         if len(result.columns) != 3:
             raise ValueError(
                 f"Unexpected mOTUs report format. It has {len(result.columns)} "
                 f"columns but only 3 are expected."
             )
 
-        result[MotusProfile.NCBI_tax_id].fillna("-1", inplace=True)
         return result
