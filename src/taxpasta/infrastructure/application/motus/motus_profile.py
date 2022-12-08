@@ -15,6 +15,7 @@
 
 """Provide a description of the mOTUs profile format."""
 
+
 import pandera as pa
 from pandera.typing import Series
 
@@ -23,7 +24,7 @@ class MotusProfile(pa.SchemaModel):
     """Define the expected mOTUs profile format."""
 
     taxonomy: Series[str] = pa.Field()
-    tax_id: Series[str] = pa.Field()
+    tax_id: Series[str] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field()
 
     class Config:
