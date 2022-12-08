@@ -15,22 +15,18 @@
 
 """Provide a description of the mOTUs profile format."""
 
-
-from typing import Optional
-
-import numpy as np
-import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
+
 class MotusProfile(pa.SchemaModel):
-   """Define the expected mOTUs profile format."""
+    """Define the expected mOTUs profile format."""
 
-   taxonomy: Series[str] = pa.Field()
-   tax_id: Series[str] = pa.Field()
-   read_count: Series[int] = pa.Field(ge=0.0)
+    taxonomy: Series[str] = pa.Field()
+    tax_id: Series[str] = pa.Field()
+    read_count: Series[int] = pa.Field(ge=0.0)
 
-class Config:
+    class Config:
         """Configure the schema model."""
 
         coerce = True
