@@ -25,6 +25,7 @@ class SupportedProfiler(str, Enum):
 
     bracken = "bracken"
     centrifuge = "centrifuge"
+    diamond = "diamond"
     kaiju = "kaiju"
     kraken2 = "kraken2"
     krakenuniq = "krakenuniq"

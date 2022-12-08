@@ -49,6 +49,10 @@ class ApplicationServiceRegistry:
             from .centrifuge import CentrifugeProfileReader
 
             return CentrifugeProfileReader
+        elif profiler is SupportedProfiler.diamond:
+            from .diamond import DiamondProfileReader
+
+            return DiamondProfileReader
         elif profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileReader
 
@@ -87,6 +91,10 @@ class ApplicationServiceRegistry:
             from .centrifuge import CentrifugeProfileStandardisationService
 
             return CentrifugeProfileStandardisationService
+        elif profiler is SupportedProfiler.diamond:
+            from .diamond import DiamondProfileStandardisationService
+
+            return DiamondProfileStandardisationService
         elif profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileStandardisationService
 
