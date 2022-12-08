@@ -16,7 +16,8 @@
 """Test that the schema model validates mOTUs profiles correctly."""
 
 
-from typing import Collection
+from collections import OrderedDict
+from typing import Tuple, List
 
 import pandas as pd
 import pytest
@@ -28,42 +29,50 @@ from taxpasta.infrastructure.application import MotusProfile
 @pytest.mark.parametrize(
     "columns",
     [
-        {
-            "taxonomy":pd.Series(dtype=str),
-            "tax_id":pd.Series(dtype=str),
-            "read_count":pd.Series(dtype=int),
-        },
+        [
+            ("taxonomy", pd.Series(dtype=str)),
+            ("tax_id", pd.Series(dtype=str)),
+            ("read_count", pd.Series(dtype=int)),
+        ],
         pytest.param(
-        {
-            "taxonomy":pd.Series(dtype=str),
-            "tax_id":pd.Series(dtype=str),
-        },
+            [
+                ("taxonomy", pd.Series(dtype=str)),
+                ("tax_id", pd.Series(dtype=str)),
+            ],
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'read_count' not in dataframe"
             ),
         ),
         pytest.param(
-        {
-            "taxonomy":pd.Series(dtype=str),
-            "read_count":pd.Series(dtype=int),
-            "tax_id":pd.Series(dtype=str),
-        },
+            [
+                ("taxonomy", pd.Series(dtype=str)),
+                ("read_count", pd.Series(dtype=int)),
+                ("tax_id", pd.Series(dtype=str)),
+            ],
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'tax_id' out-of-order"
+                exception=SchemaError, message="column 'read_count' out-of-order"
             ),
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(columns: List[Tuple[str, pd.Series]]):
     """Test that column names and order are validated."""
-    MotusProfile.validate(pd.DataFrame(columns))
+    # We ensure the order of the columns here to get out-of-order errors.
+    data = OrderedDict()
+    for key, series in columns:
+        data[key] = series
+    MotusProfile.validate(pd.DataFrame(data))
+
 
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
             {
-                "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "taxonomy": [
+                    "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                    "Leptospira weilii [ref_mOTU_v3_00002]",
+                ],
                 "tax_id": ["100053", "28184"],
                 "read_count": [0, 0],
             }
@@ -71,8 +80,11 @@ def test_column_presence(columns: Collection[str]):
         pytest.param(
             pd.DataFrame(
                 {
-                    "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
-                    "tax_id": [ "Leptospira alexanderi [ref_mOTU_v3_00001]", "28184" ],
+                    "taxonomy": [
+                        "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                        "Leptospira weilii [ref_mOTU_v3_00002]",
+                    ],
+                    "tax_id": ["Leptospira alexanderi [ref_mOTU_v3_00001]", "28184"],
                     "read_count": [0, 0],
                 }
             ),
@@ -90,7 +102,10 @@ def test_taxonomy_id(table: pd.DataFrame):
     [
         pd.DataFrame(
             {
-                "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                "taxonomy": [
+                    "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                    "Leptospira weilii [ref_mOTU_v3_00002]",
+                ],
                 "tax_id": ["100053", "28184"],
                 "read_count": [0, 0],
             }
@@ -98,7 +113,10 @@ def test_taxonomy_id(table: pd.DataFrame):
         pytest.param(
             pd.DataFrame(
                 {
-                    "taxonomy": ["Leptospira alexanderi [ref_mOTU_v3_00001]","Leptospira weilii [ref_mOTU_v3_00002]" ],
+                    "taxonomy": [
+                        "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                        "Leptospira weilii [ref_mOTU_v3_00002]",
+                    ],
                     "tax_id": ["100053", "28184"],
                     "read_count": ["zero", 0],
                 }
