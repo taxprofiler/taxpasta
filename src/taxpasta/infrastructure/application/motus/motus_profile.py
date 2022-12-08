@@ -25,7 +25,7 @@ class MotusProfile(pa.SchemaModel):
 
     taxonomy: Series[str] = pa.Field()
     tax_id: Series[str] = pa.Field(nullable=True)
-    read_count: Series[int] = pa.Field()
+    read_count: Series[int] = pa.Field(ge=0)
 
     class Config:
         """Configure the schema model."""
