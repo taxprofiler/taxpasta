@@ -33,7 +33,8 @@ class MotusProfileReader(ProfileReader):
             filepath_or_buffer=profile,
             sep="\t",
             skiprows=3,
-            header=None,names=["taxonomy", "tax_id", "read_count"],
+            header=None,
+            names=["taxonomy", "tax_id", "read_count"],
             index_col=False,
         )
 

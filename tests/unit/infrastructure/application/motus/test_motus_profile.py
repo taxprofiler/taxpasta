@@ -17,7 +17,7 @@
 
 
 from collections import OrderedDict
-from typing import Tuple, List
+from typing import List, Tuple
 
 import pandas as pd
 import pytest

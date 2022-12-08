@@ -32,7 +32,6 @@ from taxpasta.infrastructure.application import MotusProfileReader
             [
                 (0, 1, 100053.0),
                 (1, 1, 28184.0),
-
             ],
         ),
     ],
@@ -46,4 +45,3 @@ def test_read_correctness(
     profile = MotusProfileReader.read(motus_data_dir / filename)
     for (row, col, value) in checks:
         assert profile.iat[row, col] == value
-
