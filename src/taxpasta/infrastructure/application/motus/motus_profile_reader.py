@@ -34,9 +34,9 @@ class MotusProfileReader(ProfileReader):
             sep="\t",
             skiprows=3,
             header=None,
-            names=["taxonomy", "tax_id", "read_count"],
+            names=["consensus_taxonomy", "ncbi_tax_id", "read_count"],
             index_col=False,
-            dtype={"tax_id": str},
+            dtype={"ncbi_tax_id": str},
         )
 
         if len(result.columns) != 3:

@@ -43,9 +43,9 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
         # Split profile into entries with known and unknown tax ID.
         # Ignore entries with zero read count.
         known: pd.DataFrame = profile.loc[
-            profile[MotusProfile.tax_id].notnull()
+            profile[MotusProfile.ncbi_tax_id].notnull()
             & (profile[MotusProfile.read_count] > 0),
-            [MotusProfile.tax_id, MotusProfile.read_count],
+            [MotusProfile.ncbi_tax_id, MotusProfile.read_count],
         ].copy()
         known.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         known[StandardProfile.taxonomy_id] = known[StandardProfile.taxonomy_id].astype(
@@ -58,7 +58,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
         ).sum()
         # Sum up all remaining read counts without tax ID to be 'unassigned'.
         unassigned = profile.loc[
-            profile[MotusProfile.tax_id].isnull(), MotusProfile.read_count
+            profile[MotusProfile.ncbi_tax_id].isnull(), MotusProfile.read_count
         ].sum()
         return pd.concat(
             [

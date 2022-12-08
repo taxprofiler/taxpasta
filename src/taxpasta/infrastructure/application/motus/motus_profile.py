@@ -23,8 +23,8 @@ from pandera.typing import Series
 class MotusProfile(pa.SchemaModel):
     """Define the expected mOTUs profile format."""
 
-    taxonomy: Series[str] = pa.Field()
-    tax_id: Series[str] = pa.Field(nullable=True)
+    consensus_taxonomy: Series[str] = pa.Field()
+    ncbi_tax_id: Series[str] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field(ge=0)
 
     class Config:
