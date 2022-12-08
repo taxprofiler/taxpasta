@@ -28,9 +28,7 @@ from .motus_profile import MotusProfile
 class MotusProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
-    def transform(
-        cls, profile: DataFrame[MotusProfile]
-    ) -> DataFrame[StandardProfile]:
+    def transform(cls, profile: DataFrame[MotusProfile]) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given mOTUs profile.
 
@@ -41,9 +39,16 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile.loc[~(profile[MotusProfile.tax_id].isnull() & (profile[MotusProfile.read_count]==0)),[MotusProfile.tax_id, MotusProfile.read_count]].copy()
-        result[MotusProfile.tax_id]= result[MotusProfile.tax_id].astype(float).astype(int)
-        result[MotusProfile.read_count]= result[MotusProfile.read_count].astype(int)
+        result = profile.loc[
+            ~(
+                profile[MotusProfile.tax_id].isnull()
+                & (profile[MotusProfile.read_count] == 0)
+            ),
+            [MotusProfile.tax_id, MotusProfile.read_count],
+        ].copy()
+        result[MotusProfile.tax_id] = (
+            result[MotusProfile.tax_id].astype(float).astype(int)
+        )
+        result[MotusProfile.read_count] = result[MotusProfile.read_count].astype(int)
         result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
         return result
-

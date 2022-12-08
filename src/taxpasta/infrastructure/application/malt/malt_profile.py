@@ -32,4 +32,3 @@ class MaltProfile(pa.SchemaModel):
         coerce = True
         ordered = True
         strict = True
-

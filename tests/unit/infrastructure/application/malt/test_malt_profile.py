@@ -81,7 +81,6 @@ def test_column_presence(columns: Collection[str]):
 def test_taxonomy_id(table: pd.DataFrame):
     """Test that the taxonomy_id column is checked."""
     MaltProfile.validate(table)
-    
 
 
 @pytest.mark.parametrize(
