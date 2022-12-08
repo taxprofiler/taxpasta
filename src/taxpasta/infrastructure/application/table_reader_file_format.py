@@ -30,3 +30,4 @@ class TableReaderFileFormat(str, DependencyCheckMixin, Enum):
     ODS = "ODS"
     XLSX = "XLSX"
     arrow = "arrow"
+    parquet = "parquet"

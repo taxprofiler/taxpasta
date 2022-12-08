@@ -13,21 +13,18 @@
 # limitations under the License.
 
 
-"""Provide a service for supported tabular file formats."""
+"""Provide an parquet reader."""
 
 
-from enum import Enum, unique
+import pandas as pd
 
-from ._dependency_check_mixin import DependencyCheckMixin
+from taxpasta.application.service import BinaryBufferOrFilepath, TableReader
 
 
-@unique
-class StandardProfileFileFormat(str, DependencyCheckMixin, Enum):
-    """Define the supported standardized profile file formats."""
+class ParquetTableReader(TableReader):
+    """Define the parquet reader."""
 
-    TSV = "TSV"
-    CSV = "CSV"
-    ODS = "ODS"
-    XLSX = "XLSX"
-    arrow = "arrow"
-    parquet = "parquet"
+    @classmethod
+    def read(cls, source: BinaryBufferOrFilepath, **kwargs) -> pd.DataFrame:
+        """Read parquet from the given source."""
+        return pd.read_parquet(source, **kwargs)

@@ -157,6 +157,12 @@ class ApplicationServiceRegistry:
             )
 
             return ArrowStandardProfileWriter
+        elif file_format is StandardProfileFileFormat.parquet:
+            from .standard_profile_writer.parquet_standard_profile_writer import (
+                ParquetStandardProfileWriter,
+            )
+
+            return ParquetStandardProfileWriter
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported tidy "
@@ -186,6 +192,10 @@ class ApplicationServiceRegistry:
             from .table_reader.arrow_table_reader import ArrowTableReader
 
             return ArrowTableReader
+        elif file_format is TableReaderFileFormat.parquet:
+            from .table_reader.parquet_table_reader import ParquetTableReader
+
+            return ParquetTableReader
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported table "
@@ -227,6 +237,12 @@ class ApplicationServiceRegistry:
             )
 
             return ArrowTidyObservationTableWriter
+        elif file_format is TidyObservationTableFileFormat.parquet:
+            from .tidy_observation_table_writer.parquet_table_writer import (
+                ParquetTidyObservationTableWriter,
+            )
+
+            return ParquetTidyObservationTableWriter
         else:
             ValueError(
                 f"The given file format {file_format.name} is not a supported tidy "
@@ -268,6 +284,12 @@ class ApplicationServiceRegistry:
             )
 
             return ArrowWideObservationTableWriter
+        elif file_format is WideObservationTableFileFormat.parquet:
+            from .wide_observation_table_writer.parquet_wide_observation_table_writer import (
+                ParquetWideObservationTableWriter,
+            )
+
+            return ParquetWideObservationTableWriter
         elif file_format is WideObservationTableFileFormat.BIOM:
             from .wide_observation_table_writer.biom_wide_observation_table_writer import (
                 BIOMWideObservationTableWriter,
