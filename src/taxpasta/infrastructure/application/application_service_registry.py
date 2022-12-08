@@ -70,9 +70,9 @@ class ApplicationServiceRegistry:
 
             return MetaphlanProfileReader
         elif profiler is SupportedProfiler.motus:
-            from .motus import MotusProfileStandardisationService
+            from .motus import MotusProfileReader
 
-            return MotusProfileStandardisationService
+            return MotusProfileReader
 
     @classmethod
     def profile_standardisation_service(
