@@ -32,7 +32,7 @@ class MotusProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            comment="#",
+            skiprows=3,
             header=None,names=["taxonomy", "tax_id", "read_count"],
             index_col=False,
         )
@@ -43,4 +43,5 @@ class MotusProfileReader(ProfileReader):
                 f"columns but only 3 are expected."
             )
 
+        result[MotusProfile.tax_id].fillna(-1, inplace=True)
         return result
