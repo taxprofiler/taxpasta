@@ -41,7 +41,7 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         """Write the given data to the given buffer or file."""
         result = Table(
             data=matrix.iloc[:, 1:].values,
-            observation_ids=matrix.iloc[:, 0],
+            observation_ids=matrix.iloc[:, 0].astype(str),
             sample_ids=matrix.columns[1:],
         )
         with biom_open(str(target), permission="w") as handle:
