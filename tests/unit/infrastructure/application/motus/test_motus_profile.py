@@ -77,19 +77,6 @@ def test_column_presence(columns: List[Tuple[str, pd.Series]]):
                 "read_count": [0, 0],
             }
         ),
-        pytest.param(
-            pd.DataFrame(
-                {
-                    "taxonomy": [
-                        "Leptospira alexanderi [ref_mOTU_v3_00001]",
-                        "Leptospira weilii [ref_mOTU_v3_00002]",
-                    ],
-                    "tax_id": ["Leptospira alexanderi [ref_mOTU_v3_00001]", "28184"],
-                    "read_count": [0, 0],
-                }
-            ),
-            marks=pytest.mark.raises(exception=SchemaError),
-        ),
     ],
 )
 def test_taxonomy_id(table: pd.DataFrame):
