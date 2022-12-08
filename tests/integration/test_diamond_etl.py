@@ -31,6 +31,7 @@ from taxpasta.infrastructure.application import (
     "filename",
     [
         "diamond_valid_1.tsv",
+        "diamond_valid_2.tsv",
         pytest.param(
             "diamond_invalid_1.tsv",
             marks=pytest.mark.raises(exception=ParserError),
