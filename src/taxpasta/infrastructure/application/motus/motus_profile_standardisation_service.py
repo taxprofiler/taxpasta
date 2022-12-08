@@ -14,8 +14,7 @@
 
 
 """Provide a standardisation service for mOTUs profiles."""
-
-
+import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -41,16 +40,36 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile.loc[
-            ~(
-                profile[MotusProfile.tax_id].isnull()
-                & (profile[MotusProfile.read_count] == 0)
-            ),
+        # Split profile into entries with known and unknown tax ID.
+        # Ignore entries with zero read count.
+        known: pd.DataFrame = profile.loc[
+            profile[MotusProfile.tax_id].notnull()
+            & (profile[MotusProfile.read_count] > 0),
             [MotusProfile.tax_id, MotusProfile.read_count],
         ].copy()
-        result[MotusProfile.tax_id] = (
-            result[MotusProfile.tax_id].astype(float).astype(int)
+        known.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
+        known[StandardProfile.taxonomy_id] = known[StandardProfile.taxonomy_id].astype(
+            int
         )
-        result[MotusProfile.read_count] = result[MotusProfile.read_count].astype(int)
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        return result
+        # FIXME (Moritz): Apparently, mOTUs profiles can contain duplicate tax IDs.
+        #  Clarify with Sofia and Maxime. For now, sum up read counts.
+        result = known.groupby(
+            StandardProfile.taxonomy_id, as_index=False, sort=False
+        ).sum()
+        # Sum up all remaining read counts without tax ID to be 'unassigned'.
+        unassigned = profile.loc[
+            profile[MotusProfile.tax_id].isnull(), MotusProfile.read_count
+        ].sum()
+        return pd.concat(
+            [
+                result,
+                pd.DataFrame(
+                    {
+                        StandardProfile.taxonomy_id: [0],
+                        StandardProfile.count: [unassigned],
+                    },
+                    dtype=int,
+                ),
+            ],
+            ignore_index=True,
+        )
