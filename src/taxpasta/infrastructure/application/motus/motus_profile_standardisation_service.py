@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Provide a standardisation service for motus profiles."""
+"""Provide a standardisation service for mOTUs profiles."""
 
 
 import pandera as pa
@@ -26,6 +26,8 @@ from .motus_profile import MotusProfile
 
 
 class MotusProfileStandardisationService(ProfileStandardisationService):
+    """Define a standardisation service for mOTUs profiles."""
+
     @classmethod
     @pa.check_types(lazy=True)
     def transform(cls, profile: DataFrame[MotusProfile]) -> DataFrame[StandardProfile]:
