@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid kraken2 profiles."""
+"""Test that the reader can parse valid mOTUs profiles."""
 
 
 from pathlib import Path
@@ -41,7 +41,7 @@ def test_read_correctness(
     filename: str,
     checks: List[Tuple[int, int, Union[int, float, str]]],
 ):
-    """Test that the reader can parse valid motus profiles."""
+    """Test that the reader can parse valid mOTUs profiles."""
     profile = MotusProfileReader.read(motus_data_dir / filename)
     for (row, col, value) in checks:
         assert profile.iat[row, col] == value
