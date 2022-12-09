@@ -41,7 +41,7 @@ def test_read_correctness(
     motus_data_dir: Path,
     filename: str,
 ):
-    """Test that KrakenUniq profiles are read, validated, and transformed correctly."""
+    """Test that mOTUs profiles are read, validated, and transformed correctly."""
     MotusProfileStandardisationService.transform(
         MotusProfileReader.read(motus_data_dir / filename)
     )

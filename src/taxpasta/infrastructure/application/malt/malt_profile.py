@@ -23,7 +23,7 @@ from pandera.typing import Series
 class MaltProfile(pa.SchemaModel):
     """Define the expected MALT-rma2info profile format."""
 
-    taxonomy_id: Series[int] = pa.Field(ge=0.0)
+    taxonomy_id: Series[int] = pa.Field(ge=0)
     count: Series[int] = pa.Field(ge=0.0)
 
     class Config:

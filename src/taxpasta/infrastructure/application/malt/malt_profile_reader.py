@@ -41,7 +41,7 @@ class MaltProfileReader(ProfileReader):
         )
         if len(result.columns) != nb_expected_columns:
             raise ValueError(
-                f"Unexpected mOTUs report format. It has {len(result.columns)} "
+                f"Unexpected MALT-rma2info report format. It has {len(result.columns)} "
                 f"columns but only {nb_expected_columns} are expected."
             )
         return result
