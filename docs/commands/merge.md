@@ -40,11 +40,11 @@ For example, take the following Kraken2 output file.
 
 This output format is specific to Kraken2, and is unlikely to be comparable to other tools, as they will record this information in different formats. Furthermore, the indentation system to show taxonomic rank depth is not particularly 'machine-readable', making it difficult to load into spreadsheet tools or tabular formats preferred by languages such as R.
 
-As there is multiple bits of information just of just this sample (percentage, rank etc.), this format makes it very difficult to rapidly compare between different samples.
+As there is multiple bits of information of just this sample (percentage, rank etc.), this format makes it very difficult to rapidly compare between different samples.
 
 A more common format in metagenomics is to have a first column with the taxon name, and each subsequent column representing a different sample with each cell having a count of the number of sequence hits against each species (rows) from each sample (columns).
 
-For an example a more common format of the above would be:
+For example, a more common format of the above would be:
 
 | taxon  | sample1 | sample2 | sample3 |
 | ------ | ------- | ------- | ------- |
@@ -56,6 +56,6 @@ For an example a more common format of the above would be:
 | 4751   | 96      | 30      | 29      |
 | 451864 | 96      | 30      | 29      |
 
-Where you have a header indicating each column, the first (`taxon`) indicating which taxon has the counts in the second column (`sample1`), then third column (`sample2`), and fourth column (`sample3`) and so on.
+Where you have a header indicating each column, the first (`taxon`) indicating which taxon has the counts in the second column (`sample1`), then third column (`sample2`), fourth column (`sample3`), and so on.
 
 As you can see here, this is a much more compact way of viewing across multiple samples, with the caveat you may not have additional information about the accuracy of each assignment (such as edit distances, sub-kmers etc.).
