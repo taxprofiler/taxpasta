@@ -4,7 +4,7 @@ _TAXonomic Profile Aggregation and STAndardisation_
 
 ## About
 
-Taxpasta aims to produced `standardise`d taxon tables from taxonomic profiles, facilitating easier comparison of output of different tools. It can `merge` standardised profiles to generate per-tool multi-sample taxon tables, as well as generate `consensus` profiles across different tools.
+Taxpasta aims to produce `standardised` taxon tables from taxonomic profiles, facilitating easier comparison of output of different tools. It can `merge` standardised profiles to generate per-tool multi-sample taxon tables, as well as generate `consensus` profiles across different tools.
 
 Taxpasta currently supports standardisation and generation of comparable taxonomic tables for:
 
@@ -15,7 +15,7 @@ Taxpasta currently supports standardisation and generation of comparable taxonom
 -   [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 -   [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
 -   [MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/)
--   [MetaPhlAn](https://segatatoollab.cibio.unitn.it/tools/metaphlan/index.html)
+-   [MetaPhlAn](https://segatalab.cibio.unitn.it/tools/metaphlan/index.html)
 -   [mOTUs](https://motu-tool.org/)
 
 See [supported tools](supported_tools/index) for more information.

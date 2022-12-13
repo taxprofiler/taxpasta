@@ -2,7 +2,7 @@
 
 ## What
 
-The purpose of the `standarise` command is to take an output of a single taxonomic profiling tool, and convert it into a standard format that is compatible with (also standardised) output of other profiling tools.
+The purpose of the `standarise` command is to take an output of a single taxonomic profiling tool, and convert it into a standard format that is compatible with the (also standardised) output of other profiling tools.
 
 ## How
 
@@ -22,7 +22,7 @@ This will produce a file called `sample_standardised.tsv` that contains the taxp
 
 You should use `taxpasta standardise` when you want to standardise profiles of a single or multiple profiles independetly, but do not want to join them in a single table (e.g., if you wish to store them separately, and merge on the fly in your own script).
 
-See [`merge`](merge.md) if wish to both standardise and merge in one step to generate a single table containing all samples.
+See [`merge`](merge.md) if you wish to both standardise and merge in one step to generate a single table containing all samples.
 
 > ⚠️ You should only use this command if you are interested in raw 'counts'! The output will remove other information that maybe stored in the tool (percentages, lineage information etc.,)
 
