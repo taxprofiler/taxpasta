@@ -5,9 +5,8 @@
     Not yet implemented!
 
 ```shell
-taxpasta consensus --help                                                                ─╯
+taxpasta consensus --help
 ```
-
 
 ```text
  Usage: taxpasta consensus [OPTIONS]
