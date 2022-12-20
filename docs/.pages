@@ -1,3 +1,8 @@
 nav:
-  - ...
-  - api
+    - index.md
+    - commands
+    - quick_reference
+    - supported_profilers
+    - ...
+    - api
+    - contributing
