@@ -1,3 +1,5 @@
 # consensus
 
-> ⚠️ not yet implemented!
+!!! failure
+
+    Not yet implemented!
