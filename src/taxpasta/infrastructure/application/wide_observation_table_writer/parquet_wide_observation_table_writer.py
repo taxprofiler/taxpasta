@@ -39,4 +39,4 @@ class ParquetWideObservationTableWriter(WideObservationTableWriter):
         **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""
-        matrix.to_feather(target, **kwargs)
+        matrix.to_parquet(target, **kwargs)
