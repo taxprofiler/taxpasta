@@ -45,7 +45,7 @@ taxpasta -h
 ```
 
 Taxpasta currently offers three commands corresponding to the main [use-cases](#about).
-You can find out more in the [ commands documentation ](commands/index.md).
+You can find out more in the [commands documentation](commands/index.md).
 
 ## Copyright
 
