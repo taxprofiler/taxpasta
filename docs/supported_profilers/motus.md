@@ -1,7 +1,13 @@
 # mOTUs
 
-The mOTU profiler is a computational tool that estimates relative taxonomic abundance of known and currently unknown microbial community members using metagenomic shotgun sequencing data.
+> The [mOTU](https://github.com/motu-tool/mOTUs/wiki) profiler is a computational tool that estimates relative taxonomic abundance of known and currently unknown microbial community members using metagenomic shotgun sequencing data.
 
-The following output format is accpted:
+## Profile Format
 
-| #consensus_taxonomy | NCBI_tax_id | sample-db_mOTU |
+Taxpasta expects a three-column, tab-separated file. It interprets the columns as:
+
+| Column Header      | Description |
+|--------------------|-------------|
+| consensus_taxonomy |             |
+| ncbi_tax_id        |             |
+| read_count         |             |
