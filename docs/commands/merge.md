@@ -71,13 +71,13 @@ An example of this format could be:
 
 | taxonomy_id | sample1 | sample2 | sample3 |
 | :---------- | ------: | ------: | ------: |
-| 0           | 787758  | 2233938 | 98872   |
-| 1           | 119     | 12929   | 872     |
-| 131567      | 119     | 5345    | 800     |
-| 2759        | 119     | 123     | 200     |
-| 33154       | 119     | 123     | 29      |
-| 4751        | 96      | 30      | 29      |
-| 451864      | 96      | 30      | 29      |
+| 0           |  787758 | 2233938 |   98872 |
+| 1           |     119 |   12929 |     872 |
+| 131567      |     119 |    5345 |     800 |
+| 2759        |     119 |     123 |     200 |
+| 33154       |     119 |     123 |      29 |
+| 4751        |      96 |      30 |      29 |
+| 451864      |      96 |      30 |      29 |
 
 Where you have a header indicating each column, the first (`taxonomy_id`) indicating
 which taxon has the counts in the second column (`sample1`), then third column

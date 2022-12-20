@@ -1,7 +1,7 @@
 # merge
 
 ```shell
-taxpasta merge --help                                                                ─╯
+taxpasta merge --help
 ```
 
 ```text

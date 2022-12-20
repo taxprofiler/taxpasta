@@ -74,15 +74,15 @@ identifier for unclassified reads. Since there are many downstream processing an
 analytics methods
 that assume integer read counts, we only support such a count or pseudo count column.
 
-| taxonomy_id | count  |
+| taxonomy_id |  count |
 | :---------- | -----: |
 | 0           | 787758 |
-| 1           | 119    |
-| 131567      | 119    |
-| 2759        | 119    |
-| 33154       | 119    |
-| 4751        | 96     |
-| 451864      | 96     |
+| 1           |    119 |
+| 131567      |    119 |
+| 2759        |    119 |
+| 33154       |    119 |
+| 4751        |     96 |
+| 451864      |     96 |
 
 Taxpasta supports fairly diverse output formats but at the very least there should be
 a header indicating each column, the first (`taxonomy_id`) denoting
