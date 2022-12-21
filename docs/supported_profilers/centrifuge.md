@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-A `txt` output file produced by [`centrifuge-kreport`](https://ccb.jhu.edu/software/centrifuge/manual.shtml#kraken-style-report) is accepted by `taxpasta`.
+A Kraken-style `txt` output file produced by the [`centrifuge-kreport`](https://ccb.jhu.edu/software/centrifuge/manual.shtml#kraken-style-report) auxiliary tool (a part of the Centrifuge package) is accepted by `taxpasta`.
 
 | Column Header         | Description |
 |-----------------------|-------------|

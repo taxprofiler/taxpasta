@@ -2,8 +2,8 @@
 
 ## What
 
-The purpose of the `standarise` (aka `standardize`) command is to take an output
-of a single taxonomic profiler and convert it into a standard format that is
+The purpose of the `standarise` (aka `standardize`) command is to take the output of a single sample
+from a single taxonomic profiler and convert it into a standard format that is
 compatible with the output of other profilers standardised by taxpasta.
 
 ## How

@@ -9,7 +9,7 @@ standard 'taxon table' in either wide or long format.
 ## How
 
 To use this command, you will need multiple profiles of a single tool, the name
-of the tool, and specify an output file name.
+of the tool, and specify an output file name:
 
 ```bash
 taxpasta merge --profiler kraken2 --output taxon_table.tsv sample1.kreport.txt sample2.kreport.txt sample3.kreport.txt
