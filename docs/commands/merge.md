@@ -6,21 +6,6 @@ The purpose of the `merge` command is to standardise and immediately combine
 multiple taxonomic profiles from the same tool but different samples. This produces a
 standard 'taxon table' in either wide or long format.
 
-## How
-
-To use this command, you will need multiple profiles of a single tool, the name
-of the tool, and specify an output file name:
-
-```bash
-taxpasta merge --profiler kraken2 --output taxon_table.tsv sample1.kreport.txt sample2.kreport.txt sample3.kreport.txt
-```
-
-where `sample1.kreport.txt`, `sample2.kreport.txt`, `sample3.kreport.txt` are
-report files from kraken2.
-
-This will produce a file called `sample_standardised.tsv` that contains the
-taxpasta 'standard' multi-column structure described [below](#why).
-
 ## When
 
 You should use `taxpasta merge` when you want to standardise multiple profiles
@@ -35,6 +20,21 @@ See [`standardise`](standardise.md) if you wish to only standardise without merg
     You should only use this command if you are interested in raw 'counts'! The
     standardised output will remove profiler specific information, such as
     names, percentages, and lineage information.
+
+## How
+
+To use this command, you will need multiple profiles of a single tool, the name
+of the tool, and specify an output file name:
+
+```bash
+taxpasta merge --profiler kraken2 --output taxon_table.tsv sample1.kreport.txt sample2.kreport.txt sample3.kreport.txt
+```
+
+where `sample1.kreport.txt`, `sample2.kreport.txt`, `sample3.kreport.txt` are
+report files from kraken2.
+
+This will produce a file called `sample_standardised.tsv` that contains the
+taxpasta 'standard' multi-column structure described [below](#why).
 
 ## Why
 

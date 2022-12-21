@@ -6,6 +6,21 @@ The purpose of the `standardise` (aka `standardize`) command is to take the outp
 from a single taxonomic profiler and convert it into a standard format that is
 compatible with the output of other profilers standardised by taxpasta.
 
+## When
+
+You should use `taxpasta standardise` when you want to standardise a single
+taxonomic profile or multiple profiles independently but do not want to merge
+them in a single table, for example, you wish to store them separately.
+
+See [`merge`](merge.md) if you wish to both standardise and merge in one step to
+generate a single table containing all samples.
+
+!!! warning
+
+    You should only use this command if you are interested in raw 'counts'! The
+    standardised output will remove profiler specific information, such as
+    names, percentages, and lineage information.
+
 ## How
 
 To use this command, you need a single output file from a single taxonomic
@@ -26,21 +41,6 @@ taxpasta 'standard' two column structure described [below](#why).
     based on the output file extension. You can alternatively explicitly define
     this with the `--output-format` flag. See `taxpasta standardise --help` for
     all supported formats.
-
-## When
-
-You should use `taxpasta standardise` when you want to standardise a single
-taxonomic profile or multiple profiles independently but do not want to merge
-them in a single table, for example, you wish to store them separately.
-
-See [`merge`](merge.md) if you wish to both standardise and merge in one step to
-generate a single table containing all samples.
-
-!!! warning
-
-    You should only use this command if you are interested in raw 'counts'! The
-    standardised output will remove profiler specific information, such as
-    names, percentages, and lineage information.
 
 ## Why
 
