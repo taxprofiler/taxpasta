@@ -1,7 +1,7 @@
 # standardise
 
 ```shell
-taxpasta merge --help
+taxpasta standardise --help
 ```
 
 ```text
