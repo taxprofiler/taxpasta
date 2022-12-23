@@ -68,10 +68,10 @@ class ApplicationServiceRegistry:
             from .krakenuniq import KrakenUniqProfileReader
 
             return KrakenUniqProfileReader
-        elif profiler is SupportedProfiler.malt:
-            from .malt import MaltProfileReader
+        elif profiler is SupportedProfiler.megan6:
+            from .megan6 import Megan6ProfileReader
 
-            return MaltProfileReader
+            return Megan6ProfileReader
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileReader
 
@@ -110,10 +110,10 @@ class ApplicationServiceRegistry:
             from .krakenuniq import KrakenUniqProfileStandardisationService
 
             return KrakenUniqProfileStandardisationService
-        elif profiler is SupportedProfiler.malt:
-            from .malt import MaltProfileStandardisationService
+        elif profiler is SupportedProfiler.megan6:
+            from .megan6 import Megan6ProfileStandardisationService
 
-            return MaltProfileStandardisationService
+            return Megan6ProfileStandardisationService
         elif profiler is SupportedProfiler.motus:
             from .motus import MotusProfileStandardisationService
 

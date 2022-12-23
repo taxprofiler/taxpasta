@@ -8,6 +8,6 @@ The following pages provide more information on the types of output files of eac
 -   [Kaiju](kaiju.md)
 -   [Kraken2](kraken.md)
 -   [KrakenUniq](krakenuniq.md)
--   [MALT](malt.md)
+-   [MEGAN6/MALT](megan6.md)
 -   [MetaPhlAn](metaphlan.md)
 -   [mOTUs](motus.md)

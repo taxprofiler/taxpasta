@@ -16,10 +16,10 @@ taxpasta merge --help
 │                                            names.                                          │
 ╰────────────────────────────────────────────────────────────────────────────────────────────╯
 ╭─ Options ──────────────────────────────────────────────────────────────────────────────────╮
-│ *  --profiler            -p            [bracken|centrifuge|kaij  The taxonomic profiler    │
-│                                        u|kraken2|krakenuniq|mal  used. All provided        │
-│                                        t|metaphlan]              profiles must come from   │
-│                                                                  the same tool!            │
+│ *  --profiler            -p            [bracken|centrifuge|diam  The taxonomic profiler    │
+│                                        ond|kaiju|kraken2|kraken  used. All provided        │
+│                                        uniq|megan6|metaphlan|mo  profiles must come from   │
+│                                        tus]                      the same tool!            │
 │                                                                  [required]                │
 │    --samplesheet         -s            FILE                      A table with a header and │
 │                                                                  two columns: the first    │
@@ -34,8 +34,8 @@ taxpasta merge --help
 │                                                                  any arguments are         │
 │                                                                  ignored.                  │
 │                                                                  [default: None]           │
-│    --samplesheet-format                [TSV|CSV|ODS|XLSX|arrow]  The file format of the    │
-│                                                                  sample sheet. Depending   │
+│    --samplesheet-format                [TSV|CSV|ODS|XLSX|arrow|  The file format of the    │
+│                                        parquet]                  sample sheet. Depending   │
 │                                                                  on the choice, additional │
 │                                                                  package dependencies may  │
 │                                                                  apply. Will be parsed     │
@@ -50,7 +50,7 @@ taxpasta merge --help
 │                                                                  format.                   │
 │                                                                  [required]                │
 │    --output-format                     [TSV|CSV|ODS|XLSX|arrow|  The desired output        │
-│                                        BIOM]                     format. Depending on the  │
+│                                        parquet|BIOM]             format. Depending on the  │
 │                                                                  choice, additional        │
 │                                                                  package dependencies may  │
 │                                                                  apply. Will be parsed     │
@@ -67,5 +67,4 @@ taxpasta merge --help
 │    --help                -h                                      Show this message and     │
 │                                                                  exit.                     │
 ╰────────────────────────────────────────────────────────────────────────────────────────────╯
-
 ```
