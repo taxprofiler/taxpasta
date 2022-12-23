@@ -6,7 +6,7 @@ The following pages provide more information on the types of output files of eac
 -   [Centrifuge](centrifuge.md)
 -   [DIAMOND](diamond.md)
 -   [Kaiju](kaiju.md)
--   [Kraken2](kraken.md)
+-   [Kraken2](kraken2.md)
 -   [KrakenUniq](krakenuniq.md)
 -   [MEGAN6/MALT](megan6.md)
 -   [MetaPhlAn](metaphlan.md)
