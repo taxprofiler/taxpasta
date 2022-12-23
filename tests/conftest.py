@@ -67,9 +67,9 @@ def diamond_data_dir(data_dir: Path) -> Path:
 
 
 @pytest.fixture(scope="session")
-def malt_data_dir(data_dir: Path) -> Path:
-    """Provide the path to the MALT-rma2info data directory."""
-    return data_dir / "malt"
+def megan6_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the MEGAN6 rma2info data directory."""
+    return data_dir / "megan6"
 
 
 @pytest.fixture(scope="session")

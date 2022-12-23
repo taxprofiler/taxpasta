@@ -16,8 +16,8 @@
 # limitations under the License.
 
 
-from .malt_profile import MaltProfile
-from .malt_profile_reader import MaltProfileReader
-from .malt_profile_standardisation_service import (
-    MaltProfileStandardisationService,
+from .megan6_profile import Megan6Profile
+from .megan6_profile_reader import Megan6ProfileReader
+from .megan6_profile_standardisation_service import (
+    Megan6ProfileStandardisationService,
 )

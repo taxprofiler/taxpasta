@@ -16,35 +16,36 @@
 # limitations under the License.
 
 
-"""Provide a reader for malt profiles."""
+"""Provide a reader for megan6 profiles."""
 
 import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
 
-from .malt_profile import MaltProfile
+from .megan6_profile import Megan6Profile
 
 
-class MaltProfileReader(ProfileReader):
-    """Define a reader for MALT-rma2info profiles."""
+class Megan6ProfileReader(ProfileReader):
+    """Define a reader for MEGAN6 rma2info profiles."""
 
     LARGE_INTEGER = int(10e6)
 
     @classmethod
-    def read(cls, profile: BufferOrFilepath) -> DataFrame[MaltProfile]:
-        """Read a MALT-rma2info taxonomic profile from a file."""
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[Megan6Profile]:
+        """Read a MEGAN6 rma2info taxonomic profile from a file."""
         nb_expected_columns = 2
         result = pd.read_table(
             filepath_or_buffer=profile,
             compression="infer",
             sep="\t",
-            names=[MaltProfile.taxonomy_id, MaltProfile.count],
+            names=[Megan6Profile.taxonomy_id, Megan6Profile.count],
             index_col=False,
         )
         if len(result.columns) != nb_expected_columns:
             raise ValueError(
-                f"Unexpected MALT-rma2info report format. It has {len(result.columns)} "
-                f"columns but only {nb_expected_columns} are expected."
+                f"Unexpected MEGAN6 rma2info report format. It has "
+                f"{len(result.columns)} columns but only {nb_expected_columns} are "
+                f"expected."
             )
         return result

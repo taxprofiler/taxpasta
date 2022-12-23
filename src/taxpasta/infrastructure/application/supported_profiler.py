@@ -32,6 +32,6 @@ class SupportedProfiler(str, Enum):
     kaiju = "kaiju"
     kraken2 = "kraken2"
     krakenuniq = "krakenuniq"
-    malt = "malt"
+    megan6 = "megan6"
     metaphlan = "metaphlan"
     motus = "motus"

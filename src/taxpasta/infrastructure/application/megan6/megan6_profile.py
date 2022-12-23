@@ -16,15 +16,15 @@
 # limitations under the License.
 
 
-"""Provide a description of the MALT-rma2info profile format."""
+"""Provide a description of the MEGAN6 rma2info profile format."""
 
 
 import pandera as pa
 from pandera.typing import Series
 
 
-class MaltProfile(pa.SchemaModel):
-    """Define the expected MALT-rma2info profile format."""
+class Megan6Profile(pa.SchemaModel):
+    """Define the expected MEGAN6 rma2info profile format."""
 
     taxonomy_id: Series[int] = pa.Field(ge=0)
     count: Series[int] = pa.Field(ge=0.0)

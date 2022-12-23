@@ -46,10 +46,10 @@ from .krakenuniq import (
     KrakenUniqProfileReader,
     KrakenUniqProfileStandardisationService,
 )
-from .malt import (
-    MaltProfile,
-    MaltProfileReader,
-    MaltProfileStandardisationService,
+from .megan6 import (
+    Megan6Profile,
+    Megan6ProfileReader,
+    Megan6ProfileStandardisationService,
 )
 from .metaphlan import (
     MetaphlanProfile,
