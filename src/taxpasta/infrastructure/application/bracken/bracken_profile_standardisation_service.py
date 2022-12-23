@@ -54,17 +54,17 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
         return (
             profile[[BrackenProfile.taxonomy_id, BrackenProfile.new_est_reads]]
             .copy()
-            .assign(
-                **{
-                    BrackenProfile.taxonomy_id: lambda df: df[
-                        BrackenProfile.taxonomy_id
-                    ].astype(int)
-                }
-            )
             .rename(
                 columns={
                     BrackenProfile.taxonomy_id: StandardProfile.taxonomy_id,
                     BrackenProfile.new_est_reads: StandardProfile.count,
+                }
+            )
+            .assign(
+                **{
+                    StandardProfile.taxonomy_id: lambda df: df[
+                        StandardProfile.taxonomy_id
+                    ].astype(int)
                 }
             )
         )
