@@ -22,7 +22,7 @@
 from pathlib import Path
 
 import pytest
-from pandas.errors import ParserError
+from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
     DiamondProfileReader,
@@ -37,11 +37,11 @@ from taxpasta.infrastructure.application import (
         "diamond_valid_2.tsv",
         pytest.param(
             "diamond_invalid_1.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
+            marks=pytest.mark.raises(exception=SchemaErrors),
         ),
         pytest.param(
             "diamond_invalid_2.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
+            marks=pytest.mark.raises(exception=SchemaErrors),
         ),
     ],
 )

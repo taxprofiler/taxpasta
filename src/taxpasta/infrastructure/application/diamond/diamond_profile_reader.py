@@ -34,23 +34,16 @@ class DiamondProfileReader(ProfileReader):
     @classmethod
     def read(cls, profile: BufferOrFilepath) -> DataFrame[DiamondProfile]:
         """Read a diamond taxonomic profile from a file."""
-        nb_expected_columns = 3
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
             header=None,
             index_col=False,
-            comment="#",
-        )
-        if len(result.columns) == nb_expected_columns:
-            result.columns = [
+            names=[
                 DiamondProfile.query_id,
                 DiamondProfile.taxonomy_id,
                 DiamondProfile.e_value,
-            ]
-        else:
-            raise ValueError(
-                f"Unexpected diamond report format. It has {len(result.columns)} "
-                f"columns but only {nb_expected_columns} are expected."
-            )
+            ],
+        )
+        cls._check_num_columns(result, DiamondProfile)
         return result
