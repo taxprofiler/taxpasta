@@ -62,11 +62,4 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
                     CentrifugeProfile.direct_assigned_reads: StandardProfile.count,
                 }
             )
-            .assign(
-                **{
-                    StandardProfile.taxonomy_id: lambda df: df[
-                        StandardProfile.taxonomy_id
-                    ].astype(int)
-                }
-            )
         )
