@@ -47,7 +47,7 @@ class BrackenProfileReader(ProfileReader):
             filepath_or_buffer=profile,
             sep="\t",
             index_col=False,
-            dtype={"taxonomy_id": str},
+            dtype={BrackenProfile.taxonomy_id: str},
             skipinitialspace=True,
         )
         cls._check_num_columns(result, BrackenProfile)
