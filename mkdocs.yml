@@ -1,6 +1,6 @@
 site_name: TAXPASTA
 site_description: TAXnomic Profile Aggregation and STAndardisation
-site_author: Moritz E. Beber, Maxime Borry, Sofia Stamouli
+site_author: Moritz E. Beber, Maxime Borry, James Fellows Yates, Sofia Stamouli
 site_url: https://taxpasta.readthedocs.io/
 
 markdown_extensions:
