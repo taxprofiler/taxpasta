@@ -43,10 +43,12 @@ class BrackenProfileReader(ProfileReader):
             A data frame representation of the Bracken profile.
 
         """
-        return pd.read_table(
+        result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
             index_col=False,
             dtype={"taxonomy_id": str},
             skipinitialspace=True,
         )
+        cls._check_num_columns(result, BrackenProfile)
+        return result
