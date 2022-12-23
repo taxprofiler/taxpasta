@@ -49,6 +49,6 @@ You can find out more in the [commands documentation](commands/index.md).
 
 ## Copyright
 
--   Copyright © 2022, Moritz E. Beber, Maxime Borry, James Fellows Yates, and Sofia Stamouli.
+-   Copyright © 2022, Moritz E. Beber, Maxime Borry, James A. Fellows Yates, and Sofia Stamouli.
 -   Free software distributed under the [Apache Software License
     2.0](https://www.apache.org/licenses/LICENSE-2.0).
