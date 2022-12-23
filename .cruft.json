@@ -4,8 +4,8 @@
   "checkout": null,
   "context": {
     "cookiecutter": {
-      "full_name": "Moritz E. Beber, Maxime Borry, Sofia Stamouli",
-      "email": "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, Sofia Stamouli <sofia.stamouli@scilifelab.se>",
+      "full_name": "Moritz E. Beber, Maxime Borry, James Fellows Yates, Sofia Stamouli",
+      "email": "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, James Fellows Yates <jfy133@gmail.com>, Sofia Stamouli <sofia.stamouli@scilifelab.se>",
       "github_username": "taxprofiler",
       "project_name": "taxpasta",
       "project_slug": "taxpasta",
