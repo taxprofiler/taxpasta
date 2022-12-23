@@ -20,8 +20,10 @@
 
 
 from abc import ABC, abstractmethod
+from typing import Type
 
 import pandas as pd
+import pandera
 
 from ._types import BufferOrFilepath
 
@@ -33,3 +35,15 @@ class ProfileReader(ABC):
     @abstractmethod
     def read(cls, profile: BufferOrFilepath) -> pd.DataFrame:
         """Read a taxonomic profile from the given source."""
+
+    @classmethod
+    def _check_num_columns(
+        cls, profile: pd.DataFrame, schema: Type[pandera.SchemaModel]
+    ) -> None:
+        """Perform a strict test on the number of columns."""
+        num_cols = len(schema().to_schema().columns)
+        if len(profile.columns) != num_cols:
+            raise ValueError(
+                f"Unexpected report format. It has {len(profile.columns)} columns but "
+                f"only {num_cols} are expected."
+            )
