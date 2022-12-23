@@ -52,7 +52,6 @@ class CentrifugeProfileReader(ProfileReader):
             header=None,
             index_col=False,
             skipinitialspace=True,
-            dtype={CentrifugeProfile.taxonomy_id: str},
             names=[
                 CentrifugeProfile.percent,
                 CentrifugeProfile.clade_assigned_reads,
