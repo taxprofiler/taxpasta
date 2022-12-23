@@ -51,11 +51,22 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[
-            [CentrifugeProfile.taxonomy_id, CentrifugeProfile.direct_assigned_reads]
-        ].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        result[StandardProfile.taxonomy_id] = result[
-            StandardProfile.taxonomy_id
-        ].astype(str)
-        return result
+        return (
+            profile[
+                [CentrifugeProfile.taxonomy_id, CentrifugeProfile.direct_assigned_reads]
+            ]
+            .copy()
+            .rename(
+                columns={
+                    CentrifugeProfile.taxonomy_id: StandardProfile.taxonomy_id,
+                    CentrifugeProfile.direct_assigned_reads: StandardProfile.count,
+                }
+            )
+            .assign(
+                **{
+                    StandardProfile.taxonomy_id: lambda df: df[
+                        StandardProfile.taxonomy_id
+                    ].astype(int)
+                }
+            )
+        )

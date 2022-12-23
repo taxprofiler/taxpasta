@@ -52,9 +52,8 @@ class CentrifugeProfileReader(ProfileReader):
             header=None,
             index_col=False,
             skipinitialspace=True,
-        )
-        if len(result.columns) == 6:
-            result.columns = [
+            dtype={CentrifugeProfile.taxonomy_id: str},
+            names=[
                 CentrifugeProfile.percent,
                 CentrifugeProfile.clade_assigned_reads,
                 CentrifugeProfile.direct_assigned_reads,
@@ -62,9 +61,6 @@ class CentrifugeProfileReader(ProfileReader):
                 CentrifugeProfile.taxonomy_id,
                 CentrifugeProfile.name,
             ]
-        else:
-            raise ValueError(
-                f"Unexpected centrifuge report format. It has {len(result.columns)} "
-                f"columns but only 6 are expected."
-            )
+        )
+        cls._check_num_columns(result, CentrifugeProfile)
         return result
