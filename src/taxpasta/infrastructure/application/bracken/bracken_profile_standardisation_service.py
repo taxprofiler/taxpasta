@@ -60,11 +60,4 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
                     BrackenProfile.new_est_reads: StandardProfile.count,
                 }
             )
-            .assign(
-                **{
-                    StandardProfile.taxonomy_id: lambda df: df[
-                        StandardProfile.taxonomy_id
-                    ].astype(int)
-                }
-            )
         )

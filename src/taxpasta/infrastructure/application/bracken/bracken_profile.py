@@ -29,7 +29,7 @@ class BrackenProfile(pa.SchemaModel):
     """Define the expected Bracken profile format."""
 
     name: Series[str] = pa.Field()
-    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_id: Series[int] = pa.Field(ge=0)
     taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
     kraken_assigned_reads: Series[int] = pa.Field(ge=0)
     added_reads: Series[int] = pa.Field(ge=0)
