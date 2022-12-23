@@ -60,7 +60,7 @@ class CentrifugeProfileReader(ProfileReader):
                 CentrifugeProfile.taxonomy_level,
                 CentrifugeProfile.taxonomy_id,
                 CentrifugeProfile.name,
-            ]
+            ],
         )
         cls._check_num_columns(result, CentrifugeProfile)
         return result
