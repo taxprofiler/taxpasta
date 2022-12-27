@@ -19,7 +19,6 @@
 """Provide a standardisation service for megan6 profiles."""
 
 
-import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -45,12 +44,13 @@ class Megan6ProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-
-        return pd.DataFrame(
-            {
-                StandardProfile.taxonomy_id: profile[Megan6Profile.taxonomy_id].astype(
-                    str
-                ),
-                StandardProfile.count: profile[Megan6Profile.count],
-            }
+        return (
+            profile[[Megan6Profile.taxonomy_id, Megan6Profile.count]]
+            .copy()
+            .rename(
+                columns={
+                    Megan6Profile.taxonomy_id: StandardProfile.taxonomy_id,
+                    Megan6Profile.count: StandardProfile.count,
+                }
+            )
         )
