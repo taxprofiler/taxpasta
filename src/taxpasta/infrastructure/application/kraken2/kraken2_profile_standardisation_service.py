@@ -46,11 +46,13 @@ class Kraken2ProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[
-            [Kraken2Profile.taxonomy_id, Kraken2Profile.direct_assigned_reads]
-        ].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        result[StandardProfile.taxonomy_id] = result[
-            StandardProfile.taxonomy_id
-        ].astype(str)
-        return result
+        return (
+            profile[[Kraken2Profile.taxonomy_id, Kraken2Profile.direct_assigned_reads]]
+            .copy()
+            .rename(
+                columns={
+                    Kraken2Profile.taxonomy_id: StandardProfile.taxonomy_id,
+                    Kraken2Profile.direct_assigned_reads: StandardProfile.count,
+                }
+            )
+        )

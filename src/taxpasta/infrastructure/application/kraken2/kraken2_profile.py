@@ -36,7 +36,7 @@ class Kraken2Profile(pa.SchemaModel):
     num_minimizers: Optional[Series[int]] = pa.Field(ge=0)
     distinct_minimizers: Optional[Series[int]] = pa.Field(ge=0)
     taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
-    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
     @pa.check("percent", name="compositionality")
