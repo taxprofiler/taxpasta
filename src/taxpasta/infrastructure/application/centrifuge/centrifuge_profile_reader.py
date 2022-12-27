@@ -42,9 +42,6 @@ class CentrifugeProfileReader(ProfileReader):
         Returns:
             A data frame representation of the centrifuge profile.
 
-        Raises:
-            ValueError: In case the table does not contain exactly six.
-
         """
         result = pd.read_table(
             filepath_or_buffer=profile,
