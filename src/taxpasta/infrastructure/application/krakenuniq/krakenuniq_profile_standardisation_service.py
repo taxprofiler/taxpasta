@@ -46,6 +46,13 @@ class KrakenUniqProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[[KrakenUniqProfile.tax_id, KrakenUniqProfile.tax_reads]].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        return result
+        return (
+            profile[[KrakenUniqProfile.tax_id, KrakenUniqProfile.tax_reads]]
+            .copy()
+            .rename(
+                columns={
+                    KrakenUniqProfile.tax_id: StandardProfile.taxonomy_id,
+                    KrakenUniqProfile.tax_reads: StandardProfile.count,
+                }
+            )
+        )
