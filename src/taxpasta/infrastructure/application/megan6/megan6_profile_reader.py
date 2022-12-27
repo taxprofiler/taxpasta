@@ -18,6 +18,7 @@
 
 """Provide a reader for megan6 profiles."""
 
+
 import pandas as pd
 from pandera.typing import DataFrame
 
@@ -34,18 +35,11 @@ class Megan6ProfileReader(ProfileReader):
     @classmethod
     def read(cls, profile: BufferOrFilepath) -> DataFrame[Megan6Profile]:
         """Read a MEGAN6 rma2info taxonomic profile from a file."""
-        nb_expected_columns = 2
         result = pd.read_table(
             filepath_or_buffer=profile,
-            compression="infer",
             sep="\t",
             names=[Megan6Profile.taxonomy_id, Megan6Profile.count],
             index_col=False,
         )
-        if len(result.columns) != nb_expected_columns:
-            raise ValueError(
-                f"Unexpected MEGAN6 rma2info report format. It has "
-                f"{len(result.columns)} columns but only {nb_expected_columns} are "
-                f"expected."
-            )
+        cls._check_num_columns(result, Megan6Profile)
         return result
