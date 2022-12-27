@@ -42,22 +42,14 @@ class KrakenUniqProfileReader(ProfileReader):
         Returns:
             A data frame representation of the KrakenUniq profile.
 
-        Raises:
-            ValueError: In case the table does not contain exactly nine columns.
-
         """
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
+            skiprows=3,
             header=0,
             index_col=False,
-            comment="#",
-            dtype={"taxID": str},
             skipinitialspace=True,
         )
-        if len(result.columns) != 9:
-            raise ValueError(
-                f"Unexpected KrakenUniq report format. It has {len(result.columns)} "
-                f"columns but only 9 are expected."
-            )
+        cls._check_num_columns(result, KrakenUniqProfile)
         return result
