@@ -18,6 +18,7 @@
 
 """Provide a reader for motus profiles."""
 
+
 import pandas as pd
 from pandera.typing import DataFrame
 
@@ -45,11 +46,5 @@ class MotusProfileReader(ProfileReader):
             index_col=False,
             dtype={MotusProfile.ncbi_tax_id: str},
         )
-
-        if len(result.columns) != 3:
-            raise ValueError(
-                f"Unexpected mOTUs report format. It has {len(result.columns)} "
-                f"columns but only 3 are expected."
-            )
-
+        cls._check_num_columns(result, MotusProfile)
         return result

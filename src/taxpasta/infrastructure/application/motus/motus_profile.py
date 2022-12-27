@@ -27,6 +27,7 @@ class MotusProfile(pa.SchemaModel):
     """Define the expected mOTUs profile format."""
 
     consensus_taxonomy: Series[str] = pa.Field()
+    # Pandas cannot handle missing integer values. Thus, we read this column as string.
     ncbi_tax_id: Series[str] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field(ge=0)
 
