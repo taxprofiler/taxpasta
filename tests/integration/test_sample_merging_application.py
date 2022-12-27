@@ -37,19 +37,23 @@ def test_zero_warning(
     """Expect that a warning is emitted about additional zeroes."""
     monkeypatch.chdir(tmp_path)
     profile_1 = Path("profile_1.tsv")
-    pd.DataFrame(
-        [
-            ("k__Bacteria", "2", 100.0, None),
-            ("k__Bacteria|p__Actinobacteria", "2|201174", 100.0, None),
-        ]
-    ).to_csv(profile_1, sep="\t", index=False, header=False)
+    with profile_1.open(mode="a") as handle:
+        handle.writelines(["#\n"] * 4)
+        pd.DataFrame(
+            [
+                ("k__Bacteria", "2", 100.0, None),
+                ("k__Bacteria|p__Actinobacteria", "2|201174", 100.0, None),
+            ]
+        ).to_csv(handle, sep="\t", index=False, header=False)
     profile_2 = Path("profile_2.tsv")
-    pd.DataFrame(
-        [
-            ("k__Bacteria", "2", 100.0, None),
-            ("k__Bacteria|p__Firmicutes", "2|1239", 100.0, None),
-        ]
-    ).to_csv(profile_2, sep="\t", index=False, header=False)
+    with profile_2.open(mode="a") as handle:
+        handle.writelines(["#\n"] * 4)
+        pd.DataFrame(
+            [
+                ("k__Bacteria", "2", 100.0, None),
+                ("k__Bacteria|p__Firmicutes", "2|1239", 100.0, None),
+            ]
+        ).to_csv(handle, sep="\t", index=False, header=False)
     app = SampleMergingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(
             SupportedProfiler.metaphlan

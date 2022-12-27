@@ -22,7 +22,6 @@
 from pathlib import Path
 
 import pytest
-from pandas.errors import ParserError
 from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
@@ -36,10 +35,6 @@ from taxpasta.infrastructure.application import (
     [
         "mpa_valid_simple.tsv",
         "mpa_valid_complex.tsv",
-        pytest.param(
-            "mpa_invalid_tabs.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
-        ),
         pytest.param(
             "mpa_invalid_abundance_sum.tsv",
             marks=pytest.mark.raises(exception=SchemaErrors),
