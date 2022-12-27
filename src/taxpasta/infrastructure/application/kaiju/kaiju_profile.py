@@ -29,7 +29,8 @@ class KaijuProfile(pa.SchemaModel):
     file: Series[str] = pa.Field()
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
     reads: Series[int] = pa.Field(ge=0)
-    taxon_id: Series[int] = pa.Field()
+    # Pandas cannot handle missing integer values. Thus, we read this column as string.
+    taxon_id: Series[str] = pa.Field(nullable=True)
     taxon_name: Series[str] = pa.Field()
 
     @pa.check("percent", name="compositionality")

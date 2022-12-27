@@ -42,20 +42,13 @@ class KaijuProfileReader(ProfileReader):
         Returns:
             A data frame representation of the kaiju profile.
 
-        Raises:
-            ValueError: In case the table does not contain exactly five columns.
-
         """
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
             header=0,
             index_col=False,
+            dtype={KaijuProfile.taxon_id: str},
         )
-        if len(result.columns) != 5:
-            raise ValueError(
-                f"Unexpected kaiju report format. It has {len(result.columns)} "
-                f"columns but only 5 are expected."
-            )
-        result[KaijuProfile.taxon_id].fillna(-1, inplace=True)
+        cls._check_num_columns(result, KaijuProfile)
         return result
