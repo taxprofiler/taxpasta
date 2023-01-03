@@ -18,8 +18,8 @@ modules need to be placed in a package of their own named for the profiler, for 
 What do those three new modules need to do? Basically, taxpasta needs to be able
 to read a taxonomic profile, validate its correctness as much as possible, and
 finally transform it to what we call the
-[`StandardProfile`][taxpasta.domain.model.standardprofile]. All
-further processing and logic is based on the [`StandardProfile`][taxpasta.domain.model.standardprofile] so you don't need
+[`StandardProfile`][taxpasta.domain.model.StandardProfile]. All
+further processing and logic is based on the [`StandardProfile`][taxpasta.domain.model.StandardProfile] so you don't need
 to change anything else!
 
 ```mermaid
@@ -108,7 +108,7 @@ You could then continue either with the reading or transformation part of the sc
 We will begin with the reader so that you can get some real data into Python.
 
 For reading a taxonomic profile from a new tool, you need to inherit a new class
-from the abstract [`ProfileReader`][taxpasta.application.service.profilereader]. This
+from the abstract [`ProfileReader`][taxpasta.application.service.ProfileReader]. This
 new class and module should follow the naming scheme mentioned above,
 as an example `Kraken2ProfileReader` to support `kraken2` in `kraken2_profile_reader.py`. Since you need to import
 your base class from a different package branch, you should use an absolute
@@ -169,7 +169,7 @@ class Kraken2ProfileStandardisationService(ProfileStandardisationService):
 
 Finally, we need to transform the specific taxonomic profile into our standard
 profile. Similarly to the profile reader, there exists an abstract
-[`ProfileStandardisationService`][taxpasta.application.service.profilestandardisationservice]
+[`ProfileStandardisationService`][taxpasta.application.service.ProfileStandardisationService]
 that you need to inherit from. The new module should be placed into
 `src/taxpasta/infrastructure/application/<profiler name>/` and the naming should follow the
 conventions, as an example, `Kraken2ProfileStandardisationService` class in a
@@ -197,7 +197,7 @@ The `pa.check_types` decorator validates the class method's input and output
 using the type annotations and the defined schema models.
 
 The `transform` class method itself needs to modify the given `pandas.DataFrame` such that
-the returned result looks like the [`StandardProfile`][taxpasta.domain.model.standardprofile].
+the returned result looks like the [`StandardProfile`][taxpasta.domain.model.StandardProfile].
 
 In order to ensure that the whole three-step process from the diagram: read, validate, transform
 produces expected results, we will now create a new kind of test; an integration test that
@@ -256,7 +256,7 @@ from .kraken2 import (
 ### 5. Enable Support
 
 Finally, to make your profiler fully available to taxpasta, you have to add your profiler name
-to the [`SupportedProfiler`][taxpasta.infrastructure.application.supportedprofiler] enumeration.
+to the [`SupportedProfiler`][taxpasta.infrastructure.application.SupportedProfiler] enumeration.
 
 ```python title="src/taxpasta/infrastructure/application/supported_profiler.py" hl_lines="9"
 from enum import Enum, unique
@@ -271,7 +271,7 @@ class SupportedProfiler(str, Enum):
 ```
 
 Once that entry is made. Add your reader and standardisation service to the
-[`ApplicationServiceRegistry`][taxpasta.infrastructure.application.applicationserviceregistry].
+[`ApplicationServiceRegistry`][taxpasta.infrastructure.application.ApplicationServiceRegistry].
 First, add a condition to the `profile_reader` class method as shown here for kraken2.
 
 ```python title="src/taxpasta/infrastructure/application/application_service_registry.py" hl_lines="11-14"
