@@ -12,7 +12,22 @@ Therefore, if you wish to standardise MALT output you must run your RMA6 files t
 
 Taxpasta expects a two-column, tab-separated file. It interprets the columns as:
 
-| Column Header         | Description |
-|-----------------------|-------------|
-| taxonomy_id           |             |
-| count                 |             |
+| Column Header | Description |
+| ------------- | ----------- |
+| taxonomy_id   |             |
+| count         |             |
+
+## Example
+
+```text
+2	994.0
+6	3.0
+10	19.0
+16	24.0
+20	21.0
+22	9.0
+29	2.0
+31	4.0
+32	6.0
+39	6.0
+```

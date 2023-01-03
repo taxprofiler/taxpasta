@@ -7,9 +7,21 @@
 Taxpasta expects a four-column, tab-separated file. It interprets the columns as:
 
 | Column Header      | Description |
-|--------------------|-------------|
+| ------------------ | ----------- |
 | clade_name         |             |
 | taxonomy_id        |             |
 | relative_abundance |             |
 | additional_species |             |
 
+## Example
+
+```text
+#mpa_v30_CHOCOPhlAn_201901
+#/workspace/nextflow-mentoring/second_pipeline/work/conda/env-e9a987b33d7e880200ff2190a27ad05d/bin/metaphlan ERR525939.trimmed.R1.fastq.gz,ERR525939.trimmed.R2.fastq.gz --bowtie2out metagenome.bowtie2.bz2 --input_type fastq -o ERR525939.taxa.txt
+#SampleID	Metaphlan_Analysis
+#clade_name	NCBI_tax_id	relative_abundance	additional_species
+k__Bacteria	2	100.0
+k__Bacteria|p__Bacteroidetes	2|976	65.30411
+k__Bacteria|p__Proteobacteria	2|1224	27.81459
+k__Bacteria|p__Firmicutes	2|1239	4.35836
+```
