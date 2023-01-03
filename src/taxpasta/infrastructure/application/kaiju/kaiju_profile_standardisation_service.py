@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,8 +17,7 @@
 
 
 """Provide a standardisation service for kaiju profiles."""
-
-
+import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -41,13 +43,35 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[[KaijuProfile.taxon_id, KaijuProfile.reads]].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        result.loc[
-            profile[KaijuProfile.taxon_name] == "unclassified",
-            StandardProfile.taxonomy_id,
-        ] = 0
+        temp = (
+            profile[[KaijuProfile.taxon_id, KaijuProfile.reads]]
+            .copy()
+            .rename(
+                columns={
+                    KaijuProfile.taxon_id: StandardProfile.taxonomy_id,
+                    KaijuProfile.reads: StandardProfile.count,
+                }
+            )
+        )
+        result = temp.loc[temp[StandardProfile.taxonomy_id].notnull(), :].copy()
         result[StandardProfile.taxonomy_id] = result[
             StandardProfile.taxonomy_id
-        ].astype(str)
-        return result
+        ].astype(int)
+        # Replace missing values (unclassified reads) with zeroes and sum reads.
+        return pd.concat(
+            [
+                result,
+                pd.DataFrame(
+                    {
+                        StandardProfile.taxonomy_id: [0],
+                        StandardProfile.count: [
+                            temp.loc[
+                                temp[StandardProfile.taxonomy_id].isnull(),
+                                StandardProfile.count,
+                            ].sum()
+                        ],
+                    }
+                ),
+            ],
+            ignore_index=True,
+        )

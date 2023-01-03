@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +22,7 @@
 from pathlib import Path
 
 import pytest
-from pandas.errors import ParserError
+from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
     DiamondProfileReader,
@@ -34,11 +37,11 @@ from taxpasta.infrastructure.application import (
         "diamond_valid_2.tsv",
         pytest.param(
             "diamond_invalid_1.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
+            marks=pytest.mark.raises(exception=SchemaErrors),
         ),
         pytest.param(
             "diamond_invalid_2.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
+            marks=pytest.mark.raises(exception=SchemaErrors),
         ),
     ],
 )

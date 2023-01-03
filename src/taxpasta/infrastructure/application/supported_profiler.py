@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +32,6 @@ class SupportedProfiler(str, Enum):
     kaiju = "kaiju"
     kraken2 = "kraken2"
     krakenuniq = "krakenuniq"
-    malt = "malt"
+    megan6 = "megan6"
     metaphlan = "metaphlan"
     motus = "motus"

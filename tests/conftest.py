@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,9 +67,9 @@ def diamond_data_dir(data_dir: Path) -> Path:
 
 
 @pytest.fixture(scope="session")
-def malt_data_dir(data_dir: Path) -> Path:
-    """Provide the path to the MALT-rma2info data directory."""
-    return data_dir / "malt"
+def megan6_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the MEGAN6 rma2info data directory."""
+    return data_dir / "megan6"
 
 
 @pytest.fixture(scope="session")

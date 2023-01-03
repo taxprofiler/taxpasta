@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +33,7 @@ from taxpasta.infrastructure.application import KaijuProfileReader
         (
             "barcode41_se-barcode41-kaiju.txt",
             [
-                (1, 3, 1902245.0),
+                (1, 3, "1902245"),
                 (4, 2, 292),
                 (16, 4, "taxonid:2590016"),
             ],

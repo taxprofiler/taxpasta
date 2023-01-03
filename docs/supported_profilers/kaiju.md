@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-The following format is expected:
+Taxpasta expects a five column output.  This is generated either by redirecting the Kaiju `stdout` or the `-o` parameter. The following format is expected:
 
 | Column Header | Description |
 | ------------- | ----------- |

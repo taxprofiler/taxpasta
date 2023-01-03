@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-Taxpasta expects a tab-separated file with three columns. Taxpasta will interpret the columns as:
+Taxpasta expects a tab-separated file with three columns. This is generated with the DIAMOND parameter `--outfmt 102`. Taxpasta will interpret the columns as:
 
 | Column Header | Description |
 | ------------- | ----------- |

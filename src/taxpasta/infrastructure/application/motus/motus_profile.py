@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,6 +27,7 @@ class MotusProfile(pa.SchemaModel):
     """Define the expected mOTUs profile format."""
 
     consensus_taxonomy: Series[str] = pa.Field()
+    # Pandas cannot handle missing integer values. Thus, we read this column as string.
     ncbi_tax_id: Series[str] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field(ge=0)
 

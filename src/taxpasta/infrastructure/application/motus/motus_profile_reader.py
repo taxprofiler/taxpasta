@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +17,7 @@
 
 
 """Provide a reader for motus profiles."""
+
 
 import pandas as pd
 from pandera.typing import DataFrame
@@ -42,11 +46,5 @@ class MotusProfileReader(ProfileReader):
             index_col=False,
             dtype={MotusProfile.ncbi_tax_id: str},
         )
-
-        if len(result.columns) != 3:
-            raise ValueError(
-                f"Unexpected mOTUs report format. It has {len(result.columns)} "
-                f"columns but only 3 are expected."
-            )
-
+        cls._check_num_columns(result, MotusProfile)
         return result

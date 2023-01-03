@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +19,6 @@
 """Provide a standardisation service for metaphlan profiles."""
 
 
-import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -47,13 +49,32 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        return pd.DataFrame(
-            {
-                StandardProfile.taxonomy_id: profile[MetaphlanProfile.taxonomy_id]
-                .str.rsplit("|", n=1)
-                .str[-1],
-                StandardProfile.count: profile[MetaphlanProfile.relative_abundance].map(
-                    lambda abundance: int(abundance * cls.LARGE_INTEGER)
-                ),
-            }
+        return (
+            profile[[MetaphlanProfile.ncbi_tax_id, MetaphlanProfile.relative_abundance]]
+            .copy()
+            .rename(
+                columns={
+                    MetaphlanProfile.ncbi_tax_id: StandardProfile.taxonomy_id,
+                    MetaphlanProfile.relative_abundance: StandardProfile.count,
+                }
+            )
+            .assign(
+                **{
+                    StandardProfile.taxonomy_id: lambda df: df[
+                        StandardProfile.taxonomy_id
+                    ]
+                    .str.rsplit("|", n=1)
+                    .str[-1]
+                    .astype(int),
+                    StandardProfile.count: lambda df: df[StandardProfile.count]
+                    * cls.LARGE_INTEGER,
+                }
+            )
+            .assign(
+                **{
+                    StandardProfile.count: lambda df: df[StandardProfile.count].astype(
+                        int
+                    )
+                }
+            )
         )

@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -26,7 +29,7 @@ class BrackenProfile(pa.SchemaModel):
     """Define the expected Bracken profile format."""
 
     name: Series[str] = pa.Field()
-    taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_id: Series[int] = pa.Field(ge=0)
     taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
     kraken_assigned_reads: Series[int] = pa.Field(ge=0)
     added_reads: Series[int] = pa.Field(ge=0)
