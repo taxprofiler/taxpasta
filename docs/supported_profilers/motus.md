@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-Taxpasta expects a three-column, tab-separated file. It interprets the columns as:
+Taxpasta expects a three-column, tab-separated file. This file is generated with the mOTUs parameter `-o` . It interprets the columns as:
 
 | Column Header      | Description |
 |--------------------|-------------|

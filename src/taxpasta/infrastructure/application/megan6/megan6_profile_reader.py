@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,35 +16,30 @@
 # limitations under the License.
 
 
-"""Provide a reader for malt profiles."""
+"""Provide a reader for megan6 profiles."""
+
 
 import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
 
-from .malt_profile import MaltProfile
+from .megan6_profile import Megan6Profile
 
 
-class MaltProfileReader(ProfileReader):
-    """Define a reader for MALT-rma2info profiles."""
+class Megan6ProfileReader(ProfileReader):
+    """Define a reader for MEGAN6 rma2info profiles."""
 
     LARGE_INTEGER = int(10e6)
 
     @classmethod
-    def read(cls, profile: BufferOrFilepath) -> DataFrame[MaltProfile]:
-        """Read a MALT-rma2info taxonomic profile from a file."""
-        nb_expected_columns = 2
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[Megan6Profile]:
+        """Read a MEGAN6 rma2info taxonomic profile from a file."""
         result = pd.read_table(
             filepath_or_buffer=profile,
-            compression="infer",
             sep="\t",
-            names=[MaltProfile.taxonomy_id, MaltProfile.count],
+            names=[Megan6Profile.taxonomy_id, Megan6Profile.count],
             index_col=False,
         )
-        if len(result.columns) != nb_expected_columns:
-            raise ValueError(
-                f"Unexpected MALT-rma2info report format. It has {len(result.columns)} "
-                f"columns but only {nb_expected_columns} are expected."
-            )
+        cls._check_num_columns(result, Megan6Profile)
         return result

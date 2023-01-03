@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,10 +43,11 @@ class BrackenProfileReader(ProfileReader):
             A data frame representation of the Bracken profile.
 
         """
-        return pd.read_table(
+        result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
             index_col=False,
-            dtype={"taxonomy_id": str},
             skipinitialspace=True,
         )
+        cls._check_num_columns(result, BrackenProfile)
+        return result

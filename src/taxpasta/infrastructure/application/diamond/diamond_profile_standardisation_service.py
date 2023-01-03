@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +19,6 @@
 """Provide a standardisation service for diamond profiles."""
 
 
-import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -44,19 +46,16 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-
-        result = profile[[DiamondProfile.query_id, DiamondProfile.taxonomy_id]].copy()
-        result = (
-            result.groupby(DiamondProfile.taxonomy_id)
-            .count()
+        # Sum up occurrences of taxonomy identifiers to yield read count.
+        return (
+            profile[[DiamondProfile.taxonomy_id]]
+            .groupby(DiamondProfile.taxonomy_id, sort=False)
+            .size()
             .reset_index()
-            .rename(columns={DiamondProfile.query_id: StandardProfile.count})
-        )
-        return pd.DataFrame(
-            {
-                StandardProfile.taxonomy_id: result[DiamondProfile.taxonomy_id].astype(
-                    str
-                ),
-                StandardProfile.count: result[StandardProfile.count],
-            }
+            .rename(
+                columns={
+                    DiamondProfile.taxonomy_id: StandardProfile.taxonomy_id,
+                    0: StandardProfile.count,
+                }
+            )
         )

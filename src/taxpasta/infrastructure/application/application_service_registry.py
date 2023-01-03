@@ -1,5 +1,8 @@
 # flake8: noqa
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -65,10 +68,10 @@ class ApplicationServiceRegistry:
             from .krakenuniq import KrakenUniqProfileReader
 
             return KrakenUniqProfileReader
-        elif profiler is SupportedProfiler.malt:
-            from .malt import MaltProfileReader
+        elif profiler is SupportedProfiler.megan6:
+            from .megan6 import Megan6ProfileReader
 
-            return MaltProfileReader
+            return Megan6ProfileReader
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileReader
 
@@ -107,10 +110,10 @@ class ApplicationServiceRegistry:
             from .krakenuniq import KrakenUniqProfileStandardisationService
 
             return KrakenUniqProfileStandardisationService
-        elif profiler is SupportedProfiler.malt:
-            from .malt import MaltProfileStandardisationService
+        elif profiler is SupportedProfiler.megan6:
+            from .megan6 import Megan6ProfileStandardisationService
 
-            return MaltProfileStandardisationService
+            return Megan6ProfileStandardisationService
         elif profiler is SupportedProfiler.motus:
             from .motus import MotusProfileStandardisationService
 

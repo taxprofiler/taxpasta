@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -28,7 +31,8 @@ class MetaphlanProfile(pa.SchemaModel):
     """Define the expected metaphlan profile format."""
 
     clade_name: Series[str] = pa.Field()
-    taxonomy_id: Series[str] = pa.Field()
+    # MetaPhlan provides the full lineage of tax IDs in this field.
+    ncbi_tax_id: Series[str] = pa.Field(alias="NCBI_tax_id")
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
     additional_species: Optional[Series[str]] = pa.Field(nullable=True)
 

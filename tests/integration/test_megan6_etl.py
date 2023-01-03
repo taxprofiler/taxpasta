@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,17 +16,15 @@
 # limitations under the License.
 
 
-"""Test that MALT-rma2info profiles are read, validated, and transformed correctly."""
+"""Test that MEGAN6 rma2info profiles are read, validated, and transformed correctly."""
 
-
-from pathlib import Path
 
 import pytest
 from pandas.errors import ParserError
 
 from taxpasta.infrastructure.application import (
-    MaltProfileReader,
-    MaltProfileStandardisationService,
+    Megan6ProfileReader,
+    Megan6ProfileStandardisationService,
 )
 
 
@@ -46,10 +47,10 @@ from taxpasta.infrastructure.application import (
     ],
 )
 def test_read_correctness(
-    malt_data_dir: Path,
+    megan6_data_dir,
     filename: str,
 ):
-    """Test that malt profiles are read, validated, and transformed correctly."""
-    MaltProfileStandardisationService.transform(
-        MaltProfileReader.read(malt_data_dir / filename)
+    """Test that megan6 profiles are read, validated, and transformed correctly."""
+    Megan6ProfileStandardisationService.transform(
+        Megan6ProfileReader.read(megan6_data_dir / filename)
     )

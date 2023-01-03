@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +16,14 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid MALT-rma2info profiles."""
+"""Test that the reader can parse valid MEGAN6 rma2info profiles."""
 
 
-from pathlib import Path
 from typing import List, Tuple, Union
 
 import pytest
 
-from taxpasta.infrastructure.application import MaltProfileReader
+from taxpasta.infrastructure.application import Megan6ProfileReader
 
 
 @pytest.mark.parametrize(
@@ -38,11 +40,11 @@ from taxpasta.infrastructure.application import MaltProfileReader
     ],
 )
 def test_read_correctness(
-    malt_data_dir: Path,
+    megan6_data_dir,
     filename: str,
     checks: List[Tuple[int, int, Union[int, float, str]]],
 ):
-    """Test that the reader can parse valid malt profiles."""
-    profile = MaltProfileReader.read(malt_data_dir / filename)
+    """Test that the reader can parse valid megan6 profiles."""
+    profile = Megan6ProfileReader.read(megan6_data_dir / filename)
     for (row, col, value) in checks:
         assert profile.iat[row, col] == value

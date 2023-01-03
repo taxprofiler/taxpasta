@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,10 +19,10 @@
 """Create top level imports."""
 
 
-__author__ = "Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli"
+__author__ = "Moritz E. Beber, Maxime Borry, Sofia Stamouli"
 __email__ = (
     "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, "
-    "Jianhong Ou <jianhong.ou@duke.edu>, Sofia Stamouli <sofia.stamouli@scilifelab.se>"
+    "Sofia Stamouli <sofia.stamouli@scilifelab.se>"
 )
 
 try:

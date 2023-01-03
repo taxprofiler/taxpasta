@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -31,14 +34,14 @@ from taxpasta.infrastructure.application import BrackenProfileReader
             "2611_se-ERR5766174-db1_S.tsv",
             [
                 (0, 0, "Saccharomyces cerevisiae"),
-                (0, 1, "4932"),
+                (0, 1, 4932),
                 (0, 2, "S"),
                 (0, 3, 96),
                 (0, 4, 0),
                 (0, 5, 96),
                 (0, 6, 0.80672),
                 (1, 0, "Homo sapiens"),
-                (1, 1, "9606"),
+                (1, 1, 9606),
                 (1, 2, "S"),
                 (1, 3, 23),
                 (1, 4, 0),
@@ -50,7 +53,7 @@ from taxpasta.infrastructure.application import BrackenProfileReader
             "2613_pe-ERR5766181-db1_S.tsv",
             [
                 (0, 0, "Homo sapiens"),
-                (0, 1, "9606"),
+                (0, 1, 9606),
                 (0, 2, "S"),
                 (0, 3, 78),
                 (0, 4, 0),

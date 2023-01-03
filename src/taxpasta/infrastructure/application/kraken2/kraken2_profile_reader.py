@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -73,6 +76,6 @@ class Kraken2ProfileReader(ProfileReader):
         else:
             raise ValueError(
                 f"Unexpected kraken2 report format. It has {len(result.columns)} "
-                f"columns but only 6 or 8 are expected."
+                f"columns but only six or eight are expected."
             )
         return result

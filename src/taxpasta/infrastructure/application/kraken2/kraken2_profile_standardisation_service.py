@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,11 +46,13 @@ class Kraken2ProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        result = profile[
-            [Kraken2Profile.taxonomy_id, Kraken2Profile.direct_assigned_reads]
-        ].copy()
-        result.columns = [StandardProfile.taxonomy_id, StandardProfile.count]
-        result[StandardProfile.taxonomy_id] = result[
-            StandardProfile.taxonomy_id
-        ].astype(str)
-        return result
+        return (
+            profile[[Kraken2Profile.taxonomy_id, Kraken2Profile.direct_assigned_reads]]
+            .copy()
+            .rename(
+                columns={
+                    Kraken2Profile.taxonomy_id: StandardProfile.taxonomy_id,
+                    Kraken2Profile.direct_assigned_reads: StandardProfile.count,
+                }
+            )
+        )

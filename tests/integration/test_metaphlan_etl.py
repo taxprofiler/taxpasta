@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +22,6 @@
 from pathlib import Path
 
 import pytest
-from pandas.errors import ParserError
 from pandera.errors import SchemaErrors
 
 from taxpasta.infrastructure.application import (
@@ -33,10 +35,6 @@ from taxpasta.infrastructure.application import (
     [
         "mpa_valid_simple.tsv",
         "mpa_valid_complex.tsv",
-        pytest.param(
-            "mpa_invalid_tabs.tsv",
-            marks=pytest.mark.raises(exception=ParserError),
-        ),
         pytest.param(
             "mpa_invalid_abundance_sum.tsv",
             marks=pytest.mark.raises(exception=SchemaErrors),

@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,22 +16,8 @@
 # limitations under the License.
 
 
-"""Provide a description of the MALT-rma2info profile format."""
-
-
-import pandera as pa
-from pandera.typing import Series
-
-
-class MaltProfile(pa.SchemaModel):
-    """Define the expected MALT-rma2info profile format."""
-
-    taxonomy_id: Series[int] = pa.Field(ge=0)
-    count: Series[int] = pa.Field(ge=0.0)
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
+from .megan6_profile import Megan6Profile
+from .megan6_profile_reader import Megan6ProfileReader
+from .megan6_profile_standardisation_service import (
+    Megan6ProfileStandardisationService,
+)

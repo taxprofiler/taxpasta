@@ -1,4 +1,7 @@
-# Copyright (c) 2022, Moritz E. Beber, Maxime Borry, Jianhong Ou, Sofia Stamouli.
+# Copyright (c) 2022 Moritz E. Beber
+# Copyright (c) 2022 Maxime Borry
+# Copyright (c) 2022 James A. Fellows Yates
+# Copyright (c) 2022 Sofia Stamouli.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,21 +35,16 @@ class MetaphlanProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
+            skiprows=4,
             header=None,
             index_col=False,
-            comment="#",
-            dtype={"taxonomy_id": str},
-        )
-        if len(result.columns) == 4:
-            result.columns = [
+            names=[
                 MetaphlanProfile.clade_name,
-                MetaphlanProfile.taxonomy_id,
+                MetaphlanProfile.ncbi_tax_id,
                 MetaphlanProfile.relative_abundance,
                 MetaphlanProfile.additional_species,
-            ]
-        else:
-            raise ValueError(
-                f"Unexpected metaphlan report format. It has {len(result.columns)} "
-                f"columns but only 4 are expected."
-            )
+            ],
+            dtype={MetaphlanProfile.ncbi_tax_id: str},
+        )
+        cls._check_num_columns(result, MetaphlanProfile)
         return result
