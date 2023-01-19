@@ -7,10 +7,22 @@
 A Kraken-style `txt` output file produced by the [`centrifuge-kreport`](https://ccb.jhu.edu/software/centrifuge/manual.shtml#kraken-style-report) auxiliary tool (a part of the Centrifuge package) is accepted by `taxpasta`.
 
 | Column Header         | Description |
-|-----------------------|-------------|
+| --------------------- | ----------- |
 | percent               |             |
 | clade_assigned_reads  |             |
 | direct_assigned_reads |             |
 | taxonomy_level        |             |
 | taxonomy_id           |             |
 | name                  |             |
+
+## Example
+
+```text
+  0.00	0	0	U	0	unclassified
+100.00	99	0	-	1	root
+ 98.99	98	0	D	10239	  Viruses
+ 33.33	33	0	F	687329	    Anelloviridae
+ 23.23	23	1	G	687331	      Alphatorquevirus
+  1.01	1	1	S	687340	        Torque teno virus 1
+  1.01	1	1	S	687342	        Torque teno virus 3
+```

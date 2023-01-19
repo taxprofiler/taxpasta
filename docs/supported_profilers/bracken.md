@@ -7,7 +7,7 @@
 The following input format is accepted by `taxpasta`. This file is generated with the Bracken parameter `-o`. A tab-separated file with the following column headers:
 
 | Column Header         | Description |
-|-----------------------|-------------|
+| --------------------- | ----------- |
 | name                  |             |
 | taxonomy_id           |             |
 | taxonomy_lvl          |             |
@@ -15,3 +15,11 @@ The following input format is accepted by `taxpasta`. This file is generated wit
 | added_reads           |             |
 | new_est_reads         |             |
 | fraction_total_reads  |             |
+
+## Example
+
+```text
+name	taxonomy_id	taxonomy_lvl	kraken_assigned_reads	added_reads	new_est_reads	fraction_total_reads
+Homo sapiens	9606	S	156	0	156	0.90173
+Saccharomyces cerevisiae	4932	S	17	0	17	0.09827
+```
