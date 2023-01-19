@@ -16,7 +16,7 @@ Taxpasta expects a five column output. This is generated either by redirecting t
 
 ## Example
 
-```bash
+```text
 file	percent	reads	taxon_id	taxon_name
 barcode41_se-barcode41-kaiju.tsv	2.988734	841	28901	taxonid:28901
 barcode41_se-barcode41-kaiju.tsv	2.739969	771	1902245	taxonid:1902245
