@@ -10,9 +10,26 @@ Therefore, if you wish to standardise MEGAN6/MALT output, you must run your RMA6
 
 ## Profile Format
 
-Taxpasta expects a two-column, tab-separated file. This is generated either by redirecting the rma2info `stdout` or the `--out` parameter. It interprets the columns as:
+Taxpasta expects a two-column, tab-separated file. This is generated either by redirecting the rma2info `stdout` or the `--out` parameter. It interprets the columns as containing:
 
-| Column Header         | Description |
-|-----------------------|-------------|
-| taxonomy_id           |             |
-| count                 |             |
+| Column Header | Description |
+| ------------- | ----------- |
+| taxonomy_id   |             |
+| count         |             |
+
+Note that the file itself does not have any column names.
+
+## Example
+
+```text
+2	994.0
+6	3.0
+10	19.0
+16	24.0
+20	21.0
+22	9.0
+29	2.0
+31	4.0
+32	6.0
+39	6.0
+```
