@@ -20,4 +20,3 @@ from .standard_profile import StandardProfile
 from .sample import Sample
 from .tidy_observation_table import TidyObservationTable
 from .wide_observation_table import WideObservationTable
-from .taxonomy import Taxonomy
