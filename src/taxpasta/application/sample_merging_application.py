@@ -98,7 +98,6 @@ class SampleMergingApplication:
         samples = self._etl_samples(profiles, ignore_error)
 
         if summarise_at is not None:
-            assert self.taxonomy is not None
             samples = self._summarise_samples(samples, summarise_at, ignore_error)
 
         if wide_format:
@@ -134,7 +133,7 @@ class SampleMergingApplication:
                 )
             except SchemaErrors as errors:
                 if ignore_error:
-                    logger.error("Sample %s: %s", name, str(error))
+                    logger.error("Sample %s: %s", name, str(errors))
                     continue
                 else:
                     raise StandardisationError(
@@ -154,6 +153,7 @@ class SampleMergingApplication:
         self, samples: List[Sample], rank: str, ignore_error: bool
     ) -> List[Sample]:
         """Summarise samples at a given taxonomic rank."""
+        assert self.taxonomy is not None
         result = []
         for sample in samples:
             try:

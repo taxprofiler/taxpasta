@@ -56,21 +56,19 @@ class TaxopyTaxonomyService(TaxonomyService):
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """"""
         return table.copy().assign(
-            name=lambda df: df[ResultTable.taxonomy_id].map(self._tax_db.taxid2name)
+            name=lambda df: df.taxonomy_id.map(self._tax_db.taxid2name)
         )
 
     def add_rank(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """"""
         return table.copy().assign(
-            rank=lambda df: df[ResultTable.taxonomy_id].map(self._tax_db.taxid2rank)
+            rank=lambda df: df.taxonomy_id.map(self._tax_db.taxid2rank)
         )
 
     def add_name_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """"""
         return table.copy().assign(
-            lineage=lambda df: df[ResultTable.taxonomy_id].map(
-                self._name_lineage_as_str
-            )
+            lineage=lambda df: df.taxonomy_id.map(self._name_lineage_as_str)
         )
 
     def _name_lineage_as_str(self, taxonomy_id: int) -> str:
@@ -83,9 +81,7 @@ class TaxopyTaxonomyService(TaxonomyService):
     ) -> DataFrame[ResultTable]:
         """"""
         return table.copy().assign(
-            lineage=lambda df: df[ResultTable.taxonomy_id].map(
-                self._taxid_lineage_as_str
-            )
+            lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
         )
 
     def _taxid_lineage_as_str(self, taxonomy_id: int) -> str:
