@@ -24,6 +24,7 @@ module = [
     "pandera.typing",
     "pyarrow",
     "rich.logging",
+    "taxopy",
     "typer",
 ]
 ignore_missing_imports = true
