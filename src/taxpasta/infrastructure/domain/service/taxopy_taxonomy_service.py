@@ -24,7 +24,6 @@ from __future__ import annotations
 from collections import defaultdict
 from pathlib import Path
 
-import networkx as nx
 import pandas as pd
 import taxopy
 from pandera.typing import DataFrame
@@ -98,18 +97,14 @@ class TaxopyTaxonomyService(TaxonomyService):
         self, profile: DataFrame[StandardProfile], rank: str
     ) -> DataFrame[StandardProfile]:
         """Summarise a standardised abundance profile at a higher taxonomic rank."""
-        branching = nx.DiGraph()
-        rank2ids = defaultdict(list)
+        branching = defaultdict(list)
         for tax_id in profile[StandardProfile.taxonomy_id]:
             taxon = taxopy.Taxon(taxid=tax_id, taxdb=self._tax_db)
-            rank2ids[taxon.rank].append(taxon.taxid)
-            child_id = taxon.taxid
             for parent_id in taxon.taxid_lineage:
                 ancestor_rank = self._tax_db.taxid2rank[parent_id]
-                rank2ids[ancestor_rank].append(parent_id)
-                branching.add_edge(parent_id, child_id)
                 if ancestor_rank == rank:
                     # We do not need to summarize further than to the desired rank.
+                    branching[parent_id].append(taxon.taxid)
                     break
             else:
                 # We did not encounter the desired rank.
@@ -117,27 +112,14 @@ class TaxopyTaxonomyService(TaxonomyService):
                     f"The desired rank '{rank}' is not in the lineage of the taxonomy "
                     f"identifier {taxon.taxid}."
                 )
-        finalized_rank2ids = dict(rank2ids)
-        # A branching is a directed forest (acyclic graph) with each node having, at
-        # most, one parent. So the maximum in-degree is equal to one. In our branching,
-        # the nodes of desired rank must each be the root node, i.e., with in-degree of
-        # zero, of their own arborescence, i.e., a directed tree which is a weakly
-        # connected forest, and all the leaf nodes, i.e., with out-degree of zero, in
-        # our branching must correspond to the original abundance profile.
-        # See https://networkx.org/documentation/stable/reference/algorithms/tree.html
-        # for the definitions.
-        root_ids = finalized_rank2ids[rank]
+        finalized = dict(branching)
+        root_ids = sorted(finalized)
         counts = []
-        for tax_id in root_ids:
-            arborescence = []
-            for _, children in nx.dfs_successors(branching, tax_id).items():
-                arborescence.extend(children)
-            # We could further restrict the arborescence to only the leaf nodes by
-            # filtering on the out-degree but instead, we rely on other nodes not being
-            # in the abundance profile.
+        for root_id in root_ids:
+            leaves = finalized[root_id]
             counts.append(
                 profile.loc[
-                    profile[StandardProfile.taxonomy_id].isin(arborescence),
+                    profile[StandardProfile.taxonomy_id].isin(leaves),
                     StandardProfile.count,
                 ].sum()
             )
