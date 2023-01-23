@@ -272,6 +272,16 @@ def merge(
         help="The path to a directory containing taxdump files. At least nodes.dmp and "
         "names.dmp are required. A merged.dmp file is optional.",
     ),
+    name: bool = typer.Option(  # noqa: B008
+        False,
+        "--name",
+        help="Add the taxon name to the output.",
+    ),
+    rank: bool = typer.Option(  # noqa: B008
+        False,
+        "--rank",
+        help="Add the taxon rank to the output.",
+    ),
 ):
     """Standardise and merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
@@ -304,6 +314,13 @@ def merge(
             )
 
     taxonomy_service: Optional[TaxonomyService] = None
+    if taxonomy is not None:
+        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
+            TaxopyTaxonomyService,
+        )
+
+        taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
+
     if summarise_at is not None:
         if taxonomy is None:
             logger.critical(
@@ -311,12 +328,7 @@ def merge(
                 "using the option '--taxonomy'."
             )
             raise typer.Exit(code=2)
-        else:
-            from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
-                TaxopyTaxonomyService,
-            )
 
-            taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -366,6 +378,14 @@ def merge(
         logger.debug("", exc_info=error)
         logger.critical(str(error))
         raise typer.Exit(code=1)
+
+    if name:
+        assert taxonomy_service is not None
+        result = taxonomy_service.add_name(result)
+
+    if rank:
+        assert taxonomy_service is not None
+        result = taxonomy_service.add_rank(result)
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
