@@ -55,10 +55,6 @@ class TaxonomyService(ABC):
     ) -> DataFrame[ResultTable]:
         """"""
 
-    def add_taxonomy(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
-        return table.pipe(self.add_name).pipe(self.add_rank).pipe(self.add_name_lineage)
-
     @abstractmethod
     def summarise_at(
         self, profile: DataFrame[StandardProfile], rank: str
