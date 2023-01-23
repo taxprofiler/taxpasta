@@ -29,6 +29,7 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import SampleMergingApplication
 from taxpasta.application.error import StandardisationError
+from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     SampleSheet,
@@ -259,6 +260,18 @@ def merge(
         help="Output merged abundance data in either wide or (tidy) long format. "
         "Ignored when the desired output format is BIOM.",
     ),
+    summarise_at: Optional[str] = typer.Option(  # noqa: B008
+        None,
+        "--summarise-at",
+        "--summarize-at",
+        help="Summarise abundance profiles at higher taxonomic rank. The provided "
+        "option must match a rank in the taxonomy exactly.",
+    ),
+    taxonomy: Optional[Path] = typer.Option(  # noqa: B008
+        None,
+        help="The path to a directory containing taxdump files. At least nodes.dmp and "
+        "names.dmp are required. A merged.dmp file is optional.",
+    ),
 ):
     """Standardise and merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
@@ -289,6 +302,21 @@ def merge(
             valid_output_format = validate_tidy_observation_table_format(
                 output, None if output_format is None else output_format.value
             )
+
+    taxonomy_service: Optional[TaxonomyService] = None
+    if summarise_at is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The summarising feature requires a taxonomy. Please provide one "
+                "using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+        else:
+            from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
+                TaxopyTaxonomyService,
+            )
+
+            taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -323,15 +351,20 @@ def merge(
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
             profiler
         ),
+        taxonomy_service=taxonomy_service,
     )
     try:
-        result = merging_app.run(data, wide_format)
+        result = merging_app.run(data, wide_format, summarise_at=summarise_at)
     except StandardisationError as error:
         logger.debug("", exc_info=error)
         logger.critical(
             "Error in sample '%s' with profile '%s'.", error.sample, error.profile
         )
         logger.critical(error.message)
+        raise typer.Exit(code=1)
+    except ValueError as error:
+        logger.debug("", exc_info=error)
+        logger.critical(str(error))
         raise typer.Exit(code=1)
 
     logger.info("Write result to '%s'.", str(output))
