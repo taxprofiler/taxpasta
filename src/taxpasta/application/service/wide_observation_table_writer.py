@@ -20,11 +20,10 @@
 
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain.model import Taxonomy, WideObservationTable
+from taxpasta.domain.model import WideObservationTable
 
 from ._types import BufferOrFilepath
 
@@ -35,10 +34,6 @@ class WideObservationTableWriter(ABC):
     @classmethod
     @abstractmethod
     def write(
-        cls,
-        matrix: DataFrame[WideObservationTable],
-        target: BufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
-        **kwargs
+        cls, matrix: DataFrame[WideObservationTable], target: BufferOrFilepath, **kwargs
     ) -> None:
         """Write an observation matrix to the given buffer or file."""

@@ -19,12 +19,10 @@
 """Provide a CSV writer."""
 
 
-from typing import Optional
-
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, TidyObservationTableWriter
-from taxpasta.domain.model import Taxonomy, TidyObservationTable
+from taxpasta.domain.model import TidyObservationTable
 
 
 class CSVTidyObservationTableWriter(TidyObservationTableWriter):
@@ -32,11 +30,7 @@ class CSVTidyObservationTableWriter(TidyObservationTableWriter):
 
     @classmethod
     def write(
-        cls,
-        table: DataFrame[TidyObservationTable],
-        target: BufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
-        **kwargs
+        cls, table: DataFrame[TidyObservationTable], target: BufferOrFilepath, **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""
         table.to_csv(target, index=False, **kwargs)

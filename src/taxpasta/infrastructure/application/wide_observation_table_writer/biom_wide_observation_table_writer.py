@@ -26,7 +26,8 @@ from biom.util import biom_open
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import Filepath, WideObservationTableWriter
-from taxpasta.domain.model import Taxonomy, WideObservationTable
+from taxpasta.domain.model import WideObservationTable
+from taxpasta.domain.service import TaxonomyService
 
 
 class BIOMWideObservationTableWriter(WideObservationTableWriter):
@@ -37,7 +38,7 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         cls,
         matrix: DataFrame[WideObservationTable],
         target: Filepath,
-        taxonomy: Optional[Taxonomy] = None,
+        taxonomy: Optional[TaxonomyService] = None,
         generated_by: str = "taxpasta",
         **kwargs
     ) -> None:

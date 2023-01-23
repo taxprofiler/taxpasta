@@ -19,15 +19,13 @@
 """Provide an ODS writer."""
 
 
-from typing import Optional
-
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import (
     BinaryBufferOrFilepath,
     TidyObservationTableWriter,
 )
-from taxpasta.domain.model import Taxonomy, TidyObservationTable
+from taxpasta.domain.model import TidyObservationTable
 
 
 class ODSTidyObservationTableWriter(TidyObservationTableWriter):
@@ -38,7 +36,6 @@ class ODSTidyObservationTableWriter(TidyObservationTableWriter):
         cls,
         table: DataFrame[TidyObservationTable],
         target: BinaryBufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
         """Write the given table to the given buffer or file."""

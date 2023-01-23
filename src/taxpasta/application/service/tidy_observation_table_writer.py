@@ -20,11 +20,10 @@
 
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain.model import Taxonomy, TidyObservationTable
+from taxpasta.domain.model import TidyObservationTable
 
 from ._types import BufferOrFilepath
 
@@ -35,10 +34,6 @@ class TidyObservationTableWriter(ABC):
     @classmethod
     @abstractmethod
     def write(
-        cls,
-        table: DataFrame[TidyObservationTable],
-        target: BufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
-        **kwargs
+        cls, table: DataFrame[TidyObservationTable], target: BufferOrFilepath, **kwargs
     ) -> None:
         """Write a tidy observation table to the given buffer or file."""
