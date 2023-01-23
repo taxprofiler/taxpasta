@@ -46,13 +46,21 @@ class TaxonomyService(ABC):
         """"""
 
     @abstractmethod
-    def add_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
+    def add_name_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
+        """"""
+
+    @abstractmethod
+    def add_identifier_lineage(
+        self, table: DataFrame[ResultTable]
+    ) -> DataFrame[ResultTable]:
         """"""
 
     def add_taxonomy(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """"""
-        return table.pipe(self.add_name).pipe(self.add_rank).pipe(self.add_lineage)
+        return table.pipe(self.add_name).pipe(self.add_rank).pipe(self.add_name_lineage)
 
     @abstractmethod
-    def summarise_at(self, profile: StandardProfile, rank: str) -> StandardProfile:
+    def summarise_at(
+        self, profile: DataFrame[StandardProfile], rank: str
+    ) -> DataFrame[StandardProfile]:
         """Summarise a standardised abundance profile at a higher taxonomic rank."""

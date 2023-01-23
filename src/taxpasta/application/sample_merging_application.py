@@ -23,7 +23,7 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import Iterable, List, Tuple, Type
+from typing import Iterable, List, Optional, Tuple, Type
 
 from pandera.errors import SchemaErrors
 from pandera.typing import DataFrame
@@ -39,7 +39,7 @@ from taxpasta.domain.model import (
     TidyObservationTable,
     WideObservationTable,
 )
-from taxpasta.domain.service import SampleMergingService
+from taxpasta.domain.service import SampleMergingService, TaxonomyService
 
 
 logger = logging.getLogger(__name__)
@@ -53,6 +53,7 @@ class SampleMergingApplication:
         *,
         profile_reader: Type[ProfileReader],
         profile_standardiser: Type[ProfileStandardisationService],
+        taxonomy_service: Optional[TaxonomyService] = None,
         **kwargs: dict,
     ):
         """
@@ -68,11 +69,13 @@ class SampleMergingApplication:
         super().__init__(**kwargs)
         self.reader = profile_reader
         self.standardiser = profile_standardiser
+        self.taxonomy = taxonomy_service
 
     def run(
         self,
         profiles: Iterable[Tuple[str, Path]],
         wide_format: bool,
+        summarise_at: Optional[str] = None,
         ignore_error: bool = False,
     ) -> DataFrame[WideObservationTable] | DataFrame[TidyObservationTable]:
         """
@@ -81,6 +84,7 @@ class SampleMergingApplication:
         Args:
             profiles: Pairs of name and profile path.
             wide_format: Whether to create wide or (tidy) long format output.
+            summarise_at: The taxonomic rank at which to summarise abundance if any.
             ignore_error: Whether to ignore profiles that contain errors.
 
         Returns:
@@ -92,6 +96,10 @@ class SampleMergingApplication:
 
         """
         samples = self._etl_samples(profiles, ignore_error)
+
+        if summarise_at is not None:
+            assert self.taxonomy is not None
+            samples = self._summarise_samples(samples, summarise_at, ignore_error)
 
         if wide_format:
             wide_table = SampleMergingService.merge_wide(samples)
@@ -126,6 +134,7 @@ class SampleMergingApplication:
                 )
             except SchemaErrors as errors:
                 if ignore_error:
+                    logger.error("Sample %s: %s", name, str(error))
                     continue
                 else:
                     raise StandardisationError(
@@ -133,9 +142,31 @@ class SampleMergingApplication:
                     ) from errors
             except ValueError as error:
                 if ignore_error:
+                    logger.error("Sample %s: %s", name, str(error))
                     continue
                 else:
                     raise StandardisationError(
                         sample=name, profile=profile, message=str(error.args)
                     ) from error
+        return result
+
+    def _summarise_samples(
+        self, samples: List[Sample], rank: str, ignore_error: bool
+    ) -> List[Sample]:
+        """Summarise samples at a given taxonomic rank."""
+        result = []
+        for sample in samples:
+            try:
+                result.append(
+                    Sample(
+                        name=sample.name,
+                        profile=self.taxonomy.summarise_at(sample.profile, rank),
+                    )
+                )
+            except ValueError as error:
+                if ignore_error:
+                    logger.error("Sample %s: %s", sample.name, str(error))
+                    continue
+                else:
+                    raise
         return result
