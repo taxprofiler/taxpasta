@@ -78,7 +78,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         return ";".join(taxon.name_lineage)
 
-    def add_taxid_lineage(
+    def add_identifier_lineage(
         self, table: DataFrame[ResultTable]
     ) -> DataFrame[ResultTable]:
         """"""
