@@ -24,7 +24,7 @@ from typing import TypeVar
 
 from pandera.typing import DataFrame
 
-from ..model import TidyObservationTable, WideObservationTable, StandardProfile
+from ..model import StandardProfile, TidyObservationTable, WideObservationTable
 
 
 ResultTable = TypeVar("ResultTable", TidyObservationTable, WideObservationTable)
