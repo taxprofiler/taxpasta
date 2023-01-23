@@ -19,12 +19,10 @@
 """Provide an arrow writer."""
 
 
-from typing import Optional
-
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BinaryBufferOrFilepath, StandardProfileWriter
-from taxpasta.domain.model import StandardProfile, Taxonomy
+from taxpasta.domain.model import StandardProfile
 
 
 class ArrowStandardProfileWriter(StandardProfileWriter):
@@ -35,7 +33,6 @@ class ArrowStandardProfileWriter(StandardProfileWriter):
         cls,
         profile: DataFrame[StandardProfile],
         target: BinaryBufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
         **kwargs
     ) -> None:
         """Write the given standardized profile to the given buffer or file."""

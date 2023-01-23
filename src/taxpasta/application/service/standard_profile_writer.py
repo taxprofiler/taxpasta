@@ -20,11 +20,10 @@
 
 
 from abc import ABC, abstractmethod
-from typing import Optional
 
 from pandera.typing import DataFrame
 
-from taxpasta.domain.model import StandardProfile, Taxonomy
+from taxpasta.domain.model import StandardProfile
 
 from ._types import BufferOrFilepath
 
@@ -35,10 +34,6 @@ class StandardProfileWriter(ABC):
     @classmethod
     @abstractmethod
     def write(
-        cls,
-        profile: DataFrame[StandardProfile],
-        target: BufferOrFilepath,
-        taxonomy: Optional[Taxonomy] = None,
-        **kwargs
+        cls, profile: DataFrame[StandardProfile], target: BufferOrFilepath, **kwargs
     ) -> None:
         """Write a standardized profile to a file."""
