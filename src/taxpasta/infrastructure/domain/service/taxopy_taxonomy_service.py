@@ -95,6 +95,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Summarise a standardised abundance profile at a higher taxonomic rank."""
         branching = defaultdict(list)
         for tax_id in profile[StandardProfile.taxonomy_id]:
+            # For now, we ignore the identifier zero (unclassified).
+            if tax_id == 0:
+                continue
             taxon = taxopy.Taxon(taxid=tax_id, taxdb=self._tax_db)
             for parent_id in taxon.taxid_lineage:
                 ancestor_rank = self._tax_db.taxid2rank[parent_id]
