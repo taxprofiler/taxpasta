@@ -27,7 +27,9 @@ from pandera.typing import DataFrame
 from ..model import StandardProfile, TidyObservationTable, WideObservationTable
 
 
-ResultTable = TypeVar("ResultTable", TidyObservationTable, WideObservationTable)
+ResultTable = TypeVar(
+    "ResultTable", TidyObservationTable, WideObservationTable, StandardProfile
+)
 
 
 class TaxonomyService(ABC):
