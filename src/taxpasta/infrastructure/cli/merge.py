@@ -280,15 +280,27 @@ def merge(
     ),
     name: bool = typer.Option(  # noqa: B008
         False,
-        "--name",
+        "--add-name",
         help="Add the taxon name to the output.",
     ),
     rank: bool = typer.Option(  # noqa: B008
         False,
-        "--rank",
+        "--add-rank",
         help="Add the taxon rank to the output.",
     ),
-):
+    lineage: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-lineage",
+        help="Add the taxon's entire lineage to the output. These are taxon names "
+        "separated by semi-colons.",
+    ),
+    id_lineage: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-id-lineage",
+        help="Add the taxon's entire lineage to the output. These are taxon "
+        "identifiers separated by semi-colons.",
+    ),
+) -> None:
     """Standardise and merge two or more taxonomic profiles into a single table."""
     # Perform input validation.
     valid_output_format: Union[
@@ -330,8 +342,40 @@ def merge(
     if summarise_at is not None:
         if taxonomy is None:
             logger.critical(
-                "The summarising feature requires a taxonomy. Please provide one "
-                "using the option '--taxonomy'."
+                "The summarising feature '--summarise-at' requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if name is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-name' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if rank is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-rank' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if lineage is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-lineage' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if id_lineage is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-id-lineage' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
             )
             raise typer.Exit(code=2)
 
@@ -392,6 +436,14 @@ def merge(
     if rank:
         assert taxonomy_service is not None
         result = taxonomy_service.add_rank(result)
+
+    if lineage:
+        assert taxonomy_service is not None
+        result = taxonomy_service.add_name_lineage(result)
+
+    if id_lineage:
+        assert taxonomy_service is not None
+        result = taxonomy_service.add_identifier_lineage(result)
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
