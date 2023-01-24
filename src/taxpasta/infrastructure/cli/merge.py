@@ -430,19 +430,19 @@ def merge(
         raise typer.Exit(code=1)
 
     if name:
-        assert taxonomy_service is not None
+        assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_name(result)
 
     if rank:
-        assert taxonomy_service is not None
+        assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_rank(result)
 
     if lineage:
-        assert taxonomy_service is not None
+        assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_name_lineage(result)
 
     if id_lineage:
-        assert taxonomy_service is not None
+        assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_identifier_lineage(result)
 
     logger.info("Write result to '%s'.", str(output))
