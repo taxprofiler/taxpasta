@@ -153,7 +153,7 @@ class SampleMergingApplication:
         self, samples: List[Sample], rank: str, ignore_error: bool
     ) -> List[Sample]:
         """Summarise samples at a given taxonomic rank."""
-        assert self.taxonomy is not None
+        assert self.taxonomy is not None  # nosec assert_used
         result = []
         for sample in samples:
             try:
