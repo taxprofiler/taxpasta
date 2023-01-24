@@ -37,6 +37,7 @@ from taxpasta.infrastructure.application import (
 
 from .taxpasta import app
 
+
 logger = logging.getLogger(__name__)
 
 
