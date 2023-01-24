@@ -26,6 +26,8 @@ from typing import Optional, cast
 import typer
 
 from taxpasta.application.error import StandardisationError
+from taxpasta.domain.model import Sample
+from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     SampleETLApplication,
@@ -34,7 +36,6 @@ from taxpasta.infrastructure.application import (
 )
 
 from .taxpasta import app
-
 
 logger = logging.getLogger(__name__)
 
@@ -114,12 +115,101 @@ def standardise(
         "dependencies may apply. Will be parsed from the output file name but can be "
         "set explicitly.",
     ),
-):
+    summarise_at: Optional[str] = typer.Option(  # noqa: B008
+        None,
+        "--summarise-at",
+        "--summarize-at",
+        help="Summarise abundance profiles at higher taxonomic rank. The provided "
+        "option must match a rank in the taxonomy exactly. This is akin to the clade "
+        "assigned reads provided by, for example, kraken2, where the abundances of a "
+        "whole taxonomic branch are assigned to a taxon at the desired rank. Please "
+        "note that abundances above the selected rank are simply ignored. No attempt "
+        "is made to redistribute those down to the desired rank. Some tools, like "
+        "Bracken, were designed for this purpose but it doesn't seem like a problem we "
+        "can generally solve here.",
+    ),
+    taxonomy: Optional[Path] = typer.Option(  # noqa: B008
+        None,
+        help="The path to a directory containing taxdump files. At least nodes.dmp and "
+        "names.dmp are required. A merged.dmp file is optional.",
+    ),
+    add_name: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-name",
+        help="Add the taxon name to the output.",
+    ),
+    add_rank: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-rank",
+        help="Add the taxon rank to the output.",
+    ),
+    add_lineage: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-lineage",
+        help="Add the taxon's entire lineage to the output. These are taxon names "
+        "separated by semi-colons.",
+    ),
+    add_id_lineage: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-id-lineage",
+        help="Add the taxon's entire lineage to the output. These are taxon "
+        "identifiers separated by semi-colons.",
+    ),
+) -> None:
     """Standardise a taxonomic profile."""
     # Perform input validation.
     valid_output_format = validate_output_format(
         output, None if output_format is None else output_format.value
     )
+
+    taxonomy_service: Optional[TaxonomyService] = None
+    if taxonomy is not None:
+        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
+            TaxopyTaxonomyService,
+        )
+
+        taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
+
+    if summarise_at is not None:
+        if taxonomy is None:
+            logger.critical(
+                "The summarising feature '--summarise-at' requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if add_name:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-name' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if add_rank:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-rank' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if add_lineage:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-lineage' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
+    if add_id_lineage:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-id-lineage' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -133,9 +223,10 @@ def standardise(
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
             profiler
         ),
+        taxonomy_service=taxonomy_service,
     )
     try:
-        result = sample_app.etl(profile)
+        result = sample_app.run(profile, summarise_at=summarise_at)
     except StandardisationError as error:
         logger.debug("", exc_info=error)
         logger.critical(
@@ -143,6 +234,31 @@ def standardise(
         )
         logger.critical(error.message)
         raise typer.Exit(code=1)
+
+    if add_name:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = Sample(
+            name=result.name, profile=taxonomy_service.add_name(result.profile)
+        )
+
+    if add_rank:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = Sample(
+            name=result.name, profile=taxonomy_service.add_rank(result.profile)
+        )
+
+    if add_lineage:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = Sample(
+            name=result.name, profile=taxonomy_service.add_name_lineage(result.profile)
+        )
+
+    if add_id_lineage:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = Sample(
+            name=result.name,
+            profile=taxonomy_service.add_identifier_lineage(result.profile),
+        )
 
     logger.info("Write result to '%s'.", str(output))
     writer = ApplicationServiceRegistry.standard_profile_writer(valid_output_format)
