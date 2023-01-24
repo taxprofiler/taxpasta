@@ -63,6 +63,9 @@ class SampleMergingApplication:
             profile_reader: A profile reader for a specific taxonomic profile format.
             profile_standardiser: A profile standardisation service for a specific
                 taxonomic profile format.
+            taxonomy_service: A taxonomy service instance. It is assumed that all
+                profiles to be handled in the application are based on the given
+                taxonomy loaded in the service instance.
             **kwargs: Passed on for inheritance.
 
         """

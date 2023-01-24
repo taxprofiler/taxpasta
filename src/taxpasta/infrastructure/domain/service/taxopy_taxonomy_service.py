@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a taxonomy model based on taxopy."""
+"""Provide a taxonomy service based on taxopy."""
 
 
 from __future__ import annotations
@@ -33,16 +33,16 @@ from taxpasta.domain.service import ResultTable, TaxonomyService
 
 
 class TaxopyTaxonomyService(TaxonomyService):
-    """Define the taxonomy model based on taxopy."""
+    """Define the taxonomy service based on taxopy."""
 
     def __init__(self, *, tax_db: taxopy.TaxDb, **kwargs) -> None:
-        """"""
+        """Initialize a taxonomy service instance with a taxopy database."""
         super().__init__(**kwargs)
         self._tax_db = tax_db
 
     @classmethod
     def from_taxdump(cls, source: Path) -> TaxopyTaxonomyService:
-        """"""
+        """Create a service instance from a directory path containing taxdump info."""
         return cls(
             tax_db=taxopy.TaxDb(
                 nodes_dmp=str(source / "nodes.dmp"),
@@ -54,38 +54,38 @@ class TaxopyTaxonomyService(TaxonomyService):
         )
 
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon name to the given table."""
         return table.copy().assign(
             name=lambda df: df.taxonomy_id.map(self._tax_db.taxid2name)
         )
 
     def add_rank(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon rank to the given table."""
         return table.copy().assign(
             rank=lambda df: df.taxonomy_id.map(self._tax_db.taxid2rank)
         )
 
     def add_name_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon lineage to the given table."""
         return table.copy().assign(
             lineage=lambda df: df.taxonomy_id.map(self._name_lineage_as_str)
         )
 
     def _name_lineage_as_str(self, taxonomy_id: int) -> str:
-        """"""
+        """Return the lineage of a taxon as concatenated names."""
         taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         return ";".join(taxon.name_lineage)
 
     def add_identifier_lineage(
         self, table: DataFrame[ResultTable]
     ) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon lineage as identifiers to the given table."""
         return table.copy().assign(
             lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
         )
 
     def _taxid_lineage_as_str(self, taxonomy_id: int) -> str:
-        """"""
+        """Return the lineage of a taxon as concatenated identifiers."""
         taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         return ";".join([str(tax_id) for tax_id in taxon.taxid_lineage])
 
