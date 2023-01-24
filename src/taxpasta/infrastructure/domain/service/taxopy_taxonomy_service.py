@@ -99,6 +99,9 @@ class TaxopyTaxonomyService(TaxonomyService):
             if tax_id == 0:
                 continue
             taxon = taxopy.Taxon(taxid=tax_id, taxdb=self._tax_db)
+            if taxon.rank == rank:
+                branching[taxon.taxid].append(taxon.taxid)
+                continue
             for parent_id in taxon.taxid_lineage:
                 ancestor_rank = self._tax_db.taxid2rank[parent_id]
                 if ancestor_rank == rank:
