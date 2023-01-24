@@ -347,7 +347,7 @@ def merge(
             )
             raise typer.Exit(code=2)
 
-    if name is not None:
+    if name:
         if taxonomy is None:
             logger.critical(
                 "The '--add-name' option requires a taxonomy. Please "
@@ -355,7 +355,7 @@ def merge(
             )
             raise typer.Exit(code=2)
 
-    if rank is not None:
+    if rank:
         if taxonomy is None:
             logger.critical(
                 "The '--add-rank' option requires a taxonomy. Please "
@@ -363,7 +363,7 @@ def merge(
             )
             raise typer.Exit(code=2)
 
-    if lineage is not None:
+    if lineage:
         if taxonomy is None:
             logger.critical(
                 "The '--add-lineage' option requires a taxonomy. Please "
@@ -371,7 +371,7 @@ def merge(
             )
             raise typer.Exit(code=2)
 
-    if id_lineage is not None:
+    if id_lineage:
         if taxonomy is None:
             logger.critical(
                 "The '--add-id-lineage' option requires a taxonomy. Please "
