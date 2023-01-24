@@ -265,7 +265,13 @@ def merge(
         "--summarise-at",
         "--summarize-at",
         help="Summarise abundance profiles at higher taxonomic rank. The provided "
-        "option must match a rank in the taxonomy exactly.",
+        "option must match a rank in the taxonomy exactly. This is akin to the clade "
+        "assigned reads provided by, for example, kraken2, where the abundances of a "
+        "whole taxonomic branch are assigned to a taxon at the desired rank. Please "
+        "note that abundances above the selected rank are simply ignored. No attempt "
+        "is made to redistribute those down to the desired rank. Some tools, like "
+        "Bracken, were designed for this purpose but it doesn't seem like a problem we "
+        "can generally solve here.",
     ),
     taxonomy: Optional[Path] = typer.Option(  # noqa: B008
         None,
