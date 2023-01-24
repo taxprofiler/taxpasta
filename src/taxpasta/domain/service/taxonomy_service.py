@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a taxonomy model."""
+"""Provide an abstract taxonomy service interface."""
 
 
 from abc import ABC, abstractmethod
@@ -31,29 +31,29 @@ ResultTable = TypeVar("ResultTable", TidyObservationTable, WideObservationTable)
 
 
 class TaxonomyService(ABC):
-    """Define a taxonomy model."""
+    """Define the abstract taxonomy service interface."""
 
     def __init__(self, **kwargs) -> None:
-        """"""
+        """Initialize a taxonomy service instance."""
         super().__init__(**kwargs)
 
     @abstractmethod
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon name to the given table."""
 
     @abstractmethod
     def add_rank(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon rank to the given table."""
 
     @abstractmethod
     def add_name_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon lineage to the given table."""
 
     @abstractmethod
     def add_identifier_lineage(
         self, table: DataFrame[ResultTable]
     ) -> DataFrame[ResultTable]:
-        """"""
+        """Add a column for the taxon lineage as identifiers to the given table."""
 
     @abstractmethod
     def summarise_at(
