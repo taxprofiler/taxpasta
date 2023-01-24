@@ -21,6 +21,7 @@
 
 from __future__ import annotations
 
+import logging
 from collections import defaultdict
 from pathlib import Path
 
@@ -30,6 +31,9 @@ from pandera.typing import DataFrame
 
 from taxpasta.domain.model import StandardProfile
 from taxpasta.domain.service import ResultTable, TaxonomyService
+
+
+logger = logging.getLogger(__name__)
 
 
 class TaxopyTaxonomyService(TaxonomyService):
@@ -109,10 +113,13 @@ class TaxopyTaxonomyService(TaxonomyService):
                     branching[parent_id].append(taxon.taxid)
                     break
             else:
-                # We did not encounter the desired rank.
-                raise ValueError(
-                    f"The desired rank '{rank}' is not in the lineage of the taxonomy "
-                    f"identifier {taxon.taxid}."
+                # We did not encounter the desired rank. Likely, the taxon is situated
+                # above the desired rank in the taxonomy.
+                logger.debug(
+                    "The desired rank '%s' is not in the lineage of the taxon %d - %s.",
+                    rank,
+                    taxon.taxid,
+                    taxon.name,
                 )
         finalized = dict(branching)
         root_ids = sorted(finalized)
