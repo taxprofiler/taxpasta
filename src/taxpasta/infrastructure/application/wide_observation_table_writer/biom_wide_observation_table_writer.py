@@ -43,10 +43,21 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         **kwargs
     ) -> None:
         """Write the given data to the given buffer or file."""
+        if taxonomy is not None:
+            observation_meta = [
+                {
+                    "taxonomy": taxonomy.get_taxon_name_lineage(tax_id),
+                    "id_lineage": taxonomy.get_taxon_identifier_lineage(tax_id),
+                }
+                for tax_id in matrix.iloc[:, 0]
+            ]
+        else:
+            observation_meta = None
         result = Table(
             data=matrix.iloc[:, 1:].values,
             observation_ids=matrix.iloc[:, 0].astype(str),
             sample_ids=matrix.columns[1:],
+            observation_metadata=observation_meta,
         )
         with biom_open(str(target), permission="w") as handle:
             result.to_hdf5(handle, generated_by=generated_by)
