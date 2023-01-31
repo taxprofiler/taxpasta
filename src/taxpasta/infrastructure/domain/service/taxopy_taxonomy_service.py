@@ -24,11 +24,12 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import pandas as pd
 import taxopy
 from pandera.typing import DataFrame
+from taxopy.exceptions import TaxidError
 
 from taxpasta.domain.model import StandardProfile
 from taxpasta.domain.service import ResultTable, TaxonomyService
@@ -48,32 +49,30 @@ class TaxopyTaxonomyService(TaxonomyService):
     @classmethod
     def from_taxdump(cls, source: Path) -> TaxopyTaxonomyService:
         """Create a service instance from a directory path containing taxdump info."""
-        return cls(
-            tax_db=taxopy.TaxDb(
-                nodes_dmp=str(source / "nodes.dmp"),
-                names_dmp=str(source / "names.dmp"),
-                merged_dmp=str(source / "merged.dmp")
-                if (source / "merged.dmp").is_file()
-                else None,
-            )
-        )
+        return cls(tax_db=taxopy.TaxDb(taxdb_dir=str(source)))
 
-    def get_taxon_name(self, taxonomy_id: int) -> str:
+    def get_taxon_name(self, taxonomy_id: int) -> Optional[str]:
         """Return the name of a given taxonomy identifier."""
-        return self._tax_db.taxid2name[taxonomy_id]
+        return self._tax_db.taxid2name.get(taxonomy_id)
 
-    def get_taxon_rank(self, taxonomy_id: int) -> str:
+    def get_taxon_rank(self, taxonomy_id: int) -> Optional[str]:
         """Return the rank of a given taxonomy identifier."""
-        return self._tax_db.taxid2rank[taxonomy_id]
+        return self._tax_db.taxid2rank.get(taxonomy_id)
 
-    def get_taxon_name_lineage(self, taxonomy_id: int) -> List[str]:
+    def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
         """Return the lineage of a given taxonomy identifier as names."""
-        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return
         return taxon.name_lineage
 
-    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> List[int]:
+    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
         """Return the lineage of a given taxonomy identifier as identifiers."""
-        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return
         return taxon.taxid_lineage
 
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
@@ -94,9 +93,12 @@ class TaxopyTaxonomyService(TaxonomyService):
             lineage=lambda df: df.taxonomy_id.map(self._name_lineage_as_str)
         )
 
-    def _name_lineage_as_str(self, taxonomy_id: int) -> str:
+    def _name_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
         """Return the lineage of a taxon as concatenated names."""
-        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return
         return ";".join(taxon.name_lineage)
 
     def add_identifier_lineage(
@@ -107,9 +109,12 @@ class TaxopyTaxonomyService(TaxonomyService):
             id_lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
         )
 
-    def _taxid_lineage_as_str(self, taxonomy_id: int) -> str:
+    def _taxid_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
         """Return the lineage of a taxon as concatenated identifiers."""
-        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return
         return ";".join([str(tax_id) for tax_id in taxon.taxid_lineage])
 
     def summarise_at(
