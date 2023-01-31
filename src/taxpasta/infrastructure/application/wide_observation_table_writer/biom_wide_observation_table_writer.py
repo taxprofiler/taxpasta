@@ -19,6 +19,7 @@
 """Provide a Biological Observation Matrix (BIOM) writer."""
 
 
+from datetime import datetime
 from typing import Optional
 
 from biom.table import Table
@@ -43,11 +44,18 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         **kwargs
     ) -> None:
         """Write the given data to the given buffer or file."""
+        # Drop unclassified reads.
+        matrix = matrix.loc[matrix.iloc[:, 0] != 0].copy()
         if taxonomy is not None:
+            # FIXME (Moritz): All lists need to be of equal length, i.e., per key in
+            #  the dict across all observations or samples.
             observation_meta = [
                 {
                     "taxonomy": taxonomy.get_taxon_name_lineage(tax_id),
-                    "id_lineage": taxonomy.get_taxon_identifier_lineage(tax_id),
+                    "id_lineage": [
+                        str(tax_id)
+                        for tax_id in taxonomy.get_taxon_identifier_lineage(tax_id)
+                    ],
                 }
                 for tax_id in matrix.iloc[:, 0]
             ]
@@ -58,6 +66,7 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
             observation_ids=matrix.iloc[:, 0].astype(str),
             sample_ids=matrix.columns[1:],
             observation_metadata=observation_meta,
+            create_date=datetime.utcnow().isoformat(timespec="microseconds"),
         )
         with biom_open(str(target), permission="w") as handle:
             result.to_hdf5(handle, generated_by=generated_by)
