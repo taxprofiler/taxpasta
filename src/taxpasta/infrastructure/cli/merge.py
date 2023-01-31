@@ -429,19 +429,19 @@ def merge(
         logger.critical(str(error))
         raise typer.Exit(code=1)
 
-    if name:
+    if name and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_name(result)
 
-    if rank:
+    if rank and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_rank(result)
 
-    if lineage:
+    if lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_name_lineage(result)
 
-    if id_lineage:
+    if id_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_identifier_lineage(result)
 
@@ -461,7 +461,13 @@ def merge(
             valid_output_format  # type: ignore
         )
     try:
-        writer.write(result, output)
+        if (
+            taxonomy is not None
+            and valid_output_format is WideObservationTableFileFormat.BIOM
+        ):
+            writer.write(result, output, taxonomy=taxonomy_service)
+        else:
+            writer.write(result, output)
     except OSError as error:
         logger.critical("Failed to write the output result.")
         logger.critical(str(error))
