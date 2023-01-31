@@ -24,6 +24,7 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 import taxopy
@@ -57,6 +58,24 @@ class TaxopyTaxonomyService(TaxonomyService):
             )
         )
 
+    def get_taxon_name(self, taxonomy_id: int) -> str:
+        """Return the name of a given taxonomy identifier."""
+        return self._tax_db.taxid2name[taxonomy_id]
+
+    def get_taxon_rank(self, taxonomy_id: int) -> str:
+        """Return the rank of a given taxonomy identifier."""
+        return self._tax_db.taxid2rank[taxonomy_id]
+
+    def get_taxon_name_lineage(self, taxonomy_id: int) -> List[str]:
+        """Return the lineage of a given taxonomy identifier as names."""
+        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        return taxon.name_lineage
+
+    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> List[int]:
+        """Return the lineage of a given taxonomy identifier as identifiers."""
+        taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        return taxon.taxid_lineage
+
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon name to the given table."""
         return table.copy().assign(
@@ -85,7 +104,7 @@ class TaxopyTaxonomyService(TaxonomyService):
     ) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as identifiers to the given table."""
         return table.copy().assign(
-            lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
+            id_lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
         )
 
     def _taxid_lineage_as_str(self, taxonomy_id: int) -> str:
