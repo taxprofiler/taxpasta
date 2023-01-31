@@ -20,7 +20,7 @@
 
 
 from abc import ABC, abstractmethod
-from typing import TypeVar, List
+from typing import List, Optional, TypeVar
 
 from pandera.typing import DataFrame
 
@@ -40,19 +40,19 @@ class TaxonomyService(ABC):
         super().__init__(**kwargs)
 
     @abstractmethod
-    def get_taxon_name(self, taxonomy_id: int) -> str:
+    def get_taxon_name(self, taxonomy_id: int) -> Optional[str]:
         """Return the name of a given taxonomy identifier."""
 
     @abstractmethod
-    def get_taxon_rank(self, taxonomy_id: int) -> str:
+    def get_taxon_rank(self, taxonomy_id: int) -> Optional[str]:
         """Return the rank of a given taxonomy identifier."""
 
     @abstractmethod
-    def get_taxon_name_lineage(self, taxonomy_id: int) -> List[str]:
+    def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
         """Return the lineage of a given taxonomy identifier as names."""
 
     @abstractmethod
-    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> List[int]:
+    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
         """Return the lineage of a given taxonomy identifier as identifiers."""
 
     @abstractmethod
