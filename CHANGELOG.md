@@ -2,6 +2,10 @@
 
 ## Next Release
 
+### Fixed
+
+* Documented _which_ columns are used in final standardised output profiles.
+
 ## 0.1.1 (2023-01-28)
 
 ### Fixed
