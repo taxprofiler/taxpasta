@@ -15,9 +15,11 @@ Taxpasta expects a two-column, tab-separated file. This is generated either by r
 | Column Header | Description |
 | ------------- | ----------- |
 | taxonomy_id   |             |
-| count         |             |
+| count *       |             |
 
 Note that the file itself does not have any column names.
+
+> * Value used in standardised profile output 
 
 ## Example
 

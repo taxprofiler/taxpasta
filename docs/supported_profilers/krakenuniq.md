@@ -9,7 +9,7 @@ Taxpasta expects a 9 column table. This file is generated with the KrakenUniq pa
 | Column Header | Description |
 | ------------- | ----------- |
 | %             |             |
-| reads         |             |
+| reads *       |             |
 | taxReads      |             |
 | kmers         |             |
 | dup           |             |
@@ -17,6 +17,8 @@ Taxpasta expects a 9 column table. This file is generated with the KrakenUniq pa
 | taxID         |             |
 | rank          |             |
 | taxName       |             |
+
+> * Value used in standardised profile output 
 
 ## Example
 
