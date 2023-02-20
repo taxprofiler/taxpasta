@@ -12,6 +12,8 @@ Taxpasta expects a tab-separated file with three columns. This is generated with
 | taxonomy_id   |             |
 | e_value       |             |
 
+> Taxpasta internally generates the value used in the standardised profile output, by summarising number of reads per `taxonomy_id`
+
 ## Example
 
 ```text
