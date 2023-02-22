@@ -32,7 +32,7 @@ class KrakenUniqProfile(pa.SchemaModel):
     tax_reads: Series[int] = pa.Field(ge=0, alias="taxReads")
     kmers: Series[int] = pa.Field(ge=0)
     duplicates: Series[float] = pa.Field(ge=0.0, alias="dup")
-    coverage: Series[float] = pa.Field(ge=0.0, alias="cov")
+    coverage: Series[float] = pa.Field(ge=0.0, nullable=True, alias="cov")
     tax_id: Series[int] = pa.Field(alias="taxID", ge=0)
     rank: Series[pd.CategoricalDtype] = pa.Field()
     tax_name: Series[str] = pa.Field(alias="taxName")

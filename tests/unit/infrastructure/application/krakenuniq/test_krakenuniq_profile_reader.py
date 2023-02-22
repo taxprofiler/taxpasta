@@ -38,6 +38,14 @@ from taxpasta.infrastructure.application import KrakenUniqProfileReader
                 (0, 4, 1.3),
             ],
         ),
+        (
+            "test3.krakenuniq.report.txt",
+            [
+                (1, 0, 96.58),
+                (1, 3, 44598440),
+                (0, 4, 1.17),
+            ],
+        ),
     ],
 )
 def test_read_correctness(
