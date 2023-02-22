@@ -33,6 +33,7 @@ from taxpasta.infrastructure.application import (
 @pytest.mark.parametrize(
     "filename",
     [
+        "test3.krakenuniq.report.txt",
         "test1.krakenuniq.report.txt",
         pytest.param(
             "test1-invalid.krakenuniq.report.txt",
