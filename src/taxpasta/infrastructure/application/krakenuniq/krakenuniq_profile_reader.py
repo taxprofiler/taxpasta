@@ -46,7 +46,7 @@ class KrakenUniqProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            skiprows=3,
+            skiprows=2,
             header=0,
             index_col=False,
             skipinitialspace=True,
