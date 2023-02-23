@@ -50,16 +50,6 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
             observation_meta = None
             # FIXME (Moritz): All lists need to be of equal length, i.e., per key in
             #  the dict across all observations (aka samples).
-            # observation_meta = [
-            #     {
-            #         "taxonomy": taxonomy.get_taxon_name_lineage(tax_id),
-            #         "id_lineage": [
-            #             str(tax_id)
-            #             for tax_id in taxonomy.get_taxon_identifier_lineage(tax_id)
-            #         ],
-            #     }
-            #     for tax_id in matrix.iloc[:, 0]
-            # ]
         else:
             observation_meta = None
         result = Table(
