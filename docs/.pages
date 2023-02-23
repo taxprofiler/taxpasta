@@ -4,5 +4,6 @@ nav:
     - quick_reference
     - supported_profilers
     - ...
+    - ADR: adr
     - api
     - contributing
