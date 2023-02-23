@@ -25,6 +25,7 @@ module = [
     "pyarrow",
     "rich.logging",
     "taxopy",
+    "taxopy.exceptions",
     "typer",
 ]
 ignore_missing_imports = true
