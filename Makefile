@@ -8,6 +8,14 @@ qa:
 	isort src/taxpasta tests/ setup.py
 	black src/taxpasta tests/ setup.py
 
+.PHONY: docs
+## Generate documentation
+docs:
+	taxpasta standardise --help > docs/quick_reference/standardise_help.txt
+	taxpasta merge --help > docs/quick_reference/merge_help.txt
+	taxpasta consensus --help > docs/quick_reference/consensus_help.txt
+	mkdocs build
+
 ################################################################################
 # Self Documenting Commands                                                    #
 ################################################################################

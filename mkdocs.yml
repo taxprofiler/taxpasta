@@ -10,6 +10,12 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path:
+        - docs/quick_reference/standardise_help.txt
+        - docs/quick_reference/merge_help.txt
+        - docs/quick_reference/consensus_help.txt
+      check_paths: true
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
