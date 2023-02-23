@@ -2,16 +2,24 @@
 
 ## Next Release
 
+## 0.2.0 (2023-02-23)
+
+### Added
+
+* Created command line options to expand the standard profile with name, rank,
+  and/or lineage taxonomic information (#60).
+
 ### Fixed
 
+* Made the Krakenuniq reader more accepting (#57).
 * Documented _which_ columns are used in final standardised output profiles.
 
 ## 0.1.1 (2023-01-28)
 
 ### Fixed
 
-* Documentation on where the taxpasta-supported Kaiju output comes from (i.e., 
-  kaiju2table rather than Kaiju itself).
+* Documentation on where the taxpasta-supported Kaiju output comes from (i.e.,
+  kaiju2table rather than Kaiju itself) (#54).
 
 ### Fixed
 
