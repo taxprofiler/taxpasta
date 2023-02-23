@@ -64,7 +64,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
-            return
+            return None
         return taxon.name_lineage
 
     def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
@@ -72,7 +72,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
-            return
+            return None
         return taxon.taxid_lineage
 
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
@@ -98,7 +98,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
-            return
+            return None
         return ";".join(taxon.name_lineage)
 
     def add_identifier_lineage(
@@ -114,7 +114,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
-            return
+            return None
         return ";".join([str(tax_id) for tax_id in taxon.taxid_lineage])
 
     def summarise_at(
