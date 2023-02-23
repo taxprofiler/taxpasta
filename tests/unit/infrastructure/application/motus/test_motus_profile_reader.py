@@ -46,5 +46,5 @@ def test_read_correctness(
 ):
     """Test that the reader can parse valid mOTUs profiles."""
     profile = MotusProfileReader.read(motus_data_dir / filename)
-    for (row, col, value) in checks:
+    for row, col, value in checks:
         assert profile.iat[row, col] == value
