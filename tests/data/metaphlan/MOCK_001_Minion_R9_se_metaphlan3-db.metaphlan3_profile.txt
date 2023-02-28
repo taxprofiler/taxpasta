@@ -1,0 +1,5 @@
+#mpa_v31_CHOCOPhlAn_201901
+#/usr/local/bin/metaphlan --nproc 12 --input_type fastq MOCK_001_Minion_R9_1.unmapped_interleaved.fq.gz --bowtie2out MOCK_001_Minion_R9_se_metaphlan3-db.metaphlan3.bowtie2out.txt --bowtie2db metaphlan3 --biom MOCK_001_Minion_R9_se_metaphlan3-db.metaphlan3.biom --output_file MOCK_001_Minion_R9_se_metaphlan3-db.metaphlan3_profile.txt
+#SampleID	Metaphlan_Analysis
+#clade_name	NCBI_tax_id	relative_abundance	additional_species
+UNKNOWN	-1	100.0	
