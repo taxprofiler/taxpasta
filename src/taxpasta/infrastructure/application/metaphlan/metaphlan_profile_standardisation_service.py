@@ -19,6 +19,9 @@
 """Provide a standardisation service for metaphlan profiles."""
 
 
+import logging
+
+import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -26,6 +29,9 @@ from taxpasta.application.service import ProfileStandardisationService
 from taxpasta.domain.model import StandardProfile
 
 from .metaphlan_profile import MetaphlanProfile
+
+
+logger = logging.getLogger(__name__)
 
 
 class MetaphlanProfileStandardisationService(ProfileStandardisationService):
@@ -49,7 +55,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        return (
+        result = (
             profile[[MetaphlanProfile.ncbi_tax_id, MetaphlanProfile.relative_abundance]]
             .copy()
             .rename(
@@ -64,8 +70,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                         StandardProfile.taxonomy_id
                     ]
                     .str.rsplit("|", n=1)
-                    .str[-1]
-                    .astype(int),
+                    .str[-1],
                     StandardProfile.count: lambda df: df[StandardProfile.count]
                     * cls.LARGE_INTEGER,
                 }
@@ -78,3 +83,13 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 }
             )
         )
+        result[StandardProfile.taxonomy_id] = pd.to_numeric(
+            result[StandardProfile.taxonomy_id], errors="coerce"
+        ).astype("Int64")
+        mask = result[StandardProfile.taxonomy_id].notnull()
+        num = int((~mask).sum())
+        if num > 0:
+            logger.warning(
+                "Dropping %d entries with unclassified taxa from the profile.", num
+            )
+        return result.loc[mask, :].copy()
