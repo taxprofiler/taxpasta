@@ -2,6 +2,10 @@
 
 ## Next Release
 
+### Fixed
+
+* Handled metaphlan profiles with unclassified taxa in the lineage (#61).
+
 ## 0.2.0 (2023-02-23)
 
 ### Added
