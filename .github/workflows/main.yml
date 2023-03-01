@@ -46,7 +46,7 @@ jobs:
 
   release:
     needs: test
-    if: github.ref_type == "tag"
+    if: github.ref_type == 'tag'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
