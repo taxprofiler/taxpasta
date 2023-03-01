@@ -92,4 +92,4 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             logger.warning(
                 "Dropping %d entries with unclassified taxa from the profile.", num
             )
-        return result.loc[mask, :].copy()
+        return result.loc[mask, :].reset_index(drop=True)
