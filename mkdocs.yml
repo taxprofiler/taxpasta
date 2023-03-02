@@ -1,6 +1,6 @@
 site_name: TAXPASTA
-site_description: TAXnomic Profile Aggregation and STAndardisation
-site_author: Moritz E. Beber, Maxime Borry, James A. Fellows Yates, Sofia Stamouli
+site_description: TAXonomic Profile Aggregation and STAndardisation
+site_author: Moritz E. Beber, Maxime Borry, James A. Fellows Yates, and Sofia Stamouli
 site_url: https://taxpasta.readthedocs.io/
 
 markdown_extensions:
@@ -72,7 +72,7 @@ extra:
       link: https://github.com/taxprofiler
       name: taxprofiler organization
 
-copyright: Copyright &copy 2022, Moritz E. Beber, Maxime Borry, James A. Fellows Yates, and Sofia Stamouli.
+copyright: Copyright &copy 2022 Moritz E. Beber, Maxime Borry, James A. Fellows Yates, and Sofia Stamouli
 
 repo_url: https://github.com/taxprofiler/taxpasta
 repo_name: taxprofiler/taxpasta
