@@ -81,10 +81,13 @@ development = [
 ################################################################################
 
 [tool.hatch.build]
+only-packages = true
+
+[tool.hatch.build.targets.wheel]
 packages = ["src/taxpasta"]
 
 [tool.hatch.build.hooks.vcs]
-version-file = "_version.py"
+version-file = "src/taxpasta/_version.py"
 
 [tool.hatch.version]
 source = "vcs"
@@ -95,6 +98,11 @@ skips = ["*/test_*.py"]
 [tool.black]
 line-length = 88
 python-version = ["py311"]
+extend-exclude = '''
+(
+    _version.py
+)
+'''
 
 [tool.isort]
 profile = "black"
@@ -120,10 +128,6 @@ parallel = true
 [tool.coverage.report]
 exclude_lines = ["pragma: no cover"]
 precision = 2
-
-[tool.ruff]
-line-length = 88
-select = ["ALL"]
 
 [[tool.mypy.overrides]]
 module = [
