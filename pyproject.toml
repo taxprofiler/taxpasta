@@ -1,14 +1,126 @@
+################################################################################
+# Build Configuration
+################################################################################
+
 [build-system]
-build-backend = 'setuptools.build_meta'
-requires = [
-  'setuptools>=40.6.0',
-  'versioneer-518',
-  'wheel'
+build-backend = "hatchling.build"
+requires = ["hatchling", "hatch-vcs"]
+
+################################################################################
+# Project Configuration
+################################################################################
+
+[project]
+name = "taxpasta"
+description = "TAXonomic Profile Aggregation and STAndardisation"
+authors = [
+    { name = "Moritz E. Beber", email = "moritz.beber@posteo.de"},
+    { name = "Maxime Borry", email = "maxime_borry@eva.mpg.de"},
+    { name = "James A. Fellows Yates", email = "jfy133@gmail.com"},
+    { name = "Sofia Stamouli", email = "sofia.stamouli@scilifelab.se"},
 ]
+license = "Apache-2.0"
+readme = {"file" = "README.md", "content-type" = "text/markdown"}
+requires-python = ">=3.8"
+# Please consult https://pypi.org/classifiers/ for a full list.
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+keywords = ["taxonomic profile", "standardisation"]
+dynamic = ["version"]
+dependencies = [
+    "depinfo ~=2.2",
+    "numpy ~=1.20",
+    "pandas ~=1.4",
+    "pandera ~=0.11",
+    "taxopy ~=0.10",
+    "typer ~=0.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/taxprofiler/taxpasta"
+Documentation = "https://taxpasta.readthedocs.io"
+"Source Code" = "https://github.com/taxprofiler/taxpasta"
+"Bug Tracker" = "https://github.com/taxprofiler/taxpasta/issues"
+Download = "https://pypi.org/project/taxpasta/#files"
+
+[project.scripts]
+taxpasta = "taxpasta.infrastructure.cli:app"
+
+[project.optional-dependencies]
+all = [
+    "biom-format",
+    "odfpy",
+    "openpyxl",
+    "pyarrow",
+    "rich",
+]
+arrow = ["pyarrow"]
+biom = ["biom-format"]
+ods = ["odfpy"]
+parquet = ["pyarrow"]
+rich = ["rich"]
+xlsx = ["openpyxl"]
+development = [
+    "pre-commit",
+    "tox ~=4.0"
+]
+
+################################################################################
+# Tool Configuration
+################################################################################
+
+[tool.hatch.build]
+packages = ["src/taxpasta"]
+
+[tool.hatch.build.hooks.vcs]
+version-file = "_version.py"
+
+[tool.hatch.version]
+source = "vcs"
 
 [tool.black]
 line-length = 88
-python-version = ['py38']
+python-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+lines_after_imports = 2
+lines_before_imports = 2
+known_first_party = "taxpasta"
+skip = ["__init__.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["raises"]
+
+[tool.coverage.paths]
+source = [
+    "src/taxpasta",
+    "*/site-packages/taxpasta",
+]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover"]
+precision = 2
+
+[tool.ruff]
+line-length = 88
+select = ["ALL"]
 
 [[tool.mypy.overrides]]
 module = [
