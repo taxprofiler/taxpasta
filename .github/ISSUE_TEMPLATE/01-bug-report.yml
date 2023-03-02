@@ -28,7 +28,7 @@ body:
       label: Code sample
       description: >
         Create a [minimal, complete, verifiable example](https://stackoverflow.com/help/mcve).
-        Please, paste your code between the ``` tickmarks below or link to a gist.
+        Please, paste your code between the ``` tickmarks below or link to a [gist](https://gist.github.com/).
       value: |
         Code run:
 
