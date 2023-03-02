@@ -1,4 +1,4 @@
-# flake8: noqa
+# darglint: noqa
 # Copyright (c) 2022 Moritz E. Beber
 # Copyright (c) 2022 Maxime Borry
 # Copyright (c) 2022 James A. Fellows Yates
@@ -21,6 +21,7 @@
 
 
 from abc import ABC, abstractmethod
+from pathlib import Path
 from typing import Iterable
 
 from pandera.typing import DataFrame
@@ -33,12 +34,15 @@ class ConsensusApplication(ABC):
 
     @classmethod
     @abstractmethod
-    def run(cls, profiles: Iterable[DataFrame[StandardProfile]], taxonomy) -> DataFrame:
+    def run(
+        cls, profiles: Iterable[DataFrame[StandardProfile]], taxonomy: Path
+    ) -> DataFrame:
         """
         Build a consensus from two or more taxonomic profiles.
 
         Args:
             profiles: Standardized profiles.
+            taxonomy: Provide a shared taxonomy.
 
         """
         # FIXME: Rough idea on application.
