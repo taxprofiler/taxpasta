@@ -1,22 +1,26 @@
 {
-  "template": "https://github.com/opencobra/cookiecutter-python-package",
-  "commit": "627ae858cd55f962cf4599f1d85e048e67251379",
+  "template": "https://github.com/Midnighter/cookiecutter-python-package",
+  "commit": "bf7ce5914ed8cc232e8ce41c0492a3c951d5e326",
   "checkout": null,
   "context": {
     "cookiecutter": {
       "full_name": "Moritz E. Beber, Maxime Borry, James A. Fellows Yates, Sofia Stamouli",
       "email": "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, James A. Fellows Yates <jfy133@gmail.com>, Sofia Stamouli <sofia.stamouli@scilifelab.se>",
-      "github_username": "taxprofiler",
-      "project_name": "taxpasta",
+      "dev_platform": "GitHub",
+      "__dev_platform_url": "https://github.com",
+      "dev_platform_username": "taxprofiler",
+      "project_name": "TAXPASTA",
       "project_slug": "taxpasta",
       "project_module": "taxpasta",
       "project_short_description": "TAXonomic Profile Aggregation and STAndardisation",
+      "license": "Apache-2.0",
       "release_date": "2022-06-03",
       "year": "2022",
       "_extensions": [
-        "jinja2_time.TimeExtension"
+        "jinja2_time.TimeExtension",
+        "jinja2_strcase.StrcaseExtension"
       ],
-      "_template": "https://github.com/opencobra/cookiecutter-python-package"
+      "_template": "https://github.com/Midnighter/cookiecutter-python-package"
     }
   },
   "directory": null
