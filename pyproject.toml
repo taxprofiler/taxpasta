@@ -89,6 +89,9 @@ version-file = "_version.py"
 [tool.hatch.version]
 source = "vcs"
 
+[tool.bandit.assert_used]
+skips = ["*/test_*.py"]
+
 [tool.black]
 line-length = 88
 python-version = ["py311"]
