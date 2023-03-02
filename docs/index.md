@@ -4,11 +4,18 @@ _TAXonomic Profile Aggregation and STAndardisation_
 
 ## About
 
-The main purpose of taxpasta is to _standardise_ taxonomic profiles created by a range of
-bioinformatics tools. We call those tools taxonomic profilers. Taxpasta can not only
-standardise profiles but also _merge_ them across samples for the same profiler. In future,
-we also intend to offer methods for forming a _consensus_ for the same sample analyzed by
-different profilers.
+The main purpose of taxpasta is to _standardise_ taxonomic profiles created by a
+range of bioinformatics tools. We call those tools taxonomic profilers. They
+each come with their own particular tabular output format. Relative abundances
+in read counts, fractions, or percentages. Any number of columns with additional
+information. We therefore decided to take [the lessons
+learnt](https://xkcd.com/927/) to heart and provide our own solution to deal
+with this pasticcio. With taxpasta you can ingest all of those formats and, at
+a minimum, output taxonomy identifiers and their integer counts.
+
+Taxpasta can not only standardise profiles but also _merge_ them
+across samples for the same profiler. In future, we also intend to offer methods
+for forming a _consensus_ for the same sample analyzed by different profilers.
 
 ### Supported Taxonomic Profilers
 
