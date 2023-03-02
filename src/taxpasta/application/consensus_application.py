@@ -1,4 +1,4 @@
-# darglint: noqa
+# flake8: noqa
 # Copyright (c) 2022 Moritz E. Beber
 # Copyright (c) 2022 Maxime Borry
 # Copyright (c) 2022 James A. Fellows Yates

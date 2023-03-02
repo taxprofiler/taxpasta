@@ -799,5 +799,5 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # Project
-/_version.py
+/src/taxpasta/_version.py
 /.ruff_cache/
