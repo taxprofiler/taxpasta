@@ -79,7 +79,7 @@ local development.
 
     ```shell
     cd taxpasta
-    pip install -e '.[development]'
+    pip install -e '.[dev]'
     pre-commit install
     ```
 
@@ -91,11 +91,11 @@ local development.
     with the command above and will run when you try to `git commit` your
     changes.
 
-4. Create a branch for local development using the `devel` branch as a starting
+4. Create a branch for local development using the `dev` branch as a starting
    point. Use `fix` or `feat` as a prefix for your branch name.
 
     ```shell
-    git checkout devel
+    git checkout dev
     git checkout -b fix-name-of-your-bugfix
     ```
 

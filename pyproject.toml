@@ -71,7 +71,7 @@ ods = ["odfpy"]
 parquet = ["pyarrow"]
 rich = ["rich"]
 xlsx = ["openpyxl"]
-development = [
+dev = [
     "pre-commit",
     "tox ~=4.0"
 ]
