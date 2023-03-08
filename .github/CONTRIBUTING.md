@@ -1,13 +1,9 @@
 # Contributing
 
-There are various ways for contributing to this project. Be that answering
-questions on the nf-core [Slack
-channel](https://nfcore.slack.com/archives/C031QH57DSS) or in GitHub issues,
-writing documentation and providing examples, testing the software in various
-settings, or submitting code through pull requests. A different, but very important
-way of contributing is to [support new taxonomic profilers](supporting_new_profiler.md).
+Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.
 
-Some typical ways are described in more details below:
+You can contribute in many ways, for example:
 
 * [Report bugs](#report-bugs)
 * [Fix Bugs](#fix-bugs)
@@ -82,13 +78,13 @@ local development.
     pre-commit install
     ```
 
-   The commands above install the package with all of its normal and
-   development dependencies into your virtual environment. The package itself
-   is installed in editable mode (`-e`) such that any modifications that you
-   make are immediately reflected in the installed package. Furthermore, we use
-   pre-commit hooks to ensure consistent code formatting. They are installed
-   with the command above and will run when you try to `git commit` your
-   changes.
+    The commands above install the package with all of its normal and
+    development dependencies into your virtual environment. The package itself
+    is installed in editable mode (`-e`) such that any modifications that you
+    make are immediately reflected in the installed package. Furthermore, we use
+    pre-commit hooks to ensure consistent code formatting. They are installed
+    with the command above and will run when you try to `git commit` your
+    changes.
 
 4. Create a branch for local development using the `devel` branch as a starting
    point. Use `fix` or `feat` as a prefix for your branch name.
@@ -98,7 +94,7 @@ local development.
     git checkout -b fix-name-of-your-bugfix
     ```
 
-   Now you can make your changes locally.
+    Now you can make your changes locally.
 
 5. When you're done making changes, apply the quality assurance tools and check
    that your changes pass our test suite. This is all included with tox
@@ -107,7 +103,7 @@ local development.
     tox
     ```
 
-   You can also run tox in parallel to speed this up.
+    You can also run tox in parallel to speed this up.
 
     ```shell
     tox -p auto
