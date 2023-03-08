@@ -7,12 +7,12 @@
 Taxpasta expects a three-column, tab-separated file. This file is generated with the mOTUs parameter `-o` . It interprets the columns as:
 
 | Column Header      | Description |
-|--------------------|-------------|
+| ------------------ | ----------- |
 | consensus_taxonomy |             |
 | ncbi_tax_id        |             |
-| read_count *       |             |
+| read_count[^1]     |             |
 
-> * Value used in standardised profile output 
+[^1]: Value used in standardised profile output
 
 ## Example
 

@@ -5,6 +5,7 @@ site_url: https://taxpasta.readthedocs.io/
 
 markdown_extensions:
   - admonition
+  - footnotes
   - toc:
       permalink: true
   - pymdownx.highlight:
