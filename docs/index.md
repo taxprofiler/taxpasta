@@ -30,7 +30,7 @@ taxonomic tables for:
 -   [Kaiju](https://kaiju.binf.ku.dk/)
 -   [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 -   [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
--   [MEGAN6](http://www-ab.informatik.uni-tuebingen.de/software/megan6)/[MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/) via rma2info which converts their RMA6 output files into a tabular format
+-   [MEGAN6](http://www-ab.informatik.uni-tuebingen.de/software/megan6)/[MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/)
 -   [MetaPhlAn](https://segatalab.cibio.unitn.it/tools/metaphlan/index.html)
 -   [mOTUs](https://motu-tool.org/)
 
@@ -54,7 +54,7 @@ taxpasta -h
 ```
 
 Taxpasta currently offers three commands corresponding to the main [use-cases](#about).
-You can find out more in the [commands documentation](commands/index.md).
+You can find out more in the [commands' documentation](commands/index.md).
 
 ## Copyright
 
