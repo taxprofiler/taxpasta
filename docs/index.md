@@ -44,6 +44,18 @@ It's as simple as:
 pip install taxpasta
 ```
 
+Taxpasta is also available from the [Bioconda](https://bioconda.github.io/)
+channel
+
+```shell
+conda install -c bioconda taxpasta
+```
+
+and thus automatically generated
+[Docker](https://quay.io/repository/biocontainers/taxpasta?tab=tags) and
+[Singularity](https://depot.galaxyproject.org/singularity/)
+[BioContainers](https://biocontainers.pro/) images also exist.
+
 ## Usage
 
 The main entry point for taxpasta is its command-line interface (CLI). You can interactively
