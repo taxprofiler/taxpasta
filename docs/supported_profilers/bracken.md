@@ -13,10 +13,10 @@ The following input format is accepted by `taxpasta`. This file is generated wit
 | taxonomy_lvl          |             |
 | kraken_assigned_reads |             |
 | added_reads           |             |
-| new_est_reads \*      |             |
+| new_est_reads[^1]     |             |
 | fraction_total_reads  |             |
 
-> \* Value used in standardised profile output
+[^1]: Value used in standardised profile output
 
 ## Example
 

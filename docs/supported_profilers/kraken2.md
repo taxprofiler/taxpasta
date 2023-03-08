@@ -6,18 +6,18 @@
 
 A tab-separated 'Kraken report' output file with either six or eight columns as described [in the documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#sample-report-output-format). This is generated with the Kraken2 parameter `--report`. Taxpasta interprets the columns as follows:
 
-| Column Header            | Description |
-| ------------------------ | ----------- |
-| percent                  |             |
-| clade_assigned_reads     |             |
-| direct_assigned_reads \* |             |
-| num_minimizers           | optional    |
-| distinct_minimizers      | optional    |
-| taxonomy_lvl             |             |
-| taxonomy_id              |             |
-| name                     |             |
+| Column Header             | Description |
+| ------------------------- | ----------- |
+| percent                   |             |
+| clade_assigned_reads      |             |
+| direct_assigned_reads[^1] |             |
+| num_minimizers            | optional    |
+| distinct_minimizers       | optional    |
+| taxonomy_lvl              |             |
+| taxonomy_id               |             |
+| name                      |             |
 
-> \* Value used in standardised profile output
+[^1]: Value used in standardised profile output
 
 ## Example
 
