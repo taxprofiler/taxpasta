@@ -6,16 +6,16 @@
 
 A Kraken-style `txt` output file produced by the [`centrifuge-kreport`](https://ccb.jhu.edu/software/centrifuge/manual.shtml#kraken-style-report) auxiliary tool (a part of the Centrifuge package) is accepted by `taxpasta`.
 
-| Column Header           | Description |
-|-------------------------|-------------|
-| percent                 |             |
-| clade_assigned_reads    |             |
-| direct_assigned_reads * |             |
-| taxonomy_level          |             |
-| taxonomy_id             |             |
-| name                    |             |
+| Column Header            | Description |
+| ------------------------ | ----------- |
+| percent                  |             |
+| clade_assigned_reads     |             |
+| direct_assigned_reads \* |             |
+| taxonomy_level           |             |
+| taxonomy_id              |             |
+| name                     |             |
 
-> * Value used in standardised profile output 
+> \* Value used in standardised profile output
 
 ## Example
 
