@@ -29,4 +29,3 @@ escherichia_coli_551/1	1310613	1.94e-14
 shigella_dysenteriae_1094/1	1310613	1.74e-13
 shigella_dysenteriae_999/1	0	0
 ```
-

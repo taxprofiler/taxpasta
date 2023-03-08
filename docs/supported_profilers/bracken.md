@@ -6,17 +6,17 @@
 
 The following input format is accepted by `taxpasta`. This file is generated with the Bracken parameter `-o`. A tab-separated file with the following column headers:
 
-| Column Header         | Description                   |
-| --------------------- | ----------------------------- |
-| name                  |                               |
-| taxonomy_id           |                               |
-| taxonomy_lvl          |                               |
-| kraken_assigned_reads |                               |
-| added_reads           |                               |
-| new_est_reads *       |                               |
-| fraction_total_reads  |                               |
+| Column Header         | Description |
+| --------------------- | ----------- |
+| name                  |             |
+| taxonomy_id           |             |
+| taxonomy_lvl          |             |
+| kraken_assigned_reads |             |
+| added_reads           |             |
+| new_est_reads \*      |             |
+| fraction_total_reads  |             |
 
-> * Value used in standardised profile output 
+> \* Value used in standardised profile output
 
 ## Example
 
