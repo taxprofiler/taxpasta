@@ -49,7 +49,15 @@ class TaxopyTaxonomyService(TaxonomyService):
     @classmethod
     def from_taxdump(cls, source: Path) -> TaxopyTaxonomyService:
         """Create a service instance from a directory path containing taxdump info."""
-        return cls(tax_db=taxopy.TaxDb(taxdb_dir=str(source)))
+        merged = source / "merged.dmp"
+        return cls(
+            tax_db=taxopy.TaxDb(
+                names_dmp=str(source / "names.dmp"),
+                nodes_dmp=str(source / "nodes.dmp"),
+                merged_dmp=str(merged) if merged.is_file() else None,
+                keep_files=True,
+            )
+        )
 
     def get_taxon_name(self, taxonomy_id: int) -> Optional[str]:
         """Return the name of a given taxonomy identifier."""
