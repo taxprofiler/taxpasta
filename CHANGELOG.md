@@ -2,6 +2,8 @@
 
 ## Next Release
 
+## 0.2.2 (2023-03-08)
+
 ### Fixed
 
 -   Fixed how the `taxopy.TaxDb` is loaded. It was previously deleting local files and
@@ -30,7 +32,7 @@
 ### Fixed
 
 -   Documentation on where the taxpasta-supported Kaiju output comes from (i.e.,
-    kaiju2table rather than Kaiju itself) (#54).
+    `kaiju2table` rather than Kaiju itself) (#54).
 
 ### Fixed
 
