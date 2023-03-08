@@ -56,6 +56,24 @@ and thus automatically generated
 [Singularity](https://depot.galaxyproject.org/singularity/)
 [BioContainers](https://biocontainers.pro/) images also exist.
 
+### Optional Dependencies
+
+Taxpasta supports a number of extras that you can install for additional features. You
+can install them by specifying a comma separated list within square brackets, for example,
+
+```shell
+pip install 'taxpasta[rich,biom]'
+```
+
+-   `rich` provides [rich](https://rich.readthedocs.io/)-formatted command line output and logging.
+-   `arrow` supports writing output tables in [Apache Arrow](https://arrow.apache.org/) format.
+-   `parquet` supports writing output tables in [Apache Parquet](https://parquet.apache.org/) format.
+-   `biom` supports writing output tables in [BIOM](https://biom-format.org/) format.
+-   `ods` supports writing output tables in [ODS](https://www.libreoffice.org/discover/what-is-opendocument/) format.
+-   `xlsx` supports writing output tables in [Microsoft Excel](https://support.microsoft.com/en-us/office/file-formats-that-are-supported-in-excel-0943ff2c-6014-4e8d-aaea-b83d51d46247) format.
+-   `all` includes all of the above.
+-   `development` provides all tools needed for contributing to taxpasta.
+
 ## Usage
 
 The main entry point for taxpasta is its command-line interface (CLI). You can interactively
