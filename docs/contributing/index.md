@@ -7,13 +7,15 @@ writing documentation and providing examples, testing the software in various
 settings, or submitting code through pull requests. A different, but very important
 way of contributing is to [support new taxonomic profilers](supporting_new_profiler.md).
 
+## Example Contributions
+
 Some typical ways are described in more details below:
 
-* [Report bugs](#report-bugs)
-* [Fix Bugs](#fix-bugs)
-* [Implement Features](#implement-features)
-* [Write Documentation](#write-documentation)
-* [Submit Feedback](#submit-feedback)
+-   [Report bugs](#report-bugs)
+-   [Fix Bugs](#fix-bugs)
+-   [Implement Features](#implement-features)
+-   [Write Documentation](#write-documentation)
+-   [Submit Feedback](#submit-feedback)
 
 ### Report Bugs
 
@@ -24,8 +26,7 @@ detailed your report, the easier and thus faster we can help you.**
 
 ### Fix Bugs
 
-Look through the GitHub issues for bugs. Anything labelled with `bug` and `help
-wanted` is open to whoever wants to implement it. When you decide to work on
+Look through the GitHub issues for bugs. Anything labelled with `bug` and `help wanted` is open to whoever wants to implement it. When you decide to work on
 such an issue, please [assign yourself to
 it](https://docs.github.com/en/issues/tracking-your-work-with-issues/assigning-issues-and-pull-requests-to-other-github-users)
 and add a comment that you'll be working on that, too. If you see another issue
@@ -82,13 +83,13 @@ local development.
     pre-commit install
     ```
 
-   The commands above install the package with all of its normal and
-   development dependencies into your virtual environment. The package itself
-   is installed in editable mode (`-e`) such that any modifications that you
-   make are immediately reflected in the installed package. Furthermore, we use
-   pre-commit hooks to ensure consistent code formatting. They are installed
-   with the command above and will run when you try to `git commit` your
-   changes.
+    The commands above install the package with all of its normal and
+    development dependencies into your virtual environment. The package itself
+    is installed in editable mode (`-e`) such that any modifications that you
+    make are immediately reflected in the installed package. Furthermore, we use
+    pre-commit hooks to ensure consistent code formatting. They are installed
+    with the command above and will run when you try to `git commit` your
+    changes.
 
 4. Create a branch for local development using the `devel` branch as a starting
    point. Use `fix` or `feat` as a prefix for your branch name.
@@ -98,7 +99,7 @@ local development.
     git checkout -b fix-name-of-your-bugfix
     ```
 
-   Now you can make your changes locally.
+    Now you can make your changes locally.
 
 5. When you're done making changes, apply the quality assurance tools and check
    that your changes pass our test suite. This is all included with tox
@@ -107,7 +108,7 @@ local development.
     tox
     ```
 
-   You can also run tox in parallel to speed this up.
+    You can also run tox in parallel to speed this up.
 
     ```shell
     tox -p auto
