@@ -5,11 +5,11 @@ helps, and credit will always be given.
 
 You can contribute in many ways, for example:
 
-* [Report bugs](#report-bugs)
-* [Fix Bugs](#fix-bugs)
-* [Implement Features](#implement-features)
-* [Write Documentation](#write-documentation)
-* [Submit Feedback](#submit-feedback)
+-   [Report bugs](#report-bugs)
+-   [Fix Bugs](#fix-bugs)
+-   [Implement Features](#implement-features)
+-   [Write Documentation](#write-documentation)
+-   [Submit Feedback](#submit-feedback)
 
 ### Report Bugs
 
@@ -20,8 +20,7 @@ detailed your report, the easier and thus faster we can help you.**
 
 ### Fix Bugs
 
-Look through the GitHub issues for bugs. Anything labelled with `bug` and `help
-wanted` is open to whoever wants to implement it. When you decide to work on
+Look through the GitHub issues for bugs. Anything labelled with `bug` and `help wanted` is open to whoever wants to implement it. When you decide to work on
 such an issue, please [assign yourself to
 it](https://docs.github.com/en/issues/tracking-your-work-with-issues/assigning-issues-and-pull-requests-to-other-github-users)
 and add a comment that you'll be working on that, too. If you see another issue
@@ -74,7 +73,7 @@ local development.
 
     ```shell
     cd taxpasta
-    pip install -e '.[development]'
+    pip install -e '.[dev]'
     pre-commit install
     ```
 
@@ -86,11 +85,11 @@ local development.
     with the command above and will run when you try to `git commit` your
     changes.
 
-4. Create a branch for local development using the `devel` branch as a starting
+4. Create a branch for local development using the `dev` branch as a starting
    point. Use `fix` or `feat` as a prefix for your branch name.
 
     ```shell
-    git checkout devel
+    git checkout dev
     git checkout -b fix-name-of-your-bugfix
     ```
 
