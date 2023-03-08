@@ -30,7 +30,7 @@ taxonomic tables for:
 -   [Kaiju](https://kaiju.binf.ku.dk/)
 -   [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 -   [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
--   [MEGAN6](http://www-ab.informatik.uni-tuebingen.de/software/megan6)/[MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/) via rma2info which converts their RMA6 output files into a tabular format
+-   [MEGAN6](http://www-ab.informatik.uni-tuebingen.de/software/megan6)/[MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/)
 -   [MetaPhlAn](https://segatalab.cibio.unitn.it/tools/metaphlan/index.html)
 -   [mOTUs](https://motu-tool.org/)
 
@@ -44,6 +44,18 @@ It's as simple as:
 pip install taxpasta
 ```
 
+Taxpasta is also available from the [Bioconda](https://bioconda.github.io/)
+channel
+
+```shell
+conda install -c bioconda taxpasta
+```
+
+and thus automatically generated
+[Docker](https://quay.io/repository/biocontainers/taxpasta?tab=tags) and
+[Singularity](https://depot.galaxyproject.org/singularity/)
+[BioContainers](https://biocontainers.pro/) images also exist.
+
 ## Usage
 
 The main entry point for taxpasta is its command-line interface (CLI). You can interactively
@@ -54,7 +66,7 @@ taxpasta -h
 ```
 
 Taxpasta currently offers three commands corresponding to the main [use-cases](#about).
-You can find out more in the [commands documentation](commands/index.md).
+You can find out more in the [commands' documentation](commands/index.md).
 
 ## Copyright
 

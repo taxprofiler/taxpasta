@@ -1,21 +1,15 @@
 # Contributing
 
-There are various ways for contributing to this project. Be that answering
-questions on the nf-core [Slack
-channel](https://nfcore.slack.com/archives/C031QH57DSS) or in GitHub issues,
-writing documentation and providing examples, testing the software in various
-settings, or submitting code through pull requests. A different, but very important
-way of contributing is to [support new taxonomic profilers](supporting_new_profiler.md).
+Contributions are welcome, and they are greatly appreciated! Every little bit
+helps, and credit will always be given.
 
-## Example Contributions
+You can contribute in many ways, for example:
 
-Some typical ways are described in more details below:
-
--   [Report bugs](#report-bugs)
--   [Fix Bugs](#fix-bugs)
--   [Implement Features](#implement-features)
--   [Write Documentation](#write-documentation)
--   [Submit Feedback](#submit-feedback)
+* [Report bugs](#report-bugs)
+* [Fix Bugs](#fix-bugs)
+* [Implement Features](#implement-features)
+* [Write Documentation](#write-documentation)
+* [Submit Feedback](#submit-feedback)
 
 ### Report Bugs
 
@@ -26,7 +20,8 @@ detailed your report, the easier and thus faster we can help you.**
 
 ### Fix Bugs
 
-Look through the GitHub issues for bugs. Anything labelled with `bug` and `help wanted` is open to whoever wants to implement it. When you decide to work on
+Look through the GitHub issues for bugs. Anything labelled with `bug` and `help
+wanted` is open to whoever wants to implement it. When you decide to work on
 such an issue, please [assign yourself to
 it](https://docs.github.com/en/issues/tracking-your-work-with-issues/assigning-issues-and-pull-requests-to-other-github-users)
 and add a comment that you'll be working on that, too. If you see another issue
