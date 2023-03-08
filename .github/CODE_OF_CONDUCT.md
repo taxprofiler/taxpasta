@@ -61,11 +61,16 @@ representative at an online or offline event.
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be
 reported to the community leaders responsible for enforcement at
-[INSERT CONTACT METHOD].
+
+* [Moritz Beber](mailto:moritz.beber@posteo.de?Subject=Taxpasta%20Breach%20of%20Conduct),
+* [James A. Fellows Yates](mailto:jfy133@gmail.com?Subject=Taxpasta%20Breach%20of%20Conduct),
+* or [Sofia Stamouli](mailto:sofia.stamouli@scilifelab.se?Subject=Taxpasta%20Breach%20of%20Conduct).
+
 All complaints will be reviewed and investigated promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the
-reporter of any incident.
+reporter of any incident. If you have something to report about one of the above
+individuals, please contact the others.
 
 ## Enforcement Guidelines
 
