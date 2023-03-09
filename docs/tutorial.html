@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="James A. Fellows Yates">
+
+<title>Tutorial</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="tutorial_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tutorial_files/libs/quarto-html/quarto.js"></script>
+<script src="tutorial_files/libs/quarto-html/popper.min.js"></script>
+<script src="tutorial_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tutorial_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tutorial_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tutorial_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="tutorial_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tutorial_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tutorial_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tutorial</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>James A. Fellows Yates </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>This tutorial will show you how to generate standardised taxonomic profiles from the heterogeneous output of two popular taxonomic profilers: <a href="https://ccb.jhu.edu/software/kraken2/"><code>Kraken2</code></a> and <a href="https://motu-tool.org/"><code>mOTUs</code></a>, and then demonstrate some of the benefits of this standardisation when running downstream analyses on such tables in the popular data science programming language <a href="https://www.r-project.org/"><code>R</code></a>.</p>
+</section>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
+<section id="software" class="level3">
+<h3 class="anchored" data-anchor-id="software">Software</h3>
+<p>For this tutorial you will need an internet connection, <code>taxpasta</code> already <a href="/index">installed</a>, and R with the <code>readr</code> and <code>dplyr</code> packages from the <a href="https://tidyverse.org">Tidyverse</a> set of packages installed, and a UNIX based operating system (Linux, OSX or Windows Subsystem for Linux).</p>
+<p>To summarise you will need:</p>
+<ul>
+<li>Unix terminal (e.g.&nbsp;<code>bash</code>)</li>
+<li><code>taxpasta</code></li>
+<li><code>R</code>
+<ul>
+<li><code>readr</code> package</li>
+<li><code>dplyr</code> package</li>
+</ul></li>
+</ul>
+</section>
+<section id="data" class="level3">
+<h3 class="anchored" data-anchor-id="data">Data</h3>
+<p>First we will make a ‘scratch’ directory where we can run all the tutorial and delete the files after.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> taxpasta-tutorial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We will also need to download some example taxonomic profiles from <code>Kraken2</code> and <code>mOTUs</code>. If you’re on UNIX a machine we can download some test data from the taxpasta repository.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span> conda</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">## mOTUs</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">## Kraken2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="ex">curl</span> <span class="at">-o</span> taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We should now see three files with contents in the <code>taxpasta-tutorial</code> directory</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-l</span> taxpasta-tutorial/<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="tutorial" class="level2">
+<h2 class="anchored" data-anchor-id="tutorial">Tutorial</h2>
+<section id="raw-classifer-output" class="level3">
+<h3 class="anchored" data-anchor-id="raw-classifer-output">Raw classifer output</h3>
+<p>To begin, we can try loading a <code>mOTUs</code> profile into R using a common and ‘default’ table reading command, <code>read_tsv()</code> from the <code>readr</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>profile_motus_2612_pe_raw <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, see `problems()` for details</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33573 Columns: 1
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): # git tag version 3.0.3 |  motus version 3.0.3 | map_tax 3.0.3 | ge...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>You can see we immediately hit an error, as there is a ‘comment’ line at the top of the profile with information on how the profile was generated.</p>
+<p>While this is very nice for reproducibility, to load this we have to instead add extra options to the function, which makes loading the table less than smooth for downstream analyses.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>profile_motus_2612_pe_raw <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out"</span>, <span class="at">comment =</span> <span class="st">"#"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: One or more parsing issues, see `problems()` for details</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33570 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): Leptospira alexanderi [ref_mOTU_v3_00001]
+dbl (2): 100053, 0
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>However, once again we hit another error - the column headers are <em>also</em> specified as a comment line…</p>
+<p>Instead we can try to skip the first two tool information lines</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>profile_motus_2612_pe_raw <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out"</span>, <span class="at">skip =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 33571 Columns: 3
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): #consensus_taxonomy
+dbl (2): NCBI_tax_id, 2612_pe-ERR5766176-db_mOTU
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>profile_motus_2612_pe_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,571 × 3
+   `#consensus_taxonomy`                            NCBI_tax_id `2612_pe-ERR57…`
+   &lt;chr&gt;                                                  &lt;dbl&gt;            &lt;dbl&gt;
+ 1 Leptospira alexanderi [ref_mOTU_v3_00001]             100053                0
+ 2 Leptospira weilii [ref_mOTU_v3_00002]                  28184                0
+ 3 Chryseobacterium sp. [ref_mOTU_v3_00004]                  NA                0
+ 4 Chryseobacterium gallinarum [ref_mOTU_v3_00005]      1324352                0
+ 5 Chryseobacterium indologenes [ref_mOTU_v3_00006]         253                0
+ 6 Chryseobacterium artocarpi/ureilyticum [ref_mOT…          NA                0
+ 7 Chryseobacterium jejuense [ref_mOTU_v3_00008]         445960                0
+ 8 Chryseobacterium sp. G972 [ref_mOTU_v3_00009]        1805473                0
+ 9 Chryseobacterium contaminans [ref_mOTU_v3_00010]     1423959                0
+10 Chryseobacterium indologenes [ref_mOTU_v3_00011]         253                0
+# … with 33,561 more rows</code></pre>
+</div>
+</div>
+<p>This now works! However we feel getting this to work takes much too effort to simply load what is essentially a simple table.</p>
+<p>Furthermore, we would have to load each profile one by one for each sample, requiring more complicated loops and table join code.</p>
+<p>Now lets try loading the <code>Kraken2</code> output.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_raw <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 43 Columns: 6
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "\t" chr
+(2): U, unclassified dbl (4): 99.97, 627680...2, 627680...3, 0
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `627680` -&gt; `627680...2`
+• `627680` -&gt; `627680...3`</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 43 × 6
+   `99.97` `627680...2` `627680...3` U        `0` unclassified      
+     &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt;             
+ 1    0.03          168            0 R          1 root              
+ 2    0.03          168            0 R1    131567 cellular organisms
+ 3    0.03          168            0 D       2759 Eukaryota         
+ 4    0.03          168            0 D1     33154 Opisthokonta      
+ 5    0.02          152            0 K      33208 Metazoa           
+ 6    0.02          152            0 K1      6072 Eumetazoa         
+ 7    0.02          152            0 K2     33213 Bilateria         
+ 8    0.02          152            0 K3     33511 Deuterostomia     
+ 9    0.02          152            0 P       7711 Chordata          
+10    0.02          152            0 P1     89593 Craniata          
+# … with 33 more rows</code></pre>
+</div>
+</div>
+<p>This doesn’t fail to load, but unfortunately the column headers look a bit wierd… it seems the Kraken2 ‘table’ file does not include a column header! In this case we have to specify these ourselves..</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_raw <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt"</span>, <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"percent"</span>, <span class="st">"clade_assigned_reads"</span>, <span class="st">"direct_assigned_reads"</span>, <span class="st">"taxonomy_lvl"</span>, <span class="st">"taxonomy_id"</span>, <span class="st">"name"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 44 Columns: 6
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (2): taxonomy_lvl, name
+dbl (4): percent, clade_assigned_reads, direct_assigned_reads, taxonomy_id
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_raw</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 44 × 6
+   percent clade_assigned_reads direct_assigned_… taxonomy_lvl taxonomy_id name 
+     &lt;dbl&gt;                &lt;dbl&gt;             &lt;dbl&gt; &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;
+ 1  100.                 627680            627680 U                      0 uncl…
+ 2    0.03                  168                 0 R                      1 root 
+ 3    0.03                  168                 0 R1                131567 cell…
+ 4    0.03                  168                 0 D                   2759 Euka…
+ 5    0.03                  168                 0 D1                 33154 Opis…
+ 6    0.02                  152                 0 K                  33208 Meta…
+ 7    0.02                  152                 0 K1                  6072 Eume…
+ 8    0.02                  152                 0 K2                 33213 Bila…
+ 9    0.02                  152                 0 K3                 33511 Deut…
+10    0.02                  152                 0 P                   7711 Chor…
+# … with 34 more rows</code></pre>
+</div>
+</div>
+<p>This looks better, but if we see the <a href="https://github.com/DerrickWood/kraken2/wiki/Manual#distinct-minimizer-count-information">Kraken2 documentation</a> we can also see that sometimes <em>extra</em> columns can be added when certain flags are given, meaning that our column names wouldn’t always work.</p>
+<p>So again, not trivial.</p>
+</section>
+<section id="comparing-raw-output-of-different-classifiers" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-raw-output-of-different-classifiers">Comparing raw output of different classifiers</h3>
+<p>What if we wanted to compare the output of the different tools? A nice way to do this would be to merge the files into one table.</p>
+<p>In the tidyverse flavour of R, we would do this with the <code>full_join</code> function of the <code>dplyr</code> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(profile_motus_2612_pe_raw, profile_kraken2_2612_pe_raw)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-error">
+<pre><code>Error in `full_join()`:
+! `by` must be supplied when `x` and `y` have no common variables.
+ℹ use by = character()` to perform a cross-join.</code></pre>
+</div>
+</div>
+<p>The error <code>by must be supplied when x and y have no common variables.</code> is because the column names are not the same between the two tables for the different classifer’s outputs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>raw_merged_table <span class="ot">&lt;-</span> <span class="fu">full_join</span>(profile_motus_2612_pe_raw, profile_kraken2_2612_pe_raw, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"NCBI_tax_id"</span> <span class="ot">=</span> <span class="st">"taxonomy_id"</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>raw_merged_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 33,615 × 8
+   `#consensus_taxonomy`   NCBI_tax_id `2612_pe-ERR57…` percent clade_assigned_…
+   &lt;chr&gt;                         &lt;dbl&gt;            &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;
+ 1 Leptospira alexanderi …      100053                0      NA               NA
+ 2 Leptospira weilii [ref…       28184                0      NA               NA
+ 3 Chryseobacterium sp. […          NA                0      NA               NA
+ 4 Chryseobacterium galli…     1324352                0      NA               NA
+ 5 Chryseobacterium indol…         253                0      NA               NA
+ 6 Chryseobacterium artoc…          NA                0      NA               NA
+ 7 Chryseobacterium jejue…      445960                0      NA               NA
+ 8 Chryseobacterium sp. G…     1805473                0      NA               NA
+ 9 Chryseobacterium conta…     1423959                0      NA               NA
+10 Chryseobacterium indol…         253                0      NA               NA
+# … with 33,605 more rows, and 3 more variables: direct_assigned_reads &lt;dbl&gt;,
+#   taxonomy_lvl &lt;chr&gt;, name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>But wait, this doesn’t look right at all. We know which sample column we have from <code>mOTUs</code>, but what about the <code>Kraken</code> read count column? Also many of the columns of the profiles are <em>not</em> shared between the two profilers (see an important note about this <a href="#important-caveat">here</a>), so we have a lot of ‘cruft’, and really the resulting file makes no sense, as you can’t do any proper comparison.</p>
+</section>
+<section id="taxpasta-standardise" class="level3">
+<h3 class="anchored" data-anchor-id="taxpasta-standardise">taxpasta standardise</h3>
+<p>But this is where <code>taxpasta</code> comes to the rescue!</p>
+<p>With <code>taxpasta</code>, we can already standardised and make multi-sample taxon tables for you at the command line level (e.g., immediately after profiling), rather than having to do this with custom scripts and a lot of manual munging.</p>
+<p>If you want to standardise a single sample, you just need to specify the profiler of the input file, the output file name (with a valid suffix, which will tell <code>taxpasta</code> which format to save the output), and finally the the profile itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="ex">taxpasta</span> standardise <span class="at">--profiler</span> kraken2 <span class="at">-o</span> taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now lets try to load the <code>taxpasta</code> standardised <code>Kraken2</code> result into <code>R</code> again…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_standardised <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 44 Columns: 2
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+dbl (2): taxonomy_id, count
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>profile_kraken2_2612_pe_standardised</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 44 × 2
+   taxonomy_id  count
+         &lt;dbl&gt;  &lt;dbl&gt;
+ 1           0 627680
+ 2           1      0
+ 3      131567      0
+ 4        2759      0
+ 5       33154      0
+ 6       33208      0
+ 7        6072      0
+ 8       33213      0
+ 9       33511      0
+10        7711      0
+# … with 34 more rows</code></pre>
+</div>
+</div>
+<p>You can see we did not have to specify any additional column names or other loading parameters, <code>taxpasta</code> has done it for you.</p>
+</section>
+<section id="taxpasta-merge" class="level3">
+<h3 class="anchored" data-anchor-id="taxpasta-merge">taxpasta merge</h3>
+<p>But what about the more complicated <code>mOTUs</code> case, where we have unusual comment headers, and also multiple samples?</p>
+<p>In this case we can instead use <code>taxpasta merge</code>, which will both standardise <em>and</em> stick the profiles of different samples into one for you - again all the command line. Once again, we just need to specify the profiler, the output name and format (via the suffix), and the profile itself.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">taxpasta</span> merge <span class="at">--profiler</span> motus <span class="at">-o</span> taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once again, lets try loading the <code>taxpasta</code> standardised and merged <code>mOTUs</code> result into <code>R</code> again…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>profile_motus_standardised <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"taxpasta-tutorial/dbMOTUs_motus.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 37 Columns: 4
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: "\t"
+chr (1): name
+dbl (3): taxonomy_id, 2612_pe-ERR5766176-db_mOTU, 2612_se-ERR5766180-db_mOTU
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>profile_motus_standardised</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 37 × 4
+   taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db_mOTU` name   
+         &lt;dbl&gt;                        &lt;dbl&gt;                        &lt;dbl&gt; &lt;chr&gt;  
+ 1       40518                           20                            2 Rumino…
+ 2      216816                            1                            0 Bifido…
+ 3        1680                            6                            1 Bifido…
+ 4     1262820                            1                            0 Clostr…
+ 5       74426                            2                            1 Collin…
+ 6     1907654                            1                            0 Collin…
+ 7     1852370                            3                            1 Prevot…
+ 8       39491                            3                            0 [Eubac…
+ 9       33039                            2                            0 [Rumin…
+10       39486                            1                            0 Dorea …
+# … with 27 more rows</code></pre>
+</div>
+</div>
+<p>You can see here now we have one <code>taxonomy_id</code> column, and two columns each referring to each of the samples - and all without having to spend time playing with different parameters and arguments for loading the files.</p>
+<p>By default <code>taxpasta</code> uses taxonomy IDs to merge tables. If you’re interested in having human-readable taxon names see <a href="#adding-taxon-names">below</a>.</p>
+</section>
+<section id="comparing-standardised-output-of-different-classifiers" class="level3">
+<h3 class="anchored" data-anchor-id="comparing-standardised-output-of-different-classifiers">Comparing standardised output of different classifiers</h3>
+<!-- TODO UPDATE AFTER COLUM NNAME BUG FIX FOR STANDARDISE OLUMN EADER-->
+<p>We can also now more easily merge the tables across the two profilers, again with the join function - but without any extra specifications, as all the standardised taxonomic tables now share common column header names.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>standardised_merged_table <span class="ot">&lt;-</span> <span class="fu">full_join</span>(profile_motus_standardised, profile_kraken2_2612_pe_standardised)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Joining, by = "taxonomy_id"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>standardised_merged_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 80 × 5
+   taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db…` name  count
+         &lt;dbl&gt;                        &lt;dbl&gt;                    &lt;dbl&gt; &lt;chr&gt; &lt;dbl&gt;
+ 1       40518                           20                        2 Rumi…    NA
+ 2      216816                            1                        0 Bifi…    NA
+ 3        1680                            6                        1 Bifi…    NA
+ 4     1262820                            1                        0 Clos…    NA
+ 5       74426                            2                        1 Coll…    NA
+ 6     1907654                            1                        0 Coll…    NA
+ 7     1852370                            3                        1 Prev…    NA
+ 8       39491                            3                        0 [Eub…    NA
+ 9       33039                            2                        0 [Rum…    NA
+10       39486                            1                        0 Dore…    NA
+# … with 70 more rows</code></pre>
+</div>
+</div>
+</section>
+<section id="important-caveat" class="level3">
+<h3 class="anchored" data-anchor-id="important-caveat">Important caveat</h3>
+<p>You may have noticed that when ‘standardising’ the output from each classifier, that not all columns are retained. This is because each profiler has a different way of making taxonomic classification, and will produce additional metrics (represented as additional columns) that allow for better evaluation of the accuracy or confidence in each hit.</p>
+<p>However, as these metrics are <em>not</em> consistent between each profiler, they are are not comparable between each other, thus in <code>taxpasta</code> we only retain columns that are conceptually comparable - i.e., raw read counts.</p>
+<p>However you must be aware that <em>raw read counts</em> may not always be an accurate representation of a metagenomic <em>profile</em> where an abundance estimate is mathematically made.</p>
+<p>So please be aware that while <code>taxpasta</code> is a utility to make comparison between profilers easier to be performed, this does not necessarily mean all comparisons are necessarily valid - this will depend on a case-by-case basis of your project!</p>
+<p>For example, for simple presence-and-absence analyses (such as pathogen screening), taxpasta will be highly suitable for comparing sensitivity of different tools/databases (providing downstream genomic-level analyses is carried out to confirm the hit). However using the output from taxpasta won’t be immediately suitable for differential abundance analysis in microbial ecology without further conversion of the raw-read counts to abundance estimates.</p>
+</section>
+</section>
+<section id="extras" class="level2">
+<h2 class="anchored" data-anchor-id="extras">Extras</h2>
+<section id="custom-sample-names" class="level3">
+<h3 class="anchored" data-anchor-id="custom-sample-names">Custom sample names</h3>
+<p>With <code>taxpasta</code> you can also customise the sample names that are displayed in the column header of your table, by creating a samplesheet that has the sample name you want and paths to the files.</p>
+<p>We can generate such a TSV sample sheet with a bit of <code>bash</code> trickery.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">## Get the full paths for each file</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ls</span> <span class="at">-1</span> taxpasta-tutorial/<span class="pp">*</span>mOTU.out <span class="op">&gt;</span> taxpasta-tutorial/motus_paths.txt</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a><span class="co">## Construct a sample name based on the filename</span></span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a><span class="fu">sed</span> <span class="st">'s#-db_mOTU.out##g;s#^.*/##g'</span> taxpasta-tutorial/motus_paths.txt <span class="op">&gt;</span> taxpasta-tutorial/motus_names.txt</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a><span class="co">## Create the samplesheet, adding a header, and then adding the samplenames and paths</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">printf</span> <span class="st">'sample\tprofile\n'</span> <span class="op">&gt;</span> taxpasta-tutorial/motus_samplesheet.tsv</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="fu">paste</span> taxpasta-tutorial/motus_names.txt taxpasta-tutorial/motus_paths.txt <span class="op">&gt;&gt;</span> taxpasta-tutorial/motus_samplesheet.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then instead of giving to <code>merge</code> the paths to each of the profiles, we can provide the samplesheet itself</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="ex">taxpasta</span> merge <span class="at">--profiler</span> motus <span class="at">-o</span> taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv <span class="at">-s</span> taxpasta-tutorial/motus_samplesheet.tsv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="adding-taxon-names" class="level3">
+<h3 class="anchored" data-anchor-id="adding-taxon-names">Adding taxon names</h3>
+<p>If you wish to have actual human-readable taxon names in your standardised output, you need to supply ‘taxonomy’ files. These files are typically called <code>nodes.dmp</code> and <code>names.dmp</code>. Most profilers use the <a href="https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/">NCBI taxonomy</a> files.</p>
+<blockquote class="blockquote">
+<p>⚠️ We do not demonstrate these files in the tutorial here, <code>.dmp</code> files can be very large!</p>
+</blockquote>
+<p>Once downloaded, you can supply these files to your respective <code>taxpasta</code> command with the <code>--taxonomy</code> flag, and specify which type of taxon names to be displayed (e.g., just the name, the rank, and/or taxonomic lineage).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="ex">taxpasta</span> merge <span class="at">--profiler</span> motus <span class="at">-o</span> taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out <span class="at">--taxonomy</span> . <span class="at">--add-name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This would produce output like so</p>
+<pre class="text"><code>taxonomy_id 2612_pe-ERR5766176-db_mOTU  2612_se-ERR5766180-db_mOTU  name
+40518   20  2   Ruminococcus bromii
+216816  1   0   Bifidobacterium longum
+1680    6   1   Bifidobacterium adolescentis
+1262820 1   0   Clostridium sp. CAG:567
+74426   2   1   Collinsella aerofaciens
+1907654 1   0   Collinsella bouchesdurhonensis
+1852370 3   1   Prevotellamassilia timonensis
+39491   3   0   [Eubacterium] rectale
+33039   2   0   [Ruminococcus] torques</code></pre>
+</section>
+</section>
+<section id="clean-up" class="level2">
+<h2 class="anchored" data-anchor-id="clean-up">Clean Up</h2>
+<p>Once you’re happy you’ve completed the tutorial you can clean up your workspace by simply running</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-r</span> taxpasta-tutorial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
