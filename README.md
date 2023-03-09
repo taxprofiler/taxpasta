@@ -47,8 +47,9 @@ and thus automatically generated
 
 ### Optional Dependencies
 
-Taxpasta supports a number of extras that you can install for additional features. You
-can install them by specifying a comma separated list within square brackets, for example,
+Taxpasta supports a number of extras that you can install for additional
+features; primarily support for additional output file formats. You can install
+them by specifying a comma separated list within square brackets, for example,
 
 ```shell
 pip install 'taxpasta[rich,biom]'
@@ -65,7 +66,7 @@ pip install 'taxpasta[rich,biom]'
 
 ## Copyright
 
--   Copyright © 2022, 2023, Moritz E. Beber, Maxime Borry, James A. Fellows Yates, and
-    Sofia Stamouli.
+-   Copyright © 2022, 2023, Moritz E. Beber, Maxime Borry, James A. Fellows
+    Yates, and Sofia Stamouli.
 -   Free software distributed under the [Apache Software License
     2.0](https://www.apache.org/licenses/LICENSE-2.0).
