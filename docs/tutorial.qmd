@@ -26,25 +26,25 @@ To summarise you will need:
 
 First we will make a 'scratch' directory where we can run all the tutorial and delete the files after.
 
-```{bash, eval=F}
+```{bash}
 mkdir taxpasta-tutorial
 ```
 
 
 We will also need to download some example taxonomic profiles from `Kraken2` and `mOTUs`. If you're on UNIX a machine we can download some test data from the taxpasta repository.
 
-```{bash, eval=F}
+```{bash}
 ## mOTUs
-curl -o taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out 
+curl -o taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
 curl -o taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
 
 ## Kraken2
-curl -o taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt 
+curl -o taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
 
 We should now see three files with contents in the `taxpasta-tutorial` directory
 
-```{bash, eval=F}
+```{bash}
 ls -l taxpasta-tutorial/*
 ```
 
@@ -52,7 +52,23 @@ ls -l taxpasta-tutorial/*
 
 ### Raw classifer output
 
-To begin, we can try loading a `mOTUs` profile into R using a common and 'default' table reading command, `read_tsv()` from the `readr` package.
+To begin, lets look at the contents of the output from each of the profilers
+
+For `mOTUs`:
+
+```bash
+head taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out
+```
+
+and `Kraken2`:
+
+```bash
+head taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+These look quite different, and neither are in a nice 'pure' tabular formats that data scientists and analysis software normally likes. They also have different types columns, and in the case of `Kraken2` has an interesting 'indentation' way of showing the taxonomic rank of each hit.
+
+We can try loading a `mOTUs` profile into R using a common and 'default' table reading command, `read_tsv()` from the `readr` package.
 
 ```{r}
 library(readr)
@@ -88,7 +104,7 @@ Now lets try loading the `Kraken2` output.
 profile_kraken2_2612_pe_raw <- read_tsv("taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt")
 profile_kraken2_2612_pe_raw
 ```
- 
+
 This doesn't fail to load, but unfortunately the column headers look a bit wierd... it seems the Kraken2 'table' file does not include a column header! In this case we have to specify these ourselves..
 
 ```{r}
@@ -126,11 +142,19 @@ But this is where `taxpasta` comes to the rescue!
 
 With `taxpasta`, we can already standardised and make multi-sample taxon tables for you at the command line level (e.g., immediately after profiling), rather than having to do this with custom scripts and a lot of manual munging.
 
-If you want to standardise a single sample, you just need to specify the profiler of the input file, the output file name (with a valid suffix, which will tell `taxpasta` which format to save the output), and finally the the profile itself. 
+If you want to standardise a single sample, you just need to specify the profiler of the input file, the output file name (with a valid suffix, which will tell `taxpasta` which format to save the output), and finally the the profile itself.
 
-```{bash, eval=F}
+```{bash}
 taxpasta standardise --profiler kraken2 -o taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
+
+Lets look at what the resulting looks like
+
+```{bash}
+head taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv
+```
+
+This looks much more tabular!
 
 Now lets try to load the `taxpasta` standardised `Kraken2` result into `R` again...
 
@@ -147,9 +171,17 @@ But what about the more complicated `mOTUs` case, where we have unusual comment 
 
 In this case we can instead use `taxpasta merge`, which will both standardise _and_ stick the profiles of different samples into one for you - again all the command line. Once again, we just need to specify the profiler, the output name and format (via the suffix), and the profile itself.
 
-```{bash, eval=F}
+```{bash}
 taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
 ```
+
+And the result...
+
+```{bash}
+head taxpasta-tutorial/dbMOTUs_motus.tsv
+```
+
+As with Kraken2, this looks much more tabular and also we can see references to _both_ input files.
 
 Once again, lets try loading the `taxpasta` standardised and merged `mOTUs` result into `R` again...
 
@@ -160,7 +192,7 @@ profile_motus_standardised
 
 You can see here now we have one `taxonomy_id` column, and two columns each referring to each of the samples - and all without having to spend time playing with different parameters and arguments for loading the files.
 
-By default `taxpasta` uses taxonomy IDs to merge tables. If you're interested in having human-readable taxon names see [below](#adding-taxon-names). 
+By default `taxpasta` uses taxonomy IDs to merge tables. If you're interested in having human-readable taxon names see [below](#adding-taxon-names).
 
 ### Comparing standardised output of different classifiers
 
@@ -177,11 +209,11 @@ standardised_merged_table
 
 You may have noticed that when 'standardising' the output from each classifier, that not all columns are retained. This is because each profiler has a different way of making taxonomic classification, and will produce additional metrics (represented as additional columns) that allow for better evaluation of the accuracy or confidence in each hit.
 
-However, as these metrics are _not_ consistent between each profiler, they are are not comparable between each other, thus in `taxpasta` we only retain columns that are conceptually comparable - i.e., raw read counts. 
+However, as these metrics are _not_ consistent between each profiler, they are are not comparable between each other, thus in `taxpasta` we only retain columns that are conceptually comparable - i.e., raw read counts.
 
-However you must be aware that _raw read counts_ may not always be an accurate representation of a metagenomic _profile_ where an abundance estimate is mathematically made. 
+However you must be aware that _raw read counts_ may not always be an accurate representation of a metagenomic _profile_ where an abundance estimate is mathematically made.
 
-So please be aware that while `taxpasta` is a utility to make comparison between profilers easier to be performed, this does not necessarily mean all comparisons are necessarily valid - this will depend on a case-by-case basis of your project! 
+So please be aware that while `taxpasta` is a utility to make comparison between profilers easier to be performed, this does not necessarily mean all comparisons are necessarily valid - this will depend on a case-by-case basis of your project!
 
 For example, for simple presence-and-absence analyses (such as pathogen screening), taxpasta will be highly suitable for comparing sensitivity of different tools/databases (providing downstream genomic-level analyses is carried out to confirm the hit). However using the output from taxpasta won't be immediately suitable for differential abundance analysis in microbial ecology without further conversion of the raw-read counts to abundance estimates.
 
@@ -193,7 +225,7 @@ With `taxpasta` you can also customise the sample names that are displayed in th
 
 We can generate such a TSV sample sheet with a bit of `bash` trickery.
 
-```{bash, eval=F}
+```{bash}
 ## Get the full paths for each file
 ls -1 taxpasta-tutorial/*mOTU.out > taxpasta-tutorial/motus_paths.txt
 
@@ -207,7 +239,7 @@ paste taxpasta-tutorial/motus_names.txt taxpasta-tutorial/motus_paths.txt >> tax
 
 Then instead of giving to `merge` the paths to each of the profiles, we can provide the samplesheet itself
 
-```{bash, eval=F}
+```{bash}
 taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv -s taxpasta-tutorial/motus_samplesheet.tsv
 ```
 
@@ -217,37 +249,28 @@ If you wish to have actual human-readable taxon names in your standardised outpu
 
 > ⚠️ The following  `.dmp` files can be very large >1.8GB when uncompressed!
 
-```{bash, eval=F}
+```{bash}
 curl -o taxpasta-tutorial/new_taxdump.zip https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip
 unzip taxpasta-tutorial/new_taxdump.zip -d taxpasta-tutorial
 ```
 
 Once downloaded, you can supply these files to your respective `taxpasta` command with the `--taxonomy` flag, and specify which type of taxon names to be displayed (e.g., just the name, the rank, and/or taxonomic lineage).
 
-```{bash, eval=F}
-taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
+```{bash}
+taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_with_names.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
 ```
 
-This would produce output like so
+The taxpasta now looks like
 
-```text
-taxonomy_id	2612_pe-ERR5766176-db_mOTU	2612_se-ERR5766180-db_mOTU	name
-40518	20	2	Ruminococcus bromii
-216816	1	0	Bifidobacterium longum
-1680	6	1	Bifidobacterium adolescentis
-1262820	1	0	Clostridium sp. CAG:567
-74426	2	1	Collinsella aerofaciens
-1907654	1	0	Collinsella bouchesdurhonensis
-1852370	3	1	Prevotellamassilia timonensis
-39491	3	0	[Eubacterium] rectale
-33039	2	0	[Ruminococcus] torques
+```{bash}
+head taxpasta-tutorial/dbMOTUs_motus_with_names.tsv
 ```
 
 ## Clean Up
 
 Once you're happy you've completed the tutorial you can clean up your workspace by simply running
 
-```{bash, eval=F}
+```{bash}
 rm -r taxpasta-tutorial
 ```
 
