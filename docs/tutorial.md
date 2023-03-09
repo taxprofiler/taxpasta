@@ -45,12 +45,30 @@ test data from the taxpasta repository.
 
 ``` bash
 ## mOTUs
-curl -o taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out 
+curl -o taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
 curl -o taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
 
 ## Kraken2
-curl -o taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt 
+curl -o taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
+
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+    100 1967k  100 1967k    0     0  3218k      0 --:--:-- --:--:-- --:--:-- 3215k
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+      1 1967k    1 25578    0     0  65025      0  0:00:30 --:--:--  0:00:30 64918
+    100 1967k  100 1967k    0     0  4039k      0 --:--:-- --:--:-- --:--:-- 4032k
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+    100  2681  100  2681    0     0   6250      0 --:--:-- --:--:-- --:--:--  6264
 
 We should now see three files with contents in the `taxpasta-tutorial`
 directory
@@ -59,12 +77,36 @@ directory
 ls -l taxpasta-tutorial/*
 ```
 
+    -rw-rw-r-- 1 jfellows jfellows    2681 Mar  9 15:25 taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
+    -rw-rw-r-- 1 jfellows jfellows 2015168 Mar  9 15:25 taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out
+    -rw-rw-r-- 1 jfellows jfellows 2015125 Mar  9 15:25 taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
+
 ## Tutorial
 
 ### Raw classifer output
 
-To begin, we can try loading a `mOTUs` profile into R using a common and
-‘default’ table reading command, `read_tsv()` from the `readr` package.
+To begin, lets look at the contents of the output from each of the
+profilers
+
+For `mOTUs`:
+
+``` bash
+head taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out
+```
+
+and `Kraken2`:
+
+``` bash
+head taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+These look quite different, and neither are in a nice ‘pure’ tabular
+formats that data scientists and analysis software normally likes. They
+also have different types columns, and in the case of `Kraken2` has an
+interesting ‘indentation’ way of showing the taxonomic rank of each hit.
+
+We can try loading a `mOTUs` profile into R using a common and ‘default’
+table reading command, `read_tsv()` from the `readr` package.
 
 ``` r
 library(readr)
@@ -307,6 +349,27 @@ the the profile itself.
 taxpasta standardise --profiler kraken2 -o taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
 
+    [INFO] Write result to 'taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv'.
+
+Lets look at what the resulting looks like
+
+``` bash
+head taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv
+```
+
+    taxonomy_id count
+    0   627680
+    1   0
+    131567  0
+    2759    0
+    33154   0
+    33208   0
+    6072    0
+    33213   0
+    33511   0
+
+This looks much more tabular!
+
 Now lets try to load the `taxpasta` standardised `Kraken2` result into
 `R` again…
 
@@ -359,6 +422,29 @@ profile itself.
 taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
 ```
 
+    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
+    [INFO] Write result to 'taxpasta-tutorial/dbMOTUs_motus.tsv'.
+
+And the result…
+
+``` bash
+head taxpasta-tutorial/dbMOTUs_motus.tsv
+```
+
+    taxonomy_id 2612_pe-ERR5766176-db_mOTU  2612_se-ERR5766180-db_mOTU
+    40518   20  2
+    216816  1   0
+    1680    6   1
+    1262820 1   0
+    74426   2   1
+    1907654 1   0
+    1852370 3   1
+    39491   3   0
+    33039   2   0
+
+As with Kraken2, this looks much more tabular and also we can see
+references to *both* input files.
+
 Once again, lets try loading the `taxpasta` standardised and merged
 `mOTUs` result into `R` again…
 
@@ -366,10 +452,9 @@ Once again, lets try loading the `taxpasta` standardised and merged
 profile_motus_standardised <- read_tsv("taxpasta-tutorial/dbMOTUs_motus.tsv")
 ```
 
-    Rows: 37 Columns: 4
+    Rows: 37 Columns: 3
     ── Column specification ────────────────────────────────────────────────────────
     Delimiter: "\t"
-    chr (1): name
     dbl (3): taxonomy_id, 2612_pe-ERR5766176-db_mOTU, 2612_se-ERR5766180-db_mOTU
 
     ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -379,19 +464,19 @@ profile_motus_standardised <- read_tsv("taxpasta-tutorial/dbMOTUs_motus.tsv")
 profile_motus_standardised
 ```
 
-    # A tibble: 37 × 4
-       taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db_mOTU` name   
-             <dbl>                        <dbl>                        <dbl> <chr>  
-     1       40518                           20                            2 Rumino…
-     2      216816                            1                            0 Bifido…
-     3        1680                            6                            1 Bifido…
-     4     1262820                            1                            0 Clostr…
-     5       74426                            2                            1 Collin…
-     6     1907654                            1                            0 Collin…
-     7     1852370                            3                            1 Prevot…
-     8       39491                            3                            0 [Eubac…
-     9       33039                            2                            0 [Rumin…
-    10       39486                            1                            0 Dorea …
+    # A tibble: 37 × 3
+       taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db_mOTU`
+             <dbl>                        <dbl>                        <dbl>
+     1       40518                           20                            2
+     2      216816                            1                            0
+     3        1680                            6                            1
+     4     1262820                            1                            0
+     5       74426                            2                            1
+     6     1907654                            1                            0
+     7     1852370                            3                            1
+     8       39491                            3                            0
+     9       33039                            2                            0
+    10       39486                            1                            0
     # … with 27 more rows
 
 You can see here now we have one `taxonomy_id` column, and two columns
@@ -422,19 +507,19 @@ standardised_merged_table <- full_join(profile_motus_standardised, profile_krake
 standardised_merged_table
 ```
 
-    # A tibble: 80 × 5
-       taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db…` name  count
-             <dbl>                        <dbl>                    <dbl> <chr> <dbl>
-     1       40518                           20                        2 Rumi…    NA
-     2      216816                            1                        0 Bifi…    NA
-     3        1680                            6                        1 Bifi…    NA
-     4     1262820                            1                        0 Clos…    NA
-     5       74426                            2                        1 Coll…    NA
-     6     1907654                            1                        0 Coll…    NA
-     7     1852370                            3                        1 Prev…    NA
-     8       39491                            3                        0 [Eub…    NA
-     9       33039                            2                        0 [Rum…    NA
-    10       39486                            1                        0 Dore…    NA
+    # A tibble: 80 × 4
+       taxonomy_id `2612_pe-ERR5766176-db_mOTU` `2612_se-ERR5766180-db_mOTU` count
+             <dbl>                        <dbl>                        <dbl> <dbl>
+     1       40518                           20                            2    NA
+     2      216816                            1                            0    NA
+     3        1680                            6                            1    NA
+     4     1262820                            1                            0    NA
+     5       74426                            2                            1    NA
+     6     1907654                            1                            0    NA
+     7     1852370                            3                            1    NA
+     8       39491                            3                            0    NA
+     9       33039                            2                            0    NA
+    10       39486                            1                            0    NA
     # … with 70 more rows
 
 ### Important caveat
@@ -496,6 +581,10 @@ can provide the samplesheet itself
 taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv -s taxpasta-tutorial/motus_samplesheet.tsv
 ```
 
+    [INFO] Read sample sheet from 'taxpasta-tutorial/motus_samplesheet.tsv'.
+    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
+    [INFO] Write result to 'taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv'.
+
 ### Adding taxon names
 
 If you wish to have actual human-readable taxon names in your
@@ -512,29 +601,93 @@ curl -o taxpasta-tutorial/new_taxdump.zip https://ftp.ncbi.nlm.nih.gov/pub/taxon
 unzip taxpasta-tutorial/new_taxdump.zip -d taxpasta-tutorial
 ```
 
+      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                     Dload  Upload   Total   Spent    Left  Speed
+
+      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+      0  122M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+      1  122M    1 2368k    0     0  1469k      0  0:01:25  0:00:01  0:01:24 1468k
+     12  122M   12 15.4M    0     0  6102k      0  0:00:20  0:00:02  0:00:18 6100k
+     17  122M   17 22.0M    0     0  6257k      0  0:00:20  0:00:03  0:00:17 6257k
+     20  122M   20 25.2M    0     0  5626k      0  0:00:22  0:00:04  0:00:18 5626k
+     22  122M   22 27.9M    0     0  5113k      0  0:00:24  0:00:05  0:00:19 5848k
+     25  122M   25 30.9M    0     0  4792k      0  0:00:26  0:00:06  0:00:20 5865k
+     27  122M   27 33.1M    0     0  4468k      0  0:00:28  0:00:07  0:00:21 3621k
+     28  122M   28 35.0M    0     0  4167k      0  0:00:30  0:00:08  0:00:22 2664k
+     30  122M   30 37.2M    0     0  3972k      0  0:00:31  0:00:09  0:00:22 2448k
+     32  122M   32 40.3M    0     0  3894k      0  0:00:32  0:00:10  0:00:22 2528k
+     35  122M   35 43.9M    0     0  3877k      0  0:00:32  0:00:11  0:00:21 2668k
+     37  122M   37 46.4M    0     0  3771k      0  0:00:33  0:00:12  0:00:21 2710k
+     39  122M   39 49.1M    0     0  3697k      0  0:00:34  0:00:13  0:00:21 2889k
+     42  122M   42 52.5M    0     0  3685k      0  0:00:34  0:00:14  0:00:20 3136k
+     46  122M   46 57.1M    0     0  3744k      0  0:00:33  0:00:15  0:00:18 3427k
+     49  122M   49 60.7M    0     0  3743k      0  0:00:33  0:00:16  0:00:17 3434k
+     51  122M   51 63.8M    0     0  3714k      0  0:00:33  0:00:17  0:00:16 3571k
+     54  122M   54 67.4M    0     0  3712k      0  0:00:33  0:00:18  0:00:15 3751k
+     56  122M   56 69.6M    0     0  3637k      0  0:00:34  0:00:19  0:00:15 3495k
+     58  122M   58 72.0M    0     0  3579k      0  0:00:35  0:00:20  0:00:15 3061k
+     61  122M   61 75.1M    0     0  3560k      0  0:00:35  0:00:21  0:00:14 2952k
+     63  122M   63 77.7M    0     0  3521k      0  0:00:35  0:00:22  0:00:13 2840k
+     64  122M   64 79.8M    0     0  3464k      0  0:00:36  0:00:23  0:00:13 2542k
+     66  122M   66 82.3M    0     0  3426k      0  0:00:36  0:00:24  0:00:12 2599k
+     69  122M   69 85.8M    0     0  3432k      0  0:00:36  0:00:25  0:00:11 2825k
+     73  122M   73 90.8M    0     0  3497k      0  0:00:35  0:00:26  0:00:09 3221k
+     78  122M   78 96.6M    0     0  3585k      0  0:00:35  0:00:27  0:00:08 3877k
+     80  122M   80 99.0M    0     0  3548k      0  0:00:35  0:00:28  0:00:07 3947k
+     82  122M   82  101M    0     0  3496k      0  0:00:35  0:00:29  0:00:06 3843k
+     84  122M   84  103M    0     0  3467k      0  0:00:36  0:00:30  0:00:06 3648k
+     86  122M   86  106M    0     0  3457k      0  0:00:36  0:00:31  0:00:05 3249k
+     89  122M   89  109M    0     0  3438k      0  0:00:36  0:00:32  0:00:04 2624k
+     91  122M   91  111M    0     0  3407k      0  0:00:36  0:00:33  0:00:03 2603k
+     93  122M   93  114M    0     0  3397k      0  0:00:37  0:00:34  0:00:03 2811k
+     96  122M   96  118M    0     0  3413k      0  0:00:36  0:00:35  0:00:01 3081k
+     99  122M   99  122M    0     0  3436k      0  0:00:36  0:00:36 --:--:-- 3303k
+    100  122M  100  122M    0     0  3438k      0  0:00:36  0:00:36 --:--:-- 3442k
+    Archive:  taxpasta-tutorial/new_taxdump.zip
+      inflating: taxpasta-tutorial/citations.dmp  
+      inflating: taxpasta-tutorial/delnodes.dmp  
+      inflating: taxpasta-tutorial/division.dmp  
+      inflating: taxpasta-tutorial/excludedfromtype.dmp  
+      inflating: taxpasta-tutorial/fullnamelineage.dmp  
+      inflating: taxpasta-tutorial/gencode.dmp  
+      inflating: taxpasta-tutorial/host.dmp  
+      inflating: taxpasta-tutorial/merged.dmp  
+      inflating: taxpasta-tutorial/names.dmp  
+      inflating: taxpasta-tutorial/nodes.dmp  
+      inflating: taxpasta-tutorial/rankedlineage.dmp  
+      inflating: taxpasta-tutorial/taxidlineage.dmp  
+      inflating: taxpasta-tutorial/typematerial.dmp  
+      inflating: taxpasta-tutorial/typeoftype.dmp  
+      inflating: taxpasta-tutorial/gc.prt  
+
 Once downloaded, you can supply these files to your respective
 `taxpasta` command with the `--taxonomy` flag, and specify which type of
 taxon names to be displayed (e.g., just the name, the rank, and/or
 taxonomic lineage).
 
 ``` bash
-taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
+taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_with_names.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
 ```
 
-This would produce output like so
+    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
+    [INFO] Write result to 'taxpasta-tutorial/dbMOTUs_motus_with_names.tsv'.
 
-``` text
-taxonomy_id 2612_pe-ERR5766176-db_mOTU  2612_se-ERR5766180-db_mOTU  name
-40518   20  2   Ruminococcus bromii
-216816  1   0   Bifidobacterium longum
-1680    6   1   Bifidobacterium adolescentis
-1262820 1   0   Clostridium sp. CAG:567
-74426   2   1   Collinsella aerofaciens
-1907654 1   0   Collinsella bouchesdurhonensis
-1852370 3   1   Prevotellamassilia timonensis
-39491   3   0   [Eubacterium] rectale
-33039   2   0   [Ruminococcus] torques
+The taxpasta now looks like
+
+``` bash
+head taxpasta-tutorial/dbMOTUs_motus_with_names.tsv
 ```
+
+    taxonomy_id 2612_pe-ERR5766176-db_mOTU  2612_se-ERR5766180-db_mOTU  name
+    40518   20  2   Ruminococcus bromii
+    216816  1   0   Bifidobacterium longum
+    1680    6   1   Bifidobacterium adolescentis
+    1262820 1   0   Clostridium sp. CAG:567
+    74426   2   1   Collinsella aerofaciens
+    1907654 1   0   Collinsella bouchesdurhonensis
+    1852370 3   1   Prevotellamassilia timonensis
+    39491   3   0   [Eubacterium] rectale
+    33039   2   0   [Ruminococcus] torques
 
 ## Clean Up
 
