@@ -216,7 +216,7 @@ taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_cleannames.ts
 
 If you wish to have actual human-readable taxon names in your standardised output, you need to supply 'taxonomy' files. These files are typically called `nodes.dmp` and `names.dmp`. Most profilers use the [NCBI taxonomy](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/) files.
 
-> ⚠️ We do not demonstrate these files in the tutorial here, a `.dmp` files can be very large!
+> ⚠️ We do not demonstrate these files in the tutorial here,  `.dmp` files can be very large!
 
 Once downloaded, you can supply these files to your respective `taxpasta` command with the `--taxonomy` flag, and specify which type of taxon names to be displayed (e.g., just the name, the rank, and/or taxonomic lineage).
 
@@ -237,6 +237,14 @@ taxonomy_id	2612_pe-ERR5766176-db_mOTU	2612_se-ERR5766180-db_mOTU	name
 1852370	3	1	Prevotellamassilia timonensis
 39491	3	0	[Eubacterium] rectale
 33039	2	0	[Ruminococcus] torques
+```
+
+## Clean Up
+
+Once you're happy you've completed the tutorial you can clean up your workspace by simply running
+
+```{bash, eval=F}
+rm -r taxpasta-tutorial
 ```
 
 
