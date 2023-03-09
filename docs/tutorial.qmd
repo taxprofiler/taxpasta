@@ -1,7 +1,7 @@
 ---
 title: "Tutorial"
 author: "James A. Fellows Yates"
-format: html
+format: markdown_github
 ---
 
 ## Introduction
@@ -34,7 +34,6 @@ mkdir taxpasta-tutorial
 We will also need to download some example taxonomic profiles from `Kraken2` and `mOTUs`. If you're on UNIX a machine we can download some test data from the taxpasta repository.
 
 ```{bash, eval=F}
-which conda
 ## mOTUs
 curl -o taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out 
 curl -o taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
@@ -216,12 +215,17 @@ taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_cleannames.ts
 
 If you wish to have actual human-readable taxon names in your standardised output, you need to supply 'taxonomy' files. These files are typically called `nodes.dmp` and `names.dmp`. Most profilers use the [NCBI taxonomy](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/) files.
 
-> ⚠️ We do not demonstrate these files in the tutorial here,  `.dmp` files can be very large!
+> ⚠️ The following  `.dmp` files can be very large >1.8GB when uncompressed!
+
+```{bash, eval=F}
+curl -o taxpasta-tutorial/new_taxdump.zip https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip
+unzip taxpasta-tutorial/new_taxdump.zip -d taxpasta-tutorial
+```
 
 Once downloaded, you can supply these files to your respective `taxpasta` command with the `--taxonomy` flag, and specify which type of taxon names to be displayed (e.g., just the name, the rank, and/or taxonomic lineage).
 
 ```{bash, eval=F}
-taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy . --add-name
+taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
 ```
 
 This would produce output like so
