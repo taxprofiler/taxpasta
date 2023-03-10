@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-A tab-separated 'Kraken report' output file with either six or eight columns as described [in the documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#sample-report-output-format). This is generated with the Kraken2 parameter `--report`. Taxpasta interprets the columns as follows:
+A tab-separated kraken-report output file with either six or eight columns as described [in the documentation](https://github.com/DerrickWood/kraken2/blob/master/docs/MANUAL.markdown#sample-report-output-format). This is generated with the Kraken2 parameter `--report`. Taxpasta interprets the columns as follows:
 
 | Column Header             | Description |
 | ------------------------- | ----------- |
