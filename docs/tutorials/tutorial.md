@@ -1,12 +1,12 @@
-Tutorial
-================
-James A. Fellows Yates
+
+# General Tutorial
 
 ## Introduction
 
 This tutorial will show you how to generate standardised taxonomic
 profiles from the heterogeneous output of two popular taxonomic
-profilers: [`Kraken2`](https://ccb.jhu.edu/software/kraken2/) and
+classifiers/profilers:
+[`Kraken2`](https://ccb.jhu.edu/software/kraken2/) and
 [`mOTUs`](https://motu-tool.org/), and then demonstrate some of the
 benefits of this standardisation when running downstream analyses on
 such tables in the popular data science programming language
@@ -24,11 +24,11 @@ Linux).
 
 To summarise you will need:
 
--   Unix terminal (e.g. `bash`)
--   `taxpasta`
--   `R`
-    -   `readr` package
-    -   `dplyr` package
+- Unix terminal (e.g. `bash`)
+- `taxpasta`
+- `R`
+  - `readr` package
+  - `dplyr` package
 
 ### Data
 
@@ -56,19 +56,18 @@ curl -o taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt https://raw.
                                      Dload  Upload   Total   Spent    Left  Speed
 
       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-    100 1967k  100 1967k    0     0  3218k      0 --:--:-- --:--:-- --:--:-- 3215k
+     41 1967k   41  824k    0     0  1940k      0  0:00:01 --:--:--  0:00:01 1940k
+    100 1967k  100 1967k    0     0  3566k      0 --:--:-- --:--:-- --:--:-- 3565k
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
 
       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-      1 1967k    1 25578    0     0  65025      0  0:00:30 --:--:--  0:00:30 64918
-    100 1967k  100 1967k    0     0  4039k      0 --:--:-- --:--:-- --:--:-- 4032k
+    100 1967k  100 1967k    0     0  5448k      0 --:--:-- --:--:-- --:--:-- 5451k
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                      Dload  Upload   Total   Spent    Left  Speed
 
       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-    100  2681  100  2681    0     0   6250      0 --:--:-- --:--:-- --:--:--  6264
+    100  2681  100  2681    0     0  20671      0 --:--:-- --:--:-- --:--:-- 20782
 
 We should now see three files with contents in the `taxpasta-tutorial`
 directory
@@ -77,16 +76,16 @@ directory
 ls -l taxpasta-tutorial/*
 ```
 
-    -rw-rw-r-- 1 jfellows jfellows    2681 Mar  9 15:25 taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
-    -rw-rw-r-- 1 jfellows jfellows 2015168 Mar  9 15:25 taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out
-    -rw-rw-r-- 1 jfellows jfellows 2015125 Mar  9 15:25 taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
+    -rw-rw-r-- 1 jfellows jfellows    2681 Mar 10 17:08 taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
+    -rw-rw-r-- 1 jfellows jfellows 2015168 Mar 10 17:08 taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out
+    -rw-rw-r-- 1 jfellows jfellows 2015125 Mar 10 17:08 taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
 
 ## Tutorial
 
 ### Raw classifer output
 
-To begin, lets look at the contents of the output from each of the
-profilers
+To begin, let’s look at the contents of the output from each of the
+classifiers/profilers.
 
 For `mOTUs`:
 
@@ -100,12 +99,12 @@ and `Kraken2`:
 head taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
 
-These look quite different, and neither are in a nice ‘pure’ tabular
-formats that data scientists and analysis software normally likes. They
+These look quite different, and neither are in a nice “pure” tabular
+formats that data scientists and analysis software normally like. They
 also have different types columns, and in the case of `Kraken2` has an
-interesting ‘indentation’ way of showing the taxonomic rank of each hit.
+interesting “indentation” way of showing the taxonomic rank of each hit.
 
-We can try loading a `mOTUs` profile into R using a common and ‘default’
+We can try loading a `mOTUs` profile into R using a common and “default”
 table reading command, `read_tsv()` from the `readr` package.
 
 ``` r
@@ -184,13 +183,13 @@ profile_motus_2612_pe_raw
     10 Chryseobacterium indologenes [ref_mOTU_v3_00011]         253                0
     # … with 33,561 more rows
 
-This now works! However we feel getting this to work takes much too
-effort to simply load what is essentially a simple table.
+This now works! However getting this to work takes too much effort to
+simply load what is essentially a simple table.
 
 Furthermore, we would have to load each profile one by one for each
 sample, requiring more complicated loops and table join code.
 
-Now lets try loading the `Kraken2` output.
+Now let’s try loading the `Kraken2` output.
 
 ``` r
 profile_kraken2_2612_pe_raw <- read_tsv("taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt")
@@ -226,8 +225,8 @@ profile_kraken2_2612_pe_raw
     # … with 33 more rows
 
 This doesn’t fail to load, but unfortunately the column headers look a
-bit wierd… it seems the Kraken2 ‘table’ file does not include a column
-header! In this case we have to specify these ourselves..
+bit weird. Tt seems the Kraken2 ‘table’ file does not include a column
+header! In this case we have to specify these ourselves…
 
 ``` r
 profile_kraken2_2612_pe_raw <- read_tsv("taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt", col_names = c("percent", "clade_assigned_reads", "direct_assigned_reads", "taxonomy_lvl", "taxonomy_id", "name"))
@@ -327,23 +326,23 @@ raw_merged_table
 But wait, this doesn’t look right at all. We know which sample column we
 have from `mOTUs`, but what about the `Kraken` read count column? Also
 many of the columns of the profiles are *not* shared between the two
-profilers (see an important note about this [here](#important-caveat)),
-so we have a lot of ‘cruft’, and really the resulting file makes no
-sense, as you can’t do any proper comparison.
+classifiers/profilers (see an important note about this
+[here](#important-caveat)), so we have a lot of “cruft”, and really the
+resulting file makes no sense, as you can’t do any proper comparison.
 
 ### taxpasta standardise
 
 But this is where `taxpasta` comes to the rescue!
 
 With `taxpasta`, we can already standardised and make multi-sample taxon
-tables for you at the command line level (e.g., immediately after
-profiling), rather than having to do this with custom scripts and a lot
-of manual munging.
+tables for you at the command-line level (e.g., immediately after
+classification/profiling), rather than having to do this with custom
+scripts and a lot of manual munging.
 
-If you want to standardise a single sample, you just need to specify the
-profiler of the input file, the output file name (with a valid suffix,
-which will tell `taxpasta` which format to save the output), and finally
-the the profile itself.
+If you want to standardise a single sample, you just need to specify
+theclassifier/ of the input file, the output file name (with a valid
+suffix, which will tell `taxpasta` which format to save the output), and
+finally the profile itself.
 
 ``` bash
 taxpasta standardise --profiler kraken2 -o taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
@@ -351,7 +350,7 @@ taxpasta standardise --profiler kraken2 -o taxpasta-tutorial/2612_pe-ERR5766176-
 
     [INFO] Write result to 'taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv'.
 
-Lets look at what the resulting looks like
+Let’s look at what the resulting looks like
 
 ``` bash
 head taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv
@@ -370,7 +369,7 @@ head taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv
 
 This looks much more tabular!
 
-Now lets try to load the `taxpasta` standardised `Kraken2` result into
+Now let’s try to load the `taxpasta` standardised `Kraken2` result into
 `R` again…
 
 ``` r
@@ -410,13 +409,14 @@ other loading parameters, `taxpasta` has done it for you.
 ### taxpasta merge
 
 But what about the more complicated `mOTUs` case, where we have unusual
-comment headers, and also multiple samples?
+comment headers, but also in this tutorial we have profiles from
+multiple *samples* to be standardised?
 
 In this case we can instead use `taxpasta merge`, which will both
 standardise *and* stick the profiles of different samples into one for
-you - again all the command line. Once again, we just need to specify
-the profiler, the output name and format (via the suffix), and the
-profile itself.
+you - again all through the command-line. Once again, we just need to
+specify the classifer/profiler, the output name and format (via the
+suffix), and the profile itself.
 
 ``` bash
 taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out
@@ -445,7 +445,7 @@ head taxpasta-tutorial/dbMOTUs_motus.tsv
 As with Kraken2, this looks much more tabular and also we can see
 references to *both* input files.
 
-Once again, lets try loading the `taxpasta` standardised and merged
+Once again, let’s try loading the `taxpasta` standardised and merged
 `mOTUs` result into `R` again…
 
 ``` r
@@ -492,10 +492,10 @@ interested in having human-readable taxon names see
 
 <!-- TODO UPDATE AFTER COLUM NNAME BUG FIX FOR STANDARDISE OLUMN EADER-->
 
-We can also now more easily merge the tables across the two profilers,
-again with the join function - but without any extra specifications, as
-all the standardised taxonomic tables now share common column header
-names.
+We can also now more easily merge the tables across the two
+classifiers/profilers, again with the join function - but without any
+extra specifications, as all the standardised taxonomic tables now share
+common column header names.
 
 ``` r
 standardised_merged_table <- full_join(profile_motus_standardised, profile_kraken2_2612_pe_standardised)
@@ -525,12 +525,13 @@ standardised_merged_table
 ### Important caveat
 
 You may have noticed that when ‘standardising’ the output from each
-classifier, that not all columns are retained. This is because each
-profiler has a different way of making taxonomic classification, and
-will produce additional metrics (represented as additional columns) that
-allow for better evaluation of the accuracy or confidence in each hit.
+classifier, that not all columns are retained. This is because
+eachclassifier/ has a different way of making taxonomic
+classification/profiing, and will produce additional metrics
+(represented as additional columns) that allow for better evaluation of
+the accuracy or confidence in each hit.
 
-However, as these metrics are *not* consistent between each profiler,
+However, as these metrics are *not* consistent between eachclassifier/,
 they are are not comparable between each other, thus in `taxpasta` we
 only retain columns that are conceptually comparable - i.e., raw read
 counts.
@@ -540,154 +541,17 @@ accurate representation of a metagenomic *profile* where an abundance
 estimate is mathematically made.
 
 So please be aware that while `taxpasta` is a utility to make comparison
-between profilers easier to be performed, this does not necessarily mean
-all comparisons are necessarily valid - this will depend on a
-case-by-case basis of your project!
+between classifiers/profilers easier to be performed, this does not
+necessarily mean all comparisons are necessarily valid - this will
+depend on a case-by-case basis of your project!
 
 For example, for simple presence-and-absence analyses (such as pathogen
 screening), taxpasta will be highly suitable for comparing sensitivity
 of different tools/databases (providing downstream genomic-level
-analyses is carried out to confirm the hit). However using the output
+analyses are carried out to confirm the hit). However using the output
 from taxpasta won’t be immediately suitable for differential abundance
 analysis in microbial ecology without further conversion of the raw-read
 counts to abundance estimates.
-
-## Extras
-
-### Custom sample names
-
-With `taxpasta` you can also customise the sample names that are
-displayed in the column header of your table, by creating a samplesheet
-that has the sample name you want and paths to the files.
-
-We can generate such a TSV sample sheet with a bit of `bash` trickery.
-
-``` bash
-## Get the full paths for each file
-ls -1 taxpasta-tutorial/*mOTU.out > taxpasta-tutorial/motus_paths.txt
-
-## Construct a sample name based on the filename
-sed 's#-db_mOTU.out##g;s#^.*/##g' taxpasta-tutorial/motus_paths.txt > taxpasta-tutorial/motus_names.txt
-
-## Create the samplesheet, adding a header, and then adding the samplenames and paths
-printf 'sample\tprofile\n' > taxpasta-tutorial/motus_samplesheet.tsv
-paste taxpasta-tutorial/motus_names.txt taxpasta-tutorial/motus_paths.txt >> taxpasta-tutorial/motus_samplesheet.tsv
-```
-
-Then instead of giving to `merge` the paths to each of the profiles, we
-can provide the samplesheet itself
-
-``` bash
-taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv -s taxpasta-tutorial/motus_samplesheet.tsv
-```
-
-    [INFO] Read sample sheet from 'taxpasta-tutorial/motus_samplesheet.tsv'.
-    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
-    [INFO] Write result to 'taxpasta-tutorial/dbMOTUs_motus_cleannames.tsv'.
-
-### Adding taxon names
-
-If you wish to have actual human-readable taxon names in your
-standardised output, you need to supply ‘taxonomy’ files. These files
-are typically called `nodes.dmp` and `names.dmp`. Most profilers use the
-[NCBI taxonomy](https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/)
-files.
-
-> ⚠️ The following `.dmp` files can be very large \>1.8GB when
-> uncompressed!
-
-``` bash
-curl -o taxpasta-tutorial/new_taxdump.zip https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/new_taxdump/new_taxdump.zip
-unzip taxpasta-tutorial/new_taxdump.zip -d taxpasta-tutorial
-```
-
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                     Dload  Upload   Total   Spent    Left  Speed
-
-      0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-      0  122M    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-      1  122M    1 2368k    0     0  1469k      0  0:01:25  0:00:01  0:01:24 1468k
-     12  122M   12 15.4M    0     0  6102k      0  0:00:20  0:00:02  0:00:18 6100k
-     17  122M   17 22.0M    0     0  6257k      0  0:00:20  0:00:03  0:00:17 6257k
-     20  122M   20 25.2M    0     0  5626k      0  0:00:22  0:00:04  0:00:18 5626k
-     22  122M   22 27.9M    0     0  5113k      0  0:00:24  0:00:05  0:00:19 5848k
-     25  122M   25 30.9M    0     0  4792k      0  0:00:26  0:00:06  0:00:20 5865k
-     27  122M   27 33.1M    0     0  4468k      0  0:00:28  0:00:07  0:00:21 3621k
-     28  122M   28 35.0M    0     0  4167k      0  0:00:30  0:00:08  0:00:22 2664k
-     30  122M   30 37.2M    0     0  3972k      0  0:00:31  0:00:09  0:00:22 2448k
-     32  122M   32 40.3M    0     0  3894k      0  0:00:32  0:00:10  0:00:22 2528k
-     35  122M   35 43.9M    0     0  3877k      0  0:00:32  0:00:11  0:00:21 2668k
-     37  122M   37 46.4M    0     0  3771k      0  0:00:33  0:00:12  0:00:21 2710k
-     39  122M   39 49.1M    0     0  3697k      0  0:00:34  0:00:13  0:00:21 2889k
-     42  122M   42 52.5M    0     0  3685k      0  0:00:34  0:00:14  0:00:20 3136k
-     46  122M   46 57.1M    0     0  3744k      0  0:00:33  0:00:15  0:00:18 3427k
-     49  122M   49 60.7M    0     0  3743k      0  0:00:33  0:00:16  0:00:17 3434k
-     51  122M   51 63.8M    0     0  3714k      0  0:00:33  0:00:17  0:00:16 3571k
-     54  122M   54 67.4M    0     0  3712k      0  0:00:33  0:00:18  0:00:15 3751k
-     56  122M   56 69.6M    0     0  3637k      0  0:00:34  0:00:19  0:00:15 3495k
-     58  122M   58 72.0M    0     0  3579k      0  0:00:35  0:00:20  0:00:15 3061k
-     61  122M   61 75.1M    0     0  3560k      0  0:00:35  0:00:21  0:00:14 2952k
-     63  122M   63 77.7M    0     0  3521k      0  0:00:35  0:00:22  0:00:13 2840k
-     64  122M   64 79.8M    0     0  3464k      0  0:00:36  0:00:23  0:00:13 2542k
-     66  122M   66 82.3M    0     0  3426k      0  0:00:36  0:00:24  0:00:12 2599k
-     69  122M   69 85.8M    0     0  3432k      0  0:00:36  0:00:25  0:00:11 2825k
-     73  122M   73 90.8M    0     0  3497k      0  0:00:35  0:00:26  0:00:09 3221k
-     78  122M   78 96.6M    0     0  3585k      0  0:00:35  0:00:27  0:00:08 3877k
-     80  122M   80 99.0M    0     0  3548k      0  0:00:35  0:00:28  0:00:07 3947k
-     82  122M   82  101M    0     0  3496k      0  0:00:35  0:00:29  0:00:06 3843k
-     84  122M   84  103M    0     0  3467k      0  0:00:36  0:00:30  0:00:06 3648k
-     86  122M   86  106M    0     0  3457k      0  0:00:36  0:00:31  0:00:05 3249k
-     89  122M   89  109M    0     0  3438k      0  0:00:36  0:00:32  0:00:04 2624k
-     91  122M   91  111M    0     0  3407k      0  0:00:36  0:00:33  0:00:03 2603k
-     93  122M   93  114M    0     0  3397k      0  0:00:37  0:00:34  0:00:03 2811k
-     96  122M   96  118M    0     0  3413k      0  0:00:36  0:00:35  0:00:01 3081k
-     99  122M   99  122M    0     0  3436k      0  0:00:36  0:00:36 --:--:-- 3303k
-    100  122M  100  122M    0     0  3438k      0  0:00:36  0:00:36 --:--:-- 3442k
-    Archive:  taxpasta-tutorial/new_taxdump.zip
-      inflating: taxpasta-tutorial/citations.dmp  
-      inflating: taxpasta-tutorial/delnodes.dmp  
-      inflating: taxpasta-tutorial/division.dmp  
-      inflating: taxpasta-tutorial/excludedfromtype.dmp  
-      inflating: taxpasta-tutorial/fullnamelineage.dmp  
-      inflating: taxpasta-tutorial/gencode.dmp  
-      inflating: taxpasta-tutorial/host.dmp  
-      inflating: taxpasta-tutorial/merged.dmp  
-      inflating: taxpasta-tutorial/names.dmp  
-      inflating: taxpasta-tutorial/nodes.dmp  
-      inflating: taxpasta-tutorial/rankedlineage.dmp  
-      inflating: taxpasta-tutorial/taxidlineage.dmp  
-      inflating: taxpasta-tutorial/typematerial.dmp  
-      inflating: taxpasta-tutorial/typeoftype.dmp  
-      inflating: taxpasta-tutorial/gc.prt  
-
-Once downloaded, you can supply these files to your respective
-`taxpasta` command with the `--taxonomy` flag, and specify which type of
-taxon names to be displayed (e.g., just the name, the rank, and/or
-taxonomic lineage).
-
-``` bash
-taxpasta merge --profiler motus -o taxpasta-tutorial/dbMOTUs_motus_with_names.tsv taxpasta-tutorial/2612_pe-ERR5766176-db_mOTU.out taxpasta-tutorial/2612_se-ERR5766180-db_mOTU.out --taxonomy taxpasta-tutorial/ --add-name
-```
-
-    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
-    [INFO] Write result to 'taxpasta-tutorial/dbMOTUs_motus_with_names.tsv'.
-
-The taxpasta now looks like
-
-``` bash
-head taxpasta-tutorial/dbMOTUs_motus_with_names.tsv
-```
-
-    taxonomy_id 2612_pe-ERR5766176-db_mOTU  2612_se-ERR5766180-db_mOTU  name
-    40518   20  2   Ruminococcus bromii
-    216816  1   0   Bifidobacterium longum
-    1680    6   1   Bifidobacterium adolescentis
-    1262820 1   0   Clostridium sp. CAG:567
-    74426   2   1   Collinsella aerofaciens
-    1907654 1   0   Collinsella bouchesdurhonensis
-    1852370 3   1   Prevotellamassilia timonensis
-    39491   3   0   [Eubacterium] rectale
-    33039   2   0   [Ruminococcus] torques
 
 ## Clean Up
 
