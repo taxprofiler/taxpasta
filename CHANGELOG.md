@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--  Fixed the version string according to hatch-vcs output (#74).
+-   Fixed the version string according to hatch-vcs output (#74).
+-   Increased the tolerance when comparing floats in the Bracken profile validation
+    (#76).
 
 ## [0.2.2] - (2023-03-08)
 
