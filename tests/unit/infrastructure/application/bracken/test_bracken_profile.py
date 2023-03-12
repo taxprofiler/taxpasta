@@ -112,7 +112,7 @@ def test_column_presence(columns: Collection[str]):
                     "kraken_assigned_reads": [0, 0],
                     "added_reads": [0, 0],
                     "new_est_reads": [0, 0],
-                    "fraction_total_reads": [0.991, 0.019],
+                    "fraction_total_reads": [0.991, 0.119],
                 }
             ),
             marks=pytest.mark.raises(exception=SchemaError),
