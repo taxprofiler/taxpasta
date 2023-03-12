@@ -24,7 +24,6 @@ from typing import List
 
 import pandas as pd
 import pytest
-from typer.testing import CliRunner
 
 from taxpasta.infrastructure.application import (
     StandardProfileFileFormat,
@@ -32,12 +31,6 @@ from taxpasta.infrastructure.application import (
     TidyObservationTableFileFormat,
     WideObservationTableFileFormat,
 )
-
-
-@pytest.fixture(scope="session")
-def runner() -> CliRunner:
-    """Return a CLI runner instance for testing."""
-    return CliRunner(mix_stderr=False)
 
 
 @pytest.fixture(scope="session", params=list(SupportedProfiler))
