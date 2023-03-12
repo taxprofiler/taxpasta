@@ -42,7 +42,7 @@ class BrackenProfile(pa.SchemaModel):
         """Check that the fractions of reads add up to one."""
         # Bracken reports fractions with five decimals but rounding errors accumulate.
         return len(fraction_total_reads) == 0 or bool(
-            np.isclose(fraction_total_reads.sum(), 1.0, atol=1e-03)
+            np.isclose(fraction_total_reads.sum(), 1.0, atol=1e-02)
         )
 
     @pa.dataframe_check
