@@ -26,8 +26,8 @@ __email__ = (
 )
 
 try:
-    from ._version import get_versions  # type: ignore
+    from ._version import __version__, __version_tuple__
 
-    __version__ = get_versions().get("version", "undefined")
 except ImportError:
     __version__ = "undefined"
+    __version_tuple__ = None  # type: ignore
