@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.3] - (2023-03-12)
+
 ### Fixed
 
 -   Fixed the version string according to hatch-vcs output (#74).
