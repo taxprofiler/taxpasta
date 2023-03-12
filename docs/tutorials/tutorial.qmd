@@ -105,7 +105,7 @@ profile_kraken2_2612_pe_raw <- read_tsv("taxpasta-tutorial/2612_pe-ERR5766176-db
 profile_kraken2_2612_pe_raw
 ```
 
-This doesn't fail to load, but unfortunately the column headers look a bit weird. Tt seems the Kraken2 'table' file does not include a column header! In this case we have to specify these ourselves...
+This doesn't fail to load, but unfortunately the column headers look a bit weird. It seems the Kraken2 'table' file does not include a column header! In this case we have to specify these ourselves...
 
 ```{r}
 profile_kraken2_2612_pe_raw <- read_tsv("taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt", col_names = c("percent", "clade_assigned_reads", "direct_assigned_reads", "taxonomy_lvl", "taxonomy_id", "name"))
@@ -142,7 +142,7 @@ But this is where `taxpasta` comes to the rescue!
 
 With `taxpasta`, we can already standardised and make multi-sample taxon tables for you at the command-line level (e.g., immediately after classification/profiling), rather than having to do this with custom scripts and a lot of manual munging.
 
-If you want to standardise a single sample, you just need to specify theclassifier/ of the input file, the output file name (with a valid suffix, which will tell `taxpasta` which format to save the output), and finally the profile itself.
+If you want to standardise a single sample, you just need to specify the classifier/profiler of the input file, the output file name (with a valid suffix, which will tell `taxpasta` which format to save the output), and finally the profile itself.
 
 ```{bash}
 taxpasta standardise --profiler kraken2 -o taxpasta-tutorial/2612_pe-ERR5766176-db1_kraken2.tsv taxpasta-tutorial/2612_pe-ERR5766176-db1.kraken2.report.txt
@@ -167,7 +167,7 @@ You can see we did not have to specify any additional column names or other load
 
 ### taxpasta merge
 
-But what about the more complicated `mOTUs` case, where we have unusual comment headers, but also in this tutorial we have profiles from multiple _samples_ to be standardised?
+But what about the more complicated `mOTUs` case, where we have unusual comment headers, but also like in this tutorial when we have profiles from multiple _samples_ to be standardised?
 
 In this case we can instead use `taxpasta merge`, which will both standardise _and_ stick the profiles of different samples into one for you - again all through the command-line. Once again, we just need to specify the classifer/profiler, the output name and format (via the suffix), and the profile itself.
 
