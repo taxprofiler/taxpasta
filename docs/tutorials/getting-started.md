@@ -156,7 +156,7 @@ from `mOTUs`, but what about the `Kraken` read count column? Also, many of the
 columns of the profiles are _not_ shared between the two classifiers/profilers
 (see an important note about this [here](#important-caveat)).
 
-Ultimately, we have a lot extra inconsistent differences between different output files. When attempting to merge together the resulting file makes little sense, and thus it's difficult to do any meaningful comparison.
+Ultimately, we have many inconsistencies between different output files. Attempting to merge together the resulting files makes little sense, and thus it's difficult to do any meaningful comparison.
 
 ## Standardisation and Merging
 
@@ -165,8 +165,8 @@ Ultimately, we have a lot extra inconsistent differences between different outpu
 This is where `taxpasta` comes to the rescue!
 
 With `taxpasta`, you can standardise and combine profiles into multi-sample taxon tables
-for you already at the command-line (rather than having to do this with custom scripts
-and a lot of manual data munging).
+for you already at the command-line; rather than having to do this with custom scripts
+and a lot of manual data munging.
 
 If you want to standardise a single profile you need three things:
 
