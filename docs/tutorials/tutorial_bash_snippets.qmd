@@ -1,0 +1,112 @@
+---
+format: gfm
+jupyter: bash
+---
+
+<!-- --8<-- [start:data-setup] -->
+
+```{bash}
+mkdir taxpasta-tutorial
+cd taxpasta-tutorial
+```
+
+<!-- --8<-- [end:data-setup] -->
+
+<!-- --8<-- [start:data-curl] -->
+
+```{bash}
+#| output: false
+## mOTUs
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
+
+## Kraken2
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+<!-- --8<-- [end:data-curl] -->
+
+```{bash}
+#| echo: false
+#| output: false
+rm *
+```
+
+<!-- --8<-- [start:data-wget] -->
+
+```{bash}
+#| output: false
+## mOTUs
+wget https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
+wget https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
+
+## Kraken2
+wget https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+<!-- --8<-- [end:data-wget] -->
+
+<!-- --8<-- [start:data-ls] -->
+
+```{bash}
+ls
+```
+
+<!-- --8<-- [end:data-ls] -->
+
+<!-- --8<-- [start:motus-head] -->
+
+```{bash}
+head 2612_pe-ERR5766176-db_mOTU.out
+```
+
+<!-- --8<-- [end:motus-head] -->
+
+<!-- --8<-- [start:kraken2-head] -->
+
+```{bash}
+head 2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+<!-- --8<-- [end:kraken2-head] -->
+
+<!-- --8<-- [start:standardise] -->
+
+```{bash}
+taxpasta standardise -p kraken2 -o 2612_pe-ERR5766176-db1_kraken2.tsv 2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+<!-- --8<-- [end:standardise] -->
+
+<!-- --8<-- [start:standardise-head] -->
+
+```{bash}
+head 2612_pe-ERR5766176-db1_kraken2.tsv
+```
+
+<!-- --8<-- [end:standardise-head] -->
+
+<!-- --8<-- [start:merge] -->
+
+```{bash}
+taxpasta merge -p motus -o dbMOTUs_motus.tsv 2612_pe-ERR5766176-db_mOTU.out 2612_se-ERR5766180-db_mOTU.out
+```
+
+<!-- --8<-- [end:merge] -->
+
+<!-- --8<-- [start:merge-head] -->
+
+```{bash}
+head dbMOTUs_motus.tsv
+```
+
+<!-- --8<-- [end:merge-head] -->
+
+<!-- --8<-- [start:data-clean] -->
+
+```{bash}
+cd ..
+rm -rf taxpasta-tutorial
+```
+
+<!-- --8<-- [end:data-clean] -->

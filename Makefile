@@ -10,11 +10,34 @@ qa:
 
 .PHONY: docs
 ## Generate documentation
-docs:
+docs: qmd
 	taxpasta standardise --help > docs/quick_reference/standardise_help.txt
 	taxpasta merge --help > docs/quick_reference/merge_help.txt
 	taxpasta consensus --help > docs/quick_reference/consensus_help.txt
-	mkdocs build
+
+snippets := $(patsubst %.qmd,%.md,$(wildcard docs/tutorials/*.qmd))
+
+qmd: profiles $(snippets)
+
+%.md: %.qmd
+	quarto render $<
+
+profiles: docs/tutorials/2612_pe-ERR5766176-db1_kraken2.tsv docs/tutorials/dbMOTUs_motus.tsv docs/tutorials/2612_pe-ERR5766176-db_mOTU.out docs/tutorials/2612_se-ERR5766180-db_mOTU.out docs/tutorials/2612_pe-ERR5766176-db1.kraken2.report.txt
+
+docs/tutorials/2612_pe-ERR5766176-db1_kraken2.tsv: docs/tutorials/2612_pe-ERR5766176-db1.kraken2.report.txt
+	cd docs/tutorials && taxpasta standardise -p kraken2 -o 2612_pe-ERR5766176-db1_kraken2.tsv 2612_pe-ERR5766176-db1.kraken2.report.txt
+
+docs/tutorials/dbMOTUs_motus.tsv: docs/tutorials/2612_pe-ERR5766176-db_mOTU.out docs/tutorials/2612_se-ERR5766180-db_mOTU.out
+	cd docs/tutorials && taxpasta merge -p motus -o dbMOTUs_motus.tsv 2612_pe-ERR5766176-db_mOTU.out 2612_se-ERR5766180-db_mOTU.out
+
+docs/tutorials/2612_pe-ERR5766176-db_mOTU.out:
+	cd docs/tutorials && curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
+
+docs/tutorials/2612_se-ERR5766180-db_mOTU.out:
+	cd docs/tutorials && curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
+
+docs/tutorials/2612_pe-ERR5766176-db1.kraken2.report.txt:
+	cd docs/tutorials && curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
 
 ################################################################################
 # Self Documenting Commands                                                    #
