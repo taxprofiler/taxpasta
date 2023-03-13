@@ -41,6 +41,7 @@ jobs:
           curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
           sudo dpkg -i quarto-linux-amd64.deb
           quarto check
+          Rscript -e "install.packages(c('rmarkdown', 'dplyr', 'readr'), dependencies = TRUE, repos = 'https://cran.rstudio.com')"
           tox -e docs
 
       - name: Test with tox
