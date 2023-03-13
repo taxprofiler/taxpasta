@@ -89,7 +89,7 @@ To begin, let’s look at the contents of the output from each profiler.
 
 These look quite different and neither of them is in a nice "pure" tabular
 format that is convenient for analysis software to load. They also have
-different types columns and, in the case of Kraken2, has an interesting
+different types columns and, in the case of Kraken2, it has an interesting
 "indentation" way of showing the taxonomic rank of each taxon.
 
 #### mOTUs
@@ -114,6 +114,8 @@ loading all mOTUs profiles, we would have to load each profile one by one for
 each sample, requiring more complicated loops and table join code.
 
 #### Kraken2
+
+And what about the Kraken2 output?
 
 === "R"
 
@@ -152,22 +154,26 @@ this would be to merge the files into one table.
 But wait, this doesn't look right at all. We know which sample column we have
 from `mOTUs`, but what about the `Kraken` read count column? Also, many of the
 columns of the profiles are _not_ shared between the two classifiers/profilers
-(see an important note about this [here](#important-caveat)), so we have a lot
-of "cruft", and really the resulting file makes no sense, as you can't do any
-proper comparison.
+(see an important note about this [here](#important-caveat)).
 
-### `taxpasta standardise`
+Ultimately, we have a lot extra inconsistent differences between different output files. When attempting to merge together the resulting file makes little sense, and thus it's difficult to do any meaningful comparison.
 
-But this is where `taxpasta` comes to the rescue!
+## Standardisation and Merging
 
-With `taxpasta`, we can already standardise and make multi-sample taxon tables
-for you at the command-line, rather than having to do this with custom scripts
-and a lot of manual data munging.
+### taxpasta standardise
 
-If you want to standardise a single profile, you need to specify the taxonomic
-profiler of the input file (`--profiler` or `-p`), the output file name with a
-valid suffix, which will tell `taxpasta` which format to save the output in
-(`--output` or `-o`), and finally the profile itself.
+This is where `taxpasta` comes to the rescue!
+
+With `taxpasta`, you can standardise and combine profiles into multi-sample taxon tables
+for you already at the command-line (rather than having to do this with custom scripts
+and a lot of manual data munging).
+
+If you want to standardise a single profile you need three things:
+
+- The name of of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
+- The requested output file name with a valid suffix that will tell `taxpasta` which format to save the output in
+(`--output` or `-o`)
+- The input profile file itself
 
 --8<--
 tutorial_bash_snippets.md:standardise
@@ -197,14 +203,16 @@ This looks much more tidy!
 You can see that we did not have to specify any additional column names or other
 arguments. Taxpasta has created a suitable table for you.
 
-### `taxpasta merge`
+### taxpasta merge
 
 What about the more complicated mOTUs case, where we not only have unusual
 comment headers but also profiles from _multiple_ samples to be standardised?
 
 In this case, we can instead use `taxpasta merge`, which will both standardise
-_and_ merge the profiles of different samples into one for you - again all
-through the command-line. We need to specify the profiler, the output name, and
+_and_ merge the profiles of different samples into one for you - all
+through the command-line. 
+
+Again, We need to specify the profiler, the output name and
 format (via the suffix), and the input profiles themselves.
 
 --8<--
@@ -234,15 +242,16 @@ _both_ input files.
 
 You can see we have one `taxonomy_id` column, and two columns each referring to
 one of the two samples - all without having to spend time playing with different
-arguments for loading the files or additional data transformations. If you
-prefer those columns to be different from the input filenames, you can also
-[provide a sample sheet](/how-tos/how-to-customise-sample-names).
+arguments for loading the files or additional data transformations.
+
+If you prefer the columns names to be different from just the input filenames, you can also
+[provide a sample sheet](/how-tos/how-to-customise-sample-names/) to customise them.
 
 By default, taxpasta uses taxonomy identifiers to merge tables. If you’re
 interested in having human-readable taxon names see [How-to add taxon
-names](/how-tos/how-to-add-names).
+names](/how-tos/how-to-add-names/).
 
-### Important caveat
+## Important caveat
 
 You may have noticed that when "standardising" the output from each profiler
 that not all columns are retained. This is because each profiler has a different

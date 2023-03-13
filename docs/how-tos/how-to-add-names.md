@@ -11,7 +11,7 @@ output, you need to supply 'taxonomy' files. These files are typically called
 taxonomy](ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/) files.
 
 Assuming that your current working directory is the `taxpasta-tutorial`
-directory, we can download the taxonomy with,
+directory, we can download the taxonomy files with the following.
 
 --8<--
 bash_snippets.md:taxdump
