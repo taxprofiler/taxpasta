@@ -1,0 +1,177 @@
+---
+format: gfm
+jupyter: python3
+---
+
+<!-- --8<-- [start:software] -->
+
+- Unix terminal (e.g., `bash`)
+- [Python environment with taxpasta](/#install)
+- No additional requirements, since we will make use of [pandas](https://pandas.pydata.org/) which is already part of the taxpasta installation.
+
+<!-- --8<-- [end:software] -->
+
+<!-- --8<-- [start:raw-motus] -->
+
+We can try loading a mOTUs profile into Python using the common table reading function `read_table()` from the `pandas` package with default arguments.
+
+```{python}
+#| error: true
+#| results: hold
+import pandas as pd
+
+profile_motus_2612_pe_raw = pd.read_table("2612_pe-ERR5766176-db_mOTU.out")
+```
+
+You can see we immediately hit a `ParserError`, as there is a 'comment' line at the top of the mOTUs profile with information on how the profile was generated.
+
+While such a comment is very useful for reproducibility, to load this we have to instead add extra options to the function, which makes loading the table less than smooth for downstream analyses.
+
+```{python}
+#| output: false
+profile_motus = pd.read_table(
+    "2612_pe-ERR5766176-db_mOTU.out",
+    comment="#",
+)
+profile_motus.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_motus.head().to_markdown())
+```
+
+However, once again we encounter another problem: the column headers are _also_ specified as a comment line and our first line of data is instead read as the column headers. We can try to skip the first two lines entirely to remedy this.
+
+```{python}
+#| output: false
+profile_motus = pd.read_table(
+    "2612_pe-ERR5766176-db_mOTU.out",
+    skiprows=2,
+)
+profile_motus.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_motus.head().to_markdown())
+```
+
+<!-- --8<-- [end:raw-motus] -->
+
+<!-- --8<-- [start:raw-kraken2] -->
+
+```{python}
+#| output: false
+profile_kraken2 = pd.read_table("2612_pe-ERR5766176-db1.kraken2.report.txt")
+profile_kraken2.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_kraken2.head().to_markdown())
+```
+
+This doesn't fail to load but unfortunately the column headers look a bit weird. It seems the Kraken2 file does not include a column header! In this case we have to specify these ourselves.
+
+```{python}
+#| output: false
+profile_kraken2 = pd.read_table(
+    "2612_pe-ERR5766176-db1.kraken2.report.txt",
+    names=[
+        "percent",
+        "clade_assigned_reads",
+        "direct_assigned_reads",
+        "taxonomy_lvl",
+        "taxonomy_id",
+        "name",
+    ],
+)
+profile_kraken2.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_kraken2.head().to_markdown())
+```
+
+<!-- --8<-- [end:raw-kraken2] -->
+
+<!-- --8<-- [start:outer-join] -->
+
+With pandas, we can perform such a merge either with the `join` or `merge`
+methods and an `"outer"` argument to perform an outer join that includes all
+rows both from the left and right table in the resulting table. The `join`
+method works best when joining tables on their indeces. In our case, the indeces
+are not meaningful for the join operation as they are simple integer ranges. We
+will use the `merge` method instead.
+
+```{python}
+#| error: true
+profile_motus.merge(profile_kraken2, how="outer")
+```
+
+The `MergeError` occurs because the column names are not the same between the
+two tables for the different profilers' outputs.  Instead, we need to specify
+which column of the left table should be joined with what column of the right
+table. The `merge` method allows us to do so.
+
+```{python}
+#| output: false
+raw_merged_table = profile_motus.merge(
+    profile_kraken2,
+    how="outer",
+    left_on="NCBI_tax_id",
+    right_on="taxonomy_id",
+)
+raw_merged_table.sample(10)
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(raw_merged_table.sample(n=10, random_state=42).to_markdown())
+```
+
+<!-- --8<-- [end:outer-join] -->
+
+<!-- --8<-- [start:std-kraken2] -->
+
+Now let’s try to load the taxpasta standardised Kraken2 result into
+Python again.
+
+```{python}
+#| output: false
+profile_kraken2_std = pd.read_table("2612_pe-ERR5766176-db1_kraken2.tsv")
+profile_kraken2_std.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_kraken2_std.head().to_markdown())
+```
+
+<!-- --8<-- [end:std-kraken2] -->
+
+<!-- --8<-- [start:merge-motus] -->
+
+Once again, let's try loading the standardised and merged mOTUs result into Python.
+
+```{python}
+#| output: false
+profile_motus_merged = pd.read_table("dbMOTUs_motus.tsv")
+profile_motus_merged.head()
+```
+
+```{python}
+#| echo: false
+#| output: asis
+print(profile_motus_merged.head().to_markdown())
+```
+
+<!-- --8<-- [end:merge-motus] -->

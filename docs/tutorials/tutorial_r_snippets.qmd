@@ -1,0 +1,115 @@
+---
+format: gfm
+---
+
+<!-- --8<-- [start:software] -->
+
+- Unix terminal (e.g., `bash`)
+- [Python environment with taxpasta](/#install)
+- [R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
+- Package dependencies
+
+    ```R
+    install.packages(c("readr", "dplyr"), dependencies = TRUE)
+    ```
+
+<!-- --8<-- [end:software] -->
+
+<!-- --8<-- [start:raw-motus] -->
+
+We can try loading a mOTUs profile into R using the common table reading function `read_tsv()` from the `readr` package with default arguments.
+
+```{r}
+requireNamespace("readr")
+profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out")
+```
+
+You can see we immediately hit an error, as there is a 'comment' line at the top of the mOTUs profile with information on how the profile was generated.
+
+While such a comment is very useful for reproducibility, to load this we have to instead add extra options to the function, which makes loading the table less than smooth for downstream analyses.
+
+```{r}
+profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", comment = "#")
+```
+
+However, once again we hit another error: the column headers are _also_ specified as a comment line...  Instead we can try to skip the first two lines entirely.
+
+```{r}
+profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", skip = 2)
+profile_motus
+```
+
+<!-- --8<-- [end:raw-motus] -->
+
+<!-- --8<-- [start:raw-kraken2] -->
+
+```{r}
+profile_kraken2 <- readr::read_tsv("2612_pe-ERR5766176-db1.kraken2.report.txt")
+profile_kraken2
+```
+
+This doesn't fail to load but unfortunately the column headers look a bit weird. It seems the Kraken2 file does not include a column header! In this case we have to specify these ourselves.
+
+```{r}
+profile_kraken2 <- readr::read_tsv(
+    "2612_pe-ERR5766176-db1.kraken2.report.txt",
+    col_names = c(
+        "percent",
+        "clade_assigned_reads",
+        "direct_assigned_reads",
+        "taxonomy_lvl",
+        "taxonomy_id",
+        "name"
+    )
+)
+profile_kraken2
+```
+
+<!-- --8<-- [end:raw-kraken2] -->
+
+<!-- --8<-- [start:outer-join] -->
+
+In the tidyverse flavour of R, we can do this with the `full_join` function of
+the `dplyr` package. This form of joining tables includes all rows both from the
+left and right table in the resulting table.
+
+```{r}
+#| error: true
+requireNamespace("dplyr")
+dplyr::full_join(profile_motus, profile_kraken2)
+```
+
+The error `by must be supplied when x and y have no common variables` occurs
+because the column names are not the same between the two tables for the
+different profilers' outputs. We need to specify which column of the left table
+should be joined with what column of the right table.
+
+```{r}
+raw_merged_table <- dplyr::full_join(profile_motus, profile_kraken2, by = c("NCBI_tax_id" = "taxonomy_id"))
+raw_merged_table
+```
+
+<!-- --8<-- [end:outer-join] -->
+
+<!-- --8<-- [start:std-kraken2] -->
+
+Now let’s try to load the taxpasta standardised Kraken2 result into
+R again.
+
+```{r}
+profile_kraken2_std <- readr::read_tsv("2612_pe-ERR5766176-db1_kraken2.tsv")
+profile_kraken2_std
+```
+
+<!-- --8<-- [end:std-kraken2] -->
+
+<!-- --8<-- [start:merge-motus] -->
+
+Once again, let's try loading the standardised and merged mOTUs result into R.
+
+```{r}
+profile_motus_merged <- readr::read_tsv("dbMOTUs_motus.tsv")
+profile_motus_merged
+```
+
+<!-- --8<-- [end:merge-motus] -->

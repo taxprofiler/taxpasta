@@ -16,6 +16,7 @@ markdown_extensions:
         - docs/quick_reference/standardise_help.txt
         - docs/quick_reference/merge_help.txt
         - docs/quick_reference/consensus_help.txt
+        - docs/tutorials
       check_paths: true
   - pymdownx.superfences:
       custom_fences:
@@ -25,6 +26,8 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
 
 theme:
   features:
@@ -63,6 +66,13 @@ plugins:
             show_signature_annotations: true
       default_handler: python
   - awesome-pages
+  - exclude:
+      glob:
+        - "*.ipynb"
+        - "*.rmarkdown"
+        - "*.qmd"
+        - "*_snippets.md"
+        - "docs/tutorials/taxpasta-tutorial/*"
 
 extra:
   social:

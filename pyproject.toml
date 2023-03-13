@@ -72,10 +72,14 @@ parquet = ["pyarrow"]
 rich = ["rich"]
 xlsx = ["openpyxl"]
 dev = [
+    "bash-kernel",
+    "jupyter",
+    "mkdocs-awesome-pages-plugin ~=2.8",
+    "mkdocs-exclude ~=1.0",
     "mkdocs-material ~=9.1",
     "mkdocstrings[python] ~=0.20",
-    "mkdocs-awesome-pages-plugin ~=2.8",
     "pre-commit",
+    "tabulate ~=0.9",
     "tox ~=4.0",
 ]
 
