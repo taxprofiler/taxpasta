@@ -30,7 +30,7 @@ tar -C taxdump -xzf taxdump.tar.gz
 
       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 
-    100    49  100    49    0     0     33      0  0:00:01  0:00:01 --:--:--    33
+    100    49  100    49    0     0     38      0  0:00:01  0:00:01 --:--:--    38
 
       % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
 
@@ -40,19 +40,19 @@ tar -C taxdump -xzf taxdump.tar.gz
 
       0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
 
-      0 57.8M    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0
+      0 57.8M    0 17376    0     0  13692      0  1:13:49  0:00:01  1:13:48 13681
 
-     14 57.8M   14 8825k    0     0  4125k      0  0:00:14  0:00:02  0:00:12 4123k
+      8 57.8M    8 4812k    0     0  2169k      0  0:00:27  0:00:02  0:00:25 2168k
 
-     40 57.8M   40 23.3M    0     0  7738k      0  0:00:07  0:00:03  0:00:04 7736k
+     25 57.8M   25 14.8M    0     0  4718k      0  0:00:12  0:00:03  0:00:09 4718k
 
-     56 57.8M   56 32.7M    0     0  8153k      0  0:00:07  0:00:04  0:00:03 8151k
+     42 57.8M   42 24.8M    0     0  6024k      0  0:00:09  0:00:04  0:00:05 6022k
 
-     74 57.8M   74 43.1M    0     0  8663k      0  0:00:06  0:00:05  0:00:01 8998k
+     62 57.8M   62 36.3M    0     0  7159k      0  0:00:08  0:00:05  0:00:03 7447k
 
-     94 57.8M   94 54.5M    0     0  9157k      0  0:00:06  0:00:06 --:--:-- 11.0M
+     85 57.8M   85 49.2M    0     0  8093k      0  0:00:07  0:00:06  0:00:01  9.9M
 
-    100 57.8M  100 57.8M    0     0  9264k      0  0:00:06  0:00:06 --:--:-- 11.5M
+    100 57.8M  100 57.8M    0     0  8566k      0  0:00:06  0:00:06 --:--:-- 11.3M
 
     taxdump.tar.gz: OK
 
@@ -63,17 +63,9 @@ tar -C taxdump -xzf taxdump.tar.gz
 taxpasta merge -p motus -o dbMOTUs_motus_with_names.tsv --taxonomy taxdump --add-name 2612_pe-ERR5766176-db_mOTU.out 2612_se-ERR5766180-db_mOTU.out
 ```
 
-    [13:53:47] WARNING  The merged profiles        d=594523;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py\sample_merging_application.py;;\:d=133637;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py#116\116;;\
+    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
 
-                        contained different taxa.
-
-                        Additional zeroes were
-
-                        introduced for missing
-
-                        taxa.
-
-               INFO     Write result to 'dbMOTUs_motus_with_names.tsv'. d=221795;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py\merge.py;;\:d=554515;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py#448\448;;\
+    [INFO] Write result to 'dbMOTUs_motus_with_names.tsv'.
 
 <!-- --8<-- [end:merge-names] -->
 <!-- --8<-- [start:merge-names-head] -->
@@ -124,19 +116,11 @@ paste motus_names.txt motus_paths.txt >> motus_samplesheet.tsv
 taxpasta merge -p motus -o dbMOTUs_motus_cleannames.tsv -s motus_samplesheet.tsv
 ```
 
-    [13:53:49] INFO     Read sample sheet from 'motus_samplesheet.tsv'. d=301038;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py\merge.py;;\:d=775761;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py#393\393;;\
+    [INFO] Read sample sheet from 'motus_samplesheet.tsv'.
 
-               WARNING  The merged profiles        d=737336;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py\sample_merging_application.py;;\:d=7963;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py#116\116;;\
+    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
 
-                        contained different taxa.
-
-                        Additional zeroes were
-
-                        introduced for missing
-
-                        taxa.
-
-               INFO     Write result to 'dbMOTUs_motus_cleannames.tsv'. d=913213;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py\merge.py;;\:d=177024;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py#448\448;;\
+    [INFO] Write result to 'dbMOTUs_motus_cleannames.tsv'.
 
 <!-- --8<-- [end:merge-samplesheet] -->
 <!-- --8<-- [start:merge-samplesheet-head] -->
