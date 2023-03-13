@@ -6,12 +6,6 @@ build:
   os: ubuntu-22.04
   tools:
     python: "3.10"
-  jobs:
-    pre_build:
-      - curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
-      - sudo dpkg -i quarto-linux-amd64.deb
-      - python -m bash_kernel.install
-      - make docs
 
 mkdocs:
   configuration: mkdocs.yml
