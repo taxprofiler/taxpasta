@@ -301,7 +301,7 @@ def merge(
         "identifiers separated by semi-colons.",
     ),
 ) -> None:
-    """Standardise and merge two or more taxonomic profiles into a single table."""
+    """Standardise and merge two or more taxonomic profiles."""
     # Perform input validation.
     valid_output_format: Union[
         TidyObservationTableFileFormat, WideObservationTableFileFormat
