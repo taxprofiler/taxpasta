@@ -35,11 +35,13 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install tox tox-gh-actions
 
-      - name: Install quarto
+      - name: Install quarto & Test docs
+        if: (matrix.os == 'ubuntu-latest') && (matrix.python-version == '3.11')
         run: |
           curl -LO https://quarto.org/download/latest/quarto-linux-amd64.deb
           sudo dpkg -i quarto-linux-amd64.deb
           quarto check
+          tox -e docs
 
       - name: Test with tox
         run: tox run-parallel --parallel auto --parallel-no-spinner -- --cov-report=xml
