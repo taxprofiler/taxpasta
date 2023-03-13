@@ -26,7 +26,7 @@ as well as shown in the schema.
 
 -   Reference database:
     -   **DNA-to-DNA**, aka a metagenome library
-    -   **DNA-to-AA**, aka a genomic library of protein coding sequences
+    -   **DNA-to-AA**, aka a genomic library of protein coding sequences (amino-acid)
     -   **DNA-to-marker**, aka marker gene, aka gene families selection
 -   Result:
     -   relative **sequence abundance**
