@@ -13,10 +13,9 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path:
-        - docs/quick_reference/standardise_help.txt
-        - docs/quick_reference/merge_help.txt
-        - docs/quick_reference/consensus_help.txt
+        - docs/quick_reference
         - docs/tutorials
+        - docs/how-tos
       check_paths: true
   - pymdownx.superfences:
       custom_fences:
@@ -73,6 +72,7 @@ plugins:
         - "*.qmd"
         - "*_snippets.md"
         - "docs/tutorials/taxpasta-tutorial/*"
+        - "docs/how-tos/taxpasta-tutorial/*"
 
 extra:
   social:

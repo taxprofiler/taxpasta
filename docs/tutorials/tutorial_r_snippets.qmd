@@ -1,5 +1,8 @@
 ---
 format: gfm
+engine: knitr
+execute:
+  daemon: false
 ---
 
 <!-- --8<-- [start:software] -->

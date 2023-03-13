@@ -1,0 +1,86 @@
+---
+format: gfm
+jupyter: bash
+execute:
+  daemon: false
+---
+
+```{bash}
+mkdir taxpasta-tutorial
+cd taxpasta-tutorial
+```
+
+```{bash}
+#| output: false
+## mOTUs
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
+
+## Kraken2
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
+```
+
+<!-- --8<-- [start:taxdump] -->
+
+```{bash}
+curl -O ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz.md5
+curl -O ftp://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
+md5sum --check taxdump.tar.gz.md5
+mkdir taxdump
+tar -C taxdump -xzf taxdump.tar.gz
+```
+
+<!-- --8<-- [end:taxdump] -->
+
+<!-- --8<-- [start:merge-names] -->
+
+```{bash}
+taxpasta merge -p motus -o dbMOTUs_motus_with_names.tsv --taxonomy taxdump --add-name 2612_pe-ERR5766176-db_mOTU.out 2612_se-ERR5766180-db_mOTU.out
+```
+
+<!-- --8<-- [end:merge-names] -->
+
+<!-- --8<-- [start:merge-names-head] -->
+
+```{bash}
+head dbMOTUs_motus_with_names.tsv
+```
+
+<!-- --8<-- [end:merge-names-head] -->
+
+<!-- --8<-- [start:samplesheet] -->
+
+```{bash}
+## Get the full paths for each file
+ls -1 *mOTU.out > motus_paths.txt
+
+## Construct a sample name based on the filename
+sed 's#-db_mOTU.out##g;s#^.*/##g' motus_paths.txt > motus_names.txt
+
+## Create the samplesheet, adding a header, and then adding the samplenames and paths
+printf 'sample\tprofile\n' > motus_samplesheet.tsv
+paste motus_names.txt motus_paths.txt >> motus_samplesheet.tsv
+```
+
+<!-- --8<-- [end:samplesheet] -->
+
+<!-- --8<-- [start:merge-samplesheet] -->
+
+```{bash}
+taxpasta merge -p motus -o dbMOTUs_motus_cleannames.tsv -s motus_samplesheet.tsv
+```
+
+<!-- --8<-- [end:merge-samplesheet] -->
+
+<!-- --8<-- [start:merge-samplesheet-head] -->
+
+```{bash}
+head dbMOTUs_motus_cleannames.tsv
+```
+
+<!-- --8<-- [end:merge-samplesheet-head] -->
+
+```{bash}
+cd ..
+rm -rf taxpasta-tutorial
+```

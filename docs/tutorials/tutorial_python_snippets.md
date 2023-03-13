@@ -7,6 +7,43 @@
     taxpasta installation.
 
 <!-- --8<-- [end:software] -->
+
+```python
+# import os
+# from pathlib import Path
+# from tempfile import mkdtemp
+#
+# cwd = Path()
+# tmp_path = Path(mkdtemp()) / "taxpasta-tutorial" / "python"
+# tmp_path.mkdir(parents=True)
+# os.chdir(tmp_path)
+```
+
+```python
+# from urllib.request import urlretrieve
+#
+# urlretrieve(
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out",
+    # filename=tmp_path / "2612_pe-ERR5766176-db_mOTU.out"
+# )
+# urlretrieve(
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out",
+    # filename=tmp_path / "2612_se-ERR5766180-db_mOTU.out"
+# )
+# urlretrieve(
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt",
+    # filename=tmp_path / "2612_pe-ERR5766176-db1.kraken2.report.txt"
+# )
+```
+
+```python
+# import subprocess
+#
+# subprocess.run(["taxpasta", "standardise", "-p", "kraken2", "-o", "2612_pe-ERR5766176-db1_kraken2.tsv", "2612_pe-ERR5766176-db1.kraken2.report.txt"], check=True, capture_output=True)
+#
+# subprocess.run(["taxpasta", "merge", "-p", "motus", "-o", "dbMOTUs_motus.tsv", "2612_pe-ERR5766180-db_mOTU.out", "2612_se-ERR5766180-db_mOTU.out"], check=True, capture_output=True)
+```
+
 <!-- --8<-- [start:raw-motus] -->
 
 We can try loading a mOTUs profile into Python using the common table
@@ -193,3 +230,10 @@ profile_motus_merged.head()
 |   4 |       74426 |                          2 |                          1 |
 
 <!-- --8<-- [end:merge-motus] -->
+
+```python
+# from shutil import rmtree
+
+# os.chdir(cwd)
+# rmtree(tmp_path)
+```
