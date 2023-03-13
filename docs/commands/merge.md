@@ -31,14 +31,14 @@ taxpasta merge --profiler kraken2 --output taxon_table.tsv sample1.kreport.txt s
 ```
 
 where `sample1.kreport.txt`, `sample2.kreport.txt`, `sample3.kreport.txt` are
-report files from kraken2.
+report files from Kraken2.
 
 This will produce a file called `sample_standardised.tsv` that contains the
 taxpasta 'standard' multi-column structure described [below](#why).
 
 ## Why
 
-Take, for example, the following kraken2 output file.
+Take, for example, the following Kraken2 output file.
 
 ```text
  99.98	787758	787758	U	0	unclassified
@@ -50,7 +50,7 @@ Take, for example, the following kraken2 output file.
   0.01	96	0	K1	451864	          Dikarya
 ```
 
-This output format is specific to kraken2 and is unlikely to be comparable with
+This output format is specific to Kraken2 and is unlikely to be comparable with
 other tools, as they will record this information in different formats.
 Furthermore, the indentation system to show taxonomic rank depth is not
 particularly 'machine-readable'; making it difficult to load it into spreadsheet

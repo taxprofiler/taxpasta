@@ -10,7 +10,7 @@ compatible with the output of other profilers standardised by taxpasta.
 
 You should use `taxpasta standardise` when you want to standardise a single
 taxonomic profile or multiple profiles independently but do not want to merge
-them in a single table, for example, you wish to store them separately.
+them in a single table, for example, you wish to store them separately to merge them yourself in the future.
 
 See [`merge`](merge.md) if you wish to both standardise and merge in one step to
 generate a single table containing all samples.
@@ -44,7 +44,7 @@ taxpasta 'standard' two column structure described [below](#why).
 
 ## Why
 
-Take, for example, the following kraken2 output file.
+Take, for example, the following Kraken2 output file.
 
 ```text
  99.98	787758	787758	U	0	unclassified
@@ -56,7 +56,7 @@ Take, for example, the following kraken2 output file.
   0.01	96	0	K1	451864	          Dikarya
 ```
 
-This output format is specific to kraken2 and is unlikely to be comparable with
+This output format is specific to Kraken2 and is unlikely to be comparable with
 other tools, as they will record this information in different formats.
 Furthermore, the indentation system to show taxonomic rank depth is not
 particularly 'machine-readable'; making it difficult to load it into spreadsheet
@@ -66,10 +66,10 @@ tools or tabular formats preferred by languages such as
 A more common format in metagenomics is to have a first column with the taxon
 name and a second column with the number of sequence 'hits' against that
 particular taxon. Note that this format also encodes common information across
-most tools, whereas kraken2 includes information that may not be reported by
+most tools, whereas Kraken2 includes additional information that may not be reported by
 other profilers, such as a column with the fraction against a taxon of all hits.
 
-We have chosen to reduce all taxa to their respective identifiers. We chose zero as the
+We have chosen to reduce all taxa to their respective identifiers and a count. We chose zero as the
 identifier for unclassified reads. Since there are many downstream processing and
 analytics methods
 that assume integer read counts, we only support such a count or pseudo count column.

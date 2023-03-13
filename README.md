@@ -114,9 +114,9 @@ With these minimal arguments, taxpasta produces a two column output consisting o
 | ----------- | ----- |
 |             |       |
 
-You can count on the second column being integers :wink: Having such a simple
+You can count on the second column being integers :wink:. Having such a simple
 and tidy table should make your downstream analysis much smoother to start out
-with. Please, have a look at the full [getting
+with. Please have a look at the full [getting
 started](https://taxpasta.readthedocs.io/en/latest/tutorials/getting-started.md)
 tutorial for a more thorough introduction.
 
@@ -124,7 +124,7 @@ tutorial for a more thorough introduction.
 
 Converting single tables is nice, but hopefully you have many shiny samples to
 analyze. The `taxpasta merge` command works similarly to `standardise` except
-that you provide multiple profiles as input. Grab a few more MOCK examples from
+that you provide multiple profiles as input. You can grab a few more 'MOCK' examples from
 our [test
 data](https://github.com/taxprofiler/taxpasta/tree/dev/tests/data/metaphlan) and
 try it out.
@@ -133,8 +133,8 @@ try it out.
 taxpasta merge -p metaphlan -o merged.tsv MOCK_*.metaphlan3_profile.txt
 ```
 
-The output of the `merge` command has one column for the taxonomy identifier and
-one more column for each input profile. Again, please have a look at the full
+The output of the `merge` command has one column for the taxonomic identifier and
+one more column for each input profile. Again, have a look at the full
 [getting
 started](https://taxpasta.readthedocs.io/en/latest/tutorials/getting-started.md)
 tutorial for a more thorough introduction.

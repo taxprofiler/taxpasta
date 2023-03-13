@@ -27,9 +27,9 @@ requireNamespace("readr")
 profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out")
 ```
 
-You can see we immediately hit an error, as there is a 'comment' line at the top of the mOTUs profile with information on how the profile was generated.
+You can see we immediately hit an error, as as we saw above, there is a 'comment' line at the top of the mOTUs profile with information on how the profile was generated.
 
-While such a comment is very useful for reproducibility, to load this we have to instead add extra options to the function, which makes loading the table less than smooth for downstream analyses.
+While such a comment is very useful for reproducibility, to load this into software expecting 'true' tabular data, we have to instead add extra options to the function, which makes loading the table less than smooth for downstream analyses.
 
 ```{r}
 profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", comment = "#")
@@ -84,7 +84,9 @@ dplyr::full_join(profile_motus, profile_kraken2)
 
 The error `by must be supplied when x and y have no common variables` occurs
 because the column names are not the same between the two tables for the
-different profilers' outputs. We need to specify which column of the left table
+different profilers' outputs.
+
+We need to specify which column of the left table
 should be joined with what column of the right table.
 
 ```{r}

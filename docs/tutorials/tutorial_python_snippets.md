@@ -153,7 +153,7 @@ With pandas, we can perform such a merge either with the `join` or
 `merge` methods and an `"outer"` argument to perform an outer join that
 includes all rows both from the left and right table in the resulting
 table. The `join` method works best when joining tables on their
-indeces. In our case, the indeces are not meaningful for the join
+indices. In our case, the indices are not meaningful for the join
 operation as they are simple integer ranges. We will use the `merge`
 method instead.
 
