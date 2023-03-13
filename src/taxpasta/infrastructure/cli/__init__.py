@@ -18,5 +18,4 @@
 
 from .taxpasta import app
 from . import standardise
-from . import consensus
 from . import merge

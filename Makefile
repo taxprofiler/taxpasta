@@ -13,7 +13,6 @@ qa:
 docs: qmd
 	taxpasta standardise --help > docs/quick_reference/standardise_help.txt
 	taxpasta merge --help > docs/quick_reference/merge_help.txt
-	taxpasta consensus --help > docs/quick_reference/consensus_help.txt
 
 tutorial_snippets := $(patsubst %.qmd,%.md,$(wildcard docs/tutorials/*.qmd))
 howto_snippets := $(patsubst %.qmd,%.md,$(wildcard docs/how-tos/*.qmd))
