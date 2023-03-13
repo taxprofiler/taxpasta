@@ -244,15 +244,21 @@ names](/how-tos/how-to-add-names).
 
 ### Important caveat
 
+!!! tip
+
+    Carefully read our [background
+    documentation](/supported_profilers/terminology) on terminology and
+    considerations for comparing results from different metagenomic profilers.
+
 You may have noticed that when "standardising" the output from each profiler
 that not all columns are retained. This is because each profiler has a different
-way of reporting taxonomic abundance, and will produce additional metrics
+way of reporting relative abundance, and will produce additional metrics
 (represented as additional columns) that allow for better evaluation of the
 accuracy or confidence in each identified taxon.
 
 However, as these metrics are _not_ consistent between each profiler, they are
-not comparable between each other, thus in taxpasta we only retain columns that
-are conceptually comparable, i.e., taxonomy identifiers and read counts.
+also not comparable, thus in taxpasta we only retain columns that
+are conceptually comparable, i.e., taxonomy identifiers and counts.
 
 Please be aware that while taxpasta is a utility to make comparison between
 profilers easier to be performed, this does not necessarily mean that all
