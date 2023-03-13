@@ -101,7 +101,9 @@ head 2612_pe-ERR5766176-db1.kraken2.report.txt
 taxpasta standardise -p kraken2 -o 2612_pe-ERR5766176-db1_kraken2.tsv 2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
 
-    [INFO] Write result to '2612_pe-ERR5766176-db1_kraken2.tsv'.
+    [13:40:04] INFO     Write result to                           d=780946;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/standardise.py\standardise.py;;\:d=524953;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/standardise.py#264\264;;\
+
+                        '2612_pe-ERR5766176-db1_kraken2.tsv'.
 
 <!-- --8<-- [end:standardise] -->
 <!-- --8<-- [start:standardise-head] -->
@@ -137,9 +139,17 @@ head 2612_pe-ERR5766176-db1_kraken2.tsv
 taxpasta merge -p motus -o dbMOTUs_motus.tsv 2612_pe-ERR5766176-db_mOTU.out 2612_se-ERR5766180-db_mOTU.out
 ```
 
-    [WARNING] The merged profiles contained different taxa. Additional zeroes were introduced for missing taxa.
+    [13:40:05] WARNING  The merged profiles        d=281136;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py\sample_merging_application.py;;\:d=298902;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/application/sample_merging_application.py#116\116;;\
 
-    [INFO] Write result to 'dbMOTUs_motus.tsv'.
+                        contained different taxa.
+
+                        Additional zeroes were
+
+                        introduced for missing
+
+                        taxa.
+
+               INFO     Write result to 'dbMOTUs_motus.tsv'.            d=632786;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py\merge.py;;\:d=930027;file:///home/moritz/Codebase/taxprofiler/taxpasta/src/taxpasta/infrastructure/cli/merge.py#448\448;;\
 
 <!-- --8<-- [end:merge] -->
 <!-- --8<-- [start:merge-head] -->

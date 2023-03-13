@@ -1,6 +1,8 @@
 ---
 format: gfm
 jupyter: bash
+execute:
+  daemon: false
 ---
 
 <!-- --8<-- [start:data-setup] -->

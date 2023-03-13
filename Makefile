@@ -15,7 +15,9 @@ docs: qmd
 	taxpasta merge --help > docs/quick_reference/merge_help.txt
 	taxpasta consensus --help > docs/quick_reference/consensus_help.txt
 
-snippets := $(patsubst %.qmd,%.md,$(wildcard docs/tutorials/*.qmd))
+tutorial_snippets := $(patsubst %.qmd,%.md,$(wildcard docs/tutorials/*.qmd))
+howto_snippets := $(patsubst %.qmd,%.md,$(wildcard docs/how-tos/*.qmd))
+snippets := $(tutorial_snippets) $(howto_snippets)
 
 qmd: profiles $(snippets)
 
