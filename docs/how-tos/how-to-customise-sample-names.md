@@ -1,6 +1,6 @@
 # How-to customise sample names
 
-!!! note
+!!! info
 
     We follow on from the main [tutorial](/tutorials/getting-started) including
     all files just before the clean up step.

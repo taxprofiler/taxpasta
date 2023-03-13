@@ -88,7 +88,7 @@ Taxpasta supports fairly diverse output formats but at the very least there shou
 a header indicating each column, the first (`taxonomy_id`) denoting
 which taxonomy identifier has the counts in the second column (`count`).
 
-!!! note
+!!! info
 
     This subcommand is used internally in the `merge` command prior to merging
     multiple profiles into one table.
