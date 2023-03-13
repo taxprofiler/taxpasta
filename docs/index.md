@@ -84,8 +84,51 @@ explore the offered commands through the help system.
 taxpasta -h
 ```
 
-Taxpasta currently offers three commands corresponding to the main [use-cases](#about).
+Taxpasta currently offers two commands corresponding to the main [use-cases](#about).
 You can find out more in the [commands' documentation](commands/index.md).
+
+### Standardise
+
+Since the [supported profilers](#supported-taxonomic-profilers) all produce
+their own flavour of tabular output, a quick way to normalize such files, is to
+standardise them with taxpasta. You need to let taxpasta know what tool the file
+was created by. As an example, let's standardise a MetaPhlAn profile. (You can
+find an example file in our [test
+data](https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/metaphlan/MOCK_002_Illumina_Hiseq_3000_se_metaphlan3-db.metaphlan3_profile.txt).)
+
+```shell
+taxpasta standardise -p metaphlan -o standardised.tsv MOCK_002_Illumina_Hiseq_3000_se_metaphlan3-db.metaphlan3_profile.txt
+```
+
+With these minimal arguments, taxpasta produces a two column output consisting of
+
+| taxonomy_id | count |
+| ----------- | ----- |
+|             |       |
+
+You can count on the second column being integers :wink: Having such a simple
+and tidy table should make your downstream analysis much smoother to start out
+with. Please, have a look at the full [getting
+started](tutorials/getting-started.md) tutorial for a more thorough
+introduction.
+
+### Merge
+
+Converting single tables is nice, but hopefully you have many shiny samples to
+analyze. The `taxpasta merge` command works similarly to `standardise` except
+that you provide multiple profiles as input. Grab a few more MOCK examples from
+our [test
+data](https://github.com/taxprofiler/taxpasta/tree/dev/tests/data/metaphlan) and
+try it out.
+
+```shell
+taxpasta merge -p metaphlan -o merged.tsv MOCK_*.metaphlan3_profile.txt
+```
+
+The output of the `merge` command has one column for the taxonomy identifier and
+one more column for each input profile. Again, please have a look at the full
+[getting started](tutorials/getting-started.md) tutorial for a more thorough
+introduction.
 
 ## Copyright
 
