@@ -1,10 +1,11 @@
 nav:
     - index.md
+    - tutorials
+    - How-tos: how-tos
     - commands
     - quick_reference
     - supported_profilers
     - ...
-    - ADR: adr
+    - Design Decisions: adr
     - api
     - contributing
-    - tutorials
