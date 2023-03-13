@@ -801,9 +801,4 @@ fabric.properties
 # Project
 /src/taxpasta/_version.py
 /.ruff_cache/
-taxpasta-tutorial/
 
-# Rstudio
-.Rhistory
-docs/taxpasta-tutorial/
-.Rproj.user
