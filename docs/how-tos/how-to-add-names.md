@@ -1,6 +1,6 @@
 # How-to add taxa names to output
 
-!!! note
+!!! info
 
     We follow on from the main [tutorial](/tutorials/getting-started) including
     all files just before the clean up step.
