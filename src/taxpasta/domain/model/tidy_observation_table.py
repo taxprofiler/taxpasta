@@ -19,6 +19,7 @@
 """Provide a description of a tidy observation table."""
 
 
+import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series
@@ -28,7 +29,7 @@ class TidyObservationTable(pa.SchemaModel):
     """Define the tidy observation table."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
-    count: Series[int] = pa.Field(ge=0)
+    count: Series[np.int64] = pa.Field(ge=0)
     sample: Series[pd.CategoricalDtype] = pa.Field()
 
     class Config:
