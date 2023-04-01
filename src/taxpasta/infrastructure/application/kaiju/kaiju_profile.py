@@ -23,7 +23,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class KaijuProfile(pa.SchemaModel):
+class KaijuProfile(pa.DataFrameModel):
     """Define the expected kaiju profile format."""
 
     file: Series[str] = pa.Field()

@@ -27,7 +27,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class MetaphlanProfile(pa.SchemaModel):
+class MetaphlanProfile(pa.DataFrameModel):
     """Define the expected metaphlan profile format."""
 
     clade_name: Series[str] = pa.Field()

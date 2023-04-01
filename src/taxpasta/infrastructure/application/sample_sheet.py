@@ -26,7 +26,7 @@ import pandera as pa
 from pandera.typing import DataFrame, Series
 
 
-class SampleSheet(pa.SchemaModel):
+class SampleSheet(pa.DataFrameModel):
     """Define a description of samples and profile locations."""
 
     sample: Series[str] = pa.Field()

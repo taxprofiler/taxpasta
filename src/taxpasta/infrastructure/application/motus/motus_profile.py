@@ -23,7 +23,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class MotusProfile(pa.SchemaModel):
+class MotusProfile(pa.DataFrameModel):
     """Define the expected mOTUs profile format."""
 
     consensus_taxonomy: Series[str] = pa.Field()

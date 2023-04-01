@@ -21,8 +21,8 @@ class infrastructure.application.Kraken2ProfileStandardisationService <<Service>
 }
 application.ProfileStandardisationService <|. infrastructure.application.Kraken2ProfileStandardisationService : realizes
 
-class domain.StandardProfile <<SchemaModel>>
-class infrastructure.application.Kraken2Profile <<SchemaModel>>
+class domain.StandardProfile <<DataFrameModel>>
+class infrastructure.application.Kraken2Profile <<DataFrameModel>>
 
 infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileReader : "depends on"
 infrastructure.application.Kraken2Profile <.. infrastructure.application.Kraken2ProfileStandardisationService : "depends on"
