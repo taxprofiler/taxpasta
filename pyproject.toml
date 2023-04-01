@@ -42,7 +42,7 @@ dependencies = [
     "depinfo ~=2.2",
     "numpy ~=1.20",
     "pandas ~=1.4",
-    "pandera ~=0.11",
+    "pandera ~=0.14",
     "taxopy ~=0.10",
     "typer ~=0.6",
 ]
