@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-   Inserted columns with taxonomic information like the name, rank, or lineage of a
+    taxon at the beginning of the table rather than the end (#86).
+
 ### Fixed
 
 -   Enabled handling of MetaPhlAn profiles with taxonomy identifier -1 and combined all
