@@ -22,6 +22,7 @@
 
 from typing import Iterable
 
+import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
@@ -59,7 +60,13 @@ class SampleMergingService:
         # object but, due to schema coercion, this is automatically converted into a
         # categorical dtype again when pandera checks the return type.
         return (
-            counts[0].join(counts[1:], how="outer").fillna(0).astype(int).reset_index()
+            counts[0]
+            .join(counts[1:], how="outer")
+            .fillna(0)
+            # We explicitly convert to int64 because of a Windows type problem.
+            # See https://github.com/unionai-oss/pandera/issues/726
+            .astype(np.int64)
+            .reset_index()
         )
 
     @classmethod
@@ -83,8 +90,14 @@ class SampleMergingService:
         # object but, due to schema coercion, this is automatically converted into a
         # categorical dtype again when pandera checks the return type. The same holds
         # for the `sample` column.
-        return pd.concat(
+        result = pd.concat(
             [sample.profile.assign(sample=sample.name) for sample in samples],
             ignore_index=True,
             copy=False,
         )
+        # We explicitly convert to int64 because of a Windows type problem.
+        # See https://github.com/unionai-oss/pandera/issues/726
+        result[TidyObservationTable.count] = result[TidyObservationTable.count].astype(
+            np.int64
+        )
+        return result
