@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+-   Enabled handling of MetaPhlAn profiles with taxonomy identifier -1 and combined all
+    unclassified entries into one with ID 0 (#85).
 -   Generally increased the tolerance in the compositionality checks. Up to 1% deviation  
     are now allowed; 2% for Bracken profiles (#84).
 
