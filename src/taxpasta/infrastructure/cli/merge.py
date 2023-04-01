@@ -429,21 +429,24 @@ def merge(
         logger.critical(str(error))
         raise typer.Exit(code=1)
 
-    if name and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_name(result)
+    # The order of the following conditions is chosen specifically to yield a pleasant
+    # output format.
 
-    if rank and valid_output_format is not WideObservationTableFileFormat.BIOM:
+    if id_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_rank(result)
+        result = taxonomy_service.add_identifier_lineage(result)
 
     if lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
         result = taxonomy_service.add_name_lineage(result)
 
-    if id_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
+    if rank and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_identifier_lineage(result)
+        result = taxonomy_service.add_rank(result)
+
+    if name and valid_output_format is not WideObservationTableFileFormat.BIOM:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = taxonomy_service.add_name(result)
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
