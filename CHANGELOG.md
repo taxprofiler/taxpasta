@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - (2023-04-01)
+
 ### Added
 
 -   Inserted columns with taxonomic information like the name, rank, or lineage of a
