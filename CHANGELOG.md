@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+-   Generally increased the tolerance in the compositionality checks. Up to 1% deviation  
+    are now allowed; 2% for Bracken profiles (#84).
+
 ## [0.2.3] - (2023-03-12)
 
 ### Fixed
