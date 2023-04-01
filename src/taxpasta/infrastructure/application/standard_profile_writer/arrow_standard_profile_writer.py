@@ -33,7 +33,7 @@ class ArrowStandardProfileWriter(StandardProfileWriter):
         cls,
         profile: DataFrame[StandardProfile],
         target: BinaryBufferOrFilepath,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Write the given standardized profile to the given buffer or file."""
         profile.to_feather(target, **kwargs)
