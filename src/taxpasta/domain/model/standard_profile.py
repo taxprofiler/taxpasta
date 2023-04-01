@@ -24,7 +24,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class StandardProfile(pa.SchemaModel):
+class StandardProfile(pa.DataFrameModel):
     """Define the standard profile format."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()

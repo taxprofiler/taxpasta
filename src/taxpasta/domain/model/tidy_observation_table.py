@@ -25,7 +25,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class TidyObservationTable(pa.SchemaModel):
+class TidyObservationTable(pa.DataFrameModel):
     """Define the tidy observation table."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()

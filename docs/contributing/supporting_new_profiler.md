@@ -73,7 +73,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class Kraken2Profile(pa.SchemaModel):
+class Kraken2Profile(pa.DataFrameModel):
     """Define the expected kraken2 profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)

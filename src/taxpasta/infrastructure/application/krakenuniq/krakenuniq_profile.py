@@ -24,7 +24,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class KrakenUniqProfile(pa.SchemaModel):
+class KrakenUniqProfile(pa.DataFrameModel):
     """Define the expected KrakenUniq profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0, alias="%")

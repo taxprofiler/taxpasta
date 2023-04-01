@@ -23,7 +23,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class DiamondProfile(pa.SchemaModel):
+class DiamondProfile(pa.DataFrameModel):
     """Define the expected diamond profile format."""
 
     query_id: Series[str] = pa.Field()

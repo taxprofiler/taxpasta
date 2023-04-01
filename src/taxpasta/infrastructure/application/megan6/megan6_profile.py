@@ -23,7 +23,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class Megan6Profile(pa.SchemaModel):
+class Megan6Profile(pa.DataFrameModel):
     """Define the expected MEGAN6 rma2info profile format."""
 
     taxonomy_id: Series[int] = pa.Field(ge=0)

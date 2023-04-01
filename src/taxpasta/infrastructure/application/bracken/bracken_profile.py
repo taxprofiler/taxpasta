@@ -25,7 +25,7 @@ import pandera as pa
 from pandera.typing import DataFrame, Series
 
 
-class BrackenProfile(pa.SchemaModel):
+class BrackenProfile(pa.DataFrameModel):
     """Define the expected Bracken profile format."""
 
     name: Series[str] = pa.Field()

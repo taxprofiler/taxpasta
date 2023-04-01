@@ -23,7 +23,7 @@ from abc import ABC, abstractmethod
 from typing import Type
 
 import pandas as pd
-import pandera
+import pandera as pa
 
 from ._types import BufferOrFilepath
 
@@ -38,7 +38,7 @@ class ProfileReader(ABC):
 
     @classmethod
     def _check_num_columns(
-        cls, profile: pd.DataFrame, schema_model: Type[pandera.SchemaModel]
+        cls, profile: pd.DataFrame, schema_model: Type[pa.DataFrameModel]
     ) -> None:
         """Perform a strict test on the number of columns."""
         num_cols = len(schema_model.to_schema().columns)

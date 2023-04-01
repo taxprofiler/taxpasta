@@ -25,7 +25,7 @@ import pandera as pa
 from pandera.typing import Series
 
 
-class CentrifugeProfile(pa.SchemaModel):
+class CentrifugeProfile(pa.DataFrameModel):
     """Define the expected centrifuge profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
