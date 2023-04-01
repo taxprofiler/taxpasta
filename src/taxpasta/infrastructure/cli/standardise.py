@@ -236,16 +236,14 @@ def standardise(
         logger.critical(error.message)
         raise typer.Exit(code=1)
 
-    if add_name:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name, profile=taxonomy_service.add_name(result.profile)
-        )
+    # The order of the following conditions is chosen specifically to yield a pleasant
+    # output format.
 
-    if add_rank:
+    if add_id_lineage:
         assert taxonomy_service is not None  # nosec assert_used
         result = Sample(
-            name=result.name, profile=taxonomy_service.add_rank(result.profile)
+            name=result.name,
+            profile=taxonomy_service.add_identifier_lineage(result.profile),
         )
 
     if add_lineage:
@@ -254,11 +252,16 @@ def standardise(
             name=result.name, profile=taxonomy_service.add_name_lineage(result.profile)
         )
 
-    if add_id_lineage:
+    if add_rank:
         assert taxonomy_service is not None  # nosec assert_used
         result = Sample(
-            name=result.name,
-            profile=taxonomy_service.add_identifier_lineage(result.profile),
+            name=result.name, profile=taxonomy_service.add_rank(result.profile)
+        )
+
+    if add_name:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = Sample(
+            name=result.name, profile=taxonomy_service.add_name(result.profile)
         )
 
     logger.info("Write result to '%s'.", str(output))

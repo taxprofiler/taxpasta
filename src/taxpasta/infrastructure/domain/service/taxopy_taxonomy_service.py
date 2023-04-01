@@ -85,21 +85,27 @@ class TaxopyTaxonomyService(TaxonomyService):
 
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon name to the given table."""
-        return table.copy().assign(
-            name=lambda df: df.taxonomy_id.map(self._tax_db.taxid2name)
+        result = table.copy()
+        result.insert(
+            1, "name", table[ResultTable.taxonomy_id].map(self._tax_db.taxid2name)
         )
+        return result
 
     def add_rank(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon rank to the given table."""
-        return table.copy().assign(
-            rank=lambda df: df.taxonomy_id.map(self._tax_db.taxid2rank)
+        result = table.copy()
+        result.insert(
+            1, "rank", table[ResultTable.taxonomy_id].map(self._tax_db.taxid2rank)
         )
+        return result
 
     def add_name_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage to the given table."""
-        return table.copy().assign(
-            lineage=lambda df: df.taxonomy_id.map(self._name_lineage_as_str)
+        result = table.copy()
+        result.insert(
+            1, "lineage", table[ResultTable.taxonomy_id].map(self._name_lineage_as_str)
         )
+        return result
 
     def _name_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
         """Return the lineage of a taxon as concatenated names."""
@@ -113,9 +119,13 @@ class TaxopyTaxonomyService(TaxonomyService):
         self, table: DataFrame[ResultTable]
     ) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as identifiers to the given table."""
-        return table.copy().assign(
-            id_lineage=lambda df: df.taxonomy_id.map(self._taxid_lineage_as_str)
+        result = table.copy()
+        result.insert(
+            1,
+            "id_lineage",
+            table[ResultTable.taxonomy_id].map(self._taxid_lineage_as_str),
         )
+        return result
 
     def _taxid_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
         """Return the lineage of a taxon as concatenated identifiers."""
