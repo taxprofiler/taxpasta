@@ -19,6 +19,7 @@
 """Provide a description of an observation matrix."""
 
 
+import numpy as np
 import pandas as pd
 import pandera as pa
 from pandera.typing import Series
@@ -29,7 +30,9 @@ class WideObservationTable(pa.SchemaModel):
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
     # This field uses a regex to match all columns that are not `taxonomy_id`.
-    any_samples: Series[int] = pa.Field(ge=0, alias="^(?!taxonomy_id$).*", regex=True)
+    any_samples: Series[np.int64] = pa.Field(
+        ge=0, alias="^(?!taxonomy_id$).*", regex=True
+    )
 
     class Config:
         """Configure the schema model."""
