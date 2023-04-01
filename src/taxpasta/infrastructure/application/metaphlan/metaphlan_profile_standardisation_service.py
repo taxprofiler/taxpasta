@@ -100,9 +100,9 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 pd.DataFrame(
                     {
                         StandardProfile.taxonomy_id: [0],
-                        StandardProfile.count: result.loc[
-                            unclassified_mask, StandardProfile.count
-                        ].sum(),
+                        StandardProfile.count: [
+                            result.loc[unclassified_mask, StandardProfile.count].sum()
+                        ],
                     },
                     dtype=int,
                 ),

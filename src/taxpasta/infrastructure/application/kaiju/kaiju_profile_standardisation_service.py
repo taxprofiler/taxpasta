@@ -53,11 +53,11 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
                 }
             )
         )
-        result = temp.loc[temp[StandardProfile.taxonomy_id].notnull(), :].copy()
+        result = temp.loc[temp[StandardProfile.taxonomy_id].notna(), :].copy()
         result[StandardProfile.taxonomy_id] = result[
             StandardProfile.taxonomy_id
         ].astype(int)
-        # Replace missing values (unclassified reads) with zeroes and sum reads.
+        # Replace missing values (unclassified reads) with ID zero and sum reads.
         return pd.concat(
             [
                 result,
@@ -66,11 +66,12 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
                         StandardProfile.taxonomy_id: [0],
                         StandardProfile.count: [
                             temp.loc[
-                                temp[StandardProfile.taxonomy_id].isnull(),
+                                temp[StandardProfile.taxonomy_id].isna(),
                                 StandardProfile.count,
                             ].sum()
                         ],
-                    }
+                    },
+                    dtype=int,
                 ),
             ],
             ignore_index=True,

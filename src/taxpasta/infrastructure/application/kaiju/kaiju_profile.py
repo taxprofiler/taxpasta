@@ -18,7 +18,9 @@
 
 """Provide a description of the kaiju profile format."""
 
+
 import numpy as np
+import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
@@ -29,8 +31,7 @@ class KaijuProfile(pa.DataFrameModel):
     file: Series[str] = pa.Field()
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
     reads: Series[int] = pa.Field(ge=0)
-    # Pandas cannot handle missing integer values. Thus, we read this column as string.
-    taxon_id: Series[str] = pa.Field(nullable=True)
+    taxon_id: Series[pd.Int64Dtype] = pa.Field(nullable=True)
     taxon_name: Series[str] = pa.Field()
 
     @pa.check("percent", name="compositionality")
@@ -44,7 +45,7 @@ class KaijuProfile(pa.DataFrameModel):
     @classmethod
     def check_unique_filename(cls, file_col: Series[str]) -> bool:
         """Check that Kaiju filename is unique."""
-        return len(file_col) == 0 or file_col.nunique() == 1
+        return file_col.empty or file_col.nunique() == 1
 
     class Config:
         """Configure the schema model."""

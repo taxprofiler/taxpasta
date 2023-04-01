@@ -47,6 +47,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
         """
         temp = (
             profile.loc[
+                # Ignore entries with zero read count.
                 profile[MotusProfile.read_count] > 0,
                 [MotusProfile.ncbi_tax_id, MotusProfile.read_count],
             ]
@@ -59,9 +60,8 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
             )
         )
         # Split profile into entries with known and unknown tax ID.
-        # Ignore entries with zero read count.
         result = (
-            temp.loc[temp[StandardProfile.taxonomy_id].notnull(), :]
+            temp.loc[temp[StandardProfile.taxonomy_id].notna(), :]
             .copy()
             .assign(
                 **{
@@ -85,7 +85,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                         StandardProfile.taxonomy_id: [0],
                         StandardProfile.count: [
                             temp.loc[
-                                temp[StandardProfile.taxonomy_id].isnull(),
+                                temp[StandardProfile.taxonomy_id].isna(),
                                 StandardProfile.count,
                             ].sum()
                         ],

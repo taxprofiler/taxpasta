@@ -19,6 +19,7 @@
 """Provide a description of the mOTUs profile format."""
 
 
+import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
@@ -27,8 +28,7 @@ class MotusProfile(pa.DataFrameModel):
     """Define the expected mOTUs profile format."""
 
     consensus_taxonomy: Series[str] = pa.Field()
-    # Pandas cannot handle missing integer values. Thus, we read this column as string.
-    ncbi_tax_id: Series[str] = pa.Field(nullable=True)
+    ncbi_tax_id: Series[pd.Int64Dtype] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field(ge=0)
 
     class Config:
