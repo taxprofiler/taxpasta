@@ -42,7 +42,7 @@ from taxpasta.infrastructure.application import Megan6Profile
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
-                message="column 'query_id' not in DataFrameSchema",
+                message="column 'count' not in",
             ),
         ),
         pytest.param(

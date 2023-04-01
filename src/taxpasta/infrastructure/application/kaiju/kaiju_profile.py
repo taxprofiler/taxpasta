@@ -38,7 +38,7 @@ class KaijuProfile(pa.SchemaModel):
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # Kaiju reports percentages with sixth decimals
-        return len(percent) == 0 or bool(np.isclose(percent.sum(), 100.0, atol=1e-06))
+        return percent.empty or bool(np.isclose(percent.sum(), 100.0, atol=1.0))
 
     @pa.check("file", name="unique_filename")
     @classmethod

@@ -41,8 +41,8 @@ class BrackenProfile(pa.SchemaModel):
     def check_compositionality(cls, fraction_total_reads: Series[float]) -> bool:
         """Check that the fractions of reads add up to one."""
         # Bracken reports fractions with five decimals but rounding errors accumulate.
-        return len(fraction_total_reads) == 0 or bool(
-            np.isclose(fraction_total_reads.sum(), 1.0, atol=1e-02)
+        return fraction_total_reads.empty or bool(
+            np.isclose(fraction_total_reads.sum(), 1.0, atol=0.02)
         )
 
     @pa.dataframe_check

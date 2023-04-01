@@ -91,7 +91,7 @@ def test_column_presence(columns: Collection[str]):
                         "barcode41_se-barcode41-kaiju.tsv",
                         "barcode41_se-barcode41-kaiju.tsv",
                     ],
-                    "percent": [99.1, 1.9],
+                    "percent": [99.1, 2.9],
                     "reads": [0, 0],
                     "taxon_id": [-1, 1],
                     "taxon_name": ["unclassified", "Viruses"],
