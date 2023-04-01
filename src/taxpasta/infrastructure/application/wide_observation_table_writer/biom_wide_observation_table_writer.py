@@ -41,7 +41,7 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         target: Filepath,
         taxonomy: Optional[TaxonomyService] = None,
         generated_by: str = "taxpasta",
-        **kwargs
+        **kwargs,
     ) -> None:
         """Write the given data to the given buffer or file."""
         # Drop unclassified reads.

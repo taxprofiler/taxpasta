@@ -36,7 +36,7 @@ class ODSWideObservationTableWriter(WideObservationTableWriter):
         cls,
         matrix: DataFrame[WideObservationTable],
         target: BinaryBufferOrFilepath,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Write the given table to the given buffer or file."""
         matrix.to_excel(target, index=False, engine="odf", **kwargs)

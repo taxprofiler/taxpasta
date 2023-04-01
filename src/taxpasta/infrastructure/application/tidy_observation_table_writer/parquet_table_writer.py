@@ -36,7 +36,7 @@ class ParquetTidyObservationTableWriter(TidyObservationTableWriter):
         cls,
         table: DataFrame[TidyObservationTable],
         target: BinaryBufferOrFilepath,
-        **kwargs
+        **kwargs,
     ) -> None:
         """Write the given table to the given buffer or file."""
         table.to_parquet(target, **kwargs)
