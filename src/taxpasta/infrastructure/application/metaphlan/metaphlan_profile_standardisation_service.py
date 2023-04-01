@@ -86,10 +86,26 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
             result[StandardProfile.taxonomy_id], errors="coerce"
         ).astype("Int64")
-        mask = result[StandardProfile.taxonomy_id].notnull()
-        num = int((~mask).sum())
+        unclassified_mask = result[StandardProfile.taxonomy_id].isna() | (
+            result[StandardProfile.taxonomy_id] == -1
+        )
+        num = int(unclassified_mask.sum())
         if num > 0:
             logger.warning(
-                "Dropping %d entries with unclassified taxa from the profile.", num
+                "Combining %d entries with unclassified taxa in the profile.", num
             )
-        return result.loc[mask, :].reset_index(drop=True)
+        return pd.concat(
+            [
+                result.loc[~unclassified_mask, :],
+                pd.DataFrame(
+                    {
+                        StandardProfile.taxonomy_id: [0],
+                        StandardProfile.count: result.loc[
+                            unclassified_mask, StandardProfile.count
+                        ].sum(),
+                    },
+                    dtype=int,
+                ),
+            ],
+            ignore_index=True,
+        )
