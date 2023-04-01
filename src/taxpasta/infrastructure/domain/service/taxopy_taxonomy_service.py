@@ -87,7 +87,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Add a column for the taxon name to the given table."""
         result = table.copy()
         result.insert(
-            1, "name", table[ResultTable.taxonomy_id].map(self._tax_db.taxid2name)
+            1,
+            "name",
+            table.taxonomy_id.map(self._tax_db.taxid2name),
         )
         return result
 
@@ -95,7 +97,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Add a column for the taxon rank to the given table."""
         result = table.copy()
         result.insert(
-            1, "rank", table[ResultTable.taxonomy_id].map(self._tax_db.taxid2rank)
+            1,
+            "rank",
+            table.taxonomy_id.map(self._tax_db.taxid2rank),
         )
         return result
 
@@ -103,7 +107,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Add a column for the taxon lineage to the given table."""
         result = table.copy()
         result.insert(
-            1, "lineage", table[ResultTable.taxonomy_id].map(self._name_lineage_as_str)
+            1,
+            "lineage",
+            table.taxonomy_id.map(self._name_lineage_as_str),
         )
         return result
 
@@ -123,7 +129,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         result.insert(
             1,
             "id_lineage",
-            table[ResultTable.taxonomy_id].map(self._taxid_lineage_as_str),
+            table.taxonomy_id.map(self._taxid_lineage_as_str),
         )
         return result
 
