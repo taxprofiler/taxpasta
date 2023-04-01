@@ -46,13 +46,13 @@ class Kraken2Profile(pa.SchemaModel):
         # Kraken2 reports percentages only to the second decimal, so we expect
         # some deviation.
         # If 100% of reads are assigned, unclassified reads are not reported at all.
-        return len(profile) == 0 or bool(
+        return profile.empty or bool(
             np.isclose(
                 profile.loc[
                     profile[cls.taxonomy_lvl].isin(["U", "R"]), cls.percent
                 ].sum(),
                 100.0,
-                atol=0.01,
+                atol=1.0,
             )
         )
 

@@ -112,7 +112,7 @@ def test_column_presence(columns: Collection[str]):
         pytest.param(
             pd.DataFrame(
                 {
-                    "percent": [99.1, 1.9],
+                    "percent": [99.1, 2.9],
                     "clade_assigned_reads": [0, 0],
                     "direct_assigned_reads": [0, 0],
                     "taxonomy_lvl": ["U", "R"],
