@@ -13,7 +13,7 @@ in one go and have all profiles combined into a single table. You will
 use this command if you want to load the table directly into a spreadsheet
 program or programming language without needing to manually combine profiles.
 
-See [`standardise`](standardise.md) if you wish to only standardise without merging.
+See [`standardise`](standardise) if you wish to only standardise without merging.
 
 !!! warning
 

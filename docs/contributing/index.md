@@ -5,7 +5,7 @@ questions on the nf-core [Slack
 channel](https://nfcore.slack.com/archives/C031QH57DSS) or in GitHub issues,
 writing documentation and providing examples, testing the software in various
 settings, or submitting code through pull requests. A different, but very important
-way of contributing is to [support new taxonomic profilers](supporting_new_profiler.md).
+way of contributing is to [support new taxonomic profilers](/contributing/supporting_new_profiler).
 
 ## Example Contributions
 
@@ -114,7 +114,15 @@ local development.
     tox -p auto
     ```
 
-6. Commit your changes and push your branch to GitHub. Please use [semantic
+6. To render docs locally, change into docs and serve the pages
+
+    ```shell
+    cd docs/
+    mkdocs build --clean
+    mkdocs serve
+    ```
+
+7. Commit your changes and push your branch to GitHub. Please use [semantic
    commit messages](https://www.conventionalcommits.org/).
 
     ```shell
@@ -123,7 +131,7 @@ local development.
     git push origin fix-name-of-your-bugfix
     ```
 
-7. Open the link displayed in the message when pushing your new branch in order
+8. Open the link displayed in the message when pushing your new branch in order
    to submit a pull request.
 
 ### Pull Request Guidelines

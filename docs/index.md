@@ -34,7 +34,7 @@ taxonomic tables for:
 -   [MetaPhlAn](https://segatalab.cibio.unitn.it/tools/metaphlan/index.html)
 -   [mOTUs](https://motu-tool.org/)
 
-See [supported profilers](supported_profilers/index) for more information.
+See [supported profilers](/supported_profilers) for more information.
 
 ## Install
 
@@ -85,7 +85,7 @@ taxpasta -h
 ```
 
 Taxpasta currently offers two commands corresponding to the main [use-cases](#about).
-You can find out more in the [commands' documentation](commands/index.md).
+You can find out more in the [commands' documentation](/commands).
 
 ### Standardise
 
@@ -109,7 +109,7 @@ With these minimal arguments, taxpasta produces a two column output consisting o
 You can count on the second column being integers :wink: Having such a simple
 and tidy table should make your downstream analysis much smoother to start out
 with. Please, have a look at the full [getting
-started](tutorials/getting-started.md) tutorial for a more thorough
+started](/tutorials/getting-started) tutorial for a more thorough
 introduction.
 
 ### Merge
@@ -127,7 +127,7 @@ taxpasta merge -p metaphlan -o merged.tsv MOCK_*.metaphlan3_profile.txt
 
 The output of the `merge` command has one column for the taxonomy identifier and
 one more column for each input profile. Again, please have a look at the full
-[getting started](tutorials/getting-started.md) tutorial for a more thorough
+[getting started](/tutorials/getting-started) tutorial for a more thorough
 introduction.
 
 ## Copyright
