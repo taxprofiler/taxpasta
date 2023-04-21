@@ -12,7 +12,7 @@ You should use `taxpasta standardise` when you want to standardise a single
 taxonomic profile or multiple profiles independently but do not want to merge
 them in a single table, for example, you wish to store them separately to merge them yourself in the future.
 
-See [`merge`](merge.md) if you wish to both standardise and merge in one step to
+See [`merge`](merge) if you wish to both standardise and merge in one step to
 generate a single table containing all samples.
 
 !!! warning
