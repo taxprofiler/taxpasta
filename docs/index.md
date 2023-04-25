@@ -84,6 +84,8 @@ explore the offered commands through the help system.
 taxpasta -h
 ```
 
+See the [Getting Started](/tutorials/getting-started) tutorial to get familiar with Taxpasta.
+
 Taxpasta currently offers two commands corresponding to the main [use-cases](#about).
 You can find out more in the [commands' documentation](/commands).
 

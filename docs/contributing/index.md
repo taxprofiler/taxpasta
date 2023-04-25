@@ -117,7 +117,6 @@ local development.
 6. To render docs locally, change into docs and serve the pages
 
     ```shell
-    cd docs/
     mkdocs build --clean
     mkdocs serve
     ```

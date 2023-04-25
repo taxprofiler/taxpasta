@@ -1,42 +1,20 @@
+
 # Getting Started
 
-## Introduction
+In this getting started tutorial we will show you how to generate
+standardised taxonomic profiles from thediverse outputs of two
+popular taxonomic profilers: [Kraken2](https://ccb.jhu.edu/software/kraken2/)
+and [mOTUs](https://motu-tool.org/) using `taxpasta`.
 
-We will show you how to generate standardised taxonomic profiles from the
-diverse outputs of two popular taxonomic profilers:
-[Kraken2](https://ccb.jhu.edu/software/kraken2/) and
-[mOTUs](https://motu-tool.org/). We demonstrate some benefits of this
-standardisation when running downstream analyses on such tables in either the
-popular statistical programming language [R](https://www.r-project.org/) or
-[Python](https://www.python.org/).
+If you want a more detailed walkthrough of _why_ standardising the profiles
+are useful, please see the [Deep Dive](/tutorials/deepdive) tutorial.
 
 ## Preparation
 
 ### Software
 
 For this tutorial you will need an internet connection, an [installation of
-taxpasta](/#install), and, if you want to follow the R parts, an [installation
-of
-R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
-itself with the [readr](https://readr.tidyverse.org/) and
-[dplyr](https://dplyr.tidyverse.org/) packages from the
-[Tidyverse](https://tidyverse.org). Furthermore, we assume a UNIX based
-operating system, such as Linux, macOS, or Windows Subsystem for Linux.
-
-To summarise, you will need:
-
-
-=== "R"
-
---8<--
-    tutorial_r_snippets.md:software
---8<--
-
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:software
---8<--
+taxpasta](/#install).
 
 ### Data
 
@@ -49,7 +27,7 @@ tutorial_bash_snippets.md:data-setup
 
 We will also need to download some example taxonomic profiles from Kraken2 and
 mOTUs. We can download test data from the taxpasta repository using, for
-example, `curl` or `wget`.
+example, `curl` (OSX, Linux) or `wget` (generally Linux Only).
 
 === "curl"
 
@@ -87,76 +65,11 @@ To begin, let’s look at the contents of the output from each profiler.
     tutorial_bash_snippets.md:kraken2-head
 --8<--
 
-These look quite different and neither of them is in a nice "pure" tabular
-format that is convenient for analysis software to load. They also have
-different types columns and, in the case of Kraken2, it has an interesting
+These look quite different. Neither of them is in a nice "pure" tabular
+format that is convenient for analysis software or spreadsheet tools such
+as Microsoft Excel or LibreOffice Calc to load. They also have different
+types columns and, in the case of Kraken2, it has an interesting
 "indentation" way of showing the taxonomic rank of each taxon.
-
-#### mOTUs
-
-=== "R"
-
---8<--
-    tutorial_r_snippets.md:raw-motus
---8<--
-
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:raw-motus
---8<--
-
-That works! At least in terms of reasonable table headers. However, we can see
-that there are missing NCBI taxonomy identifiers so there is probably more data
-cleaning ahead of us.  Getting to this point took too much effort already to
-load what is essentially a simple table. Furthermore, if we are interested in
-loading all mOTUs profiles, we would have to load each profile one by one for
-each sample, requiring more complicated loops and table join code.
-
-#### Kraken2
-
-And what about the Kraken2 output?
-
-=== "R"
-
---8<--
-    tutorial_r_snippets.md:raw-kraken2
---8<--
-
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:raw-kraken2
---8<--
-
-This looks better but if we look at the [Kraken2
-documentation](https://github.com/DerrickWood/kraken2/wiki/Manual#distinct-minimizer-count-information),
-we can also see that sometimes _extra_ columns may be added to the output,
-meaning that our column names wouldn’t always work. So again, not trivial.
-
-### Comparing Output of Different Profilers
-
-What if we wanted to compare the output of the different tools? A nice way to do
-this would be to merge the files into one table.
-
-=== "R"
-
---8<--
-    tutorial_r_snippets.md:outer-join
---8<--
-
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:outer-join
---8<--
-
-But wait, this doesn't look right at all. We know which sample column we have
-from `mOTUs`, but what about the `Kraken` read count column? Also, many of the
-columns of the profiles are _not_ shared between the two classifiers/profilers
-(see an important note about this [here](#important-caveat)).
-
-Ultimately, we have many inconsistencies between different output files. Attempting to merge together the resulting files makes little sense, and thus it's difficult to do any meaningful comparison.
 
 ## Standardisation and Merging
 
@@ -187,21 +100,8 @@ tutorial_bash_snippets.md:standardise-head
 
 This looks much more tidy!
 
-=== "R"
-
---8<--
-    tutorial_r_snippets.md:std-kraken2
---8<--
-
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:std-kraken2
---8<--
-
-
 You can see that we did not have to specify any additional column names or other
-arguments. Taxpasta has created a suitable table for you.
+arguments. `taxpasta` has created a suitable table for you.
 
 ### taxpasta merge
 
@@ -228,55 +128,11 @@ tutorial_bash_snippets.md:merge-head
 As with Kraken2, this looks much more tabular, and we can see references to
 _both_ input files.
 
-=== "R"
+## Additional functionality
 
---8<--
-    tutorial_r_snippets.md:merge-motus
---8<--
+If you want to learn how to use `taxpasta` to add taxonomic names (rather than IDs) to your profiles, see [here](/how-tos/how-to-add-names).
 
-=== "Python"
-
---8<--
-    tutorial_python_snippets.md:merge-motus
---8<--
-
-You can see we have one `taxonomy_id` column, and two columns each referring to
-one of the two samples - all without having to spend time playing with different
-arguments for loading the files or additional data transformations.
-
-If you prefer the columns names to be different from just the input filenames, you can also
-[provide a sample sheet](/how-tos/how-to-customise-sample-names/) to customise them.
-
-By default, taxpasta uses taxonomy identifiers to merge tables. If you’re
-interested in having human-readable taxon names see [How-to add taxon
-names](/how-tos/how-to-add-names/).
-
-## Important caveat
-
-!!! tip
-
-    Carefully read our [background
-    documentation](/supported_profilers/terminology) on terminology and
-    considerations for comparing results from different metagenomic profilers.
-
-You may have noticed that when "standardising" the output from each profiler
-that not all columns are retained. This is because each profiler has a different
-way of reporting relative abundance, and will produce additional metrics
-(represented as additional columns) that allow for better evaluation of the
-accuracy or confidence in each identified taxon.
-
-However, as these metrics are _not_ consistent between each profiler, they are
-also not comparable, thus in taxpasta we only retain columns that
-are conceptually comparable, i.e., taxonomy identifiers and counts.
-
-Please be aware that while taxpasta is a utility to make comparison between
-profilers easier to be performed, this does not necessarily mean that all
-possible comparisons are necessarily valid - this will depend on a case-by-case
-basis of your project!
-
-As an example, for simple presence-and-absence analyses (such as pathogen
-screening), taxpasta will be highly suitable for comparing sensitivity of
-different tools or reference databases.
+Want to customise the sample names in the columns? See [here](/how-tos/how-to-customise-sample-names).
 
 ## Clean Up
 
