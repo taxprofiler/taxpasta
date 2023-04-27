@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 -   Fixed a few broken internal links (#89)
--   Simplify getting started tutorial and move original to complex tutorial (#95)
+-   Simplified getting started tutorial and moved original to complex tutorial (#95)
 
 ## [0.3.0] - (2023-04-01)
 

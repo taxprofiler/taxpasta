@@ -1,13 +1,12 @@
-
 # Getting Started
 
 In this getting started tutorial we will show you how to generate
-standardised taxonomic profiles from thediverse outputs of two
+standardised taxonomic profiles from the diverse outputs of two
 popular taxonomic profilers: [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 and [mOTUs](https://motu-tool.org/) using `taxpasta`.
 
 If you want a more detailed walkthrough of _why_ standardising the profiles
-are useful, please see the [Deep Dive](/tutorials/deepdive) tutorial.
+is useful, please see the [Deep Dive](/tutorials/deepdive) tutorial.
 
 ## Preparation
 
