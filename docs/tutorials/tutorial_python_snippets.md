@@ -23,15 +23,15 @@
 # from urllib.request import urlretrieve
 #
 # urlretrieve(
-    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out",
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out",
     # filename=tmp_path / "2612_pe-ERR5766176-db_mOTU.out"
 # )
 # urlretrieve(
-    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out",
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/motus/2612_se-ERR5766180-db_mOTU.out",
     # filename=tmp_path / "2612_se-ERR5766180-db_mOTU.out"
 # )
 # urlretrieve(
-    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt",
+    # url="https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt",
     # filename=tmp_path / "2612_pe-ERR5766176-db1.kraken2.report.txt"
 # )
 ```
