@@ -5,8 +5,8 @@
 .PHONY: qa
 ## Apply code quality assurance tools.
 qa:
-	isort src/taxpasta tests/ setup.py
-	black src/taxpasta tests/ setup.py
+	isort src/taxpasta tests/
+	black src/taxpasta tests/
 
 .PHONY: docs
 ## Generate documentation
