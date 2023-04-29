@@ -36,7 +36,17 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Topic :: Scientific/Engineering :: Bio-Informatics"
 ]
-keywords = ["taxonomic profile", "standardisation"]
+keywords = [
+    "bioinformatics",
+    "metagenomics",
+    "profiling",
+    "classification",
+    "taxonomy",
+    "metagenomic profile",
+    "taxonomic profile",
+    "standardisation",
+    "merging",
+]
 dynamic = ["version"]
 dependencies = [
     "depinfo ~=2.2",
