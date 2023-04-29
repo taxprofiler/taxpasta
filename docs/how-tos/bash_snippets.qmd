@@ -13,11 +13,11 @@ cd taxpasta-tutorial
 ```{bash}
 #| output: false
 ## mOTUs
-curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
-curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/motus/2612_pe-ERR5766176-db_mOTU.out
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/motus/2612_se-ERR5766180-db_mOTU.out
 
 ## Kraken2
-curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
+curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/main/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
 ```
 
 <!-- --8<-- [start:taxdump] -->
