@@ -13,8 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
--   Fixed a few broken internal links (#89)
--   Simplified getting started tutorial and moved original to complex tutorial (#95)
+-   Fixed a few broken internal links (#89).
+-   Simplified getting started tutorial and moved original to complex tutorial (#95).
+-   Improved help text for `--output-format` option to clearly state that it disables
+    any automatic detection of the output file format (#96).
 
 ## [0.3.0] - (2023-04-01)
 
