@@ -26,12 +26,16 @@ Options:
                                   explicitly.
   -o, --output PATH               The desired output file. By default, the
                                   file extension will be used to determine the
-                                  output format.  [required]
+                                  output format, but when setting the format
+                                  explicitly using the --output-format option,
+                                  automatic detection is disabled.  [required]
   --output-format [TSV|CSV|ODS|XLSX|arrow|parquet|BIOM]
                                   The desired output format. Depending on the
                                   choice, additional package dependencies may
-                                  apply. Will be parsed from the output file
-                                  name but can be set explicitly.
+                                  apply. By default it will be parsed from the
+                                  output file name but it can be set
+                                  explicitly and will then disable the
+                                  automatic detection.
   --wide / --long                 Output merged abundance data in either wide
                                   or (tidy) long format. Ignored when the
                                   desired output format is BIOM.  [default:
