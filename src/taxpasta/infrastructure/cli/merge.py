@@ -242,7 +242,8 @@ def merge(
         "--output",
         "-o",
         help="The desired output file. By default, the file extension will be used to "
-        "determine the output format.",
+        "determine the output format, but when setting the format explicitly using "
+        "the --output-format option, automatic detection is disabled.",
         show_default=False,
     ),
     output_format: Optional[
@@ -251,8 +252,9 @@ def merge(
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
-        "dependencies may apply. Will be parsed from the output file name but can be "
-        "set explicitly.",
+        "dependencies may apply. By default it will be parsed from the output file "
+        "name but it can be set explicitly and will then disable the automatic "
+        "detection.",
     ),
     wide_format: bool = typer.Option(  # noqa: B008
         True,
