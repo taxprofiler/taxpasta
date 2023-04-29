@@ -21,6 +21,8 @@ snippets := $(tutorial_snippets) $(howto_snippets)
 qmd: profiles $(snippets)
 
 %.md: %.qmd
+	# Requires installation of quarto https://quarto.org/docs/get-started/
+	# and the bash kernel `python -m bash_kernel.install`.
 	quarto render $<
 
 profiles: docs/tutorials/2612_pe-ERR5766176-db1_kraken2.tsv docs/tutorials/dbMOTUs_motus.tsv docs/tutorials/2612_pe-ERR5766176-db_mOTU.out docs/tutorials/2612_se-ERR5766180-db_mOTU.out docs/tutorials/2612_pe-ERR5766176-db1.kraken2.report.txt
