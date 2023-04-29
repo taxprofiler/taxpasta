@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-   Provided curl commands in the intro to quickly fetch example files to try out (#97).
+
 ### Fixed
 
 -   Fixed a few broken internal links (#89)
