@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Provided curl commands in the intro to quickly fetch example files to try out (#97).
+-   Added new tutorial on merging across classifiers, and warnings why taxpasta does not currently do this natively (#98).
 
 ### Fixed
 
