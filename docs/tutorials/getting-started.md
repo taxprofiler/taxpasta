@@ -28,6 +28,10 @@ We will also need to download some example taxonomic profiles from Kraken2 and
 mOTUs. We can download test data from the taxpasta repository using, for
 example, `curl` (OSX, Linux) or `wget` (generally Linux Only).
 
+!!! info
+
+    The following test data are from [ancient DNA samples](https://doi.org/10.1016/j.cub.2021.09.031) against standard databases, thus have a high unclassified rate due to uncharacterised environmental contamination and extinct species. 
+
 === "curl"
 
 --8<--
@@ -126,6 +130,12 @@ tutorial_bash_snippets.md:merge-head
 
 As with Kraken2, this looks much more tabular, and we can see references to
 _both_ input files.
+
+!!! danger
+
+        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have it's own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](/how-tos/how-to-merge-across-classifiers) section.
+
+        However if you really want this functionality, please let the developers know via a [feature request](https://github.com/taxprofiler/taxpasta/issues/new?assignees=&labels=enhancement&template=03-feature-request.yml&title=%5BFeature%5D+).
 
 ## Additional functionality
 
