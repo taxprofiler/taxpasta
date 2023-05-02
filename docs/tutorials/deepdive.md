@@ -263,7 +263,7 @@ If you prefer the columns names to be different from just the input filenames, y
 
 By default, `taxpasta` uses taxonomy identifiers to merge tables. If you’re
 interested in having human-readable taxon names see [How-to add taxon
-names](/how-tos/how-to-add-names/).
+names](/how-tos/how-to-add-names).
 
 ## Important caveat
 
