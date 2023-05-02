@@ -281,12 +281,18 @@ accuracy or confidence in each identified taxon.
 
 However, as these metrics are _not_ consistent between each profiler, they are
 also not comparable, thus in `taxpasta` we only retain columns that
-are conceptually comparable, i.e., taxonomy identifiers and counts.
+are conceptually comparable, i.e., taxonomy identifiers and counts. `taxpasta`
+also therefore does not (directly) support merging _across_ classifiers/profilers
+(although you can try), as this needs to be done in a careful and mindful manner.
+We provide examples of how to do this carefully using R and Python in the
+corresponding [How to Merge Across Classifiers](/how-tos/) section.
 
 Please be aware that while `taxpasta` is a utility to make comparison between
 profilers easier to be performed, this does not necessarily mean that all
 possible comparisons are necessarily valid - this will depend on a case-by-case
-basis of your project!
+basis of your project! For example, not all taxonomies will be the same for each
+tool, so a given `taxonomy_id` in one profile may refer to a two different species
+depending on what taxonomy a tool uses.
 
 As an example, for simple presence-and-absence analyses (such as pathogen
 screening), `taxpasta` will be highly suitable for comparing sensitivity of
