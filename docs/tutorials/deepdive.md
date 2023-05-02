@@ -283,7 +283,7 @@ However, as these metrics are _not_ consistent between each profiler, they are
 also not comparable, thus in `taxpasta` we only retain columns that
 are conceptually comparable, i.e., taxonomy identifiers and counts. `taxpasta`
 also therefore does not (directly) support merging _across_ classifiers/profilers
-(although you can try), as this needs to be done in a careful and mindful manner.
+as this needs to be done in a careful and mindful manner.
 We provide examples of how to do this carefully using R and Python in the
 corresponding [How to Merge Across Classifiers](/how-tos/) section.
 

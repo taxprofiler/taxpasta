@@ -133,7 +133,7 @@ _both_ input files.
 
 !!! danger
 
-        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have it's own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](/how-tos/how-to-merge-across-classifiers) section.
+        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have its own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](/how-tos/how-to-merge-across-classifiers) section.
 
         However if you really want this functionality, please let the developers know via a [feature request](https://github.com/taxprofiler/taxpasta/issues/new?assignees=&labels=enhancement&template=03-feature-request.yml&title=%5BFeature%5D+).
 
