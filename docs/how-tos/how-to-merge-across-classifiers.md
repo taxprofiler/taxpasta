@@ -1,4 +1,4 @@
-# How-to merge across classifiers
+# How-to Merge Across Classifiers
 
 As stated in the the main description of the tools and the tutorials `taxpasta` does not (directly) support merging _across_ different classifiers/profilers, as each tool may have its own database and metric.
 This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself.

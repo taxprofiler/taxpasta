@@ -1,4 +1,4 @@
-# How-to customise sample names
+# How-to Customise Sample Names
 
 !!! info
 
