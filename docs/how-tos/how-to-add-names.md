@@ -1,4 +1,4 @@
-# How-to add taxa names to output
+# How-to Add Taxa Names to Output
 
 !!! info
 
