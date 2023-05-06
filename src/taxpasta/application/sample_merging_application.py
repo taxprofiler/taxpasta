@@ -148,7 +148,7 @@ class SampleMergingApplication:
                     continue
                 else:
                     raise StandardisationError(
-                        sample=name, profile=profile, message=str(error.args)
+                        sample=name, profile=profile, message=str(error)
                     ) from error
         return result
 

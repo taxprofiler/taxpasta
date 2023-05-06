@@ -96,11 +96,11 @@ class SampleETLApplication:
             result = self.standardiser.transform(self.reader.read(profile))
         except SchemaErrors as errors:
             raise StandardisationError(
-                sample=profile.stem, profile=profile, message=str(errors.failure_cases)
+                sample=name, profile=profile, message=str(errors.failure_cases)
             ) from errors
         except ValueError as error:
             raise StandardisationError(
-                sample=name, profile=profile, message=str(error.args)
+                sample=name, profile=profile, message=str(error)
             ) from error
 
         if summarise_at is not None:
