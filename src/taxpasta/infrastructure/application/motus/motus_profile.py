@@ -31,9 +31,14 @@ class MotusProfile(pa.DataFrameModel):
     ncbi_tax_id: Series[pd.Int64Dtype] = pa.Field(nullable=True)
     read_count: Series[int] = pa.Field(ge=0)
 
+    @pa.dataframe_check
+    def check_not_empty(cls, profile: pd.DataFrame) -> bool:
+        """Check that the read in profile is *not* empty."""
+        return not profile.empty
+
     class Config:
         """Configure the schema model."""
 
-        coerce = True
+        coerce = False
         ordered = True
         strict = True
