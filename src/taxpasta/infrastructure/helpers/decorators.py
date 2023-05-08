@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide general helper functions."""
+"""Provide general decorators."""
 
 
 import warnings
