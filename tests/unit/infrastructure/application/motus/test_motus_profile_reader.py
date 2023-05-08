@@ -33,8 +33,8 @@ from taxpasta.infrastructure.application import MotusProfileReader
         (
             "2612_se-ERR5766180-db_mOTU.out",
             [
-                (0, 1, "100053"),
-                (1, 1, "28184"),
+                (0, 1, 100053),
+                (1, 1, 28184),
             ],
         ),
     ],
