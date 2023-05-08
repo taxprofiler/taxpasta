@@ -19,13 +19,11 @@
 """Provide a reader for motus profiles."""
 
 
-import warnings
-
 import pandas as pd
-from pandas.errors import ParserWarning
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .motus_profile import MotusProfile
 
@@ -34,29 +32,21 @@ class MotusProfileReader(ProfileReader):
     """Define a reader for mOTUS profiles."""
 
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[MotusProfile]:
         """Read a mOTUs taxonomic profile from a file."""
-        with warnings.catch_warnings():
-            warnings.filterwarnings(action="error", category=ParserWarning)
-            try:
-                result = pd.read_table(
-                    filepath_or_buffer=profile,
-                    sep="\t",
-                    skiprows=3,
-                    header=None,
-                    names=[
-                        MotusProfile.consensus_taxonomy,
-                        MotusProfile.ncbi_tax_id,
-                        MotusProfile.read_count,
-                    ],
-                    index_col=False,
-                    dtype={MotusProfile.ncbi_tax_id: str},
-                )
-            except ParserWarning as exc:
-                raise ValueError(
-                    "There were unexpected issues with the data. Please double-check "
-                    "that you chose a matching combination of metagenomic profiler and "
-                    "profile."
-                ) from exc
+        result = pd.read_table(
+            filepath_or_buffer=profile,
+            sep="\t",
+            skiprows=3,
+            header=None,
+            names=[
+                MotusProfile.consensus_taxonomy,
+                MotusProfile.ncbi_tax_id,
+                MotusProfile.read_count,
+            ],
+            index_col=False,
+            dtype={MotusProfile.ncbi_tax_id: str},
+        )
         cls._check_num_columns(result, MotusProfile)
         return result
