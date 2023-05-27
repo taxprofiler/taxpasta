@@ -10,7 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Provided curl commands in the intro to quickly fetch example files to try out (#97).
--   Added new tutorial on merging across classifiers, and warnings why taxpasta does not currently do this natively (#98).
+-   Added new tutorial on merging across classifiers, and warnings why taxpasta
+    does not currently do this natively (#98).
+
+### Changed
+
+-   Made profile validation stricter, such that providing an input from another
+    than the chosen profiler will usually result in an error (#101). The only
+    exception is that Kraken2 standard profiles can be provided to the
+    Centrifuge reader, and vice versa, since they are identical in format.
 
 ### Fixed
 
@@ -30,8 +38,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 -   Enabled handling of MetaPhlAn profiles with taxonomy identifier -1 and combined all
     unclassified entries into one with ID 0 (#85).
--   Generally increased the tolerance in the compositionality checks. Up to 1% deviation  
-    are now allowed; 2% for Bracken profiles (#84).
+-   Generally increased the tolerance in the compositionality checks. Up to 1%
+    deviation are now allowed; 2% for Bracken profiles (#84).
 
 ## [0.2.3] - (2023-03-12)
 
