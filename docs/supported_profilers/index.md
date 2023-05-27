@@ -11,12 +11,12 @@ each taxonomic profiler can be standardised by taxpasta.
     tools. Spending some time on considering the consequences now, will save
     you a lot of headache and prevent potentially wrong results later.
 
--   [Bracken](bracken)
--   [Centrifuge](centrifuge)
--   [DIAMOND](diamond)
--   [Kaiju](kaiju)
--   [Kraken2](kraken2)
--   [KrakenUniq](krakenuniq)
--   [MEGAN6/MALT](megan6)
--   [MetaPhlAn](metaphlan)
--   [mOTUs](motus)
+-   [Bracken](bracken.md)
+-   [Centrifuge](centrifuge.md)
+-   [DIAMOND](diamond.md)
+-   [Kaiju](kaiju.md)
+-   [Kraken2](kraken2.md)
+-   [KrakenUniq](krakenuniq.md)
+-   [MEGAN6/MALT](megan6.md)
+-   [MetaPhlAn](metaphlan.md)
+-   [mOTUs](motus.md)

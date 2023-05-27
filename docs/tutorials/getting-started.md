@@ -6,14 +6,14 @@ popular taxonomic profilers: [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 and [mOTUs](https://motu-tool.org/) using `taxpasta`.
 
 If you want a more detailed walkthrough of _why_ standardising the profiles
-is useful, please see the [Deep Dive](/tutorials/deepdive) tutorial.
+is useful, please see the [Deep Dive](deepdive.md) tutorial.
 
 ## Preparation
 
 ### Software
 
 For this tutorial you will need an internet connection, an [installation of
-taxpasta](/#install).
+taxpasta](../index.md#install).
 
 ### Data
 
@@ -86,7 +86,7 @@ and a lot of manual data munging.
 
 If you want to standardise a single profile you need three things:
 
-- The name of of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
+- The name of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
 - The requested output file name with a valid suffix that will tell `taxpasta` which format to save the output in
 (`--output` or `-o`)
 - The input profile file itself
@@ -133,15 +133,15 @@ _both_ input files.
 
 !!! danger
 
-        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have its own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](/how-tos/how-to-merge-across-classifiers) section.
+        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have its own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](../how-tos/how-to-merge-across-classifiers.md) section.
 
         However if you really want this functionality, please let the developers know via a [feature request](https://github.com/taxprofiler/taxpasta/issues/new?assignees=&labels=enhancement&template=03-feature-request.yml&title=%5BFeature%5D+).
 
 ## Additional functionality
 
-If you want to learn how to use `taxpasta` to add taxonomic names (rather than IDs) to your profiles, see [here](/how-tos/how-to-add-names).
+If you want to learn how to use `taxpasta` to add taxonomic names (rather than IDs) to your profiles, see [here](../how-tos/how-to-add-names.md).
 
-Want to customise the sample names in the columns? See [here](/how-tos/how-to-customise-sample-names).
+Want to customise the sample names in the columns? See [here](../how-tos/how-to-customise-sample-names.md).
 
 ## Clean Up
 

@@ -2,7 +2,7 @@
 
 -   Unix terminal (e.g., `bash`)
 
--   [Python environment with taxpasta](/#install)
+-   [Python environment with taxpasta](../index.md#install)
 
 -   [R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
 

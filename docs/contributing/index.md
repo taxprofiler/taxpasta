@@ -5,7 +5,7 @@ questions on the nf-core [Slack
 channel](https://nfcore.slack.com/archives/C031QH57DSS) or in GitHub issues,
 writing documentation and providing examples, testing the software in various
 settings, or submitting code through pull requests. A different, but very important
-way of contributing is to [support new taxonomic profilers](/contributing/supporting_new_profiler).
+way of contributing is to [support new taxonomic profilers](supporting_new_profiler.md).
 
 ## Example Contributions
 
