@@ -33,7 +33,7 @@ from taxpasta.infrastructure.application import KaijuProfileReader
         (
             "barcode41_se-barcode41-kaiju.txt",
             [
-                (1, 3, "1902245"),
+                (1, 3, 1902245),
                 (4, 2, 292),
                 (16, 4, "taxonid:2590016"),
             ],
