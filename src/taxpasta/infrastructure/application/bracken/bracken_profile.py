@@ -38,7 +38,6 @@ class BrackenProfile(BaseDataFrameModel):
     fraction_total_reads: Series[float] = pa.Field(ge=0.0, le=1.0)
 
     @pa.check("fraction_total_reads", name="compositionality")
-    @classmethod
     def check_compositionality(cls, fraction_total_reads: Series[float]) -> bool:
         """Check that the fractions of reads add up to one."""
         # Bracken reports fractions with five decimals but rounding errors accumulate.
@@ -47,7 +46,6 @@ class BrackenProfile(BaseDataFrameModel):
         )
 
     @pa.dataframe_check
-    @classmethod
     def check_added_reads_consistency(cls, profile: DataFrame) -> Series[bool]:
         """Check that Bracken added reads are consistent."""
         return (
