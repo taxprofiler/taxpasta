@@ -17,8 +17,7 @@
 
 
 """Test that the schema model validates diamond profiles correctly."""
-
-
+from collections import OrderedDict
 from typing import Collection
 
 import pandas as pd
@@ -29,17 +28,25 @@ from taxpasta.infrastructure.application import DiamondProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        (
-            "query_id",
-            "taxonomy_id",
-            "e_value",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("query_id", ["root"]),
+                    ("taxonomy_id", [1]),
+                    ("e_value", [1.0]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "query_id",
-                "taxonomy_id",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("query_id", ["root"]),
+                        ("taxonomy_id", [1]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -47,10 +54,14 @@ from taxpasta.infrastructure.application import DiamondProfile
             ),
         ),
         pytest.param(
-            (
-                "taxonomy_id",
-                "query_id",
-                "e_value",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("taxonomy_id", [1]),
+                        ("query_id", ["root"]),
+                        ("e_value", [1.0]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_id' out-of-order"
@@ -58,72 +69,97 @@ from taxpasta.infrastructure.application import DiamondProfile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    DiamondProfile.validate(pd.DataFrame(columns=columns, data=[]))
+    DiamondProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "query_id": [
-                    "shigella_dysenteriae_958/1",
-                    "shigella_dysenteriae_1069/1",
-                ],
-                "taxonomy_id": [511145, 511145],
-                "e_value": [2.46e-08, 2.37e-07],
-            }
+            OrderedDict(
+                [
+                    (
+                        "query_id",
+                        [
+                            "shigella_dysenteriae_958/1",
+                            "shigella_dysenteriae_1069/1",
+                        ],
+                    ),
+                    ("taxonomy_id", [511145, 511145]),
+                    ("e_value", [2.46e-08, 2.37e-07]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "query_id": [
-                        "shigella_dysenteriae_958/1",
-                        "shigella_dysenteriae_1069/1",
-                    ],
-                    "taxonomy_id": ["abcd", 511145],
-                    "e_value": [2.46e-08, 2.37e-07],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "query_id",
+                            [
+                                "shigella_dysenteriae_958/1",
+                                "shigella_dysenteriae_1069/1",
+                            ],
+                        ),
+                        ("taxonomy_id", ["abcd", 511145]),
+                        ("e_value", [2.46e-08, 2.37e-07]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError,
+                message="expected series 'taxonomy_id' to have type",
+            ),
         ),
     ],
 )
-def test_taxonomy_id(table: pd.DataFrame):
+def test_taxonomy_id(profile: pd.DataFrame):
     """Test that the taxonomy_id column is checked."""
-    DiamondProfile.validate(table)
+    DiamondProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "query_id": [
-                    "shigella_dysenteriae_958/1",
-                    "shigella_dysenteriae_1069/1",
-                ],
-                "taxonomy_id": [511145, 511145],
-                "e_value": [2.46e-08, 2.37e-07],
-            }
+            OrderedDict(
+                [
+                    (
+                        "query_id",
+                        [
+                            "shigella_dysenteriae_958/1",
+                            "shigella_dysenteriae_1069/1",
+                        ],
+                    ),
+                    ("taxonomy_id", [511145, 511145]),
+                    ("e_value", [2.46e-08, 2.37e-07]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "query_id": [
-                        "shigella_dysenteriae_958/1",
-                        "shigella_dysenteriae_1069/1",
-                    ],
-                    "taxonomy_id": [511145, 511145],
-                    "e_value": [2.46e-08, 2.37e07],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "query_id",
+                            [
+                                "shigella_dysenteriae_958/1",
+                                "shigella_dysenteriae_1069/1",
+                            ],
+                        ),
+                        ("taxonomy_id", [511145, 511145]),
+                        ("e_value", [2.46e-08, 2.37e07]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="less_than_or_equal_t"
+            ),
         ),
     ],
 )
-def test_e_value(table: pd.DataFrame):
+def test_e_value(profile: pd.DataFrame):
     """Test that the reads column is checked."""
-    DiamondProfile.validate(table)
+    DiamondProfile.validate(profile)

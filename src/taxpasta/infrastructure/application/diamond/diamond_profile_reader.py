@@ -22,6 +22,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .diamond_profile import DiamondProfile
 
@@ -29,9 +30,8 @@ from .diamond_profile import DiamondProfile
 class DiamondProfileReader(ProfileReader):
     """Define a reader for Diamond profiles."""
 
-    LARGE_INTEGER = int(10e6)
-
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[DiamondProfile]:
         """Read a diamond taxonomic profile from a file."""
         result = pd.read_table(
@@ -44,6 +44,7 @@ class DiamondProfileReader(ProfileReader):
                 DiamondProfile.taxonomy_id,
                 DiamondProfile.e_value,
             ],
+            dtype={DiamondProfile.e_value: float},
         )
         cls._check_num_columns(result, DiamondProfile)
         return result
