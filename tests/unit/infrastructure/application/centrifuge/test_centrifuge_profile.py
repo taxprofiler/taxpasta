@@ -19,7 +19,7 @@
 """Test that the schema model validates centrifuge profiles correctly."""
 
 
-from typing import Collection
+from collections import OrderedDict
 
 import pandas as pd
 import pytest
@@ -29,22 +29,31 @@ from taxpasta.infrastructure.application import CentrifugeProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        (
-            "percent",
-            "clade_assigned_reads",
-            "direct_assigned_reads",
-            "taxonomy_level",
-            "taxonomy_id",
-            "name",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("percent", [100.0]),
+                    ("clade_assigned_reads", [100]),
+                    ("direct_assigned_reads", [100]),
+                    ("taxonomy_level", ["root"]),
+                    ("taxonomy_id", [1]),
+                    ("name", ["root"]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "name",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("percent", [100.0]),
+                        ("clade_assigned_reads", [100]),
+                        ("direct_assigned_reads", [100]),
+                        ("taxonomy_id", [1]),
+                        ("name", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -52,13 +61,17 @@ from taxpasta.infrastructure.application import CentrifugeProfile
             ),
         ),
         pytest.param(
-            (
-                "percent",
-                "taxonomy_level",
-                "clade_assigned_reads",
-                "taxonomy_id",
-                "direct_assigned_reads",
-                "name",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("percent", [100.0]),
+                        ("taxonomy_level", ["root"]),
+                        ("clade_assigned_reads", [100]),
+                        ("direct_assigned_reads", [100]),
+                        ("taxonomy_id", [1]),
+                        ("name", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_level' out-of-order"
@@ -66,92 +79,110 @@ from taxpasta.infrastructure.application import CentrifugeProfile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    CentrifugeProfile.validate(pd.DataFrame(columns=columns, data=[]))
+    CentrifugeProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "percent": [99.1, 0.9],
-                "clade_assigned_reads": [0, 0],
-                "direct_assigned_reads": [0, 0],
-                "taxonomy_level": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
-                "name": ["unclassified", "root"],
-            }
+            OrderedDict(
+                [
+                    ("percent", [99.1, 0.9]),
+                    ("clade_assigned_reads", [100, 1]),
+                    ("direct_assigned_reads", [100, 1]),
+                    ("taxonomy_level", ["U", "R"]),
+                    ("taxonomy_id", [0, 1]),
+                    ("name", ["unclassified", "root"]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "percent": [99.1, 2.9],
-                    "clade_assigned_reads": [0, 0],
-                    "direct_assigned_reads": [0, 0],
-                    "taxonomy_level": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
-                    "name": ["unclassified", "root"],
-                }
+                OrderedDict(
+                    [
+                        ("percent", [99.1, 2.9]),
+                        ("clade_assigned_reads", [100, 1]),
+                        ("direct_assigned_reads", [100, 1]),
+                        ("taxonomy_level", ["U", "R"]),
+                        ("taxonomy_id", [0, 1]),
+                        ("name", ["unclassified", "root"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="<Check compositionality>"
+            ),
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "percent": [79.1, 1.9],
-                    "clade_assigned_reads": [0, 0],
-                    "direct_assigned_reads": [0, 0],
-                    "taxonomy_level": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
-                    "name": ["unclassified", "root"],
-                }
+                OrderedDict(
+                    [
+                        ("percent", [79.1, 1.9]),
+                        ("clade_assigned_reads", [100, 1]),
+                        ("direct_assigned_reads", [100, 1]),
+                        ("taxonomy_level", ["U", "R"]),
+                        ("taxonomy_id", [0, 1]),
+                        ("name", ["unclassified", "root"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="<Check compositionality>"
+            ),
         ),
     ],
 )
-def test_percent(table: pd.DataFrame):
+def test_percent(profile: pd.DataFrame):
     """Test that the percent column is checked."""
-    CentrifugeProfile.validate(table)
+    CentrifugeProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
-            {
-                "percent": [99.1, 0.9],
-                "clade_assigned_reads": [0, 0],
-                "direct_assigned_reads": [0, 0],
-                "taxonomy_level": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
-                "name": ["unclassified", "root"],
-            }
+            OrderedDict(
+                [
+                    ("percent", [99.1, 0.9]),
+                    ("clade_assigned_reads", [100, 1]),
+                    ("direct_assigned_reads", [100, 1]),
+                    ("taxonomy_level", ["U", "R"]),
+                    ("taxonomy_id", [0, 1]),
+                    ("name", ["unclassified", "root"]),
+                ]
+            )
         ),
         pd.DataFrame(
-            {
-                "percent": [99.1, 0.9],
-                "clade_assigned_reads": [42, 10_000_000],
-                "direct_assigned_reads": [0, 0],
-                "taxonomy_level": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
-                "name": ["unclassified", "root"],
-            }
+            OrderedDict(
+                [
+                    ("percent", [99.1, 0.9]),
+                    ("clade_assigned_reads", [42, 10_000_000]),
+                    ("direct_assigned_reads", [100, 1]),
+                    ("taxonomy_level", ["U", "R"]),
+                    ("taxonomy_id", [0, 1]),
+                    ("name", ["unclassified", "root"]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "percent": [99.1, 0.9],
-                    "clade_assigned_reads": [-1, 0],
-                    "direct_assigned_reads": [0, 0],
-                    "taxonomy_level": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
-                    "name": ["unclassified", "root"],
-                }
+                OrderedDict(
+                    [
+                        ("percent", [99.1, 0.9]),
+                        ("clade_assigned_reads", [-1, 1]),
+                        ("direct_assigned_reads", [100, 1]),
+                        ("taxonomy_level", ["U", "R"]),
+                        ("taxonomy_id", [0, 1]),
+                        ("name", ["unclassified", "root"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="greater_than_or_equal_to"
+            ),
         ),
     ],
 )
@@ -164,37 +195,45 @@ def test_clade_assigned_reads(table: pd.DataFrame):
     "table",
     [
         pd.DataFrame(
-            {
-                "percent": [99.1, 0.9],
-                "clade_assigned_reads": [0, 0],
-                "direct_assigned_reads": [0, 0],
-                "taxonomy_level": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
-                "name": ["unclassified", "root"],
-            }
+            OrderedDict(
+                [
+                    ("percent", [99.1, 0.9]),
+                    ("clade_assigned_reads", [100, 1]),
+                    ("direct_assigned_reads", [100, 1]),
+                    ("taxonomy_level", ["U", "R"]),
+                    ("taxonomy_id", [0, 1]),
+                    ("name", ["unclassified", "root"]),
+                ]
+            )
         ),
         pd.DataFrame(
-            {
-                "percent": [99.1, 0.9],
-                "clade_assigned_reads": [0, 0],
-                "direct_assigned_reads": [42, 10_000_000],
-                "taxonomy_level": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
-                "name": ["unclassified", "root"],
-            }
+            OrderedDict(
+                [
+                    ("percent", [99.1, 0.9]),
+                    ("clade_assigned_reads", [100, 1]),
+                    ("direct_assigned_reads", [42, 10_000_000]),
+                    ("taxonomy_level", ["U", "R"]),
+                    ("taxonomy_id", [0, 1]),
+                    ("name", ["unclassified", "root"]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "percent": [99.1, 0.9],
-                    "clade_assigned_reads": [0, 0],
-                    "direct_assigned_reads": [-1, 0],
-                    "taxonomy_level": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
-                    "name": ["unclassified", "root"],
-                }
+                OrderedDict(
+                    [
+                        ("percent", [99.1, 0.9]),
+                        ("clade_assigned_reads", [100, 1]),
+                        ("direct_assigned_reads", [-1, 1]),
+                        ("taxonomy_level", ["U", "R"]),
+                        ("taxonomy_id", [0, 1]),
+                        ("name", ["unclassified", "root"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="greater_than_or_equal_to"
+            ),
         ),
     ],
 )
