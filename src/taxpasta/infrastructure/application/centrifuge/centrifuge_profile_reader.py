@@ -23,6 +23,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .centrifuge_profile import CentrifugeProfile
 
@@ -31,6 +32,7 @@ class CentrifugeProfileReader(ProfileReader):
     """Define a reader for centrifuge profiles."""
 
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[CentrifugeProfile]:
         """
         Read a centrifuge taxonomic profile from the given source.

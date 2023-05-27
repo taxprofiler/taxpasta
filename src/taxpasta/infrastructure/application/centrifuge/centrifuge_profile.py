@@ -20,18 +20,19 @@
 
 
 import numpy as np
-import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class CentrifugeProfile(pa.DataFrameModel):
+
+class CentrifugeProfile(BaseDataFrameModel):
     """Define the expected centrifuge profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
     clade_assigned_reads: Series[int] = pa.Field(ge=0)
     direct_assigned_reads: Series[int] = pa.Field(ge=0)
-    taxonomy_level: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_level: Series[str] = pa.Field()
     taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
@@ -40,10 +41,3 @@ class CentrifugeProfile(pa.DataFrameModel):
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         return percent.empty or bool(np.isclose(percent[:2].sum(), 100.0, atol=1.0))
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
