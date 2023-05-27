@@ -22,17 +22,12 @@
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class DiamondProfile(pa.DataFrameModel):
+
+class DiamondProfile(BaseDataFrameModel):
     """Define the expected diamond profile format."""
 
     query_id: Series[str] = pa.Field()
     taxonomy_id: Series[int] = pa.Field(ge=0)
     e_value: Series[float] = pa.Field(ge=0.0, le=1.0)
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
