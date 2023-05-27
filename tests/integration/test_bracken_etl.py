@@ -24,10 +24,30 @@ from pathlib import Path
 import pytest
 from pandera.errors import SchemaErrors
 
+from taxpasta.application.error import StandardisationError
 from taxpasta.infrastructure.application import (
     BrackenProfileReader,
     BrackenProfileStandardisationService,
 )
+
+
+@pytest.fixture(
+    scope="module",
+    params=[
+        # ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
+        ("centrifuge", "AD_pe-db1.centrifuge.txt"),
+        ("diamond", "diamond_valid_1.tsv"),
+        ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
+        ("krakenuniq", "test1.krakenuniq.report.txt"),
+        ("megan6", "malt_rma2info_valid.txt.gz"),
+        ("metaphlan", "mpa_valid_complex.tsv"),
+        ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
+    ],
+)
+def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
+    """Return parametrized paths to other profilers' profiles."""
+    profiler, filename = request.param
+    return data_dir / profiler / filename
 
 
 @pytest.mark.parametrize(
@@ -56,3 +76,11 @@ def test_bracken_etl(
     BrackenProfileStandardisationService.transform(
         BrackenProfileReader.read(bracken_data_dir / filename)
     )
+
+
+def test_failure_on_other_profiles(other_profile: Path):
+    """Expect that profiles from other profilers fail validation."""
+    with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
+        BrackenProfileStandardisationService.transform(
+            BrackenProfileReader.read(other_profile)
+        )

@@ -20,17 +20,18 @@
 
 
 import numpy as np
-import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame, Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class BrackenProfile(pa.DataFrameModel):
+
+class BrackenProfile(BaseDataFrameModel):
     """Define the expected Bracken profile format."""
 
     name: Series[str] = pa.Field()
     taxonomy_id: Series[int] = pa.Field(ge=0)
-    taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_lvl: Series[str] = pa.Field()
     kraken_assigned_reads: Series[int] = pa.Field(ge=0)
     added_reads: Series[int] = pa.Field(ge=0)
     new_est_reads: Series[int] = pa.Field(ge=0)
@@ -53,10 +54,3 @@ class BrackenProfile(pa.DataFrameModel):
             profile[cls.kraken_assigned_reads] + profile[cls.added_reads]
             == profile[cls.new_est_reads]
         )
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
