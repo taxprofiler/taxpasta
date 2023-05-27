@@ -19,7 +19,7 @@
 """Test that the schema model validates bracken profiles correctly."""
 
 
-from typing import Collection
+from collections import OrderedDict
 
 import pandas as pd
 import pytest
@@ -29,54 +29,70 @@ from taxpasta.infrastructure.application import BrackenProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        (
-            "name",
-            "taxonomy_id",
-            "taxonomy_lvl",
-            "kraken_assigned_reads",
-            "added_reads",
-            "new_est_reads",
-            "fraction_total_reads",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("name", ["root"]),
+                    ("taxonomy_id", [1]),
+                    ("taxonomy_lvl", ["root"]),
+                    ("kraken_assigned_reads", [100]),
+                    ("added_reads", [0]),
+                    ("new_est_reads", [100]),
+                    ("fraction_total_reads", [1.0]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "name",
-                "taxonomy_id",
-                "kraken_assigned_reads",
-                "added_reads",
-                "new_est_reads",
-                "fraction_total_reads",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("name", ["root"]),
+                        ("taxonomy_id", [1]),
+                        ("kraken_assigned_reads", [100]),
+                        ("added_reads", [0]),
+                        ("new_est_reads", [100]),
+                        ("fraction_total_reads", [1.0]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_lvl' not in dataframe"
             ),
         ),
         pytest.param(
-            (
-                "name",
-                "taxonomy_id",
-                "taxonomy_lvl",
-                "kraken_assigned_reads",
-                "added_reads",
-                "new_est_reads",
-                "fraction_total_reads",
-                "foo",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("name", ["root"]),
+                        ("taxonomy_id", [1]),
+                        ("taxonomy_lvl", ["root"]),
+                        ("kraken_assigned_reads", [100]),
+                        ("added_reads", [0]),
+                        ("new_est_reads", [100]),
+                        ("fraction_total_reads", [1.0]),
+                        ("foo", [1.0]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'foo' not in DataFrameSchema"
             ),
         ),
         pytest.param(
-            (
-                "name",
-                "taxonomy_lvl",
-                "added_reads",
-                "fraction_total_reads",
-                "taxonomy_id",
-                "new_est_reads",
-                "kraken_assigned_reads",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("name", ["root"]),
+                        ("taxonomy_lvl", ["root"]),
+                        ("added_reads", [0]),
+                        ("kraken_assigned_reads", [100]),
+                        ("taxonomy_id", [1]),
+                        ("new_est_reads", [100]),
+                        ("fraction_total_reads", [1.0]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_lvl' out-of-order"
@@ -84,101 +100,106 @@ from taxpasta.infrastructure.application import BrackenProfile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    BrackenProfile.validate(pd.DataFrame(columns=columns, data=[]))
+    BrackenProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                "taxonomy_id": ["1964", "1104"],
-                "taxonomy_lvl": ["R7", "R7"],
-                "kraken_assigned_reads": [0, 0],
-                "added_reads": [0, 0],
-                "new_est_reads": [0, 0],
-                "fraction_total_reads": [0.991, 0.009],
-            }
+            OrderedDict(
+                [
+                    ("name", ["Faecalibacterium prausnitzii", "Escherichia coli"]),
+                    ("taxonomy_id", [1964, 1104]),
+                    ("taxonomy_lvl", ["R7", "R7"]),
+                    ("kraken_assigned_reads", [100, 0]),
+                    ("added_reads", [0, 0]),
+                    ("new_est_reads", [100, 0]),
+                    ("fraction_total_reads", [1.0, 0.0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                    "taxonomy_id": ["1964", "1104"],
-                    "taxonomy_lvl": ["R7", "R7"],
-                    "kraken_assigned_reads": [0, 0],
-                    "added_reads": [0, 0],
-                    "new_est_reads": [0, 0],
-                    "fraction_total_reads": [0.991, 0.119],
-                }
+                OrderedDict(
+                    [
+                        ("name", ["Faecalibacterium prausnitzii", "Escherichia coli"]),
+                        ("taxonomy_id", [1964, 1104]),
+                        ("taxonomy_lvl", ["R7", "R7"]),
+                        ("kraken_assigned_reads", [100, 0]),
+                        ("added_reads", [0, 0]),
+                        ("new_est_reads", [100, 0]),
+                        ("fraction_total_reads", [0.991, 0.119]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="<Check compositionality>"
+            ),
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                    "taxonomy_id": ["1964", "1104"],
-                    "taxonomy_lvl": ["R7", "R7"],
-                    "kraken_assigned_reads": [0, 0],
-                    "added_reads": [0, 0],
-                    "new_est_reads": [0, 0],
-                    "fraction_total_reads": [0.791, 0.009],
-                }
+                OrderedDict(
+                    [
+                        ("name", ["Faecalibacterium prausnitzii", "Escherichia coli"]),
+                        ("taxonomy_id", [1964, 1104]),
+                        ("taxonomy_lvl", ["R7", "R7"]),
+                        ("kraken_assigned_reads", [100, 0]),
+                        ("added_reads", [0, 0]),
+                        ("new_est_reads", [100, 0]),
+                        ("fraction_total_reads", [0.791, 0.009]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="<Check compositionality>"
+            ),
         ),
     ],
 )
-def test_fraction_total_reads(table: pd.DataFrame):
+def test_fraction_total_reads(profile: pd.DataFrame):
     """Test that the fraction column is checked."""
-    BrackenProfile.validate(table)
+    BrackenProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                "taxonomy_id": ["1964", "1104"],
-                "taxonomy_lvl": ["R7", "R7"],
-                "kraken_assigned_reads": [0, 0],
-                "added_reads": [0, 0],
-                "new_est_reads": [0, 0],
-                "fraction_total_reads": [1.0, 0.0],
-            }
-        ),
-        pd.DataFrame(
-            {
-                "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                "taxonomy_id": ["1964", "1104"],
-                "taxonomy_lvl": ["R7", "R7"],
-                "kraken_assigned_reads": [42, 10_000_000],
-                "added_reads": [42, 10_000_000],
-                "new_est_reads": [84, 20_000_000],
-                "fraction_total_reads": [1.0, 0.0],
-            }
+            OrderedDict(
+                [
+                    ("name", ["Faecalibacterium prausnitzii", "Escherichia coli"]),
+                    ("taxonomy_id", [1964, 1104]),
+                    ("taxonomy_lvl", ["R7", "R7"]),
+                    ("kraken_assigned_reads", [42, 10_000_000]),
+                    ("added_reads", [42, 10_000_000]),
+                    ("new_est_reads", [84, 20_000_000]),
+                    ("fraction_total_reads", [1.0, 0.0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "name": ["Faecalibacterium prausnitzii", "Escherichia coli"],
-                    "taxonomy_id": ["1964", "1104"],
-                    "taxonomy_lvl": ["R7", "R7"],
-                    "kraken_assigned_reads": [42, 10_000_000],
-                    "added_reads": [42, 10_000_000],
-                    "new_est_reads": [84, 10_000_000],
-                    "fraction_total_reads": [1.0, 0.0],
-                }
+                OrderedDict(
+                    [
+                        ("name", ["Faecalibacterium prausnitzii", "Escherichia coli"]),
+                        ("taxonomy_id", [1964, 1104]),
+                        ("taxonomy_lvl", ["R7", "R7"]),
+                        ("kraken_assigned_reads", [42, 10_000_000]),
+                        ("added_reads", [42, 10_000_000]),
+                        ("new_est_reads", [84, 10_000_000]),
+                        ("fraction_total_reads", [1.0, 0.0]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="<Check check_added_reads_consistency>"
+            ),
         ),
     ],
 )
-def test_added_reads_consistency(table: pd.DataFrame):
+def test_added_reads_consistency(profile: pd.DataFrame):
     """Test that the reads added by Bracken are consistent."""
-    BrackenProfile.validate(table)
+    BrackenProfile.validate(profile)
