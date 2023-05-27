@@ -29,61 +29,71 @@ from taxpasta.infrastructure.application import Kraken2Profile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "table",
     [
-        (
-            "percent",
-            "clade_assigned_reads",
-            "direct_assigned_reads",
-            "taxonomy_lvl",
-            "taxonomy_id",
-            "name",
+        pd.DataFrame(
+            {
+                "percent": pd.Series(data=[100.0], dtype=float),
+                "clade_assigned_reads": pd.Series(data=[100], dtype=int),
+                "direct_assigned_reads": pd.Series(data=[100], dtype=int),
+                "taxonomy_lvl": pd.Series(data=["R"], dtype=str),
+                "taxonomy_id": pd.Series(data=[1], dtype="Int64"),
+                "name": pd.Series(data=["root"], dtype=str),
+            }
         ),
-        (
-            "percent",
-            "clade_assigned_reads",
-            "direct_assigned_reads",
-            "num_minimizers",
-            "distinct_minimizers",
-            "taxonomy_lvl",
-            "taxonomy_id",
-            "name",
+        pd.DataFrame(
+            {
+                "percent": pd.Series(data=[100.0], dtype=float),
+                "clade_assigned_reads": pd.Series(data=[100], dtype=int),
+                "direct_assigned_reads": pd.Series(data=[100], dtype=int),
+                "num_minimizers": pd.Series(data=[1], dtype=int),
+                "distinct_minimizers": pd.Series(data=[1], dtype=int),
+                "taxonomy_lvl": pd.Series(data=["R"], dtype=str),
+                "taxonomy_id": pd.Series(data=[1], dtype="Int64"),
+                "name": pd.Series(data=["root"], dtype=str),
+            }
         ),
         pytest.param(
-            (
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "name",
+            pd.DataFrame(
+                {
+                    "percent": pd.Series(data=[100.0], dtype=float),
+                    "clade_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "direct_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "name": pd.Series(data=["root"], dtype=str),
+                }
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_lvl' not in dataframe"
             ),
         ),
         pytest.param(
-            (
-                "percent",
-                "clade_assigned_reads",
-                "direct_assigned_reads",
-                "num_minimizers",
-                "distinct_minimizers",
-                "taxonomy_lvl",
-                "taxonomy_id",
-                "name",
-                "rank",
+            pd.DataFrame(
+                {
+                    "percent": pd.Series(data=[100.0], dtype=float),
+                    "clade_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "direct_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "num_minimizers": pd.Series(data=[1], dtype=int),
+                    "distinct_minimizers": pd.Series(data=[1], dtype=int),
+                    "taxonomy_lvl": pd.Series(data=["R"], dtype=str),
+                    "taxonomy_id": pd.Series(data=[1], dtype="Int64"),
+                    "name": pd.Series(data=["root"], dtype=str),
+                    "rank": pd.Series(data=["R"], dtype=str),
+                }
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'rank' not in DataFrameSchema"
             ),
         ),
         pytest.param(
-            (
-                "percent",
-                "taxonomy_lvl",
-                "clade_assigned_reads",
-                "taxonomy_id",
-                "direct_assigned_reads",
-                "name",
+            pd.DataFrame(
+                {
+                    "percent": pd.Series(data=[100.0], dtype=float),
+                    "taxonomy_lvl": pd.Series(data=["R"], dtype=str),
+                    "clade_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "taxonomy_id": pd.Series(data=[1], dtype="Int64"),
+                    "direct_assigned_reads": pd.Series(data=[100], dtype=int),
+                    "name": pd.Series(data=["root"], dtype=str),
+                }
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxonomy_lvl' out-of-order"
@@ -91,9 +101,9 @@ from taxpasta.infrastructure.application import Kraken2Profile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(table: pd.DataFrame):
     """Test that column names and order are validated."""
-    Kraken2Profile.validate(pd.DataFrame(columns=columns, data=[]))
+    Kraken2Profile.validate(table)
 
 
 @pytest.mark.parametrize(
@@ -105,7 +115,7 @@ def test_column_presence(columns: Collection[str]):
                 "clade_assigned_reads": [0, 0],
                 "direct_assigned_reads": [0, 0],
                 "taxonomy_lvl": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
+                "taxonomy_id": [0, 1],
                 "name": ["unclassified", "root"],
             }
         ),
@@ -116,7 +126,7 @@ def test_column_presence(columns: Collection[str]):
                     "clade_assigned_reads": [0, 0],
                     "direct_assigned_reads": [0, 0],
                     "taxonomy_lvl": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
+                    "taxonomy_id": [0, 1],
                     "name": ["unclassified", "root"],
                 }
             ),
@@ -129,7 +139,7 @@ def test_column_presence(columns: Collection[str]):
                     "clade_assigned_reads": [0, 0],
                     "direct_assigned_reads": [0, 0],
                     "taxonomy_lvl": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
+                    "taxonomy_id": [0, 1],
                     "name": ["unclassified", "root"],
                 }
             ),
@@ -151,7 +161,7 @@ def test_percent(table: pd.DataFrame):
                 "clade_assigned_reads": [0, 0],
                 "direct_assigned_reads": [0, 0],
                 "taxonomy_lvl": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
+                "taxonomy_id": [0, 1],
                 "name": ["unclassified", "root"],
             }
         ),
@@ -161,7 +171,7 @@ def test_percent(table: pd.DataFrame):
                 "clade_assigned_reads": [42, 10_000_000],
                 "direct_assigned_reads": [0, 0],
                 "taxonomy_lvl": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
+                "taxonomy_id": [0, 1],
                 "name": ["unclassified", "root"],
             }
         ),
@@ -172,7 +182,7 @@ def test_percent(table: pd.DataFrame):
                     "clade_assigned_reads": [-1, 0],
                     "direct_assigned_reads": [0, 0],
                     "taxonomy_lvl": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
+                    "taxonomy_id": [0, 1],
                     "name": ["unclassified", "root"],
                 }
             ),
@@ -194,7 +204,7 @@ def test_clade_assigned_reads(table: pd.DataFrame):
                 "clade_assigned_reads": [0, 0],
                 "direct_assigned_reads": [0, 0],
                 "taxonomy_lvl": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
+                "taxonomy_id": [0, 1],
                 "name": ["unclassified", "root"],
             }
         ),
@@ -204,7 +214,7 @@ def test_clade_assigned_reads(table: pd.DataFrame):
                 "clade_assigned_reads": [0, 0],
                 "direct_assigned_reads": [42, 10_000_000],
                 "taxonomy_lvl": ["U", "R"],
-                "taxonomy_id": ["0", "1"],
+                "taxonomy_id": [0, 1],
                 "name": ["unclassified", "root"],
             }
         ),
@@ -215,7 +225,7 @@ def test_clade_assigned_reads(table: pd.DataFrame):
                     "clade_assigned_reads": [0, 0],
                     "direct_assigned_reads": [-1, 0],
                     "taxonomy_lvl": ["U", "R"],
-                    "taxonomy_id": ["0", "1"],
+                    "taxonomy_id": [0, 1],
                     "name": ["unclassified", "root"],
                 }
             ),

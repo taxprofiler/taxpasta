@@ -26,8 +26,10 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class Kraken2Profile(pa.DataFrameModel):
+
+class Kraken2Profile(BaseDataFrameModel):
     """Define the expected kraken2 profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0)
@@ -35,12 +37,11 @@ class Kraken2Profile(pa.DataFrameModel):
     direct_assigned_reads: Series[int] = pa.Field(ge=0)
     num_minimizers: Optional[Series[int]] = pa.Field(ge=0)
     distinct_minimizers: Optional[Series[int]] = pa.Field(ge=0)
-    taxonomy_lvl: Series[pd.CategoricalDtype] = pa.Field()
+    taxonomy_lvl: Series[str] = pa.Field()
     taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
     @pa.dataframe_check
-    @classmethod
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         # Kraken2 reports percentages only to the second decimal, so we expect
@@ -55,10 +56,3 @@ class Kraken2Profile(pa.DataFrameModel):
                 atol=1.0,
             )
         )
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
