@@ -36,7 +36,7 @@ from taxpasta.infrastructure.application import (
     params=[
         ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
-        # ("diamond", "diamond_valid_1.tsv"),
+        # ("diamond", "diamond_valid_1.tsv"),  # noqa: E800
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),

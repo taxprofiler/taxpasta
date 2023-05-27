@@ -19,7 +19,6 @@
 """Provide a description of the KrakenUniq profile format."""
 
 
-import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
