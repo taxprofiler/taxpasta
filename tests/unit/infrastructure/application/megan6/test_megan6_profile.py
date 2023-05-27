@@ -17,8 +17,9 @@
 
 
 """Test that the schema model validates MEGAN6 rma2info profiles correctly."""
+
+
 from collections import OrderedDict
-from typing import Collection
 
 import pandas as pd
 import pytest
@@ -104,7 +105,7 @@ def test_taxonomy_id(profile: pd.DataFrame):
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -130,6 +131,6 @@ def test_taxonomy_id(profile: pd.DataFrame):
         ),
     ],
 )
-def test_count(table: pd.DataFrame):
+def test_count(profile: pd.DataFrame):
     """Test that the count column is checked."""
-    Megan6Profile.validate(table)
+    Megan6Profile.validate(profile)

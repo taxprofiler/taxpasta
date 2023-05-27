@@ -141,7 +141,7 @@ def test_percent(profile: pd.DataFrame):
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -186,13 +186,13 @@ def test_percent(profile: pd.DataFrame):
         ),
     ],
 )
-def test_clade_assigned_reads(table: pd.DataFrame):
+def test_clade_assigned_reads(profile: pd.DataFrame):
     """Test that the clade_assigned_reads column is checked."""
-    CentrifugeProfile.validate(table)
+    CentrifugeProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -237,6 +237,6 @@ def test_clade_assigned_reads(table: pd.DataFrame):
         ),
     ],
 )
-def test_direct_assigned_reads(table: pd.DataFrame):
+def test_direct_assigned_reads(profile: pd.DataFrame):
     """Test that the direct_assigned_reads column is checked."""
-    CentrifugeProfile.validate(table)
+    CentrifugeProfile.validate(profile)
