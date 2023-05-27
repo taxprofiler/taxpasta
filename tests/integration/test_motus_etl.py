@@ -45,9 +45,9 @@ from taxpasta.infrastructure.application import (
     ],
 )
 def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
-    """Return paths to other profilers' profiles."""
-    base, filename = request.param
-    return data_dir / base / filename
+    """Return parametrized paths to other profilers' profiles."""
+    profiler, filename = request.param
+    return data_dir / profiler / filename
 
 
 @pytest.mark.parametrize(
@@ -71,7 +71,7 @@ def test_read_correctness(
 
 
 def test_failure_on_other_profiles(other_profile: Path):
-    """"""
+    """Expect that profiles from other profilers fail validation."""
     with pytest.raises((TypeError, ValueError, SchemaErrors, StandardisationError)):
         MotusProfileStandardisationService.transform(
             MotusProfileReader.read(other_profile)
