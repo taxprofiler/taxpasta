@@ -37,7 +37,6 @@ class CentrifugeProfile(BaseDataFrameModel):
     name: Series[str] = pa.Field()
 
     @pa.check("percent", name="compositionality")
-    @classmethod
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         return percent.empty or bool(np.isclose(percent[:2].sum(), 100.0, atol=1.0))
