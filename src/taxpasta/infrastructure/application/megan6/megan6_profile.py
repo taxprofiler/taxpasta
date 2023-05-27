@@ -22,16 +22,11 @@
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class Megan6Profile(pa.DataFrameModel):
+
+class Megan6Profile(BaseDataFrameModel):
     """Define the expected MEGAN6 rma2info profile format."""
 
     taxonomy_id: Series[int] = pa.Field(ge=0)
-    count: Series[int] = pa.Field(ge=0.0)
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
+    count: Series[float] = pa.Field(ge=0.0)

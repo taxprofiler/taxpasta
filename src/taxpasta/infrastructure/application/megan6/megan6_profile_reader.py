@@ -23,6 +23,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .megan6_profile import Megan6Profile
 
@@ -30,9 +31,8 @@ from .megan6_profile import Megan6Profile
 class Megan6ProfileReader(ProfileReader):
     """Define a reader for MEGAN6 rma2info profiles."""
 
-    LARGE_INTEGER = int(10e6)
-
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[Megan6Profile]:
         """Read a MEGAN6 rma2info taxonomic profile from a file."""
         result = pd.read_table(

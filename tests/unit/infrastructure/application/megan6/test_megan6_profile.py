@@ -17,8 +17,7 @@
 
 
 """Test that the schema model validates MEGAN6 rma2info profiles correctly."""
-
-
+from collections import OrderedDict
 from typing import Collection
 
 import pandas as pd
@@ -29,16 +28,23 @@ from taxpasta.infrastructure.application import Megan6Profile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        (
-            "taxonomy_id",
-            "count",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("taxonomy_id", [1]),
+                    ("count", [100.0]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "taxonomy_id",
-                "query_id",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("taxonomy_id", [1]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -46,9 +52,13 @@ from taxpasta.infrastructure.application import Megan6Profile
             ),
         ),
         pytest.param(
-            (
-                "count",
-                "taxonomy_id",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("count", [100.0]),
+                        ("taxonomy_id", [1]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'count' out-of-order"
@@ -56,53 +66,67 @@ from taxpasta.infrastructure.application import Megan6Profile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    Megan6Profile.validate(pd.DataFrame(columns=columns, data=[]))
+    Megan6Profile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "taxonomy_id": [20, 21.0],
-                "count": [21.0, 9.0],
-            }
+            OrderedDict(
+                [
+                    ("taxonomy_id", [20, 21]),
+                    ("count", [21.0, 9.0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "taxonomy_id": [20, 21.0],
-                    "count": ["shigella_dysenteriae", 9.0],
-                }
+                OrderedDict(
+                    [
+                        ("taxonomy_id", ["20", 21]),
+                        ("count", [21.0, 9.0]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError,
+                message="expected series 'taxonomy_id' to have type",
+            ),
         ),
     ],
 )
-def test_taxonomy_id(table: pd.DataFrame):
+def test_taxonomy_id(profile: pd.DataFrame):
     """Test that the taxonomy_id column is checked."""
-    Megan6Profile.validate(table)
+    Megan6Profile.validate(profile)
 
 
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
-            {
-                "taxonomy_id": [20, 21.0],
-                "count": [21.0, 9.0],
-            }
+            OrderedDict(
+                [
+                    ("taxonomy_id", [20, 21]),
+                    ("count", [21.0, 9.0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "taxonomy_id": [20, 21.0],
-                    "count": [29, "fourty one"],
-                }
+                OrderedDict(
+                    [
+                        ("taxonomy_id", [20, 21]),
+                        ("count", [21.0, "9.0"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError,
+                message="expected series 'count' to have type",
+            ),
         ),
     ],
 )
