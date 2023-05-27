@@ -2,7 +2,7 @@
 
 !!! info
 
-    We follow on from the main [tutorial](/tutorials/getting-started) including
+    We follow on from the main [tutorial](../tutorials/getting-started.md) including
     all files just before the clean up step.
 
 If you wish to have actual human-readable taxon names in your standardised
@@ -35,5 +35,5 @@ bash_snippets.md:merge-names-head
 ## Clean Up
 
 Don't forget to [remove the tutorial
-directory](/tutorials/getting-started#clean-up) if you don't want to keep it for
+directory](../tutorials/getting-started.md#clean-up) if you don't want to keep it for
 later use.

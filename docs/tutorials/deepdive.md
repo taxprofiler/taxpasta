@@ -2,13 +2,13 @@
 
 ## Introduction
 
-Following from our basic '[Getting Started](/tutorials/getting-started)' tutorial,
+Following from our basic '[Getting Started](getting-started.md)' tutorial,
 we will once again show you how to generate standardised taxonomic profiles from the
 diverse outputs of two popular taxonomic profilers:
 [Kraken2](https://ccb.jhu.edu/software/kraken2/) and
 [mOTUs](https://motu-tool.org/) with `taxpasta`.
 
-However in this particular we will also demonstrate some benefits of this
+However, in this particular we will also demonstrate some benefits of this
 standardisation when running downstream analyses on such tables in either the
 popular statistical programming language [R](https://www.r-project.org/) or
 [Python](https://www.python.org/).
@@ -18,7 +18,7 @@ popular statistical programming language [R](https://www.r-project.org/) or
 ### Software
 
 For this tutorial you will need an internet connection, an [installation of
-taxpasta](/#install), and, if you want to follow the R parts, an [installation
+taxpasta](../index.md#install), and, if you want to follow the R parts, an [installation
 of
 R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
 itself with the [readr](https://readr.tidyverse.org/) and
@@ -179,7 +179,7 @@ and a lot of manual data munging.
 
 If you want to standardise a single profile you need three things:
 
--   The name of of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
+-   The name of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
 -   The requested output file name with a valid suffix that will tell `taxpasta` which format to save the output in
     (`--output` or `-o`)
 -   The input profile file itself
@@ -259,11 +259,11 @@ one of the two samples - all without having to spend time playing with different
 arguments for loading the files or additional data transformations.
 
 If you prefer the columns names to be different from just the input filenames, you can also
-[provide a sample sheet](/how-tos/how-to-customise-sample-names/) to customise them.
+[provide a sample sheet](../how-tos/how-to-customise-sample-names.md) to customise them.
 
 By default, `taxpasta` uses taxonomy identifiers to merge tables. If you’re
 interested in having human-readable taxon names see [How-to add taxon
-names](/how-tos/how-to-add-names).
+names](../how-tos/how-to-add-names.md).
 
 ## Important caveat
 
@@ -285,7 +285,7 @@ are conceptually comparable, i.e., taxonomy identifiers and counts. `taxpasta`
 also therefore does not (directly) support merging _across_ classifiers/profilers
 as this needs to be done in a careful and mindful manner.
 We provide examples of how to do this carefully using R and Python in the
-corresponding [How to Merge Across Classifiers](/how-tos/) section.
+corresponding [How to Merge Across Classifiers](../how-tos/how-to-merge-across-profilers.md) section.
 
 Please be aware that while `taxpasta` is a utility to make comparison between
 profilers easier to be performed, this does not necessarily mean that all

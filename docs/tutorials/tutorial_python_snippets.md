@@ -1,7 +1,7 @@
 <!-- --8<-- [start:software] -->
 
 -   Unix terminal (e.g., `bash`)
--   [Python environment with taxpasta](/#install)
+-   [Python environment with taxpasta](../index.md#install)
 -   No additional requirements, since we will make use of
     [pandas](https://pandas.pydata.org/) which is already part of the
     taxpasta installation.
