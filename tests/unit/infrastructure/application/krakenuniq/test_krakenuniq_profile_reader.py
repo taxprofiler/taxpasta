@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid kraken2 profiles."""
+"""Test that the reader can parse valid KrakenUniq profiles."""
 
 
 from pathlib import Path

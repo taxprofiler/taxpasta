@@ -23,8 +23,10 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class KrakenUniqProfile(pa.DataFrameModel):
+
+class KrakenUniqProfile(BaseDataFrameModel):
     """Define the expected KrakenUniq profile format."""
 
     percent: Series[float] = pa.Field(ge=0.0, le=100.0, alias="%")
@@ -34,12 +36,5 @@ class KrakenUniqProfile(pa.DataFrameModel):
     duplicates: Series[float] = pa.Field(ge=0.0, alias="dup")
     coverage: Series[float] = pa.Field(ge=0.0, nullable=True, alias="cov")
     tax_id: Series[int] = pa.Field(alias="taxID", ge=0)
-    rank: Series[pd.CategoricalDtype] = pa.Field()
+    rank: Series[str] = pa.Field()
     tax_name: Series[str] = pa.Field(alias="taxName")
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True

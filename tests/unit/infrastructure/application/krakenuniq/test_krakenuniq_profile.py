@@ -19,7 +19,7 @@
 """Test that the schema model validates KrakenUniq profiles correctly."""
 
 
-from typing import Collection
+from collections import OrderedDict
 
 import pandas as pd
 import pytest
@@ -29,45 +29,57 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "table",
     [
-        (
-            "%",
-            "reads",
-            "taxReads",
-            "kmers",
-            "dup",
-            "cov",
-            "taxID",
-            "rank",
-            "taxName",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("%", [0.0]),
+                    ("reads", [0]),
+                    ("taxReads", [0]),
+                    ("kmers", [0]),
+                    ("dup", [0.0]),
+                    ("cov", [0.0]),
+                    ("taxID", [0]),
+                    ("rank", ["no rank"]),
+                    ("taxName", ["root"]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "%",
-                "reads",
-                "taxReads",
-                "kmers",
-                "dup",
-                "cov",
-                "taxID",
-                "taxName",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("%", [0.0]),
+                        ("reads", [0]),
+                        ("taxReads", [0]),
+                        ("kmers", [0]),
+                        ("dup", [0.0]),
+                        ("cov", [0.0]),
+                        ("taxID", [0]),
+                        ("taxName", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'rank' not in dataframe"
             ),
         ),
         pytest.param(
-            (
-                "%",
-                "taxID",
-                "reads",
-                "taxReads",
-                "kmers",
-                "dup",
-                "cov",
-                "rank",
-                "taxName",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("%", [0.0]),
+                        ("taxID", [0]),
+                        ("reads", [0]),
+                        ("taxReads", [0]),
+                        ("kmers", [0]),
+                        ("dup", [0.0]),
+                        ("cov", [0.0]),
+                        ("rank", ["no rank"]),
+                        ("taxName", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxID' out-of-order"
@@ -75,50 +87,61 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(table: pd.DataFrame):
     """Test that column names and order are validated."""
-    KrakenUniqProfile.validate(pd.DataFrame(columns=columns, data=[]))
+    KrakenUniqProfile.validate(table)
 
 
 @pytest.mark.parametrize(
     "table",
     [
         pd.DataFrame(
-            {
-                "%": [100, 100],
-                "reads": [100, 100],
-                "taxReads": [0, 100],
-                "kmers": [7556, 7556],
-                "dup": [1.3, 1.3],
-                "cov": [0.1268, 0.1268],
-                "taxID": [100, 2697049],
-                "rank": ["no rank", "species"],
-                "taxName": [
-                    "Severe acute respiratory syndrome-related coronavirus",
-                    "Severe acute respiratory syndrome coronavirus 2",
-                ],
-            }
+            OrderedDict(
+                [
+                    ("%", [100.0, 100.0]),
+                    ("reads", [100, 100]),
+                    ("taxReads", [0, 100]),
+                    ("kmers", [7556, 7556]),
+                    ("dup", [1.3, 1.3]),
+                    ("cov", [0.1268, 0.1268]),
+                    ("taxID", [0, 2697049]),
+                    ("rank", ["no rank", "species"]),
+                    (
+                        "taxName",
+                        [
+                            "Severe acute respiratory syndrome-related coronavirus",
+                            "Severe acute respiratory syndrome coronavirus 2",
+                        ],
+                    ),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "%": [100, 100],
-                    "reads": [100, 100],
-                    "taxReads": [
-                        "Severe acute respiratory syndrome coronavirus 2",
-                        100,
-                    ],
-                    "kmers": [7556, 7556],
-                    "dup": [1.3, 1.3],
-                    "cov": [0.1268, 0.1268],
-                    "taxID": [2697049, 100],
-                    "taxName": [
-                        "Severe acute respiratory syndrome-related coronavirus",
-                        "Severe acute respiratory syndrome coronavirus 2",
-                    ],
-                }
+                OrderedDict(
+                    [
+                        ("%", [100.0, 100.0]),
+                        ("reads", [100, 100]),
+                        ("taxReads", [0, 100]),
+                        ("kmers", [7556, 7556]),
+                        ("dup", [1.3, 1.3]),
+                        ("cov", [0.1268, 0.1268]),
+                        ("taxID", [2697049, "100"]),
+                        ("rank", ["no rank", "species"]),
+                        (
+                            "taxName",
+                            [
+                                "Severe acute respiratory syndrome-related coronavirus",
+                                "Severe acute respiratory syndrome coronavirus 2",
+                            ],
+                        ),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError,
+                message="expected series 'taxID' to have type",
+            ),
         ),
     ],
 )
@@ -131,39 +154,51 @@ def test_taxonomy_id(table: pd.DataFrame):
     "table",
     [
         pd.DataFrame(
-            {
-                "%": [100, 100],
-                "reads": [100, 100],
-                "taxReads": [0, 694009],
-                "kmers": [7556, 7556],
-                "dup": [1.3, 1.3],
-                "cov": [0.1268, 0.1268],
-                "taxID": [100, 2697049],
-                "rank": ["no rank", "species"],
-                "taxName": [
-                    "Severe acute respiratory syndrome-related coronavirus",
-                    "Severe acute respiratory syndrome coronavirus 2",
-                ],
-            }
+            OrderedDict(
+                [
+                    ("%", [100.0, 100.0]),
+                    ("reads", [100, 100]),
+                    ("taxReads", [0, 100]),
+                    ("kmers", [7556, 7556]),
+                    ("dup", [1.3, 1.3]),
+                    ("cov", [0.1268, 0.1268]),
+                    ("taxID", [0, 2697049]),
+                    ("rank", ["no rank", "species"]),
+                    (
+                        "taxName",
+                        [
+                            "Severe acute respiratory syndrome-related coronavirus",
+                            "Severe acute respiratory syndrome coronavirus 2",
+                        ],
+                    ),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "%": [100, 100],
-                    "reads": [100, 100],
-                    "taxReads": ["one hundred", 694009],
-                    "kmers": [7556, 7556],
-                    "dup": [1.3, 1.3],
-                    "cov": [0.1268, 0.1268],
-                    "taxID": [100, 2697049],
-                    "rank": ["no rank", "species"],
-                    "taxName": [
-                        "Severe acute respiratory syndrome-related coronavirus",
-                        "Severe acute respiratory syndrome coronavirus 2",
-                    ],
-                }
+                OrderedDict(
+                    [
+                        ("%", [100.0, 100.0]),
+                        ("reads", [100, 100]),
+                        ("taxReads", ["0", 100]),
+                        ("kmers", [7556, 7556]),
+                        ("dup", [1.3, 1.3]),
+                        ("cov", [0.1268, 0.1268]),
+                        ("taxID", [0, 2697049]),
+                        ("rank", ["no rank", "species"]),
+                        (
+                            "taxName",
+                            [
+                                "Severe acute respiratory syndrome-related coronavirus",
+                                "Severe acute respiratory syndrome coronavirus 2",
+                            ],
+                        ),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="expected series 'taxReads' to have type"
+            ),
         ),
     ],
 )
