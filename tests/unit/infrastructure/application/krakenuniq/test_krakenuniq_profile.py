@@ -29,7 +29,7 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -87,13 +87,13 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
         ),
     ],
 )
-def test_column_presence(table: pd.DataFrame):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    KrakenUniqProfile.validate(table)
+    KrakenUniqProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -145,13 +145,13 @@ def test_column_presence(table: pd.DataFrame):
         ),
     ],
 )
-def test_taxonomy_id(table: pd.DataFrame):
+def test_taxonomy_id(profile: pd.DataFrame):
     """Test that the taxonomy_id column is checked."""
-    KrakenUniqProfile.validate(table)
+    KrakenUniqProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
             OrderedDict(
@@ -202,6 +202,6 @@ def test_taxonomy_id(table: pd.DataFrame):
         ),
     ],
 )
-def test_count(table: pd.DataFrame):
+def test_count(profile: pd.DataFrame):
     """Test that the count column is checked."""
-    KrakenUniqProfile.validate(table)
+    KrakenUniqProfile.validate(profile)

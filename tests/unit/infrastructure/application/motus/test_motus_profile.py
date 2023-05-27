@@ -20,7 +20,6 @@
 
 
 from collections import OrderedDict
-from typing import List, Tuple
 
 import pandas as pd
 import pytest
@@ -30,91 +29,117 @@ from taxpasta.infrastructure.application import MotusProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        [
-            ("consensus_taxonomy", pd.Series(data=["bac"], dtype=str)),
-            ("ncbi_tax_id", pd.Series(data=[2], dtype="Int64")),
-            ("read_count", pd.Series(data=[1], dtype=int)),
-        ],
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("consensus_taxonomy", ["bac"]),
+                    ("ncbi_tax_id", [2]),
+                    ("read_count", [1]),
+                ]
+            )
+        ),
         pytest.param(
-            [
-                ("consensus_taxonomy", pd.Series(data=["bac"], dtype=str)),
-                ("ncbi_tax_id", pd.Series(data=[2], dtype="Int64")),
-            ],
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("consensus_taxonomy", ["bac"]),
+                        ("ncbi_tax_id", [2]),
+                    ]
+                )
+            ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'read_count' not in dataframe"
             ),
         ),
         pytest.param(
-            [
-                ("consensus_taxonomy", pd.Series(data=["bac"], dtype=str)),
-                ("read_count", pd.Series(data=[1], dtype=int)),
-                ("ncbi_tax_id", pd.Series(data=[2], dtype="Int64")),
-            ],
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("consensus_taxonomy", ["bac"]),
+                        ("read_count", [1]),
+                        ("ncbi_tax_id", [2]),
+                    ]
+                )
+            ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'read_count' out-of-order"
             ),
         ),
     ],
 )
-def test_column_presence(columns: List[Tuple[str, pd.Series]]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    # We ensure the order of the columns here to get out-of-order errors.
-    data = OrderedDict()
-    for key, series in columns:
-        data[key] = series
-    MotusProfile.validate(pd.DataFrame(data))
+    MotusProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "consensus_taxonomy": [
-                    "Leptospira alexanderi [ref_mOTU_v3_00001]",
-                    "Leptospira weilii [ref_mOTU_v3_00002]",
-                ],
-                "ncbi_tax_id": [100053, 28184],
-                "read_count": [0, 0],
-            }
+            OrderedDict(
+                [
+                    (
+                        "consensus_taxonomy",
+                        [
+                            "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                            "Leptospira weilii [ref_mOTU_v3_00002]",
+                        ],
+                    ),
+                    ("ncbi_tax_id", [100053, 28184]),
+                    ("read_count", [0, 0]),
+                ]
+            )
         ),
     ],
 )
-def test_taxonomy_id(table: pd.DataFrame):
+def test_taxonomy_id(profile: pd.DataFrame):
     """Test that the taxID column is checked."""
-    MotusProfile.validate(table)
+    MotusProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "consensus_taxonomy": [
-                    "Leptospira alexanderi [ref_mOTU_v3_00001]",
-                    "Leptospira weilii [ref_mOTU_v3_00002]",
-                ],
-                "ncbi_tax_id": [100053, 28184],
-                "read_count": [0, 0],
-            }
+            OrderedDict(
+                [
+                    (
+                        "consensus_taxonomy",
+                        [
+                            "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                            "Leptospira weilii [ref_mOTU_v3_00002]",
+                        ],
+                    ),
+                    ("ncbi_tax_id", [100053, 28184]),
+                    ("read_count", [0, 0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "consensus_taxonomy": [
-                        "Leptospira alexanderi [ref_mOTU_v3_00001]",
-                        "Leptospira weilii [ref_mOTU_v3_00002]",
-                    ],
-                    "ncbi_tax_id": [100053, 28184],
-                    "read_count": ["zero", 0],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "consensus_taxonomy",
+                            [
+                                "Leptospira alexanderi [ref_mOTU_v3_00001]",
+                                "Leptospira weilii [ref_mOTU_v3_00002]",
+                            ],
+                        ),
+                        ("ncbi_tax_id", [100053, 28184]),
+                        ("read_count", ["0", 0]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError,
+                message="expected series 'read_count' to have type",
+            ),
         ),
     ],
 )
-def test_count(table: pd.DataFrame):
+def test_count(profile: pd.DataFrame):
     """Test that the count column is checked."""
-    MotusProfile.validate(table)
+    MotusProfile.validate(profile)
