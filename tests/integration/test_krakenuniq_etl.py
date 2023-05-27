@@ -38,7 +38,7 @@ from taxpasta.infrastructure.application import (
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
-        # ("krakenuniq", "test1.krakenuniq.report.txt"),
+        # ("krakenuniq", "test1.krakenuniq.report.txt"),  # noqa: E800
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),

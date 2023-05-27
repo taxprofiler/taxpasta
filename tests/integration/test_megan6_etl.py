@@ -41,7 +41,7 @@ from taxpasta.infrastructure.application import (
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
-        # ("megan6", "malt_rma2info_valid.txt.gz"),
+        # ("megan6", "malt_rma2info_valid.txt.gz"),  # noqa: E800
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],

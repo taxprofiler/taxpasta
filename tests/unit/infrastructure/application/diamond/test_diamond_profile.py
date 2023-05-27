@@ -17,8 +17,9 @@
 
 
 """Test that the schema model validates diamond profiles correctly."""
+
+
 from collections import OrderedDict
-from typing import Collection
 
 import pandas as pd
 import pytest

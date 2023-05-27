@@ -36,10 +36,10 @@ from taxpasta.infrastructure.application import (
     params=[
         ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
         # The tabular Centrifuge output is identical to the Kraken2 one.
-        # ("centrifuge", "AD_pe-db1.centrifuge.txt"),
+        # ("centrifuge", "AD_pe-db1.centrifuge.txt"),  # noqa: E800
         ("diamond", "diamond_valid_1.tsv"),
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
-        # ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
+        # ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),  # noqa: E800
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),

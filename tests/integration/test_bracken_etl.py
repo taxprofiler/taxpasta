@@ -34,7 +34,7 @@ from taxpasta.infrastructure.application import (
 @pytest.fixture(
     scope="module",
     params=[
-        # ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
+        # ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),  # noqa: E800
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
