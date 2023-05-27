@@ -38,7 +38,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
     """Define a standardisation service for metaphlan profiles."""
 
     # Metaphlan only reports up to six decimals so this number should be large enough.
-    LARGE_INTEGER = int(1e6)
+    LARGE_INTEGER = 1_000_000
 
     @classmethod
     @pa.check_types(lazy=True)

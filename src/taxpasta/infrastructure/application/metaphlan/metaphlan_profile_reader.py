@@ -22,6 +22,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .metaphlan_profile import MetaphlanProfile
 
@@ -30,6 +31,7 @@ class MetaphlanProfileReader(ProfileReader):
     """Define a reader for Metaphlan profiles."""
 
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[MetaphlanProfile]:
         """Read a metaphlan taxonomic profile from a file."""
         result = pd.read_table(
