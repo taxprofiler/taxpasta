@@ -19,13 +19,37 @@
 """Test that MEGAN6 rma2info profiles are read, validated, and transformed correctly."""
 
 
+from pathlib import Path
+
 import pytest
 from pandas.errors import ParserError
+from pandera.errors import SchemaErrors
 
+from taxpasta.application.error import StandardisationError
 from taxpasta.infrastructure.application import (
     Megan6ProfileReader,
     Megan6ProfileStandardisationService,
 )
+
+
+@pytest.fixture(
+    scope="module",
+    params=[
+        ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
+        ("centrifuge", "AD_pe-db1.centrifuge.txt"),
+        ("diamond", "diamond_valid_1.tsv"),
+        ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
+        ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
+        ("krakenuniq", "test1.krakenuniq.report.txt"),
+        # ("megan6", "malt_rma2info_valid.txt.gz"),
+        ("metaphlan", "mpa_valid_complex.tsv"),
+        ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
+    ],
+)
+def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
+    """Return parametrized paths to other profilers' profiles."""
+    profiler, filename = request.param
+    return data_dir / profiler / filename
 
 
 @pytest.mark.parametrize(
@@ -47,10 +71,18 @@ from taxpasta.infrastructure.application import (
     ],
 )
 def test_read_correctness(
-    megan6_data_dir,
+    megan6_data_dir: Path,
     filename: str,
 ):
     """Test that megan6 profiles are read, validated, and transformed correctly."""
     Megan6ProfileStandardisationService.transform(
         Megan6ProfileReader.read(megan6_data_dir / filename)
     )
+
+
+def test_failure_on_other_profiles(other_profile: Path):
+    """Expect that profiles from other profilers fail validation."""
+    with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
+        Megan6ProfileStandardisationService.transform(
+            Megan6ProfileReader.read(other_profile)
+        )
