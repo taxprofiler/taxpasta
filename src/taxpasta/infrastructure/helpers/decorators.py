@@ -20,16 +20,17 @@
 
 
 import warnings
+from functools import wraps
 from typing import Any, Callable
 
 from pandas.errors import ParserWarning
 
 
 def raise_parser_warnings(func: Callable) -> Callable:
-    """"""
+    """Decorate a function in order to raise parser warnings as value errors."""
 
+    @wraps(func)
     def wrapped(*args, **kwargs) -> Any:
-        """"""
         with warnings.catch_warnings():
             warnings.filterwarnings(action="error", category=ParserWarning)
             try:
