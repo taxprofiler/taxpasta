@@ -23,6 +23,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .kraken2_profile import Kraken2Profile
 
@@ -31,6 +32,7 @@ class Kraken2ProfileReader(ProfileReader):
     """Define a reader for kraken2 profiles."""
 
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[Kraken2Profile]:
         """
         Read a kraken2 taxonomic profile from the given source.
