@@ -19,7 +19,7 @@
 """Test that the schema model validates kaiju profiles correctly."""
 
 
-from typing import Collection
+from collections import OrderedDict
 
 import pandas as pd
 import pytest
@@ -29,21 +29,29 @@ from taxpasta.infrastructure.application import KaijuProfile
 
 
 @pytest.mark.parametrize(
-    "columns",
+    "profile",
     [
-        (
-            "file",
-            "percent",
-            "reads",
-            "taxon_id",
-            "taxon_name",
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("file", ["filename"]),
+                    ("percent", [100.0]),
+                    ("reads", [100]),
+                    ("taxon_id", [1]),
+                    ("taxon_name", ["root"]),
+                ]
+            )
         ),
         pytest.param(
-            (
-                "file",
-                "percent",
-                "reads",
-                "taxon_name",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("file", ["filename"]),
+                        ("percent", [100.0]),
+                        ("reads", [100]),
+                        ("taxon_name", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -51,12 +59,16 @@ from taxpasta.infrastructure.application import KaijuProfile
             ),
         ),
         pytest.param(
-            (
-                "file",
-                "taxon_id",
-                "reads",
-                "percent",
-                "taxon_name",
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("file", ["filename"]),
+                        ("taxon_id", [1]),
+                        ("percent", [100.0]),
+                        ("reads", [100]),
+                        ("taxon_name", ["root"]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="column 'taxon_id' out-of-order"
@@ -64,107 +76,139 @@ from taxpasta.infrastructure.application import KaijuProfile
         ),
     ],
 )
-def test_column_presence(columns: Collection[str]):
+def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    KaijuProfile.validate(pd.DataFrame(columns=columns, data=[]))
+    KaijuProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "file": [
-                    "barcode41_se-barcode41-kaiju.tsv",
-                    "barcode41_se-barcode41-kaiju.tsv",
-                ],
-                "percent": [99.1, 0.9],
-                "reads": [0, 0],
-                "taxon_id": [-1, 1],
-                "taxon_name": ["unclassified", "Viruses"],
-            }
+            OrderedDict(
+                [
+                    (
+                        "file",
+                        [
+                            "barcode41_se-barcode41-kaiju.tsv",
+                            "barcode41_se-barcode41-kaiju.tsv",
+                        ],
+                    ),
+                    ("percent", [99.1, 0.9]),
+                    ("reads", [100, 1]),
+                    ("taxon_id", [-1, 1]),
+                    ("taxon_name", ["unclassified", "Viruses"]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "file": [
-                        "barcode41_se-barcode41-kaiju.tsv",
-                        "barcode41_se-barcode41-kaiju.tsv",
-                    ],
-                    "percent": [99.1, 2.9],
-                    "reads": [0, 0],
-                    "taxon_id": [-1, 1],
-                    "taxon_name": ["unclassified", "Viruses"],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "file",
+                            [
+                                "barcode41_se-barcode41-kaiju.tsv",
+                                "barcode41_se-barcode41-kaiju.tsv",
+                            ],
+                        ),
+                        ("percent", [99.1, 2.9]),
+                        ("reads", [100, 1]),
+                        ("taxon_id", [-1, 1]),
+                        ("taxon_name", ["unclassified", "Viruses"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "file": [
-                        "barcode41_se-barcode41-kaiju.tsv",
-                        "barcode41_se-barcode41-kaiju.tsv",
-                    ],
-                    "percent": [79.1, 1.9],
-                    "reads": [0, 0],
-                    "taxon_id": [-1, 1],
-                    "taxon_name": ["unclassified", "Viruses"],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "file",
+                            [
+                                "barcode41_se-barcode41-kaiju.tsv",
+                                "barcode41_se-barcode41-kaiju.tsv",
+                            ],
+                        ),
+                        ("percent", [79.1, 1.9]),
+                        ("reads", [100, 1]),
+                        ("taxon_id", [-1, 1]),
+                        ("taxon_name", ["unclassified", "Viruses"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
     ],
 )
-def test_percent(table: pd.DataFrame):
+def test_percent(profile: pd.DataFrame):
     """Test that the percent column is checked."""
-    KaijuProfile.validate(table)
+    KaijuProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
-    "table",
+    "profile",
     [
         pd.DataFrame(
-            {
-                "file": [
-                    "barcode41_se-barcode41-kaiju.tsv",
-                    "barcode41_se-barcode41-kaiju.tsv",
-                ],
-                "percent": [99.1, 0.9],
-                "reads": [0, 0],
-                "taxon_id": [-1, 1],
-                "taxon_name": ["unclassified", "Viruses"],
-            }
+            OrderedDict(
+                [
+                    (
+                        "file",
+                        [
+                            "barcode41_se-barcode41-kaiju.tsv",
+                            "barcode41_se-barcode41-kaiju.tsv",
+                        ],
+                    ),
+                    ("percent", [99.1, 0.9]),
+                    ("reads", [100, 1]),
+                    ("taxon_id", [-1, 1]),
+                    ("taxon_name", ["unclassified", "Viruses"]),
+                ]
+            )
         ),
         pd.DataFrame(
-            {
-                "file": [
-                    "barcode41_se-barcode41-kaiju.tsv",
-                    "barcode41_se-barcode41-kaiju.tsv",
-                ],
-                "percent": [99.1, 0.9],
-                "reads": [42, 10_000_000],
-                "taxon_id": [-1, 1],
-                "taxon_name": ["unclassified", "Viruses"],
-            }
+            OrderedDict(
+                [
+                    (
+                        "file",
+                        [
+                            "barcode41_se-barcode41-kaiju.tsv",
+                            "barcode41_se-barcode41-kaiju.tsv",
+                        ],
+                    ),
+                    ("percent", [99.1, 0.9]),
+                    ("reads", [42, 10_000_000]),
+                    ("taxon_id", [-1, 1]),
+                    ("taxon_name", ["unclassified", "Viruses"]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
-                {
-                    "file": [
-                        "barcode41_se-barcode41-kaiju.tsv",
-                        "barcode41_se-barcode41-kaiju.tsv",
-                    ],
-                    "percent": [99.1, 0.9],
-                    "reads": [-1, 0],
-                    "taxon_id": [-1, 1],
-                    "taxon_name": ["unclassified", "Viruses"],
-                }
+                OrderedDict(
+                    [
+                        (
+                            "file",
+                            [
+                                "barcode41_se-barcode41-kaiju.tsv",
+                                "barcode41_se-barcode41-kaiju.tsv",
+                            ],
+                        ),
+                        ("percent", [99.1, 0.9]),
+                        ("reads", [-1, 0]),
+                        ("taxon_id", [-1, 1]),
+                        ("taxon_name", ["unclassified", "Viruses"]),
+                    ]
+                )
             ),
-            marks=pytest.mark.raises(exception=SchemaError),
+            marks=pytest.mark.raises(
+                exception=SchemaError, message="greater_than_or_equal_to"
+            ),
         ),
     ],
 )
-def test_reads(table: pd.DataFrame):
+def test_reads(profile: pd.DataFrame):
     """Test that the reads column is checked."""
-    KaijuProfile.validate(table)
+    KaijuProfile.validate(profile)

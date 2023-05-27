@@ -23,6 +23,7 @@ import pandas as pd
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
+from taxpasta.infrastructure.helpers import raise_parser_warnings
 
 from .kaiju_profile import KaijuProfile
 
@@ -31,6 +32,7 @@ class KaijuProfileReader(ProfileReader):
     """Define a reader for kaiju profiles."""
 
     @classmethod
+    @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[KaijuProfile]:
         """
         Read a kaiju taxonomic profile from the given source.
@@ -48,7 +50,7 @@ class KaijuProfileReader(ProfileReader):
             sep="\t",
             header=0,
             index_col=False,
-            dtype={KaijuProfile.taxon_id: str},
+            dtype={KaijuProfile.taxon_id: "Int64"},
         )
         cls._check_num_columns(result, KaijuProfile)
         return result

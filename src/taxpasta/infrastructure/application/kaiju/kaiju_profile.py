@@ -24,8 +24,10 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
+from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
-class KaijuProfile(pa.DataFrameModel):
+
+class KaijuProfile(BaseDataFrameModel):
     """Define the expected kaiju profile format."""
 
     file: Series[str] = pa.Field()
@@ -46,10 +48,3 @@ class KaijuProfile(pa.DataFrameModel):
     def check_unique_filename(cls, file_col: Series[str]) -> bool:
         """Check that Kaiju filename is unique."""
         return file_col.empty or file_col.nunique() == 1
-
-    class Config:
-        """Configure the schema model."""
-
-        coerce = True
-        ordered = True
-        strict = True
