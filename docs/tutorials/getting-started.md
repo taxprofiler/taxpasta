@@ -1,12 +1,12 @@
 # Getting Started
 
-In this getting started tutorial we will show you how to generate
-standardised taxonomic profiles from the diverse outputs of two
-popular taxonomic profilers: [Kraken2](https://ccb.jhu.edu/software/kraken2/)
-and [mOTUs](https://motu-tool.org/) using `taxpasta`.
+In this getting started tutorial we will show you how to generate standardised
+taxonomic profiles from the diverse outputs of two popular taxonomic profilers:
+[Kraken2](https://ccb.jhu.edu/software/kraken2/) and
+[mOTUs](https://motu-tool.org/) using `taxpasta`.
 
-If you want a more detailed walkthrough of _why_ standardising the profiles
-is useful, please see the [Deep Dive](deepdive.md) tutorial.
+If you want a more detailed walkthrough of _why_ standardising the profiles is
+useful, please see the [Deep Dive](deepdive.md) tutorial.
 
 ## Preparation
 
@@ -30,7 +30,10 @@ example, `curl` (OSX, Linux) or `wget` (generally Linux Only).
 
 !!! info
 
-    The following test data are from [ancient DNA samples](https://doi.org/10.1016/j.cub.2021.09.031) against standard databases, thus have a high unclassified rate due to uncharacterised environmental contamination and extinct species. 
+    The following test data are from [ancient DNA
+    samples](https://doi.org/10.1016/j.cub.2021.09.031) against standard
+    databases, thus have a high unclassified rate due to uncharacterised
+    environmental contamination and extinct species.
 
 === "curl"
 
@@ -68,11 +71,11 @@ To begin, let’s look at the contents of the output from each profiler.
     tutorial_bash_snippets.md:kraken2-head
 --8<--
 
-These look quite different. Neither of them is in a nice "pure" tabular
-format that is convenient for analysis software or spreadsheet tools such
-as Microsoft Excel or LibreOffice Calc to load. They also have different
-types columns and, in the case of Kraken2, it has an interesting
-"indentation" way of showing the taxonomic rank of each taxon.
+These look quite different. Neither of them is in a nice "pure" tabular format
+that is convenient for analysis software or spreadsheet tools such as Microsoft
+Excel or LibreOffice Calc to load. They also have different types columns and,
+in the case of Kraken2, it has an interesting "indentation" way of showing the
+taxonomic rank of each taxon.
 
 ## Standardisation and Merging
 
@@ -80,15 +83,16 @@ types columns and, in the case of Kraken2, it has an interesting
 
 This is where `taxpasta` comes to the rescue!
 
-With `taxpasta`, you can standardise and combine profiles into multi-sample taxon tables
-for you already at the command-line; rather than having to do this with custom scripts
-and a lot of manual data munging.
+With `taxpasta`, you can standardise and combine profiles into multi-sample
+taxon tables for you already at the command-line; rather than having to do this
+with custom scripts and a lot of manual data munging.
 
 If you want to standardise a single profile you need three things:
 
-- The name of the taxonomic profiler used to generate the input file (`--profiler` or `-p`)
-- The requested output file name with a valid suffix that will tell `taxpasta` which format to save the output in
-(`--output` or `-o`)
+- The name of the taxonomic profiler used to generate the input file
+  (`--profiler` or `-p`)
+- The requested output file name with a valid suffix that will tell `taxpasta`
+  which format to save the output in (`--output` or `-o`)
 - The input profile file itself
 
 --8<--
@@ -112,8 +116,8 @@ What about the more complicated mOTUs case, where we not only have unusual
 comment headers but also profiles from _multiple_ samples to be standardised?
 
 In this case, we can instead use `taxpasta merge`, which will both standardise
-_and_ merge the profiles of different samples into one for you - all
-through the command-line. 
+_and_ merge the profiles of different samples into one for you - all through the
+command-line.
 
 Again, We need to specify the profiler, the output name and
 format (via the suffix), and the input profiles themselves.
@@ -133,15 +137,26 @@ _both_ input files.
 
 !!! danger
 
-        We do not (directly) support merging _across_ different classifiers/profilers, as each tool may have its own database, metric, _and_ taxonomy ID system,. This can risk making naïve assumptions and false-positive interpretations, thus `taxpasta` is designed to help _prepare_ data for cross-classifier without doing it itself. We rather highly recommend doing this mindfully in an exploratory fashion. We provide examples of how to do this carefully using R and Python in the corresponding [How to merge across classifers](../how-tos/how-to-merge-across-classifiers.md) section.
+    We do not (directly) support merging _across_ different
+    classifiers/profilers, as each tool may have its own database, metric, _and_
+    taxonomy ID system,. This can risk making naïve assumptions and
+    false-positive interpretations, thus `taxpasta` is designed to help
+    _prepare_ data for cross-classifier without doing it itself. We rather
+    highly recommend doing this mindfully in an exploratory fashion. We provide
+    examples of how to do this carefully using R and Python in the corresponding
+    [How to merge across
+    profilers](../how-tos/how-to-merge-across-profilers.md) section.
 
-        However if you really want this functionality, please let the developers know via a [feature request](https://github.com/taxprofiler/taxpasta/issues/new?assignees=&labels=enhancement&template=03-feature-request.yml&title=%5BFeature%5D+).
+    However if you really want this functionality, please let the developers
+    know via a [feature
+    request](https://github.com/taxprofiler/taxpasta/issues/new?assignees=&labels=enhancement&template=03-feature-request.yml&title=%5BFeature%5D+).
 
 ## Additional functionality
 
-If you want to learn how to use `taxpasta` to add taxonomic names (rather than IDs) to your profiles, see [here](../how-tos/how-to-add-names.md).
-
-Want to customise the sample names in the columns? See [here](../how-tos/how-to-customise-sample-names.md).
+- If you want to learn how to use `taxpasta` to add taxonomic names (rather than
+  IDs) to your profiles, see [here](../how-tos/how-to-add-names.md).
+- Want to customise the sample names in the columns? See
+  [here](../how-tos/how-to-customise-sample-names.md).
 
 ## Clean Up
 
