@@ -38,8 +38,8 @@ def raise_parser_warnings(func: Callable) -> Callable:
             except ParserWarning as exc:
                 raise ValueError(
                     "There were unexpected issues with the data. Please double-check "
-                    "that you chose a matching combination of metagenomic profiler and "
-                    "profile."
+                    "the specific combination of your chosen metagenomic profiler and "
+                    "input profile."
                 ) from exc
         return result
 
