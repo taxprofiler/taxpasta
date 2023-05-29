@@ -8,7 +8,7 @@ export GID := $(shell id -g)
 ## Compile the paper draft
 draft: paper/paper.pdf
 
-paper/paper.pdf:
+paper/paper.pdf: paper/paper.md
 	docker compose run --rm draft
 
 .PHONY: clean
