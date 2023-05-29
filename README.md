@@ -33,7 +33,7 @@ taxonomic tables for:
 -   [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 -   [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
 -   [MEGAN6](http://www-ab.informatik.uni-tuebingen.de/software/megan6)/[MALT](https://uni-tuebingen.de/fakultaeten/mathematisch-naturwissenschaftliche-fakultaet/fachbereiche/informatik/lehrstuehle/algorithms-in-bioinformatics/software/malt/)
--   [MetaPhlAn](https://segatalab.cibio.unitn.it/tools/metaphlan/index.html)
+-   [MetaPhlAn](https://huttenhower.sph.harvard.edu/metaphlan)
 -   [mOTUs](https://motu-tool.org/)
 
 See [supported profilers](https://taxpasta.readthedocs.io/en/latest/supported_profilers/)
