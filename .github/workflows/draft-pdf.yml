@@ -1,0 +1,27 @@
+name: Draft PDF
+
+on:
+  push:
+    branches:
+      - joss-paper
+  pull_request:
+    branches:
+      - joss-paper
+
+jobs:
+  paper:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Draft PDF
+        uses: openjournals/openjournals-draft-action@v1
+        with:
+          journal: joss
+          paper-path: paper/paper.md
+
+      - name: Upload PDF
+        uses: actions/upload-artifact@v3
+        with:
+          name: paper
+          path: paper/paper.pdf

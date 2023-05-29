@@ -1,0 +1,8 @@
+services:
+  draft:
+    environment:
+      - "JOURNAL=joss"
+    image: openjournals/inara
+    user: "${UID?}:${GID?}"
+    volumes:
+      - "./paper:/data"
