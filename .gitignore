@@ -802,5 +802,3 @@ fabric.properties
 /src/taxpasta/_version.py
 /.ruff_cache/
 
-# Text Editor settings
-settings.json
