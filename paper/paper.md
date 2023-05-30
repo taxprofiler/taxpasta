@@ -39,18 +39,18 @@ bibliography: paper.bib
 
 Metagenomic analysis is a scientific field that was strongly enabled by
 next-generation sequencing. It is chiefly concerned with the taxonomic and
-functional composition of microbial communities in their natural habitats. That
-means, researchers would like to know from metagenomic sequencing samples who
+functional composition of microbial communities in their natural habitats.
+Metagenomic sequencing samples help researchers to detect who
 (what microbes) is present, and what are they doing (what functions are they
 performing)? The nature of this field is such that it intersects with ecology,
 statistics, and bioinformatics.
 
 In part, due to the interdisciplinary nature of the field, there exists a
 diverse number of bioinformatics tools in order to analyse metagenomic
-sequencing data and produce metagenomic profiles; answering to the question of
-who is there and in what relative proportion. Most of those tools have invented
+sequencing data and produce metagenomic profiles; answering the question of
+who is there and estimate the relative abundance. Most of these tools have developped
 their own tabular result format, which complicates downstream analysis and in
-particular comparison across tools.
+particular comparison across tools remains challenging.
 
 # Statement of need
 
@@ -74,7 +74,7 @@ able to read profiles from nine different profilers, namely Bracken
 [@buchfink_sensitive_2021], Kaiju [@menzel_fast_2016], Kraken2
 [@wood_improved_2019], KrakenUniq [@breitwieser_krakenuniq_2018], MEGAN6/MALT
 [@gautam_meganserver_2023], MetaPhlAn [@blanco-miguez_extending_2023], and mOTUs
-[@ruscheweyh_cultivation-independent_2022]. It offered a wide range of output
+[@ruscheweyh_cultivation-independent_2022]. It offers a wide range of output
 file formats, such as text-based, tabular formats (CSV[^1], TSV[^2]), spreadsheets
 (ODS[^3], XLSX[^4]), optimized binary formats (Apache Arrow[^5] and
 Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012].
@@ -87,7 +87,7 @@ Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012].
 [^6]: https://parquet.apache.org/
 [^7]: https://www.hdfgroup.org/solutions/hdf5/
 
-TAXPASTA is not the first tool to attempt to standardising metagenomic profiles,
+TAXPASTA is not the first tool to attempt to standardise metagenomic profiles,
 but it is by far the most comprehensive in terms of supported profilers and
 output formats.
 
@@ -108,7 +108,7 @@ taxpasta does.
 # Acknowledgements
 
 SS was supported by Rapid establishment of comprehensive laboratory pandemic
-preparedness – RAPID-SEQ. JAFY received funding from the Werner
+preparedness – RAPID-SEQ (Awarded to Prof. Jan Albert). JAFY received funding from the Werner
 Siemens-Stiftung ("Paleobiotechnology", Awarded to Prof. Pierre Stallforth and
 Prof. Christina Warinner).
 
