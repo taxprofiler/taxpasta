@@ -73,24 +73,57 @@ nf-core community [@ewels_nf-core_2020].
 
 Across profilers, relative abundances can be reported in read counts, fractions,
 or percentages, as well as any number of additional columns with extra
-information. TAXPASTA can ingest all of those formats and, at a minimum, produce
-a standardised output containing taxonomic identifiers and their relative
-abundances as integer counts. It can also be used to aggregate profiles from
-the same profiler and merge them into a single, standardised table. Having a
+information. Taxonomic identifiers can be recorded with taxonmic IDs, taxonomic
+names and/or in some cases semi-colon separated taxonomic 'paths'. These can
+also be formatted in different ways, from typical tables, to including
+'indented' taxonomy trees such as in the Kraken [@wood_improved_2019] family of
+profilers. Manually parsing these for comparison can be arduous task, with
+researchers often reverting to custom R, Python scripting, or even manual
+correction in spreadsheet software.
+
+TAXPASTA can ingest all of those formats and, at a minimum, produce a
+standardised output containing taxonomic identifiers and their relative
+abundances as integer counts. It can also be used to aggregate profiles from the
+same profiler and merge them into a single, standardised table. Having a
 singular format facilitates downstream analyses and comparisons.
 
-Primarily, TAXPASTA is a command-line tool that is designed to be used as a
-building block in metagenomic analysis workflows. At the time of writing, it was
-able to read profiles from nine different profilers, namely Bracken
-[@lu_bracken_2017], Centrifuge [@kim_centrifuge_2016], DIAMOND
-[@buchfink_sensitive_2021], Kaiju [@menzel_fast_2016], Kraken2
+TAXPASTA is not the first tool to attempt to standardising metagenomic profiles,
+but it is by far the most comprehensive in terms of supported profilers and
+output formats.
+
+The BIOM format [@mcdonald_biological_2012] was created with a similar intention
+of standardising a storage format for microbiome analyses. However, transforming
+metagenomic profiles into that format was entirely left to the user. The format
+also is not easily loadable into spreadsheet software, and external libraries
+required for loading into data analysis langauges such as R. The QIIME™2
+_next-generation microbiome bioinformatics platform_ [@bolyen_reproducible_2019]
+also maintains internally consistent formats for storing and processing
+metagenomic data that new tools can plug into, however this suite of software is
+aimed mostly at 16S amplicon data [cite], and thus often does have as much
+support or awareness in 'shotgun' sequencing [cite] metagenomic studies . While
+some of the taxonomic profilers also come with scripts to convert their output
+into another format and/or merge multiple profiles into a single table, such as
+the Krakentools companion package [cite], these are often focused on the
+specific tool or family of tools.
+
+TAXPASTA addresses this supports reading of a wide range of (primarily-) shotgun
+metagenomic profiling tools and formats without preference for specific families
+or formats. TAXPASTA is designed to be used as a building block in metagenomic
+analysis workflows.
+
+At the time of writing, it is able to read profiles from nine different
+profilers, namely Bracken [@lu_bracken_2017], Centrifuge [@kim_centrifuge_2016],
+DIAMOND [@buchfink_sensitive_2021], Kaiju [@menzel_fast_2016], Kraken2
 [@wood_improved_2019], KrakenUniq [@breitwieser_krakenuniq_2018], MALT/MEGAN6
 [@huson_megan_2016; @vagene_malt_2018], MetaPhlAn
 [@blanco-miguez_extending_2023],and mOTUs
-[@ruscheweyh_cultivation-independent_2022]. It offered a wide range of output
-file formats, such as text-based, tabular formats (CSV[^1], TSV[^2]),
-spreadsheets (ODS[^3], XLSX[^4]), optimized binary formats (Apache Arrow[^5] and
-Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012].
+[@ruscheweyh_cultivation-independent_2022].
+
+For maximum compatibility, it offers a wide range of familiar output file
+formats, such as text-based, tabular formats (CSV[^1], TSV[^2]), spreadsheets
+(ODS[^3], XLSX[^4]), optimized binary formats (Apache Arrow[^5] and
+Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012], to
+make to make it easy to integrate into existing workflows.
 
 [^1]: https://en.wikipedia.org/wiki/Comma-separated_values
 [^2]: https://en.wikipedia.org/wiki/Tab-separated_values
@@ -99,24 +132,6 @@ Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012].
 [^5]: https://arrow.apache.org/
 [^6]: https://parquet.apache.org/
 [^7]: https://www.hdfgroup.org/solutions/hdf5/
-
-TAXPASTA is not the first tool to attempt to standardising metagenomic profiles,
-but it is by far the most comprehensive in terms of supported profilers and
-output formats.
-
-The BIOM format [@mcdonald_biological_2012] was created with a similar intention
-of standardising a storage format for microbiome analyses. However, transforming
-metagenomic profiles into that format was entirely left to the user. TAXPASTA
-is conveniently able to read profiles from a wide range of tools and can also
-produce BIOM output.
-
-The QIIME™2 _next-generation microbiome bioinformatics platform_
-[@bolyen_reproducible_2019] also maintains internally consistent formats for
-storing and processing metagenomic data that new tools can plug into.
-
-Some of the taxonomic profilers also come with scripts to convert their output
-into another format but none of them support such a wide range of tools as
-taxpasta does.
 
 # Acknowledgements
 
