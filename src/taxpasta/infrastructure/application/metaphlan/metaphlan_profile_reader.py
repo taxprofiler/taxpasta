@@ -34,10 +34,19 @@ class MetaphlanProfileReader(ProfileReader):
     @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[MetaphlanProfile]:
         """Read a metaphlan taxonomic profile from a file."""
+        # Metaphlan4 introduces a line for the total read count before the profile
+        headerline = 4 # this line was used in Metaphlan3
+        # The following scans the first few lines of the document to find the header
+        with open(profile, "r") as fp:
+            for cnt, line in enumerate(fp):
+                 if line.startswith("#clade_name"):
+                     headerline=cnt+1
+                     break
+        
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            skiprows=4,
+            skiprows=headerline, # this varies between Metaphlan3 - Metaphlan4
             header=None,
             index_col=False,
             names=[
