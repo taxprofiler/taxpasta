@@ -79,7 +79,11 @@ class ApplicationServiceRegistry:
         elif profiler is SupportedProfiler.motus:
             from .motus import MotusProfileReader
 
-            return MotusProfileReader
+            return GanonProfileReader
+        elif profiler is SupportedProfiler.ganon:
+            from .ganon import GanonProfileReader
+
+            return GanonProfileReader
 
     @classmethod
     def profile_standardisation_service(
@@ -121,7 +125,12 @@ class ApplicationServiceRegistry:
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileStandardisationService
 
-            return MetaphlanProfileStandardisationService
+            return GanonProfileStandardisationService
+        elif profiler is SupportedProfiler.ganon:
+            from .ganon import GanonProfileStandardisationService
+
+            return GanonProfileStandardisationService
+
         else:
             raise ValueError("Unexpected")
 

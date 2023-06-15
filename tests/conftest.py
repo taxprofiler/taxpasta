@@ -89,3 +89,9 @@ def krakenuniq_data_dir(data_dir: Path) -> Path:
 def motus_data_dir(data_dir: Path) -> Path:
     """Provide the path to the mOTUs data directory."""
     return data_dir / "motus"
+
+
+@pytest.fixture(scope="session")
+def ganon_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the ganon data directory."""
+    return data_dir / "ganon"
