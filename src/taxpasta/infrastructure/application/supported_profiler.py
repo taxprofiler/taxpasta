@@ -35,3 +35,4 @@ class SupportedProfiler(str, Enum):
     megan6 = "megan6"
     metaphlan = "metaphlan"
     motus = "motus"
+    ganon = "ganon"
