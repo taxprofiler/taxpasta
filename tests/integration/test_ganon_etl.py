@@ -37,13 +37,13 @@ from taxpasta.infrastructure.application import (
         ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
+        # ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),  # noqa: E800
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
-        # ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),  # noqa: E800
     ],
 )
 def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
