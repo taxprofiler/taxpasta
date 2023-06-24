@@ -175,19 +175,21 @@ def test_percent(profile: pd.DataFrame):
                 ]
             )
         ),
-        pd.DataFrame(
-            OrderedDict(
-                [
-                    ("rank", ["unclassified", "root"]),
-                    ("target", ["-", 1]),
-                    ("lineage", ["-", 1]),
-                    ("name", ["unclassified", "root"]),
-                    ("nr_unique", [0, 10_000]),
-                    ("nr_shared", [0, 0]),
-                    ("nr_children", [0, 457530]),
-                    ("nr_cumulative", [0, 4575301]),
-                    ("pc_cumulative", [72.38712, 29.61288]),
-                ]
+        pytest.param(
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("rank", ["unclassified", "root"]),
+                        ("target", ["-", 1]),
+                        ("lineage", ["-", 1]),
+                        ("name", ["unclassified", "root"]),
+                        ("nr_unique", [0, 10_000]),
+                        ("nr_shared", [0, 0]),
+                        ("nr_children", [0, 457530]),
+                        ("nr_cumulative", [0, 4575301]),
+                        ("pc_cumulative", [72.38712, 29.61288]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="broken integer format"
@@ -238,19 +240,21 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                 ]
             )
         ),
-        pd.DataFrame(
-            OrderedDict(
-                [
-                    ("rank", ["unclassified", "root"]),
-                    ("target", ["-", 1]),
-                    ("lineage", ["-", 1]),
-                    ("name", ["unclassified", "root"]),
-                    ("nr_unique", [0, 0]),
-                    ("nr_shared", [0, 0]),
-                    ("nr_children", [0, 457530]),
-                    ("nr_cumulative", [0, 4_575_301]),
-                    ("pc_cumulative", [72.38712, 29.61288]),
-                ]
+        pytest.param(
+            pd.DataFrame(
+                OrderedDict(
+                    [
+                        ("rank", ["unclassified", "root"]),
+                        ("target", ["-", 1]),
+                        ("lineage", ["-", 1]),
+                        ("name", ["unclassified", "root"]),
+                        ("nr_unique", [0, 0]),
+                        ("nr_shared", [0, 0]),
+                        ("nr_children", [0, 457530]),
+                        ("nr_cumulative", [0, 4_575_301]),
+                        ("pc_cumulative", [72.38712, 29.61288]),
+                    ]
+                )
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError, message="broken integer format"
