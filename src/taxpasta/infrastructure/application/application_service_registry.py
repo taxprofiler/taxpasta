@@ -79,7 +79,7 @@ class ApplicationServiceRegistry:
         elif profiler is SupportedProfiler.motus:
             from .motus import MotusProfileReader
 
-            return GanonProfileReader
+            return MotusProfileReader
         elif profiler is SupportedProfiler.ganon:
             from .ganon import GanonProfileReader
 
@@ -125,7 +125,7 @@ class ApplicationServiceRegistry:
         elif profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileStandardisationService
 
-            return GanonProfileStandardisationService
+            return MetaphlanProfileStandardisationService
         elif profiler is SupportedProfiler.ganon:
             from .ganon import GanonProfileStandardisationService
 
