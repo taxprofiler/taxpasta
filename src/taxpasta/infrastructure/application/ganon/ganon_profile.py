@@ -31,7 +31,7 @@ class GanonProfile(BaseDataFrameModel):
     """Define the expected ganon profile format."""
 
     rank: Series[str] = pa.Field()
-    target: Series[int] = pa.Field(ge=0)
+    target: Series[str] = pa.Field()
     lineage: Series[str] = pa.Field()
     name: Series[str] = pa.Field()
     nr_unique: Series[int] = pa.Field(ge=0)
