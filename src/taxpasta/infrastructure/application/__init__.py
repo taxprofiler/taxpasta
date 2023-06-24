@@ -31,6 +31,11 @@ from .diamond import (
     DiamondProfileReader,
     DiamondProfileStandardisationService,
 )
+from .ganon import (
+    GanonProfile,
+    GanonProfileReader,
+    GanonProfileStandardisationService,
+)
 from .kaiju import (
     KaijuProfile,
     KaijuProfileReader,
@@ -61,11 +66,7 @@ from .motus import (
     MotusProfileReader,
     MotusProfileStandardisationService,
 )
-from .ganon import (
-    GanonProfile,
-    GanonProfileReader,
-    GanonProfileStandardisationService,
-)
+
 from .sample_etl_application import SampleETLApplication
 from .standard_profile_file_format import StandardProfileFileFormat
 from .table_reader_file_format import TableReaderFileFormat

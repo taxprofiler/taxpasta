@@ -56,6 +56,10 @@ class ApplicationServiceRegistry:
             from .diamond import DiamondProfileReader
 
             return DiamondProfileReader
+        elif profiler is SupportedProfiler.ganon:
+            from .ganon import GanonProfileReader
+
+            return GanonProfileReader
         elif profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileReader
 
@@ -80,10 +84,6 @@ class ApplicationServiceRegistry:
             from .motus import MotusProfileReader
 
             return MotusProfileReader
-        elif profiler is SupportedProfiler.ganon:
-            from .ganon import GanonProfileReader
-
-            return GanonProfileReader
 
     @classmethod
     def profile_standardisation_service(
