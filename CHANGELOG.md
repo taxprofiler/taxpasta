@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Provided curl commands in the intro to quickly fetch example files to try out (#97).
 -   Added new tutorial on merging across classifiers, and warnings why taxpasta
     does not currently do this natively (#98).
--   Added classifier support for ganon report files
+-   Added classifier support for ganon report files (#109).
 
 ### Changed
 
