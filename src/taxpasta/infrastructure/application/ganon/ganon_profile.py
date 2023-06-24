@@ -31,10 +31,8 @@ class GanonProfile(BaseDataFrameModel):
     """Define the expected ganon profile format."""
 
     rank: Series[str] = pa.Field()
-    target: Series[int] = pa.Field(
-        ge=0
-    )  ## TODO: problem - unclassified gets assigned `-`
-    lineage: Series[str] = pa.Field()  ## note - unclassified gets assigned `-`
+    target: Series[int] = pa.Field(ge=0)
+    lineage: Series[str] = pa.Field()
     name: Series[str] = pa.Field()
     nr_unique: Series[int] = pa.Field(ge=0)
     nr_shared: Series[int] = pa.Field(ge=0)
@@ -45,14 +43,13 @@ class GanonProfile(BaseDataFrameModel):
     @pa.dataframe_check
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
-        ## TODO: may need tweak tolerance amount, based on experience
-        ## ganon reports percentage to 5 decimal places
+        # Ganon reports percentage to 5 decimal places, but rounding errors do add up.
         return profile.empty or bool(
             np.isclose(
                 profile.loc[
                     profile[cls.rank].isin(["unclassified", "root"]), cls.pc_cumulative
                 ].sum(),
                 100.0,
-                atol=0.001,
+                atol=0.1,
             )
         )
