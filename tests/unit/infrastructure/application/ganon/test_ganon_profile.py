@@ -82,7 +82,7 @@ from taxpasta.infrastructure.application import GanonProfile
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'rank' out-of-order"
+                exception=SchemaError, message="column 'target' out-of-order"
             ),
         ),
     ],
