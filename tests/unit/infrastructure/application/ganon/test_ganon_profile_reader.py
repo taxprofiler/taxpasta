@@ -35,7 +35,7 @@ from taxpasta.infrastructure.application import GanonProfileReader
             [
                 (0, 0, "unclassified"),
                 (1, 0, "root"),
-                (3, 1, 2157),
+                (3, 1, "2157"),
                 (3, 3, "Archaea"),
                 (3, 4, 0),
                 (3, 6, 10514),

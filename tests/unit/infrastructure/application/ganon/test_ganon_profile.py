@@ -35,7 +35,7 @@ from taxpasta.infrastructure.application import GanonProfile
             OrderedDict(
                 [
                     ("rank", ["root"]),
-                    ("target", [1]),
+                    ("target", ["1"]),
                     ("lineage", ["1"]),
                     ("name", ["root"]),
                     ("nr_unique", [1]),
@@ -51,7 +51,7 @@ from taxpasta.infrastructure.application import GanonProfile
                 OrderedDict(
                     [
                         ("rank", ["root"]),
-                        ("target", [1]),
+                        ("target", ["1"]),
                         ("lineage", ["1"]),
                         ("name", ["root"]),
                         ("nr_unique", [1]),
@@ -69,7 +69,7 @@ from taxpasta.infrastructure.application import GanonProfile
             pd.DataFrame(
                 OrderedDict(
                     [
-                        ("target", [1]),
+                        ("target", ["1"]),
                         ("lineage", ["1"]),
                         ("name", ["root"]),
                         ("nr_unique", [1]),
@@ -99,7 +99,7 @@ def test_column_presence(profile: pd.DataFrame):
             OrderedDict(
                 [
                     ("rank", ["root"]),
-                    ("target", [1]),
+                    ("target", ["1"]),
                     ("lineage", ["1"]),
                     ("name", ["root"]),
                     ("nr_unique", [1]),
@@ -115,8 +115,8 @@ def test_column_presence(profile: pd.DataFrame):
                 OrderedDict(
                     [
                         ("rank", ["unclassified", "root"]),
-                        ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
+                        ("target", ["-", "1"]),
+                        ("lineage", ["-", "1"]),
                         ("name", ["unclassified", "root"]),
                         ("nr_unique", [0, 0]),
                         ("nr_shared", [0, 0]),
@@ -127,7 +127,7 @@ def test_column_presence(profile: pd.DataFrame):
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="compositionality - percent exceeds 100"
+                exception=SchemaError, message="check_compositionality"
             ),
         ),
         pytest.param(
@@ -135,8 +135,8 @@ def test_column_presence(profile: pd.DataFrame):
                 OrderedDict(
                     [
                         ("rank", ["unclassified", "root"]),
-                        ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
+                        ("target", ["-", "1"]),
+                        ("lineage", ["-", "1"]),
                         ("name", ["unclassified", "root"]),
                         ("nr_unique", [0, 0]),
                         ("nr_shared", [0, 0]),
@@ -147,7 +147,7 @@ def test_column_presence(profile: pd.DataFrame):
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="compositionality - percent below 100"
+                exception=SchemaError, message="check_compositionality"
             ),
         ),
     ],
@@ -164,7 +164,7 @@ def test_percent(profile: pd.DataFrame):
             OrderedDict(
                 [
                     ("rank", ["root"]),
-                    ("target", [1]),
+                    ("target", ["1"]),
                     ("lineage", ["1"]),
                     ("name", ["root"]),
                     ("nr_unique", [1]),
@@ -181,38 +181,64 @@ def test_percent(profile: pd.DataFrame):
                     [
                         ("rank", ["unclassified", "root"]),
                         ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
+                        ("lineage", ["-", "1"]),
                         ("name", ["unclassified", "root"]),
-                        ("nr_unique", [0, 10_000]),
+                        ("nr_unique", [0, -1]),
                         ("nr_shared", [0, 0]),
                         ("nr_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 29.61288]),
+                        ("pc_cumulative", [72.38712, 27.61288]),
                     ]
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="broken integer format"
+                exception=SchemaError,
+                message="expected series 'target' to have type str",
             ),
+        ),
+    ],
+)
+def test_target(profile: pd.DataFrame):
+    """Test that the target column is checked."""
+    GanonProfile.validate(profile)
+
+
+@pytest.mark.parametrize(
+    "profile",
+    [
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("rank", ["root"]),
+                    ("target", ["1"]),
+                    ("lineage", ["1"]),
+                    ("name", ["root"]),
+                    ("nr_unique", [1]),
+                    ("nr_shared", [1]),
+                    ("nr_children", [1]),
+                    ("nr_cumulative", [1]),
+                    ("pc_cumulative", [100.0]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
                 OrderedDict(
                     [
                         ("rank", ["unclassified", "root"]),
-                        ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
+                        ("target", ["-", "1"]),
+                        ("lineage", ["-", "1"]),
                         ("name", ["unclassified", "root"]),
                         ("nr_unique", [0, -1]),
                         ("nr_shared", [0, 0]),
                         ("nr_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 29.61288]),
+                        ("pc_cumulative", [72.38712, 27.61288]),
                     ]
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="count less than 0"
+                exception=SchemaError, message="greater_than_or_equal_to"
             ),
         ),
     ],
@@ -229,7 +255,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
             OrderedDict(
                 [
                     ("rank", ["root"]),
-                    ("target", [1]),
+                    ("target", ["1"]),
                     ("lineage", ["1"]),
                     ("name", ["root"]),
                     ("nr_unique", [1]),
@@ -240,33 +266,28 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                 ]
             )
         ),
-        pytest.param(
-            pd.DataFrame(
-                OrderedDict(
-                    [
-                        ("rank", ["unclassified", "root"]),
-                        ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
-                        ("name", ["unclassified", "root"]),
-                        ("nr_unique", [0, 0]),
-                        ("nr_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
-                        ("nr_cumulative", [0, 4_575_301]),
-                        ("pc_cumulative", [72.38712, 29.61288]),
-                    ]
-                )
-            ),
-            marks=pytest.mark.raises(
-                exception=SchemaError, message="broken integer format"
-            ),
+        pd.DataFrame(
+            OrderedDict(
+                [
+                    ("rank", ["unclassified", "root"]),
+                    ("target", ["-", "1"]),
+                    ("lineage", ["-", "1"]),
+                    ("name", ["unclassified", "root"]),
+                    ("nr_unique", [0, 0]),
+                    ("nr_shared", [0, 0]),
+                    ("nr_children", [0, 457530]),
+                    ("nr_cumulative", [0, 4_575_301]),
+                    ("pc_cumulative", [72.38712, 27.61288]),
+                ]
+            )
         ),
         pytest.param(
             pd.DataFrame(
                 OrderedDict(
                     [
                         ("rank", ["unclassified", "root"]),
-                        ("target", ["-", 1]),
-                        ("lineage", ["-", 1]),
+                        ("target", ["-", "1"]),
+                        ("lineage", ["-", "1"]),
                         ("name", ["unclassified", "root"]),
                         ("nr_unique", [0, 0]),
                         ("nr_shared", [0, 0]),
@@ -277,7 +298,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="count less than 0"
+                exception=SchemaError, message="greater_than_or_equal_to"
             ),
         ),
     ],
