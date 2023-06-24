@@ -315,6 +315,10 @@ class ApplicationServiceRegistry:
             raise ValueError("Unexpected")
 ```
 
+## 6. Documentation
+
+Lastly, add a markdown page under `docs/supported_profilers` describing the supported input by taxpasta, and add a link to the page on the `docs/supported_profilers/index.md` page, and finally a link to the source code or website of the tool on `docs/index.md`.
+
 Congratulations! :tada: You are now ready to use your added profiler in the taxpasta commands.
 
 ## Overview

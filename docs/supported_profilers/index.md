@@ -14,6 +14,7 @@ each taxonomic profiler can be standardised by taxpasta.
 -   [Bracken](bracken.md)
 -   [Centrifuge](centrifuge.md)
 -   [DIAMOND](diamond.md)
+-   [ganon](ganon.md)
 -   [Kaiju](kaiju.md)
 -   [Kraken2](kraken2.md)
 -   [KrakenUniq](krakenuniq.md)
