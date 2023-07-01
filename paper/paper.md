@@ -43,8 +43,8 @@ bibliography: paper.bib
 Metagenomic analysis is largely concerned with untargeted genetic
 characterisation of the taxonomic and functional composition of whole
 communities of organisms. Researchers ask questions from metagenomic sequencing
-such as 'who is present' (what organisms), and 'what are they doing' (what
-functions are they performing)? The nature of this field is such that it
+such as 'who is present' (what organisms are present), and 'what are they doing'
+(what functions are they performing)? The nature of this field is such that it
 intersects with ecology, medicine, statistics, and bioinformatics. Facilitated
 by the development of Next-Generation Sequencing (NGS), the field often
 generates large datasets consisting of many samples (hundreds) and many
@@ -89,7 +89,7 @@ Python scripting, or even manual correction in spreadsheet software.
 
 With TAXPASTA, all of those formats can be converted into a single, standardised
 output, that, at a minimum, contains taxonomic identifiers and their relative
-abundances as integer counts. It can also be used to aggregate profiles across
+sequence abundances as integer counts. It can also be used to aggregate profiles across
 samples from the same profiler and merge them into a single, standardised table.
 Having a singular format facilitates downstream analyses and comparisons.
 TAXPASTA is not the first tool to attempt standardising metagenomic profiles,
@@ -121,15 +121,15 @@ some of the taxonomic profilers also come with scripts to convert their output
 into another format and/or merge multiple profiles into a single table, such as
 the Krakentools companion package [@lu_metagenome_2022], these are often focused
 on the specific tool or family of tools. Thus, users would have to become
-proficient in yet another piece of software per tool or family of tools that
-they want to use.
+proficient in yet another piece of software per tool or family of tools just for 
+consistent output files.
 
 [^8]: <https://github.com/bioboxes/rfc/tree/master/data-format>
 [^9]: <https://en.wikipedia.org/wiki/Unix_philosophy#Origin>
 [^11]: <https://library.qiime2.org/plugins/>
 
-Reading a wide range of formats of primarily shotgun-metagenomic profiling tools
-and formats is supported by TAXPASTA, and it is designed to be used as a
+TAXPASTA supports reading a wide range of formats of primarily shotgun-metagenomic
+profiling tools and formats, and it is designed to be used as a
 building block in metagenomic analysis workflows. At the time of writing, it is
 able to read profiles from nine different profilers, namely Bracken
 [@lu_bracken_2017], Centrifuge [@kim_centrifuge_2016], DIAMOND
