@@ -21,6 +21,7 @@
 
 import logging
 
+import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -49,8 +50,13 @@ class GanonProfileStandardisationService(ProfileStandardisationService):
             A standardized profile.
 
         """
-        return (
-            profile[[GanonProfile.target, GanonProfile.number_unique]]
+        # Select unclassified entries, rename columns, assign taxonomy ID zero, and
+        #  sum up counts.
+        unclassified = (
+            profile.loc[
+                profile[GanonProfile.target] == "-",
+                [GanonProfile.target, GanonProfile.number_unique],
+            ]
             .copy()
             .rename(
                 columns={
@@ -58,4 +64,29 @@ class GanonProfileStandardisationService(ProfileStandardisationService):
                     GanonProfile.number_unique: StandardProfile.count,
                 }
             )
+            .assign(**{StandardProfile.taxonomy_id: 0})
+            .groupby(StandardProfile.taxonomy_id, as_index=False, sort=False)
+            .sum()
         )
+        # Select classified entries, rename columns, and convert taxonomy ID to integer.
+        classified = (
+            profile.loc[
+                profile[GanonProfile.target] != "-",
+                [GanonProfile.target, GanonProfile.number_unique],
+            ]
+            .copy()
+            .rename(
+                columns={
+                    GanonProfile.target: StandardProfile.taxonomy_id,
+                    GanonProfile.number_unique: StandardProfile.count,
+                }
+            )
+            .assign(
+                **{
+                    StandardProfile.taxonomy_id: lambda df: df[
+                        StandardProfile.taxonomy_id
+                    ].astype(int)
+                }
+            )
+        )
+        return pd.concat([unclassified, classified], ignore_index=True)
