@@ -37,7 +37,7 @@ class GanonProfile(BaseDataFrameModel):
     number_unique: Series[int] = pa.Field(ge=0)
     number_shared: Series[int] = pa.Field(ge=0)
     number_children: Series[int] = pa.Field(ge=0)
-    nr_cumulative: Series[int] = pa.Field(ge=0)
+    number_cumulative: Series[int] = pa.Field(ge=0)
     pc_cumulative: Series[float] = pa.Field(ge=0.0, le=100.0)
 
     @pa.dataframe_check
