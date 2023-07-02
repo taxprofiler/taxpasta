@@ -63,6 +63,5 @@ class GanonProfileReader(ProfileReader):
                 GanonProfile.percent_cumulative,
             ],
         )
-        ## Maybe fix - to 0 here for target/lineage? Maybe see kaiju?
         cls._check_num_columns(result, GanonProfile)
         return result
