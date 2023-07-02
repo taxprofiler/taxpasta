@@ -18,6 +18,11 @@
 
 """Provide a reader for metaphlan profiles."""
 
+
+from io import TextIOWrapper
+from pathlib import Path
+from typing import BinaryIO, TextIO
+
 import pandas as pd
 from pandera.typing import DataFrame
 
@@ -34,19 +39,11 @@ class MetaphlanProfileReader(ProfileReader):
     @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[MetaphlanProfile]:
         """Read a metaphlan taxonomic profile from a file."""
-        # Metaphlan4 introduces a line for the total read count before the profile
-        headerline = 4 # this line was used in Metaphlan3
-        # The following scans the first few lines of the document to find the header
-        with open(profile, "r") as fp:
-            for cnt, line in enumerate(fp):
-                 if line.startswith("#clade_name"):
-                     headerline=cnt+1
-                     break
-        
+        num_header_lines = cls._detect_number_header_line(profile)
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            skiprows=headerline, # this varies between Metaphlan3 - Metaphlan4
+            skiprows=num_header_lines,
             header=None,
             index_col=False,
             names=[
@@ -59,3 +56,40 @@ class MetaphlanProfileReader(ProfileReader):
         )
         cls._check_num_columns(result, MetaphlanProfile)
         return result
+
+    @classmethod
+    def _detect_number_header_line(cls, profile: BufferOrFilepath) -> int:
+        """
+        Detect the number of comment lines in the header of a MetaPhlAn profile.
+
+        The number of lines varies at least between versions 3 & 4.
+
+        """
+        if isinstance(profile, BinaryIO):
+            # We assume default file encoding here (UTF-8 in most environments).
+            result = cls._detect_first_content_line(buffer=TextIOWrapper(profile))
+            profile.seek(0)
+            return result
+        elif isinstance(profile, TextIO):
+            result = cls._detect_first_content_line(buffer=profile)
+            profile.seek(0)
+            return result
+        else:
+            with Path(profile).open(mode="r") as handle:
+                return cls._detect_first_content_line(buffer=handle)
+
+    @classmethod
+    def _detect_first_content_line(
+        cls, buffer: TextIO, comment_marker: str = "#", max_lines: int = 10
+    ) -> int:
+        """Detect the first non-comment line in the given text buffer."""
+        for num, line in enumerate(buffer):
+            if not line.startswith(comment_marker):
+                return num
+            if num >= max_lines:
+                raise ValueError(
+                    "Unexpectedly large number of comment lines in MetaPhlAn "
+                    "profile (>10)."
+                )
+        else:
+            raise ValueError("Could not detect any content lines in MetaPhlAn profile.")
