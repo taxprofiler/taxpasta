@@ -50,12 +50,12 @@ class GanonProfileStandardisationService(ProfileStandardisationService):
 
         """
         return (
-            profile[[GanonProfile.target, GanonProfile.nr_unique]]
+            profile[[GanonProfile.target, GanonProfile.number_unique]]
             .copy()
             .rename(
                 columns={
                     GanonProfile.target: StandardProfile.taxonomy_id,
-                    GanonProfile.nr_unique: StandardProfile.count,
+                    GanonProfile.number_unique: StandardProfile.count,
                 }
             )
         )
