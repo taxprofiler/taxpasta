@@ -34,7 +34,7 @@ class GanonProfile(BaseDataFrameModel):
     target: Series[str] = pa.Field()
     lineage: Series[str] = pa.Field()
     name: Series[str] = pa.Field()
-    nr_unique: Series[int] = pa.Field(ge=0)
+    number_unique: Series[int] = pa.Field(ge=0)
     nr_shared: Series[int] = pa.Field(ge=0)
     nr_children: Series[int] = pa.Field(ge=0)
     nr_cumulative: Series[int] = pa.Field(ge=0)

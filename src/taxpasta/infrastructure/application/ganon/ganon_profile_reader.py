@@ -56,7 +56,7 @@ class GanonProfileReader(ProfileReader):
                 GanonProfile.target,
                 GanonProfile.lineage,
                 GanonProfile.name,
-                GanonProfile.nr_unique,
+                GanonProfile.number_unique,
                 GanonProfile.nr_shared,
                 GanonProfile.nr_children,
                 GanonProfile.nr_cumulative,
