@@ -40,7 +40,7 @@ from taxpasta.infrastructure.application import GanonProfile
                     ("name", ["root"]),
                     ("number_unique", [1]),
                     ("number_shared", [1]),
-                    ("nr_children", [1]),
+                    ("number_children", [1]),
                     ("nr_cumulative", [1]),
                     ("pc_cumulative", [100.0]),
                 ]
@@ -56,7 +56,7 @@ from taxpasta.infrastructure.application import GanonProfile
                         ("name", ["root"]),
                         ("number_unique", [1]),
                         ("number_shared", [1]),
-                        ("nr_children", [1]),
+                        ("number_children", [1]),
                         ("nr_cumulative", [1]),
                     ]
                 )
@@ -74,7 +74,7 @@ from taxpasta.infrastructure.application import GanonProfile
                         ("name", ["root"]),
                         ("number_unique", [1]),
                         ("number_shared", [1]),
-                        ("nr_children", [1]),
+                        ("number_children", [1]),
                         ("nr_cumulative", [1]),
                         ("pc_cumulative", [100.0]),
                         ("rank", ["root"]),
@@ -104,7 +104,7 @@ def test_column_presence(profile: pd.DataFrame):
                     ("name", ["root"]),
                     ("number_unique", [1]),
                     ("number_shared", [1]),
-                    ("nr_children", [1]),
+                    ("number_children", [1]),
                     ("nr_cumulative", [1]),
                     ("pc_cumulative", [100.0]),
                 ]
@@ -120,7 +120,7 @@ def test_column_presence(profile: pd.DataFrame):
                         ("name", ["unclassified", "root"]),
                         ("number_unique", [0, 0]),
                         ("number_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
+                        ("number_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
                         ("pc_cumulative", [72.38712, 39.61288]),
                     ]
@@ -140,7 +140,7 @@ def test_column_presence(profile: pd.DataFrame):
                         ("name", ["unclassified", "root"]),
                         ("number_unique", [0, 0]),
                         ("number_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
+                        ("number_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
                         ("pc_cumulative", [72.38712, 9.61288]),
                     ]
@@ -169,7 +169,7 @@ def test_percent(profile: pd.DataFrame):
                     ("name", ["root"]),
                     ("number_unique", [1]),
                     ("number_shared", [1]),
-                    ("nr_children", [1]),
+                    ("number_children", [1]),
                     ("nr_cumulative", [1]),
                     ("pc_cumulative", [100.0]),
                 ]
@@ -185,7 +185,7 @@ def test_percent(profile: pd.DataFrame):
                         ("name", ["unclassified", "root"]),
                         ("number_unique", [0, -1]),
                         ("number_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
+                        ("number_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
                         ("pc_cumulative", [72.38712, 27.61288]),
                     ]
@@ -215,7 +215,7 @@ def test_target(profile: pd.DataFrame):
                     ("name", ["root"]),
                     ("number_unique", [1]),
                     ("number_shared", [1]),
-                    ("nr_children", [1]),
+                    ("number_children", [1]),
                     ("nr_cumulative", [1]),
                     ("pc_cumulative", [100.0]),
                 ]
@@ -231,7 +231,7 @@ def test_target(profile: pd.DataFrame):
                         ("name", ["unclassified", "root"]),
                         ("number_unique", [0, -1]),
                         ("number_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
+                        ("number_children", [0, 457530]),
                         ("nr_cumulative", [0, 4575301]),
                         ("pc_cumulative", [72.38712, 27.61288]),
                     ]
@@ -260,7 +260,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("name", ["root"]),
                     ("number_unique", [1]),
                     ("number_shared", [1]),
-                    ("nr_children", [1]),
+                    ("number_children", [1]),
                     ("nr_cumulative", [1]),
                     ("pc_cumulative", [100.0]),
                 ]
@@ -275,7 +275,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("name", ["unclassified", "root"]),
                     ("number_unique", [0, 0]),
                     ("number_shared", [0, 0]),
-                    ("nr_children", [0, 457530]),
+                    ("number_children", [0, 457530]),
                     ("nr_cumulative", [0, 4_575_301]),
                     ("pc_cumulative", [72.38712, 27.61288]),
                 ]
@@ -291,7 +291,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                         ("name", ["unclassified", "root"]),
                         ("number_unique", [0, 0]),
                         ("number_shared", [0, 0]),
-                        ("nr_children", [0, 457530]),
+                        ("number_children", [0, 457530]),
                         ("nr_cumulative", [0, -1]),
                         ("pc_cumulative", [72.38712, 29.61288]),
                     ]
