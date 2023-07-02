@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - (2023-07-02)
+
 ### Added
 
 -   Provided curl commands in the intro to quickly fetch example files to try out (#97).
@@ -27,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Simplified getting started tutorial and moved original to complex tutorial (#95).
 -   Improved help text for `--output-format` option to clearly state that it disables
     any automatic detection of the output file format (#96).
+-   Extended the MetaPhlAn profile reader to support version 3 & 4 profiles (#107).
 
 ## [0.3.0] - (2023-04-01)
 
