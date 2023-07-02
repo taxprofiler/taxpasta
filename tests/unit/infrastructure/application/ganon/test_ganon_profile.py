@@ -42,7 +42,7 @@ from taxpasta.infrastructure.application import GanonProfile
                     ("number_shared", [1]),
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
-                    ("pc_cumulative", [100.0]),
+                    ("percent_cumulative", [100.0]),
                 ]
             )
         ),
@@ -62,7 +62,8 @@ from taxpasta.infrastructure.application import GanonProfile
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'pc_cumulative' not in dataframe"
+                exception=SchemaError,
+                message="column 'percent_cumulative' not in dataframe",
             ),
         ),
         pytest.param(
@@ -76,7 +77,7 @@ from taxpasta.infrastructure.application import GanonProfile
                         ("number_shared", [1]),
                         ("number_children", [1]),
                         ("number_cumulative", [1]),
-                        ("pc_cumulative", [100.0]),
+                        ("percent_cumulative", [100.0]),
                         ("rank", ["root"]),
                     ]
                 )
@@ -106,7 +107,7 @@ def test_column_presence(profile: pd.DataFrame):
                     ("number_shared", [1]),
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
-                    ("pc_cumulative", [100.0]),
+                    ("percent_cumulative", [100.0]),
                 ]
             )
         ),
@@ -122,7 +123,7 @@ def test_column_presence(profile: pd.DataFrame):
                         ("number_shared", [0, 0]),
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 39.61288]),
+                        ("percent_cumulative", [72.38712, 39.61288]),
                     ]
                 )
             ),
@@ -142,7 +143,7 @@ def test_column_presence(profile: pd.DataFrame):
                         ("number_shared", [0, 0]),
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 9.61288]),
+                        ("percent_cumulative", [72.38712, 9.61288]),
                     ]
                 )
             ),
@@ -153,7 +154,7 @@ def test_column_presence(profile: pd.DataFrame):
     ],
 )
 def test_percent(profile: pd.DataFrame):
-    """Test that the percent column (pc_cumulative) is checked."""
+    """Test that the percent column (percent_cumulative) is checked."""
     GanonProfile.validate(profile)
 
 
@@ -171,7 +172,7 @@ def test_percent(profile: pd.DataFrame):
                     ("number_shared", [1]),
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
-                    ("pc_cumulative", [100.0]),
+                    ("percent_cumulative", [100.0]),
                 ]
             )
         ),
@@ -187,7 +188,7 @@ def test_percent(profile: pd.DataFrame):
                         ("number_shared", [0, 0]),
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 27.61288]),
+                        ("percent_cumulative", [72.38712, 27.61288]),
                     ]
                 )
             ),
@@ -217,7 +218,7 @@ def test_target(profile: pd.DataFrame):
                     ("number_shared", [1]),
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
-                    ("pc_cumulative", [100.0]),
+                    ("percent_cumulative", [100.0]),
                 ]
             )
         ),
@@ -233,7 +234,7 @@ def test_target(profile: pd.DataFrame):
                         ("number_shared", [0, 0]),
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
-                        ("pc_cumulative", [72.38712, 27.61288]),
+                        ("percent_cumulative", [72.38712, 27.61288]),
                     ]
                 )
             ),
@@ -262,7 +263,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("number_shared", [1]),
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
-                    ("pc_cumulative", [100.0]),
+                    ("percent_cumulative", [100.0]),
                 ]
             )
         ),
@@ -277,7 +278,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("number_shared", [0, 0]),
                     ("number_children", [0, 457530]),
                     ("number_cumulative", [0, 4_575_301]),
-                    ("pc_cumulative", [72.38712, 27.61288]),
+                    ("percent_cumulative", [72.38712, 27.61288]),
                 ]
             )
         ),
@@ -293,7 +294,7 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                         ("number_shared", [0, 0]),
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, -1]),
-                        ("pc_cumulative", [72.38712, 29.61288]),
+                        ("percent_cumulative", [72.38712, 29.61288]),
                     ]
                 )
             ),
