@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Test that metaphlan profiles are read, validated, and transformed correctly."""
+"""Test that MetaPhlAn profiles are read, validated, and transformed correctly."""
 
 
 from pathlib import Path
@@ -29,6 +29,30 @@ from taxpasta.infrastructure.application import (
     MetaphlanProfileReader,
     MetaphlanProfileStandardisationService,
 )
+
+
+def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
+    """Generate test cases for MetaPhlAn profile reading and standardisation."""
+    metaphlan_data_dir = Path(__file__).parents[1] / "data" / "metaphlan"
+    assert metaphlan_data_dir.is_dir()
+    if "valid_metaphlan_profile" in metafunc.fixturenames:
+        metafunc.parametrize(
+            "valid_metaphlan_profile",
+            [
+                profile
+                for profile in metaphlan_data_dir.glob("*")
+                if "invalid" not in profile.name
+            ],
+        )
+    elif "invalid_metaphlan_profile" in metafunc.fixturenames:
+        metafunc.parametrize(
+            "invalid_metaphlan_profile",
+            [
+                profile
+                for profile in metaphlan_data_dir.glob("*")
+                if "invalid" in profile.name
+            ],
+        )
 
 
 @pytest.fixture(
@@ -51,25 +75,23 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
     return data_dir / profiler / filename
 
 
-@pytest.mark.parametrize(
-    "filename",
-    [
-        "mpa_valid_simple.tsv",
-        "mpa_valid_complex.tsv",
-        pytest.param(
-            "mpa_invalid_abundance_sum.tsv",
-            marks=pytest.mark.raises(exception=SchemaErrors),
-        ),
-    ],
-)
-def test_read_correctness(
-    metaphlan_data_dir: Path,
-    filename: str,
+def test_valid_profile_etl(
+    valid_metaphlan_profile: Path,
 ):
-    """Test that kraken2 profiles are read, validated, and transformed correctly."""
+    """Test that MetaPhlAn profiles are read, validated, and transformed correctly."""
     MetaphlanProfileStandardisationService.transform(
-        MetaphlanProfileReader.read(metaphlan_data_dir / filename)
+        MetaphlanProfileReader.read(valid_metaphlan_profile)
     )
+
+
+def test_invalid_profile_etl(
+    invalid_metaphlan_profile: Path,
+):
+    """Test that invalid MetaPhlAn profiles raise expected exceptions."""
+    with pytest.raises(SchemaErrors):
+        MetaphlanProfileStandardisationService.transform(
+            MetaphlanProfileReader.read(invalid_metaphlan_profile)
+        )
 
 
 def test_failure_on_other_profiles(other_profile: Path):
