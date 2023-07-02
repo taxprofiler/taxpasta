@@ -38,7 +38,7 @@ class GanonProfile(BaseDataFrameModel):
     number_shared: Series[int] = pa.Field(ge=0)
     number_children: Series[int] = pa.Field(ge=0)
     number_cumulative: Series[int] = pa.Field(ge=0)
-    pc_cumulative: Series[float] = pa.Field(ge=0.0, le=100.0)
+    percent_cumulative: Series[float] = pa.Field(ge=0.0, le=100.0)
 
     @pa.dataframe_check
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
@@ -47,7 +47,8 @@ class GanonProfile(BaseDataFrameModel):
         return profile.empty or bool(
             np.isclose(
                 profile.loc[
-                    profile[cls.rank].isin(["unclassified", "root"]), cls.pc_cumulative
+                    profile[cls.rank].isin(["unclassified", "root"]),
+                    cls.percent_cumulative,
                 ].sum(),
                 100.0,
                 atol=0.1,

@@ -60,7 +60,7 @@ class GanonProfileReader(ProfileReader):
                 GanonProfile.number_shared,
                 GanonProfile.number_children,
                 GanonProfile.number_cumulative,
-                GanonProfile.pc_cumulative,
+                GanonProfile.percent_cumulative,
             ],
         )
         ## Maybe fix - to 0 here for target/lineage? Maybe see kaiju?
