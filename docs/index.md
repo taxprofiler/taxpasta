@@ -1,8 +1,10 @@
-# TAXPASTA Documentation
+# About
 
-_TAXonomic Profile Aggregation and STAndardisation_
+<img alt="taxpasta logo - a green DNA double helix morphing into a fusili pasta shape with the word taxpasta above it" src="assets/images/taxpasta-logo.svg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" />
 
-## About
+<p style="text-align:center">
+ <i><b style="color:#1c8f4f">TAX</b>onomic <b style="color:#1c8f4f">P</b>rofile <b style="color:#1c8f4f">A</b>ggregation and <b style="color:#1c8f4f">STA</b>ndardisation</i>
+</p>
 
 The main purpose of taxpasta is to _standardise_ taxonomic profiles created by a
 range of bioinformatics tools. We call those tools taxonomic profilers. They
@@ -14,6 +16,8 @@ our own solution to deal with this pasticcio. With taxpasta you can ingest all
 of those formats and, at a minimum, output taxonomy identifiers and their
 integer counts. Taxpasta can not only standardise profiles but also _merge_ them
 across samples for the _same_ profiler into a single table.
+
+![Diagram of taxpasta functionality. On the left are a range of taxonomic profilers with hetereogeneous output types with a header of taxonomic profiles, then a range of colourful lines leading into a box with a single green line, the taxpasta logo plus three icons for Validation, Standardisation and Conversion, and finally a range of green lines spreading out to a range of file icons with various file types with a header of Standardised Tables.](assets/images/taxpasta_diagram_v0.4.png)
 
 ### Supported Taxonomic Profilers
 
@@ -135,6 +139,13 @@ The output of the `merge` command has one column for the taxonomy identifier and
 one more column for each input profile. Again, please have a look at the full
 [getting started](tutorials/getting-started.md) tutorial for a more thorough
 introduction.
+
+## Acknowledgments
+
+Many thanks to:
+
+-   [nf-core](https://nf-co.re) for bringing the original developers together
+-   [Zandra Fagernäs](https://twitter.com/ZandraSelina) for the logo design
 
 ## Copyright
 
