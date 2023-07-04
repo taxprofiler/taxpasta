@@ -1,10 +1,10 @@
-# About
-
 <img alt="taxpasta logo - a green DNA double helix morphing into a fusili pasta shape with the word taxpasta above it" src="assets/images/taxpasta-logo.svg" style="display: block; margin-left: auto; margin-right: auto; width: 50%;" />
 
 <p style="text-align:center">
  <i><b style="color:#1c8f4f">TAX</b>onomic <b style="color:#1c8f4f">P</b>rofile <b style="color:#1c8f4f">A</b>ggregation and <b style="color:#1c8f4f">STA</b>ndardisation</i>
 </p>
+
+## About
 
 The main purpose of taxpasta is to _standardise_ taxonomic profiles created by a
 range of bioinformatics tools. We call those tools taxonomic profilers. They
