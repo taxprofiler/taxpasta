@@ -33,6 +33,7 @@ taxonomic tables for:
 -   [Bracken](https://ccb.jhu.edu/software/bracken/)
 -   [Centrifuge](https://ccb.jhu.edu/software/centrifuge/)
 -   [DIAMOND](https://github.com/bbuchfink/diamond)
+-   [ganon](https://pirovc.github.io/ganon/)
 -   [Kaiju](https://kaiju.binf.ku.dk/)
 -   [Kraken2](https://ccb.jhu.edu/software/kraken2/)
 -   [KrakenUniq](https://github.com/fbreitwieser/krakenuniq)
