@@ -135,7 +135,7 @@ profiling tools and formats, and it is designed to be used as a
 building block in metagenomic analysis workflows. At the time of writing, it is
 able to read profiles from nine different profilers, namely Bracken
 [@lu_bracken_2017], Centrifuge [@kim_centrifuge_2016], DIAMOND
-[@buchfink_sensitive_2021], Kaiju [@menzel_fast_2016], Kraken2
+[@buchfink_sensitive_2021], ganon [@piro_ganon_2020], Kaiju [@menzel_fast_2016], Kraken2
 [@wood_improved_2019], KrakenUniq [@breitwieser_krakenuniq_2018], MALT/MEGAN6
 [@huson_megan_2016; @vagene_salmonella_2018], MetaPhlAn
 [@blanco-miguez_extending_2023],and mOTUs
