@@ -71,7 +71,7 @@ modules or plugins needed of other 'dedicated' metagenomic profile formats.
 # Statement of need
 
 TAXPASTA is a Python package for standardising and aggregating metagenomic
-profiles coming from a wide range of tools and databases. It was developed as
+profiles coming from a wide range of tools and databases (\autoref{fig:summary}). It was developed as
 part of the nf-core/taxprofiler pipeline[^12] within the
 nf-core community [@ewels_nf-core_2020].
 
@@ -95,6 +95,8 @@ Having a singular format facilitates downstream analyses and comparisons.
 TAXPASTA is not the first tool to attempt standardising metagenomic profiles,
 but it is by far the most comprehensive in terms of supported profilers and
 output formats.
+
+![A visual summary of TAXPASTA's capabilities. Supported profilers are listed on the left and output formats on the right. \label{fig:summary}](taxpasta_diagram_v0.4.png)
 
 There exists an initiative to benchmark and compare profilers, as well as
 provide guidance on their fitness for purpose; the Critical Assessment of
