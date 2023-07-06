@@ -29,7 +29,7 @@ markdown_extensions:
       alternate_style: true
 
 theme:
-  logo: assets/images/taxpasta-logo-white.svg
+  logo: assets/images/taxpasta-logo-white-pastaonly.svg
   favicon: assets/images/favicon.png
   features:
     - content.code.annotate
