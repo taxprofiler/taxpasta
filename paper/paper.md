@@ -33,8 +33,7 @@ affiliations:
       index: 4
     - name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute, Adolf-Reichwein-Straße 23, 07745 Jena, Germany
       index: 5
-
-date: 2023-05-29
+date: 29 May 2023
 bibliography: paper.bib
 ---
 
