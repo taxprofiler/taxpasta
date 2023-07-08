@@ -23,15 +23,15 @@ authors:
       orcid: 0000-0001-5585-6277
       affiliation: "2, 3, 5"
 affiliations:
-    - name: Unseen Bio ApS, Fruebjergvej 3, 2100 Copenhagen, Denmark
+    - name: Unseen Bio ApS, Copenhagen, Denmark
       index: 1
-    - name: Microbiome Sciences Group, Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology, Deutscher Platz 6, 04103 Leipzig, Germany
+    - name: Microbiome Sciences Group, Department of Archaeogenetics, Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany
       index: 2
-    - name: Associated Research Group of Archaeogenetics, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute, Adolf-Reichwein-Straße 23, 07745 Jena, Germany
+    - name: Associated Research Group of Archaeogenetics, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute, Jena, Germany
       index: 3
-    - name: Department of Microbiology, Tumor and Cell Biology, Karolinska Institute, Solnavägen 1, 171 77 Solna, Sweden
+    - name: Department of Microbiology, Tumor and Cell Biology, Karolinska Institute, Solna, Sweden
       index: 4
-    - name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute, Adolf-Reichwein-Straße 23, 07745 Jena, Germany
+    - name: Department of Paleobiotechnology, Leibniz Institute for Natural Product Research and Infection Biology Hans Knöll Institute, Jena, Germany
       index: 5
 date: 29 May 2023
 bibliography: paper.bib
