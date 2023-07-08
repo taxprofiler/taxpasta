@@ -105,7 +105,7 @@ Assessment tooL (OPAL) [@meyer_assessing_2019] was developed. Creating a
 community wide assessment faced many of the challenges presented here, however,
 the chosen solution was to mandate a single output format[^8] for all profilers
 participating in the challenge. Furthermore, OPAL is an integrated tool
-performing assessment and visualization, whereas TAXPASTA follows the UNIX
+performing assessment and visualisation, whereas TAXPASTA follows the UNIX
 philosophy[^9] of doing one thing and doing it well. The BIOM format
 [@mcdonald_biological_2012] was created with a similar intention of
 standardising a storage format for microbiome analyses. However, transforming
@@ -146,7 +146,7 @@ provided[^10].
 
 For maximum compatibility, TAXPASTA offers a wide range of familiar output file
 formats, such as text-based, tabular formats (CSV[^1], TSV[^2]), spreadsheets
-(ODS[^3], XLSX[^4]), optimized binary formats (Apache Arrow[^5] and
+(ODS[^3], XLSX[^4]), optimised binary formats (Apache Arrow[^5] and
 Parquet[^6]), and the HDF5-based[^7] BIOM format [@mcdonald_biological_2012].
 We hope that this will let researchers plug and play TAXPASTA into their
 existing analysis workflows in a wide range of settings.
