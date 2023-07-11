@@ -1,0 +1,52 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: >-
+  TAXPASTA: TAXonomic Profile Aggregation and
+  STAndardisation
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Moritz E.
+    family-names: Beber
+    affiliation: 'Unseen Bio ApS, Copenhagen, Denmark'
+    orcid: 'https://orcid.org/0000-0003-2406-1978'
+  - given-names: Maxime
+    family-names: Borry
+    affiliation: >-
+      Microbiome Sciences Group, Department of
+      Archaeogenetics, Max Planck Institute for Evolutionary
+      Anthropology, Leipzig, Germany
+    orcid: 'https://orcid.org/0000-0001-9140-7559'
+  - given-names: Sofia
+    family-names: Stamouli
+    orcid: 'https://orcid.org/0009-0006-0893-3771'
+    affiliation: >-
+      Department of Microbiology, Tumor and Cell Biology,
+      Karolinska Institute, Solna, Sweden
+  - given-names: James A.
+    family-names: Fellows Yates
+    orcid: 'https://orcid.org/0000-0001-5585-6277'
+    affiliation: >-
+      Microbiome Sciences Group, Department of
+      Archaeogenetics, Max Planck Institute for Evolutionary
+      Anthropology, Leipzig, Germany
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.8105840
+    description: Zenodo archive of published version 0.4.0.
+repository-code: 'https://github.com/taxprofiler/taxpasta'
+url: 'https://taxpasta.readthedocs.io/'
+repository-artifact: 'https://zenodo.org/record/8105840'
+keywords:
+  - bioinformatics
+  - metagenomics
+  - profiling
+  - classification
+  - standardisation
+  - taxonomy
+  - Python
+license: Apache-2.0
