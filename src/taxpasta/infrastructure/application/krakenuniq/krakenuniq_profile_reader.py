@@ -52,7 +52,11 @@ class KrakenUniqProfileReader(ProfileReader):
             header=0,
             index_col=False,
             skipinitialspace=True,
-            dtype={"%": float},
+            dtype={
+                KrakenUniqProfile.percent: float,
+                KrakenUniqProfile.duplicates: float,
+                KrakenUniqProfile.coverage: float,
+            },
         )
         cls._check_num_columns(result, KrakenUniqProfile)
         return result
