@@ -1,0 +1,4 @@
+# KrakenUniq v1.0.2 DATE:2023-07-13T11:10:57Z DB:./testdb-krakenuniq DB_SIZE:358660 WD:/home/james/git/nf-core/taxprofiler/testing/blah/work/d4/9641b418650bf507e0b05143a5800d
+# CL:/usr/local/bin/krakenuniq --db testdb-krakenuniq --threads 2 --report-file ERR3201952.krakenuniq.report.txt ERR3201952.merged.fastq.gz
+%	reads	taxReads	kmers	dup	cov	taxID	rank	taxName
+100	4937	4937	10648888	1	NA	0	no rank	unclassified

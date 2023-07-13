@@ -55,6 +55,7 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
     [
         "test3.krakenuniq.report.txt",
         "test1.krakenuniq.report.txt",
+        "ERR3201952.krakenuniq.report.txt",
         pytest.param(
             "test1-invalid.krakenuniq.report.txt",
             marks=pytest.mark.raises(exception=SchemaErrors),
