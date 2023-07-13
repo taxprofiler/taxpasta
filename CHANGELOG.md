@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+-   Forced reading the `duplicates` and `coverage` columns of KrakenUniq profiles as
+    float (#123).
+
 ## [0.4.0] - (2023-07-02)
 
 ### Added
