@@ -146,6 +146,12 @@ one more column for each input profile. Again, have a look at the full
 started](https://taxpasta.readthedocs.io/en/latest/tutorials/getting-started)
 tutorial for a more thorough introduction.
 
+## Citation
+
+If you use TAXPASTA in your academic work, please cite our [article in the Journal of Open Source Software](https://doi.org/10.21105/joss.05627).
+
+> Beber, M. E., Borry, M., Stamouli, S., & Fellows Yates, J. A. (2023). TAXPASTA: TAXonomic Profile Aggregation and STAndardisation. Journal of Open Source Software, 8(87), 5627. https://doi.org/10.21105/joss.05627
+
 ## Acknowledgments
 
 Many thanks to:
