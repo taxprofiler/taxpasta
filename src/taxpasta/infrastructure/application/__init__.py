@@ -41,6 +41,11 @@ from .kaiju import (
     KaijuProfileReader,
     KaijuProfileStandardisationService,
 )
+from .kmcp import (
+    KmcpProfile,
+    KmcpProfileReader,
+    KmcpProfileStandardisationService,
+)
 from .kraken2 import (
     Kraken2Profile,
     Kraken2ProfileReader,
