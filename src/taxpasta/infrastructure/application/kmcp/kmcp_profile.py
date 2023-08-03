@@ -35,21 +35,21 @@ class KmcpProfile(BaseDataFrameModel):
     coverage:  Series[float] = pa.Field(ge=0.0, nullable=True)
     score: Series[float] = pa.Field(ge=0.0, le=100.0)
     chunksFrac:  Series[float] = pa.Field(ge=0.0, le=1.0)
-    chunksRelDepth:  Series[float] = pa.Field(ge=0.0, le=1.0)
-    chunksRelDepthStd:  Series[float] = pa.Field(ge=0.0, le=1.0)
+    chunksRelDepth:  Series[float] = pa.Field(ge=0.0, le=100.0)
+    chunksRelDepthStd:  Series[float] = pa.Field(ge=0.0, le=100.0)
     reads: Series[int] = pa.Field(ge=0)
     ureads: Series[int] = pa.Field(ge=0)
     hicureads: Series[int] = pa.Field(ge=0)
     refsize: Series[int] = pa.Field(ge=0)
-    refname: Series[str] = pa.Field()
+    refname: Series[str] = pa.Field(nullable=True)
     taxid: Series[int] = pa.Field(ge=0)
-    rank: Series[str] = pa.Field()
-    taxname: Series[str] = pa.Field()
-    taxpath: Series[str] = pa.Field()
-    taxpathsn: Series[str] = pa.Field()
+    rank: Series[str] = pa.Field(nullable=True)
+    taxname: Series[str] = pa.Field(nullable=True)
+    taxpath: Series[str] = pa.Field(nullable=True)
+    taxpathsn: Series[str] = pa.Field(nullable=True)
 
 
-    @pa.check("percent", name="compositionality")
+    @pa.check("percentage", name="compositionality")
     def check_compositionality(cls, percentage: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # KMCP profile reports percentages with sixth decimals

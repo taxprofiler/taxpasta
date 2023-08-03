@@ -48,7 +48,7 @@ class KmcpProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            header=None,
+            header=0,
             index_col=False,
             skipinitialspace=True,
             names=[
@@ -69,9 +69,9 @@ class KmcpProfileReader(ProfileReader):
                 KmcpProfile.taxname,
                 KmcpProfile.taxpath,
                 KmcpProfile.taxpathsn,
-
-
             ],
+            dtype={KmcpProfile.chunksFrac: "float64"},
+
         )
         cls._check_num_columns(result, KmcpProfile)
         return result
