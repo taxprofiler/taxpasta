@@ -64,6 +64,10 @@ class ApplicationServiceRegistry:
             from .kaiju import KaijuProfileReader
 
             return KaijuProfileReader
+        elif profiler is SupportedProfiler.kmcp:
+            from .kmcp import KmcpProfileReader
+
+            return KmcpProfileReader
         elif profiler is SupportedProfiler.kraken2:
             from .kraken2 import Kraken2ProfileReader
 
