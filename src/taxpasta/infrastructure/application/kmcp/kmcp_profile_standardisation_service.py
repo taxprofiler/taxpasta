@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a standardisation service for ganon profiles."""
+"""Provide a standardisation service for kmcp profiles."""
 
 
 import logging
@@ -51,7 +51,7 @@ class KmcpProfileStandardisationService(ProfileStandardisationService):
 
         """
         temp = (
-            profile[[KmcpProfile.taxon_id, KmcpProfile.reads]]
+            profile[[KmcpProfile.taxid, KmcpProfile.reads]]
             .copy()
             .rename(
                 columns={
