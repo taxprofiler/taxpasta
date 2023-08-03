@@ -134,6 +134,10 @@ class ApplicationServiceRegistry:
             from .ganon import GanonProfileStandardisationService
 
             return GanonProfileStandardisationService
+        elif profiler is SupportedProfiler.kmcp:
+            from .kmcp import KmcpProfileStandardisationService
+
+            return KmcpProfileStandardisationService
 
         else:
             raise ValueError("Unexpected")
