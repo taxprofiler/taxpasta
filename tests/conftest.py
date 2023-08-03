@@ -95,3 +95,9 @@ def motus_data_dir(data_dir: Path) -> Path:
 def ganon_data_dir(data_dir: Path) -> Path:
     """Provide the path to the ganon data directory."""
     return data_dir / "ganon"
+
+
+@pytest.fixture(scope="session")
+def kmcp_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the kmcp data directory."""
+    return data_dir / "kmcp"

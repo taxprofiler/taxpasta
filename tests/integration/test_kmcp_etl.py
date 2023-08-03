@@ -67,7 +67,7 @@ def test_kmcp_etl(
     kmcp_data_dir: Path,
     filename: str,
 ):
-    """Test that ganon profiles are read, validated, and transformed correctly."""
+    """Test that kmcp profiles are read, validated, and transformed correctly."""
     KmcpProfileStandardisationService.transform(
         KmcpProfileReader.read(kmcp_data_dir / filename)
     )
