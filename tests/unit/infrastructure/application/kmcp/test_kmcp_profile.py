@@ -237,3 +237,7 @@ def test_percent(profile: pd.DataFrame):
         ),
     ],
 )
+
+def test_target(profile: pd.DataFrame):
+    """Test that the target column is checked."""
+    KmcpProfile.validate(profile)
