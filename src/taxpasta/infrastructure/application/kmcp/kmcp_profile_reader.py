@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a reader for ganon profiles."""
+"""Provide a reader for kmcp profiles."""
 
 
 import pandas as pd
@@ -50,7 +50,6 @@ class KmcpProfileReader(ProfileReader):
             sep="\t",
             header=0,
             index_col=False,
-            skipinitialspace=True,
             names=[
                 KmcpProfile.ref,
                 KmcpProfile.percentage,
@@ -71,6 +70,10 @@ class KmcpProfileReader(ProfileReader):
                 KmcpProfile.taxpathsn,
             ],
             dtype={KmcpProfile.chunksFrac: "float64"},
+            #dtype={
+            #    KmcpProfile.chunksFrac: float,
+            #    KmcpProfile.chunksRelDepth: float,
+            #},
 
         )
         cls._check_num_columns(result, KmcpProfile)
