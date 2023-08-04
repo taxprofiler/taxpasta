@@ -33,9 +33,9 @@ from taxpasta.infrastructure.application import KmcpProfileReader
         (
             "2612_pe_ERR5766176_db1.kmcp_profile.profile",
             [
-                (1, 0, "test_1"),
-                (1, 1, 100.00000),
-                (1, 3, 1.238685),
+                (0, 0, "test_1"),
+                (0, 1, 100.00000),
+                (0, 2, 1.238685),
             ],
         ),
     ],
@@ -45,7 +45,7 @@ def test_read_correctness(
     filename: str,
     checks: List[Tuple[int, int, Union[float, int, str]]],
 ):
-    """Test that the reader can parse valid ganon profiles."""
+    """Test that the reader can parse valid kmcp profiles."""
     profile = KmcpProfileReader.read(kmcp_data_dir / filename)
     for row, col, value in checks:
         assert profile.iat[row, col] == value
