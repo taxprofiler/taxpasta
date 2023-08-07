@@ -50,30 +50,10 @@ class KmcpProfileReader(ProfileReader):
             sep="\t",
             header=0,
             index_col=False,
-            names=[
-                KmcpProfile.ref,
-                KmcpProfile.percentage,
-                KmcpProfile.coverage,
-                KmcpProfile.score,
-                KmcpProfile.chunksFrac,
-                KmcpProfile.chunksRelDepth,
-                KmcpProfile.chunksRelDepthStd,
-                KmcpProfile.reads,
-                KmcpProfile.ureads,
-                KmcpProfile.hicureads,
-                KmcpProfile.refsize,
-                KmcpProfile.refname,
-                KmcpProfile.taxid,
-                KmcpProfile.rank,
-                KmcpProfile.taxname,
-                KmcpProfile.taxpath,
-                KmcpProfile.taxpathsn,
-            ],
-            dtype={KmcpProfile.chunksFrac: "float64"},
-            #dtype={
-            #    KmcpProfile.chunksFrac: float,
-            #    KmcpProfile.chunksRelDepth: float,
-            #},
+            dtype={
+                KmcpProfile.chunks_fraction: float,
+                KmcpProfile.chunks_relative_depth: float,
+            },
 
         )
         cls._check_num_columns(result, KmcpProfile)
