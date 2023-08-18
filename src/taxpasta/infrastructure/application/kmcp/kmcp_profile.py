@@ -26,7 +26,7 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
-class KmcpProfile(BaseDataFrameModel):
+class KMCPProfile(BaseDataFrameModel):
     """Define the expected kmcp profile format."""
 
     reference: Series[str] = pa.Field(alias="ref")

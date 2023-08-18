@@ -26,8 +26,8 @@ from pandera.errors import SchemaErrors
 
 from taxpasta.application.error import StandardisationError
 from taxpasta.infrastructure.application import (
-    KmcpProfileReader,
-    KmcpProfileStandardisationService,
+    KMCPProfileReader,
+    KMCPProfileStandardisationService,
 )
 
 
@@ -68,14 +68,14 @@ def test_kmcp_etl(
     filename: str,
 ):
     """Test that kmcp profiles are read, validated, and transformed correctly."""
-    KmcpProfileStandardisationService.transform(
-        KmcpProfileReader.read(kmcp_data_dir / filename)
+    KMCPProfileStandardisationService.transform(
+        KMCPProfileReader.read(kmcp_data_dir / filename)
     )
 
 
 def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
-        KmcpProfileStandardisationService.transform(
-            KmcpProfileReader.read(other_profile)
+        KMCPProfileStandardisationService.transform(
+            KMCPProfileReader.read(other_profile)
         )

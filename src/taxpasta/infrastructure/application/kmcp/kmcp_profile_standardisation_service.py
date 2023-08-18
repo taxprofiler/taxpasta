@@ -28,18 +28,18 @@ from pandera.typing import DataFrame
 from taxpasta.application.service import ProfileStandardisationService
 from taxpasta.domain.model import StandardProfile
 
-from .kmcp_profile import KmcpProfile
+from .kmcp_profile import KMCPProfile
 
 
 logger = logging.getLogger(__name__)
 
 
-class KmcpProfileStandardisationService(ProfileStandardisationService):
+class KMCPProfileStandardisationService(ProfileStandardisationService):
     """Define a standardisation service for kmcp profiles."""
 
     @classmethod
     @pa.check_types(lazy=True)
-    def transform(cls, profile: DataFrame[KmcpProfile]) -> DataFrame[StandardProfile]:
+    def transform(cls, profile: DataFrame[KMCPProfile]) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given kmcp profile.
 
@@ -51,12 +51,12 @@ class KmcpProfileStandardisationService(ProfileStandardisationService):
 
         """
         temp = (
-            profile[[KmcpProfile.taxid, KmcpProfile.reads]]
+            profile[[KMCPProfile.taxid, KMCPProfile.reads]]
             .copy()
             .rename(
                 columns={
-                    KmcpProfile.taxid: StandardProfile.taxonomy_id,
-                    KmcpProfile.reads: StandardProfile.count,
+                    KMCPProfile.taxid: StandardProfile.taxonomy_id,
+                    KMCPProfile.reads: StandardProfile.count,
                 }
             )
         )
