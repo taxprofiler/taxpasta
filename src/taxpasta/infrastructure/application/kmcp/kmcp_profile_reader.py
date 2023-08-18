@@ -51,10 +51,8 @@ class KmcpProfileReader(ProfileReader):
             header=0,
             index_col=False,
             dtype={
-                KmcpProfile.chunks_fraction: float,
-                KmcpProfile.chunks_relative_depth: float,
+                KmcpProfile.chunks_relative_depth: str,
             },
-
         )
         cls._check_num_columns(result, KmcpProfile)
         return result
