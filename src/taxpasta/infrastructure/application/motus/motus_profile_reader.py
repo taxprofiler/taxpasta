@@ -47,7 +47,6 @@ class MotusProfileReader(ProfileReader):
             ],
             index_col=False,
             dtype={MotusProfile.ncbi_tax_id: "Int64"},
-
         )
         cls._check_num_columns(result, MotusProfile)
         return result
