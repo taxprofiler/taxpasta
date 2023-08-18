@@ -39,7 +39,7 @@ from taxpasta.infrastructure.application import KmcpProfile
                     ("coverage", [1.23]),
                     ("score", [83.97]),
                     ("chunksFrac", [1.0]),
-                    ("chunksRelDepth", [1.0]),
+                    ("chunksRelDepth", ["1.0"]),
                     ("chunksRelDepthStd", [0.0]),
                     ("reads", [114]),
                     ("ureads", [114]),
@@ -51,7 +51,6 @@ from taxpasta.infrastructure.application import KmcpProfile
                     ("taxname", ["SARS-CoV-2"]),
                     ("taxpath", ["taxdump"]),
                     ("taxpathsn", ["taxdump"]),
-
                 ]
             )
         ),
@@ -64,7 +63,7 @@ from taxpasta.infrastructure.application import KmcpProfile
                         ("coverage", [1.23]),
                         ("score", [83.97]),
                         ("chunksFrac", [1.0]),
-                        ("chunksRelDepth", [1.0]),
+                        ("chunksRelDepth", ["1.0"]),
                         ("chunksRelDepthStd", [0.0]),
                         ("reads", [114]),
                         ("ureads", [114]),
@@ -92,7 +91,7 @@ from taxpasta.infrastructure.application import KmcpProfile
                         ("percentage", [100.0]),
                         ("score", [83.97]),
                         ("chunksFrac", [1.0]),
-                        ("chunksRelDepth", [1.0]),
+                        ("chunksRelDepth", ["1.0"]),
                         ("chunksRelDepthStd", [0.0]),
                         ("reads", [114]),
                         ("ureads", [114]),
@@ -108,7 +107,7 @@ from taxpasta.infrastructure.application import KmcpProfile
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'percentage' out-of-order"
+                exception=SchemaError, message="column 'coverage' out-of-order"
             ),
         ),
     ],
@@ -129,7 +128,7 @@ def test_column_presence(profile: pd.DataFrame):
                     ("coverage", [1.23, 1.23]),
                     ("score", [83.97, 83.97]),
                     ("chunksFrac", [1.0, 1.0]),
-                    ("chunksRelDepth", [1.0, 1.0]),
+                    ("chunksRelDepth", ["1.0", "1.0"]),
                     ("chunksRelDepthStd", [0.0, 0.0]),
                     ("reads", [114, 114]),
                     ("ureads", [114, 114]),
@@ -153,7 +152,7 @@ def test_column_presence(profile: pd.DataFrame):
                         ("coverage", [1.23, 1.23]),
                         ("score", [83.97, 83.97]),
                         ("chunksFrac", [1.0, 1.0]),
-                        ("chunksRelDepth", [1.0, 1.0]),
+                        ("chunksRelDepth", ["1.0", "1.0"]),
                         ("chunksRelDepthStd", [0.0, 0.0]),
                         ("reads", [114, 114]),
                         ("ureads", [114, 114]),
@@ -168,11 +167,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ]
                 )
             ),
-            marks=pytest.mark.raises(
-                exception=SchemaError, message="check_compositionality"
-            ),
+            marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
-
     ],
 )
 def test_percent(profile: pd.DataFrame):
@@ -191,7 +187,7 @@ def test_percent(profile: pd.DataFrame):
                     ("coverage", [1.23]),
                     ("score", [83.97]),
                     ("chunksFrac", [1.0]),
-                    ("chunksRelDepth", [1.0]),
+                    ("chunksRelDepth", ["1.0"]),
                     ("chunksRelDepthStd", [0.0]),
                     ("reads", [114]),
                     ("ureads", [114]),
@@ -215,7 +211,7 @@ def test_percent(profile: pd.DataFrame):
                         ("coverage", [1.23, 1.23]),
                         ("score", [83.97, 83.97]),
                         ("chunksFrac", [1.0, 1.0]),
-                        ("chunksRelDepth", [1.0, 1.0]),
+                        ("chunksRelDepth", ["1.0", "1.0"]),
                         ("chunksRelDepthStd", [0.0, 0.0]),
                         ("reads", [114, 114]),
                         ("ureads", [114, 114]),
@@ -232,12 +228,11 @@ def test_percent(profile: pd.DataFrame):
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
-                message="expected series 'percentage' to have type int",
+                message="expected series 'percentage' to have type float",
             ),
         ),
     ],
 )
-
 def test_target(profile: pd.DataFrame):
     """Test that the target column is checked."""
     KmcpProfile.validate(profile)
