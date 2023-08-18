@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a description of the ganon profile format."""
+"""Provide a description of the KMCP profile format."""
 
 
 import numpy as np
@@ -27,7 +27,7 @@ from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
 class KMCPProfile(BaseDataFrameModel):
-    """Define the expected kmcp profile format."""
+    """Define the expected KMCP profile format."""
 
     reference: Series[str] = pa.Field(alias="ref")
     percentage: Series[float] = pa.Field(ge=0.0, le=100.0)

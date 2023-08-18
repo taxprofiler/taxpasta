@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Test that the reader can parse valid kmcp profiles."""
+"""Test that the reader can parse valid KMCP profiles."""
 
 
 from pathlib import Path
@@ -45,7 +45,7 @@ def test_read_correctness(
     filename: str,
     checks: List[Tuple[int, int, Union[float, int, str]]],
 ):
-    """Test that the reader can parse valid kmcp profiles."""
+    """Test that the reader can parse valid KMCP profiles."""
     profile = KMCPProfileReader.read(kmcp_data_dir / filename)
     for row, col, value in checks:
         assert profile.iat[row, col] == value

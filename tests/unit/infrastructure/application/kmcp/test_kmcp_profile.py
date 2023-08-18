@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Test that the schema model validates kmcp profiles correctly."""
+"""Test that the schema model validates KMCP profiles correctly."""
 
 
 from collections import OrderedDict

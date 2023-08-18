@@ -16,7 +16,7 @@
 # limitations under the License.
 
 
-"""Provide a reader for kmcp profiles."""
+"""Provide a reader for KMCP profiles."""
 
 
 import pandas as pd
@@ -29,20 +29,20 @@ from .kmcp_profile import KMCPProfile
 
 
 class KMCPProfileReader(ProfileReader):
-    """Define a reader for kmcp profiles."""
+    """Define a reader for KMCP profiles."""
 
     @classmethod
     @raise_parser_warnings
     def read(cls, profile: BufferOrFilepath) -> DataFrame[KMCPProfile]:
         """
-        Read a kmcp taxonomic profile from the given source.
+        Read a KMCP taxonomic profile from the given source.
 
         Args:
             profile: A source that contains a tab-separated taxonomic profile generated
-                by kmcp.
+                by KMCP.
 
         Returns:
-            A data frame representation of the kmcp profile.
+            A data frame representation of the KMCP profile.
 
         """
         result = pd.read_table(
