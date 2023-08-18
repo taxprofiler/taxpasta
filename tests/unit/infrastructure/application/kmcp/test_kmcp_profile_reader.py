@@ -24,7 +24,7 @@ from typing import List, Tuple, Union
 
 import pytest
 
-from taxpasta.infrastructure.application import KmcpProfileReader
+from taxpasta.infrastructure.application import KMCPProfileReader
 
 
 @pytest.mark.parametrize(
@@ -46,6 +46,6 @@ def test_read_correctness(
     checks: List[Tuple[int, int, Union[float, int, str]]],
 ):
     """Test that the reader can parse valid kmcp profiles."""
-    profile = KmcpProfileReader.read(kmcp_data_dir / filename)
+    profile = KMCPProfileReader.read(kmcp_data_dir / filename)
     for row, col, value in checks:
         assert profile.iat[row, col] == value

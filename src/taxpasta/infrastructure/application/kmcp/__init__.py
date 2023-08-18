@@ -16,8 +16,8 @@
 # limitations under the License.
 
 
-from .kmcp_profile import KmcpProfile
-from .kmcp_profile_reader import KmcpProfileReader
+from .kmcp_profile import KMCPProfile
+from .kmcp_profile_reader import KMCPProfileReader
 from .kmcp_profile_standardisation_service import (
-    KmcpProfileStandardisationService,
+    KMCPProfileStandardisationService,
 )

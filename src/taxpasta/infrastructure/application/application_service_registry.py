@@ -65,9 +65,9 @@ class ApplicationServiceRegistry:
 
             return KaijuProfileReader
         elif profiler is SupportedProfiler.kmcp:
-            from .kmcp import KmcpProfileReader
+            from .kmcp import KMCPProfileReader
 
-            return KmcpProfileReader
+            return KMCPProfileReader
         elif profiler is SupportedProfiler.kraken2:
             from .kraken2 import Kraken2ProfileReader
 
@@ -135,9 +135,9 @@ class ApplicationServiceRegistry:
 
             return GanonProfileStandardisationService
         elif profiler is SupportedProfiler.kmcp:
-            from .kmcp import KmcpProfileStandardisationService
+            from .kmcp import KMCPProfileStandardisationService
 
-            return KmcpProfileStandardisationService
+            return KMCPProfileStandardisationService
 
         else:
             raise ValueError("Unexpected")

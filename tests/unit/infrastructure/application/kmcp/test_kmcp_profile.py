@@ -25,7 +25,7 @@ import pandas as pd
 import pytest
 from pandera.errors import SchemaError
 
-from taxpasta.infrastructure.application import KmcpProfile
+from taxpasta.infrastructure.application import KMCPProfile
 
 
 @pytest.mark.parametrize(
@@ -114,7 +114,7 @@ from taxpasta.infrastructure.application import KmcpProfile
 )
 def test_column_presence(profile: pd.DataFrame):
     """Test that column names and order are validated."""
-    KmcpProfile.validate(profile)
+    KMCPProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
@@ -173,7 +173,7 @@ def test_column_presence(profile: pd.DataFrame):
 )
 def test_percent(profile: pd.DataFrame):
     """Test that the percent column (percent_cumulative) is checked."""
-    KmcpProfile.validate(profile)
+    KMCPProfile.validate(profile)
 
 
 @pytest.mark.parametrize(
@@ -235,4 +235,4 @@ def test_percent(profile: pd.DataFrame):
 )
 def test_target(profile: pd.DataFrame):
     """Test that the target column is checked."""
-    KmcpProfile.validate(profile)
+    KMCPProfile.validate(profile)

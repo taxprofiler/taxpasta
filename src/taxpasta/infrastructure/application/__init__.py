@@ -42,9 +42,9 @@ from .kaiju import (
     KaijuProfileStandardisationService,
 )
 from .kmcp import (
-    KmcpProfile,
-    KmcpProfileReader,
-    KmcpProfileStandardisationService,
+    KMCPProfile,
+    KMCPProfileReader,
+    KMCPProfileStandardisationService,
 )
 from .kraken2 import (
     Kraken2Profile,

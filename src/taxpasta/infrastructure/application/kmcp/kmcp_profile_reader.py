@@ -25,15 +25,15 @@ from pandera.typing import DataFrame
 from taxpasta.application.service import BufferOrFilepath, ProfileReader
 from taxpasta.infrastructure.helpers import raise_parser_warnings
 
-from .kmcp_profile import KmcpProfile
+from .kmcp_profile import KMCPProfile
 
 
-class KmcpProfileReader(ProfileReader):
+class KMCPProfileReader(ProfileReader):
     """Define a reader for kmcp profiles."""
 
     @classmethod
     @raise_parser_warnings
-    def read(cls, profile: BufferOrFilepath) -> DataFrame[KmcpProfile]:
+    def read(cls, profile: BufferOrFilepath) -> DataFrame[KMCPProfile]:
         """
         Read a kmcp taxonomic profile from the given source.
 
@@ -51,8 +51,8 @@ class KmcpProfileReader(ProfileReader):
             header=0,
             index_col=False,
             dtype={
-                KmcpProfile.chunks_relative_depth: str,
+                KMCPProfile.chunks_relative_depth: str,
             },
         )
-        cls._check_num_columns(result, KmcpProfile)
+        cls._check_num_columns(result, KMCPProfile)
         return result
