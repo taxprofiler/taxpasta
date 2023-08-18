@@ -38,7 +38,9 @@ from taxpasta.infrastructure.application import (
         # The tabular Centrifuge output is identical to the Kraken2 one.
         # ("centrifuge", "AD_pe-db1.centrifuge.txt"),  # noqa: E800
         ("diamond", "diamond_valid_1.tsv"),
+        ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
+        ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         # ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),  # noqa: E800
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
