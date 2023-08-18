@@ -1,4 +1,4 @@
-ref percentage	coverage	score	chunksFrac	chunksRelDepth	chunksRelDepthStd	reads	ureads	hicureads	refsize	refname	taxid	rank	taxname	taxpath	taxpathsn
+ref	percentage	coverage	score	chunksFrac	chunksRelDepth	chunksRelDepthStd	reads	ureads	hicureads	refsize	refname	taxid	rank	taxname	taxpath	taxpathsn
 GCF_000018945.1	11.608028	258.043621	100.00	1.00	0.97;1.02;1.04;1.05;1.02;1.00;0.98;0.97;0.98;0.97	0.03	3257394	3060634	2930305	1884562		1873916548
 GCF_000016785.1	9.045450	201.078148	100.00	1.00	0.99;1.00;1.00;1.01;1.00;1.00;0.99;0.99;1.01;1.00	0.01	2455880	2302578	2204877	1823511		2130047575
 GCF_000091665.1	8.709533	193.610796	100.00	1.00	0.97;1.03;1.04;1.06;1.04;1.02;0.99;0.96;0.92;0.97	0.04	2253657	2251573	2176401	1739967		273746309
