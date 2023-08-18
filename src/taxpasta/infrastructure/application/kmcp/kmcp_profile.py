@@ -20,7 +20,6 @@
 
 
 import numpy as np
-import pandas as pd
 import pandera as pa
 from pandera.typing import Series
 
@@ -32,22 +31,23 @@ class KmcpProfile(BaseDataFrameModel):
 
     reference: Series[str] = pa.Field(alias="ref")
     percentage: Series[float] = pa.Field(ge=0.0, le=100.0)
-    coverage:  Series[float] = pa.Field(ge=0.0, nullable=True)
+    coverage: Series[float] = pa.Field(ge=0.0, nullable=True)
     score: Series[float] = pa.Field(ge=0.0, le=100.0)
-    chunks_fraction:  Series[float] = pa.Field(ge=0.0, le=1.0, alias="chunksFrac")
-    chunks_relative_depth:  Series[float] = pa.Field(ge=0.0, le=100.0, alias="chunksRelDepth")
-    chunks_relative_depth_std:  Series[float] = pa.Field(ge=0.0, nullable=True, alias="chunksRelDepthStd")
+    chunks_fraction: Series[float] = pa.Field(ge=0.0, le=1.0, alias="chunksFrac")
+    chunks_relative_depth: Series[str] = pa.Field(alias="chunksRelDepth")
+    chunks_relative_depth_std: Series[float] = pa.Field(
+        ge=0.0, nullable=True, alias="chunksRelDepthStd"
+    )
     reads: Series[int] = pa.Field(ge=0)
     unique_reads: Series[int] = pa.Field(ge=0, alias="ureads")
-    high_confidence_ureads: Series[int] = pa.Field(ge=0, alias="hicureads")
+    high_confidence_unique_reads: Series[int] = pa.Field(ge=0, alias="hicureads")
     reference_size: Series[int] = pa.Field(ge=0, alias="refsize")
-    reference_name: Series[str] = pa.Field(nullable=True,alias="refname")
+    reference_name: Series[str] = pa.Field(nullable=True, alias="refname")
     taxid: Series[int] = pa.Field(ge=0)
     rank: Series[str] = pa.Field(nullable=True)
     taxonomic_name: Series[str] = pa.Field(nullable=True, alias="taxname")
     taxonomic_path: Series[str] = pa.Field(nullable=True, alias="taxpath")
     taxonomic_path_lineage: Series[str] = pa.Field(nullable=True, alias="taxpathsn")
-
 
     @pa.check("percentage", name="compositionality")
     def check_compositionality(cls, percentage: Series[float]) -> bool:
