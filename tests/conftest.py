@@ -101,3 +101,9 @@ def ganon_data_dir(data_dir: Path) -> Path:
 def kmcp_data_dir(data_dir: Path) -> Path:
     """Provide the path to the KMCP data directory."""
     return data_dir / "kmcp"
+
+
+@pytest.fixture(scope="session")
+def taxonomy_data_dir(data_dir: Path) -> Path:
+    """Provide the path to the taxonomy data directory."""
+    return data_dir / "taxonomy"
