@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 -   Added classifier support for KMCP profiles (#129).
+-   Added a command-line option `--add-rank-lineage` to the `standardise` and
+    `merge` commands, which inserts a new column `rank_lineage` to results that
+    contains semi-colon-separated strings with the ranks (#130).
 
 ## [0.4.1] - (2023-07-13)
 
