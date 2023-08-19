@@ -21,6 +21,7 @@
 
 from collections import OrderedDict
 from pathlib import Path
+from typing import List
 
 import pandas as pd
 import pytest
@@ -92,7 +93,7 @@ def test_get_taxon_rank(tax_service: TaxopyTaxonomyService, tax_id: int, expecte
     ],
 )
 def test_get_taxon_name_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: list[str]
+    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[str]
 ):
     """Expect that we can retrieve the correct taxon name lineage."""
     assert tax_service.get_taxon_name_lineage(tax_id) == expected
@@ -108,7 +109,7 @@ def test_get_taxon_name_lineage(
     ],
 )
 def test_get_taxon_identifier_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: list[int]
+    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[int]
 ):
     """Expect that we can retrieve the correct taxon identifier lineage."""
     assert tax_service.get_taxon_identifier_lineage(tax_id) == expected
@@ -124,7 +125,7 @@ def test_get_taxon_identifier_lineage(
     ],
 )
 def test_get_taxon_rank_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: list[str]
+    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[str]
 ):
     """Expect that we can retrieve the correct taxon rank lineage."""
     assert tax_service.get_taxon_rank_lineage(tax_id) == expected
