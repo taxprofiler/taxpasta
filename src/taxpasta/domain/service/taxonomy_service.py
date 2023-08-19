@@ -56,6 +56,10 @@ class TaxonomyService(ABC):
         """Return the lineage of a given taxonomy identifier as identifiers."""
 
     @abstractmethod
+    def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+        """Return the lineage of a given taxonomy identifier as ranks."""
+
+    @abstractmethod
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon name to the given table."""
 
@@ -72,6 +76,10 @@ class TaxonomyService(ABC):
         self, table: DataFrame[ResultTable]
     ) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as identifiers to the given table."""
+
+    @abstractmethod
+    def add_rank_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
+        """Add a column for the taxon lineage as ranks to the given table."""
 
     @abstractmethod
     def summarise_at(
