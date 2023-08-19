@@ -302,6 +302,12 @@ def merge(
         help="Add the taxon's entire lineage to the output. These are taxon "
         "identifiers separated by semi-colons.",
     ),
+    rank_lineage: bool = typer.Option(  # noqa: B008
+        False,
+        "--add-rank-lineage",
+        help="Add the taxon's entire rank lineage to the output. These are taxon "
+        "ranks separated by semi-colons.",
+    ),
 ) -> None:
     """Standardise and merge two or more taxonomic profiles."""
     # Perform input validation.
@@ -381,6 +387,14 @@ def merge(
             )
             raise typer.Exit(code=2)
 
+    if rank_lineage:
+        if taxonomy is None:
+            logger.critical(
+                "The '--add-rank-lineage' option requires a taxonomy. Please "
+                "provide one using the option '--taxonomy'."
+            )
+            raise typer.Exit(code=2)
+
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -433,6 +447,9 @@ def merge(
 
     # The order of the following conditions is chosen specifically to yield a pleasant
     # output format.
+    if rank_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
+        assert taxonomy_service is not None  # nosec assert_used
+        result = taxonomy_service.add_rank_lineage(result)
 
     if id_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
         assert taxonomy_service is not None  # nosec assert_used
