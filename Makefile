@@ -42,6 +42,19 @@ docs/tutorials/2612_se-ERR5766180-db_mOTU.out:
 docs/tutorials/2612_pe-ERR5766176-db1.kraken2.report.txt:
 	cd docs/tutorials && curl -O https://raw.githubusercontent.com/taxprofiler/taxpasta/dev/tests/data/kraken2/2612_pe-ERR5766176-db1.kraken2.report.txt
 
+taxonomy_directory := tests/data/taxonomy
+## Generate test files
+test-setup: $(taxonomy_directory)
+
+# Running this command assumes that the taxonkit
+# (https://bioinf.shenwei.me/taxonkit/) has been installed beforehand and the
+# NCBI taxonomy was downloaded.
+$(taxonomy_directory):
+	taxonkit list --ids '160488,511145,889517' --indent "" \
+        | taxonkit reformat --taxid-field 1 --output-ambiguous-result --format "{k}\t{p}\t{c}\t{o}\t{f}\t{g}\t{s}" \
+        | cut --fields=2-8 \
+        | taxonkit create-taxdump --out-dir "$(taxonomy_directory)" --force --rank-names "superkingdom,phylum,class,order,family,genus,species"
+
 ################################################################################
 # Self Documenting Commands                                                    #
 ################################################################################
