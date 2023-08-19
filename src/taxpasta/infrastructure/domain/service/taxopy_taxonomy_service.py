@@ -83,6 +83,14 @@ class TaxopyTaxonomyService(TaxonomyService):
             return None
         return taxon.taxid_lineage
 
+    def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+        """Return the lineage of ranks of a given taxonomy identifier."""
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return None
+        return list(taxon.rank_name_dictionary.keys())
+
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon name to the given table."""
         result = table.copy()
@@ -140,6 +148,24 @@ class TaxopyTaxonomyService(TaxonomyService):
         except TaxidError:
             return None
         return ";".join([str(tax_id) for tax_id in taxon.taxid_lineage])
+
+    def add_rank_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
+        """Add a column for the taxon rank lineage to the given table."""
+        result = table.copy()
+        result.insert(
+            1,
+            "rank_lineage",
+            table.taxonomy_id.map(self._rank_lineage_as_str),
+        )
+        return result
+
+    def _rank_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
+        """Return the rank lineage of a taxon as concatenated identifiers."""
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return None
+        return ";".join(taxon.rank_name_dictionary.keys())
 
     def summarise_at(
         self, profile: DataFrame[StandardProfile], rank: str
