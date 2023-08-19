@@ -84,7 +84,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         return taxon.taxid_lineage
 
     def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
-        """Return the lineage of ranks of a given taxonomy identifier."""
+        """Return the lineage of a given taxonomy identifier as ranks."""
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
@@ -150,7 +150,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         return ";".join([str(tax_id) for tax_id in taxon.taxid_lineage])
 
     def add_rank_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
-        """Add a column for the taxon rank lineage to the given table."""
+        """Add a column for the taxon lineage as ranks to the given table."""
         result = table.copy()
         result.insert(
             1,
