@@ -10,20 +10,20 @@ Taxpasta expects a tab-separated file with seventeen columns. This is generated 
 | ----------------- | ----------- |
 | ref               |             |
 | percentage        |             |
-| coverage          |             |
+| coverage          | optional    |
 | score             |             |
 | chunksFrac        |             |
 | chunksRelDepth    |             |
-| chunksRelDepthStd |             |
+| chunksRelDepthStd | optional    |
 | reads             |             |
 | ureads            |             |
 | hicureads         |             |
 | refsize           |             |
-| refname           |             |
+| refname           | optional    |
 | taxid             |             |
-| rank              |             |
-| taxname           |             |
-| taxpath           |             |
-| taxpathsn         |             |
+| rank              | optional    |
+| taxname           | optional    |
+| taxpath           | optional    |
+| taxpathsn         | optional    |
 
-See [KMCP docs](https://bioinf.shenwei.me/kmcp/usage/#profile) for further description.
+Please refer to the [KMCP documentation](https://bioinf.shenwei.me/kmcp/usage/#profile) for further description.
