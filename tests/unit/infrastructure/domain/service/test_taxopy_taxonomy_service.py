@@ -144,7 +144,8 @@ def test_get_taxon_rank_lineage(
                             [
                                 "root",
                                 None,
-                                "Pseudomonadales;Gammaproteobacteria;Proteobacteria;Bacteria;root",
+                                "Pseudomonadales;Gammaproteobacteria;Proteobacteria;"
+                                "Bacteria;root",
                                 "Saccharomycetes;Ascomycota;Eukaryota;root",
                             ],
                         ),
