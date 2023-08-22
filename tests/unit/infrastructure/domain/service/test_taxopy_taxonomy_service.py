@@ -82,14 +82,14 @@ def test_get_taxon_rank(tax_service: TaxopyTaxonomyService, tax_id: int, expecte
         (
             86398254,
             [
-                "Pseudomonadales",
-                "Gammaproteobacteria",
-                "Proteobacteria",
-                "Bacteria",
                 "root",
+                "Bacteria",
+                "Proteobacteria",
+                "Gammaproteobacteria",
+                "Pseudomonadales",
             ],
         ),
-        (1199096325, ["Saccharomycetes", "Ascomycota", "Eukaryota", "root"]),
+        (1199096325, ["root", "Eukaryota", "Ascomycota", "Saccharomycetes"]),
     ],
 )
 def test_get_taxon_name_lineage(
@@ -104,8 +104,8 @@ def test_get_taxon_name_lineage(
     [
         (1, [1]),
         (42, None),
-        (86398254, [86398254, 329474883, 1641076285, 609216830, 1]),
-        (1199096325, [1199096325, 432158898, 476817098, 1]),
+        (86398254, [1, 609216830, 1641076285, 329474883, 86398254]),
+        (1199096325, [1, 476817098, 432158898, 1199096325]),
     ],
 )
 def test_get_taxon_identifier_lineage(
@@ -120,8 +120,8 @@ def test_get_taxon_identifier_lineage(
     [
         (1, []),
         (42, None),
-        (86398254, ["order", "class", "phylum", "superkingdom"]),
-        (1199096325, ["class", "phylum", "superkingdom"]),
+        (86398254, ["superkingdom", "phylum", "class", "order"]),
+        (1199096325, ["superkingdom", "phylum", "class"]),
     ],
 )
 def test_get_taxon_rank_lineage(
@@ -145,9 +145,9 @@ def test_get_taxon_rank_lineage(
                             [
                                 "root",
                                 None,
-                                "Pseudomonadales;Gammaproteobacteria;Proteobacteria;"
-                                "Bacteria;root",
-                                "Saccharomycetes;Ascomycota;Eukaryota;root",
+                                "root;Bacteria;Proteobacteria;Gammaproteobacteria;Pseudomonadales"
+                                "",
+                                "root;Eukaryota;Ascomycota;Saccharomycetes",
                             ],
                         ),
                     ]
@@ -177,8 +177,8 @@ def test_add_name_lineage(
                             [
                                 "1",
                                 None,
-                                "86398254;329474883;1641076285;609216830;1",
-                                "1199096325;432158898;476817098;1",
+                                "1;609216830;1641076285;329474883;86398254",
+                                "1;476817098;432158898;1199096325",
                             ],
                         ),
                     ]
@@ -208,8 +208,8 @@ def test_add_identifier_lineage(
                             [
                                 "",
                                 None,
-                                "order;class;phylum;superkingdom",
-                                "class;phylum;superkingdom",
+                                "superkingdom;phylum;class;order",
+                                "superkingdom;phylum;class",
                             ],
                         ),
                     ]
