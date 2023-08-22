@@ -145,8 +145,8 @@ def test_get_taxon_rank_lineage(
                             [
                                 "root",
                                 None,
-                                "root;Bacteria;Proteobacteria;Gammaproteobacteria;Pseudomonadales"
-                                "",
+                                "root;Bacteria;Proteobacteria;Gammaproteobacteria;"
+                                "Pseudomonadales",
                                 "root;Eukaryota;Ascomycota;Saccharomycetes",
                             ],
                         ),
@@ -206,7 +206,7 @@ def test_add_identifier_lineage(
                         (
                             "rank_lineage",
                             [
-                                "",
+                                None,
                                 None,
                                 "superkingdom;phylum;class;order",
                                 "superkingdom;phylum;class",
