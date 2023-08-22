@@ -21,7 +21,7 @@
 
 from collections import OrderedDict
 from pathlib import Path
-from typing import List
+from typing import Dict, List, Optional
 
 import pandas as pd
 import pytest
@@ -223,3 +223,64 @@ def test_add_rank_lineage(
 ):
     """Expect that we can add rank lineages to a result table."""
     assert_frame_equal(tax_service.add_rank_lineage(result), expected)
+
+
+@pytest.mark.parametrize(
+    ("result", "expected"),
+    [
+        (
+            pd.DataFrame(
+                OrderedDict(
+                    [("taxonomy_id", [1, 42, 1887621118, 1945799576, 492356122])]
+                )
+            ),
+            [
+                {"taxonomy": ["root"] + [None] * 7},
+                {"taxonomy": [None] * 8},
+                {
+                    "taxonomy": [
+                        "root",
+                        "Bacteria",
+                        "Proteobacteria",
+                        "Gammaproteobacteria",
+                        "Pseudomonadales",
+                        "Pseudomonadaceae",
+                        "Pseudomonas",
+                        "Pseudomonas putida",
+                    ]
+                },
+                {
+                    "taxonomy": [
+                        "root",
+                        "Bacteria",
+                        "Proteobacteria",
+                        "Gammaproteobacteria",
+                        "Enterobacterales",
+                        "Enterobacteriaceae",
+                        "Escherichia",
+                        "Escherichia coli",
+                    ]
+                },
+                {
+                    "taxonomy": [
+                        "root",
+                        "Eukaryota",
+                        "Ascomycota",
+                        "Saccharomycetes",
+                        "Saccharomycetales",
+                        "Saccharomycetaceae",
+                        "Saccharomyces",
+                        "Saccharomyces cerevisiae",
+                    ]
+                },
+            ],
+        ),
+    ],
+)
+def test_format_biom_taxonomy(
+    tax_service: TaxopyTaxonomyService,
+    result: pd.DataFrame,
+    expected: List[Dict[str, List[str]]],
+):
+    """Expect that we can add rank lineages to a result table."""
+    assert tax_service.format_biom_taxonomy(result) == expected

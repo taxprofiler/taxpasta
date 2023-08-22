@@ -24,7 +24,7 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 from pathlib import Path
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import pandas as pd
 import taxopy
@@ -163,6 +163,24 @@ class TaxopyTaxonomyService(TaxonomyService):
             return ";".join(lineage)
         else:
             return None
+
+    def format_biom_taxonomy(
+        self, table: DataFrame[ResultTable]
+    ) -> List[Dict[str, List[str]]]:
+        """Format the taxonomy as BIOM observation metadata."""
+        lineages = [self.get_taxon_name_lineage(tax_id) for tax_id in table.taxonomy_id]
+        lineages = [[] if lineage is None else lineage for lineage in lineages]
+        max_lineage = max((len(lineage) for lineage in lineages))
+        return [
+            {"taxonomy": self._pad_lineage(lineage, max_lineage)}
+            for lineage in lineages
+        ]
+
+    def _pad_lineage(self, lineage: List[str], max_lineage: int) -> List[str]:
+        """Pad a lineage to match the length of the longest lineage."""
+        if (num_pad := max_lineage - len(lineage)) > 0:
+            return lineage + [""] * num_pad
+        return lineage
 
     def summarise_at(
         self, profile: DataFrame[StandardProfile], rank: str

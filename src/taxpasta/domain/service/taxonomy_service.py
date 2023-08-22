@@ -20,7 +20,7 @@
 
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, TypeVar
+from typing import Dict, List, Optional, TypeVar
 
 from pandera.typing import DataFrame
 
@@ -80,6 +80,12 @@ class TaxonomyService(ABC):
     @abstractmethod
     def add_rank_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as ranks to the given table."""
+
+    @abstractmethod
+    def format_biom_taxonomy(
+        self, table: DataFrame[ResultTable]
+    ) -> List[Dict[str, List[str]]]:
+        """Format the taxonomy as BIOM observation metadata."""
 
     @abstractmethod
     def summarise_at(

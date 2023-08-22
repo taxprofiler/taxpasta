@@ -67,7 +67,7 @@ def test_merge_profiles_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: List[str],
-    wide_observation_table_format,
+    wide_observation_table_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):

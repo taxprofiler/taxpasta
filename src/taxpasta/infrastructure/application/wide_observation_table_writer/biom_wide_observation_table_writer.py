@@ -47,15 +47,13 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         # Drop unclassified reads.
         matrix = matrix.loc[matrix.iloc[:, 0] != 0].copy()
         if taxonomy is not None:
-            observation_meta = None
-            # FIXME (Moritz): All lists need to be of equal length, i.e., per key in
-            #  the dict across all observations (aka samples).
+            observation_meta = taxonomy.format_biom_taxonomy(matrix)
         else:
             observation_meta = None
         result = Table(
             data=matrix.iloc[:, 1:].values,
             observation_ids=matrix.iloc[:, 0].astype(str),
-            sample_ids=matrix.columns[1:],
+            sample_ids=matrix.columns[1:].astype(str),
             observation_metadata=observation_meta,
             create_date=datetime.utcnow().isoformat(timespec="microseconds"),
         )
