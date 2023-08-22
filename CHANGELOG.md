@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     `merge` commands, which inserts a new column `rank_lineage` to results that
     contains semi-colon-separated strings with the ranks (#130).
 
+### Changed
+
+-   Reversed the order of lineages printed to output files (#131).
+
 ## [0.4.1] - (2023-07-13)
 
 ### Fixed
