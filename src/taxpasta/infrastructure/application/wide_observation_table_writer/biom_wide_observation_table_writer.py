@@ -48,6 +48,9 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         matrix = matrix.loc[matrix.iloc[:, 0] != 0].copy()
         if taxonomy is not None:
             observation_meta = taxonomy.format_biom_taxonomy(matrix)
+            tmp = taxonomy.add_rank_lineage(matrix)
+            for ranks, meta in zip(tmp.rank_lineage, observation_meta):
+                meta["rank_lineage"] = ranks
         else:
             observation_meta = None
         result = Table(
