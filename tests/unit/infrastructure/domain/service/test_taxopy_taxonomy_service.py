@@ -21,7 +21,7 @@
 
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List
 
 import pandas as pd
 import pytest
@@ -77,19 +77,18 @@ def test_get_taxon_rank(tax_service: TaxopyTaxonomyService, tax_id: int, expecte
 @pytest.mark.parametrize(
     ("tax_id", "expected"),
     [
-        (1, ["root"]),
+        (1, []),
         (42, None),
         (
             86398254,
             [
-                "root",
                 "Bacteria",
                 "Proteobacteria",
                 "Gammaproteobacteria",
                 "Pseudomonadales",
             ],
         ),
-        (1199096325, ["root", "Eukaryota", "Ascomycota", "Saccharomycetes"]),
+        (1199096325, ["Eukaryota", "Ascomycota", "Saccharomycetes"]),
     ],
 )
 def test_get_taxon_name_lineage(
@@ -102,10 +101,10 @@ def test_get_taxon_name_lineage(
 @pytest.mark.parametrize(
     ("tax_id", "expected"),
     [
-        (1, [1]),
+        (1, []),
         (42, None),
-        (86398254, [1, 609216830, 1641076285, 329474883, 86398254]),
-        (1199096325, [1, 476817098, 432158898, 1199096325]),
+        (86398254, [609216830, 1641076285, 329474883, 86398254]),
+        (1199096325, [476817098, 432158898, 1199096325]),
     ],
 )
 def test_get_taxon_identifier_lineage(
@@ -143,11 +142,11 @@ def test_get_taxon_rank_lineage(
                         (
                             "lineage",
                             [
-                                "root",
                                 None,
-                                "root;Bacteria;Proteobacteria;Gammaproteobacteria;"
+                                None,
+                                "Bacteria;Proteobacteria;Gammaproteobacteria;"
                                 "Pseudomonadales",
-                                "root;Eukaryota;Ascomycota;Saccharomycetes",
+                                "Eukaryota;Ascomycota;Saccharomycetes",
                             ],
                         ),
                     ]
@@ -175,10 +174,10 @@ def test_add_name_lineage(
                         (
                             "id_lineage",
                             [
-                                "1",
                                 None,
-                                "1;609216830;1641076285;329474883;86398254",
-                                "1;476817098;432158898;1199096325",
+                                None,
+                                "609216830;1641076285;329474883;86398254",
+                                "476817098;432158898;1199096325",
                             ],
                         ),
                     ]
@@ -235,11 +234,10 @@ def test_add_rank_lineage(
                 )
             ),
             [
-                {"taxonomy": ["root"] + [None] * 7},
-                {"taxonomy": [None] * 8},
+                {"taxonomy": [""] * 7},
+                {"taxonomy": [""] * 7},
                 {
                     "taxonomy": [
-                        "root",
                         "Bacteria",
                         "Proteobacteria",
                         "Gammaproteobacteria",
@@ -251,7 +249,6 @@ def test_add_rank_lineage(
                 },
                 {
                     "taxonomy": [
-                        "root",
                         "Bacteria",
                         "Proteobacteria",
                         "Gammaproteobacteria",
@@ -263,7 +260,6 @@ def test_add_rank_lineage(
                 },
                 {
                     "taxonomy": [
-                        "root",
                         "Eukaryota",
                         "Ascomycota",
                         "Saccharomycetes",

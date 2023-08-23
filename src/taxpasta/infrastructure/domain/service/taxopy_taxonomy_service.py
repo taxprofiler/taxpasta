@@ -68,20 +68,30 @@ class TaxopyTaxonomyService(TaxonomyService):
         return self._tax_db.taxid2rank.get(taxonomy_id)
 
     def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
-        """Return the lineage of a given taxonomy identifier as names."""
+        """
+        Return the lineage of a given taxonomy identifier as names.
+
+        Only names with associated ranks are included.
+
+        """
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
             return None
-        return list(reversed(taxon.name_lineage))
+        return list(reversed(taxon.rank_name_dictionary.values()))
 
     def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
-        """Return the lineage of a given taxonomy identifier as identifiers."""
+        """
+        Return the lineage of a given taxonomy identifier as identifiers.
+
+        Only identifiers with associated ranks are included.
+
+        """
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
             return None
-        return list(reversed(taxon.taxid_lineage))
+        return list(reversed(taxon.rank_taxid_dictionary.values()))
 
     def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
         """Return the lineage of a given taxonomy identifier as ranks."""
@@ -168,19 +178,24 @@ class TaxopyTaxonomyService(TaxonomyService):
         self, table: DataFrame[ResultTable]
     ) -> List[Dict[str, List[str]]]:
         """Format the taxonomy as BIOM observation metadata."""
-        lineages = [self.get_taxon_name_lineage(tax_id) for tax_id in table.taxonomy_id]
-        lineages = [[] if lineage is None else lineage for lineage in lineages]
-        max_lineage = max((len(lineage) for lineage in lineages))
+        lineages = [self._get_rank_name(tax_id) for tax_id in table.taxonomy_id]
+        result = [{} if lineage is None else lineage for lineage in lineages]
+        longest_lineage = max(result, key=len)
+        max_ranks = list(reversed(longest_lineage.keys()))
         return [
-            {"taxonomy": self._pad_lineage(lineage, max_lineage)}
-            for lineage in lineages
+            {"taxonomy": self._pad_lineage(lineage, max_ranks)} for lineage in result
         ]
 
-    def _pad_lineage(self, lineage: List[str], max_lineage: int) -> List[str]:
+    def _get_rank_name(self, taxonomy_id: int) -> Optional[Dict[str, str]]:
+        try:
+            taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
+        except TaxidError:
+            return None
+        return taxon.rank_name_dictionary
+
+    def _pad_lineage(self, lineage: Dict[str, str], max_ranks: List[str]) -> List[str]:
         """Pad a lineage to match the length of the longest lineage."""
-        if (num_pad := max_lineage - len(lineage)) > 0:
-            return lineage + [""] * num_pad
-        return lineage
+        return [lineage.get(rank, "") for rank in max_ranks]
 
     def summarise_at(
         self, profile: DataFrame[StandardProfile], rank: str
