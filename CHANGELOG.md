@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Added a command-line option `--add-rank-lineage` to the `standardise` and
     `merge` commands, which inserts a new column `rank_lineage` to results that
     contains semi-colon-separated strings with the ranks (#130).
+-   Added a taxonomy table to the BIOM output format when the `--taxonomy` option is
+    used (#134).
 
 ### Changed
 
