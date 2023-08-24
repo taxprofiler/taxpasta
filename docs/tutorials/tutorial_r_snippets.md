@@ -1,16 +1,17 @@
+
 <!-- --8<-- [start:software] -->
 
--   Unix terminal (e.g., `bash`)
+- Unix terminal (e.g., `bash`)
 
--   [Python environment with taxpasta](../index.md#install)
+- [Python environment with taxpasta](/#install)
 
--   [R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
+- [R](https://rstudio-education.github.io/hopr/starting.html#how-to-download-and-install-r)
 
--   Package dependencies
+- Package dependencies
 
-    ```r
-    install.packages(c("readr", "dplyr"), dependencies = TRUE)
-    ```
+  ``` r
+  install.packages(c("readr", "dplyr"), dependencies = TRUE)
+  ```
 
 <!-- --8<-- [end:software] -->
 <!-- --8<-- [start:raw-motus] -->
@@ -18,13 +19,13 @@
 We can try loading a mOTUs profile into R using the common table reading
 function `read_tsv()` from the `readr` package with default arguments.
 
-```r
+``` r
 requireNamespace("readr")
 ```
 
     Loading required namespace: readr
 
-```r
+``` r
 profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out")
 ```
 
@@ -42,15 +43,16 @@ profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out")
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-You can see we immediately hit an error, as there is a ‘comment’ line at
-the top of the mOTUs profile with information on how the profile was
-generated.
+You can see we immediately hit an error, as as we saw above, there is a
+‘comment’ line at the top of the mOTUs profile with information on how
+the profile was generated.
 
-While such a comment is very useful for reproducibility, to load this we
-have to instead add extra options to the function, which makes loading
-the table less than smooth for downstream analyses.
+While such a comment is very useful for reproducibility, to load this
+into software expecting ‘true’ tabular data, we have to instead add
+extra options to the function, which makes loading the table less than
+smooth for downstream analyses.
 
-```r
+``` r
 profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", comment = "#")
 ```
 
@@ -68,11 +70,11 @@ profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", comment = "#"
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-However, once again we hit another error: the column headers are _also_
+However, once again we hit another error: the column headers are *also*
 specified as a comment line… Instead we can try to skip the first two
 lines entirely.
 
-```r
+``` r
 profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", skip = 2)
 ```
 
@@ -85,7 +87,7 @@ profile_motus <- readr::read_tsv("2612_pe-ERR5766176-db_mOTU.out", skip = 2)
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-```r
+``` r
 profile_motus
 ```
 
@@ -108,7 +110,7 @@ profile_motus
 <!-- --8<-- [end:raw-motus] -->
 <!-- --8<-- [start:raw-kraken2] -->
 
-```r
+``` r
 profile_kraken2 <- readr::read_tsv("2612_pe-ERR5766176-db1.kraken2.report.txt")
 ```
 
@@ -122,30 +124,30 @@ profile_kraken2 <- readr::read_tsv("2612_pe-ERR5766176-db1.kraken2.report.txt")
     • `627680` -> `627680...2`
     • `627680` -> `627680...3`
 
-```r
+``` r
 profile_kraken2
 ```
 
     # A tibble: 43 × 6
-       `99.97` `627680...2` `627680...3` U        `0` unclassified
-         <dbl>        <dbl>        <dbl> <chr>  <dbl> <chr>
-     1    0.03          168            0 R          1 root
+       `99.97` `627680...2` `627680...3` U        `0` unclassified      
+         <dbl>        <dbl>        <dbl> <chr>  <dbl> <chr>             
+     1    0.03          168            0 R          1 root              
      2    0.03          168            0 R1    131567 cellular organisms
-     3    0.03          168            0 D       2759 Eukaryota
-     4    0.03          168            0 D1     33154 Opisthokonta
-     5    0.02          152            0 K      33208 Metazoa
-     6    0.02          152            0 K1      6072 Eumetazoa
-     7    0.02          152            0 K2     33213 Bilateria
-     8    0.02          152            0 K3     33511 Deuterostomia
-     9    0.02          152            0 P       7711 Chordata
-    10    0.02          152            0 P1     89593 Craniata
+     3    0.03          168            0 D       2759 Eukaryota         
+     4    0.03          168            0 D1     33154 Opisthokonta      
+     5    0.02          152            0 K      33208 Metazoa           
+     6    0.02          152            0 K1      6072 Eumetazoa         
+     7    0.02          152            0 K2     33213 Bilateria         
+     8    0.02          152            0 K3     33511 Deuterostomia     
+     9    0.02          152            0 P       7711 Chordata          
+    10    0.02          152            0 P1     89593 Craniata          
     # … with 33 more rows
 
 This doesn’t fail to load but unfortunately the column headers look a
 bit weird. It seems the Kraken2 file does not include a column header!
 In this case we have to specify these ourselves.
 
-```r
+``` r
 profile_kraken2 <- readr::read_tsv(
     "2612_pe-ERR5766176-db1.kraken2.report.txt",
     col_names = c(
@@ -168,15 +170,15 @@ profile_kraken2 <- readr::read_tsv(
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-```r
+``` r
 profile_kraken2
 ```
 
     # A tibble: 44 × 6
-       percent clade_assigned_reads direct_assigned_reads taxonomy_lvl taxon…¹ name
+       percent clade_assigned_reads direct_assigned_reads taxonomy_lvl taxon…¹ name 
          <dbl>                <dbl>                 <dbl> <chr>          <dbl> <chr>
      1  100.                 627680                627680 U                  0 uncl…
-     2    0.03                  168                     0 R                  1 root
+     2    0.03                  168                     0 R                  1 root 
      3    0.03                  168                     0 R1            131567 cell…
      4    0.03                  168                     0 D               2759 Euka…
      5    0.03                  168                     0 D1             33154 Opis…
@@ -194,13 +196,13 @@ In the tidyverse flavour of R, we can do this with the `full_join`
 function of the `dplyr` package. This form of joining tables includes
 all rows both from the left and right table in the resulting table.
 
-```r
+``` r
 requireNamespace("dplyr")
 ```
 
     Loading required namespace: dplyr
 
-```r
+``` r
 dplyr::full_join(profile_motus, profile_kraken2)
 ```
 
@@ -210,27 +212,29 @@ dplyr::full_join(profile_motus, profile_kraken2)
 
 The error `by must be supplied when x and y have no common variables`
 occurs because the column names are not the same between the two tables
-for the different profilers’ outputs. We need to specify which column of
-the left table should be joined with what column of the right table.
+for the different profilers’ outputs.
 
-```r
+We need to specify which column of the left table should be joined with
+what column of the right table.
+
+``` r
 raw_merged_table <- dplyr::full_join(profile_motus, profile_kraken2, by = c("NCBI_tax_id" = "taxonomy_id"))
 raw_merged_table
 ```
 
     # A tibble: 33,615 × 8
-       `#consensus_taxonomy`   NCBI_…¹ 2612_…² percent clade…³ direc…⁴ taxon…⁵ name
+       `#consensus_taxonomy`   NCBI_…¹ 2612_…² percent clade…³ direc…⁴ taxon…⁵ name 
        <chr>                     <dbl>   <dbl>   <dbl>   <dbl>   <dbl> <chr>   <chr>
-     1 Leptospira alexanderi …  100053       0      NA      NA      NA <NA>    <NA>
-     2 Leptospira weilii [ref…   28184       0      NA      NA      NA <NA>    <NA>
-     3 Chryseobacterium sp. […      NA       0      NA      NA      NA <NA>    <NA>
-     4 Chryseobacterium galli… 1324352       0      NA      NA      NA <NA>    <NA>
-     5 Chryseobacterium indol…     253       0      NA      NA      NA <NA>    <NA>
-     6 Chryseobacterium artoc…      NA       0      NA      NA      NA <NA>    <NA>
-     7 Chryseobacterium jejue…  445960       0      NA      NA      NA <NA>    <NA>
-     8 Chryseobacterium sp. G… 1805473       0      NA      NA      NA <NA>    <NA>
-     9 Chryseobacterium conta… 1423959       0      NA      NA      NA <NA>    <NA>
-    10 Chryseobacterium indol…     253       0      NA      NA      NA <NA>    <NA>
+     1 Leptospira alexanderi …  100053       0      NA      NA      NA <NA>    <NA> 
+     2 Leptospira weilii [ref…   28184       0      NA      NA      NA <NA>    <NA> 
+     3 Chryseobacterium sp. […      NA       0      NA      NA      NA <NA>    <NA> 
+     4 Chryseobacterium galli… 1324352       0      NA      NA      NA <NA>    <NA> 
+     5 Chryseobacterium indol…     253       0      NA      NA      NA <NA>    <NA> 
+     6 Chryseobacterium artoc…      NA       0      NA      NA      NA <NA>    <NA> 
+     7 Chryseobacterium jejue…  445960       0      NA      NA      NA <NA>    <NA> 
+     8 Chryseobacterium sp. G… 1805473       0      NA      NA      NA <NA>    <NA> 
+     9 Chryseobacterium conta… 1423959       0      NA      NA      NA <NA>    <NA> 
+    10 Chryseobacterium indol…     253       0      NA      NA      NA <NA>    <NA> 
     # … with 33,605 more rows, and abbreviated variable names ¹​NCBI_tax_id,
     #   ²​`2612_pe-ERR5766176-db_mOTU`, ³​clade_assigned_reads,
     #   ⁴​direct_assigned_reads, ⁵​taxonomy_lvl
@@ -241,7 +245,7 @@ raw_merged_table
 Now let’s try to load the taxpasta standardised Kraken2 result into R
 again.
 
-```r
+``` r
 profile_kraken2_std <- readr::read_tsv("2612_pe-ERR5766176-db1_kraken2.tsv")
 ```
 
@@ -253,7 +257,7 @@ profile_kraken2_std <- readr::read_tsv("2612_pe-ERR5766176-db1_kraken2.tsv")
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-```r
+``` r
 profile_kraken2_std
 ```
 
@@ -278,7 +282,7 @@ profile_kraken2_std
 Once again, let’s try loading the standardised and merged mOTUs result
 into R.
 
-```r
+``` r
 profile_motus_merged <- readr::read_tsv("dbMOTUs_motus.tsv")
 ```
 
@@ -290,7 +294,7 @@ profile_motus_merged <- readr::read_tsv("dbMOTUs_motus.tsv")
     ℹ Use `spec()` to retrieve the full column specification for this data.
     ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
-```r
+``` r
 profile_motus_merged
 ```
 

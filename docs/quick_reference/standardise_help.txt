@@ -6,7 +6,7 @@ Arguments:
   PROFILE  A file containing a taxonomic profile.  [required]
 
 Options:
-  -p, --profiler [bracken|centrifuge|diamond|kaiju|kraken2|krakenuniq|megan6|metaphlan|motus]
+  -p, --profiler [bracken|centrifuge|diamond|ganon|kaiju|kmcp|kraken2|krakenuniq|megan6|metaphlan|motus]
                                   The taxonomic profiler used.  [required]
   -o, --output PATH               The desired output file. By default, the
                                   file extension will be used to determine the
@@ -46,4 +46,7 @@ Options:
   --add-id-lineage                Add the taxon's entire lineage to the
                                   output. These are taxon identifiers
                                   separated by semi-colons.
+  --add-rank-lineage              Add the taxon's entire rank lineage to the
+                                  output. These are taxon ranks separated by
+                                  semi-colons.
   -h, --help                      Show this message and exit.

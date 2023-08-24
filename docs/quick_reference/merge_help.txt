@@ -8,7 +8,7 @@ Arguments:
                              Filenames will be parsed as sample names.
 
 Options:
-  -p, --profiler [bracken|centrifuge|diamond|kaiju|kraken2|krakenuniq|megan6|metaphlan|motus]
+  -p, --profiler [bracken|centrifuge|diamond|ganon|kaiju|kmcp|kraken2|krakenuniq|megan6|metaphlan|motus]
                                   The taxonomic profiler used. All provided
                                   profiles must come from the same tool!
                                   [required]
@@ -66,4 +66,7 @@ Options:
   --add-id-lineage                Add the taxon's entire lineage to the
                                   output. These are taxon identifiers
                                   separated by semi-colons.
+  --add-rank-lineage              Add the taxon's entire rank lineage to the
+                                  output. These are taxon ranks separated by
+                                  semi-colons.
   -h, --help                      Show this message and exit.
