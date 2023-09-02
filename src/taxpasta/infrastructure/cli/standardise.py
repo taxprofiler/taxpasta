@@ -25,12 +25,11 @@ from typing import Optional, cast
 
 import typer
 
-from taxpasta.application import AddTaxInfoCommand
+from taxpasta.application import AddTaxInfoCommand, SampleHandlingApplication
 from taxpasta.application.error import StandardisationError
 from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
-    SampleETLApplication,
     StandardProfileFileFormat,
     SupportedProfiler,
 )
@@ -180,7 +179,7 @@ def standardise(
         taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
 
     try:
-        command = AddTaxInfoCommand(
+        tax_info_command = AddTaxInfoCommand(
             taxonomy_service=taxonomy_service,
             summarise_at=summarise_at,
             add_name=add_name,
@@ -201,7 +200,7 @@ def standardise(
         logger.critical(str(error))
         raise typer.Exit(1)
 
-    sample_app = SampleETLApplication(
+    handling_app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
             profiler
@@ -209,7 +208,7 @@ def standardise(
         taxonomy_service=taxonomy_service,
     )
     try:
-        result = command.execute(sample_app.run(profile, summarise_at=summarise_at))
+        sample = handling_app.etl_sample(profile.stem, profile)
     except StandardisationError as error:
         logger.debug("", exc_info=error)
         logger.critical(
@@ -217,6 +216,17 @@ def standardise(
         )
         logger.critical(error.message)
         raise typer.Exit(code=1)
+
+    if summarise_at:
+        try:
+            sample = handling_app.summarise_sample(sample, summarise_at)
+        except ValueError as error:
+            logger.debug("", exc_info=error)
+            logger.critical("Error in sample '%s'.", sample.name)
+            logger.critical(str(error))
+            raise typer.Exit(code=1)
+
+    result = tax_info_command.execute(sample)
 
     logger.info("Write result to '%s'.", str(output))
     writer = ApplicationServiceRegistry.standard_profile_writer(valid_output_format)

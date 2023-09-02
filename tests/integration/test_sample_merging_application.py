@@ -24,7 +24,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from taxpasta.application import SampleMergingApplication
+from taxpasta.application import SampleHandlingApplication
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     SupportedProfiler,
@@ -54,7 +54,7 @@ def test_zero_warning(
                 ("k__Bacteria|p__Firmicutes", "2|1239", 100.0, None),
             ]
         ).to_csv(handle, sep="\t", index=False, header=False)
-    app = SampleMergingApplication(
+    app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(
             SupportedProfiler.metaphlan
         ),
@@ -62,12 +62,13 @@ def test_zero_warning(
             SupportedProfiler.metaphlan
         ),
     )
+    samples = [
+        app.etl_sample("profile_1", profile_1),
+        app.etl_sample("profile_2", profile_2),
+    ]
     with caplog.at_level("WARNING"):
-        app.run(
-            profiles=[
-                ("profile_1", profile_1),
-                ("profile_2", profile_2),
-            ],
+        app.merge_samples(
+            samples,
             wide_format=True,
         )
     assert any("zeroes were introduced" in msg for msg in caplog.messages)

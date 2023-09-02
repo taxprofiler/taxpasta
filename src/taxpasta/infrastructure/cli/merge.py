@@ -27,7 +27,7 @@ import pandera.errors
 import typer
 from pandera.typing import DataFrame
 
-from taxpasta.application import AddTaxInfoCommand, SampleMergingApplication
+from taxpasta.application import AddTaxInfoCommand, SampleHandlingApplication
 from taxpasta.application.error import StandardisationError
 from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
@@ -308,6 +308,12 @@ def merge(
         help="Add the taxon's entire rank lineage to the output. These are taxon "
         "ranks separated by semi-colons.",
     ),
+    ignore_errors: bool = typer.Option(  # noqa: B008
+        False,
+        "--ignore-errors",
+        help="Ignore any metagenomic profiles with errors. Please note that there "
+        "must be at least two profiles without errors to merge.",
+    ),
 ) -> None:
     """Standardise and merge two or more taxonomic profiles."""
     # Perform input validation.
@@ -388,26 +394,54 @@ def merge(
         # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
-    merging_app = SampleMergingApplication(
+    handling_app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
             profiler
         ),
         taxonomy_service=taxonomy_service,
     )
-    try:
-        result = merging_app.run(data, wide_format, summarise_at=summarise_at)
-    except StandardisationError as error:
-        logger.debug("", exc_info=error)
-        logger.critical(
-            "Error in sample '%s' with profile '%s'.", error.sample, error.profile
-        )
-        logger.critical(error.message)
-        raise typer.Exit(code=1)
-    except ValueError as error:
-        logger.debug("", exc_info=error)
-        logger.critical(str(error))
-        raise typer.Exit(code=1)
+    samples = []
+    for name, profile in data:
+        try:
+            samples.append(handling_app.etl_sample(name, profile))
+        except StandardisationError as error:
+            logger.debug("", exc_info=error)
+            if ignore_errors:
+                logger.error(
+                    "Error in sample '%s' with profile '%s'.",
+                    error.sample,
+                    error.profile,
+                )
+                logger.error(error.message)
+                continue
+            else:
+                logger.critical(
+                    "Error in sample '%s' with profile '%s'.",
+                    error.sample,
+                    error.profile,
+                )
+                logger.critical(error.message)
+                raise typer.Exit(code=1)
+
+    if summarise_at:
+        summarised = []
+        for sample in samples:
+            try:
+                summarised.append(handling_app.summarise_sample(sample, summarise_at))
+            except ValueError as error:
+                logger.debug("", exc_info=error)
+                if ignore_errors:
+                    logger.error("Error in sample '%s'.", sample.name)
+                    logger.error(str(error))
+                    continue
+                else:
+                    logger.critical("Error in sample '%s'.", sample.name)
+                    logger.critical(str(error))
+                    raise typer.Exit(code=1)
+        samples = summarised
+
+    result = handling_app.merge_samples(samples, wide_format)
 
     if valid_output_format is not WideObservationTableFileFormat.BIOM:
         result = command.execute(result)
@@ -433,6 +467,7 @@ def merge(
         else:
             writer.write(result, output)
     except OSError as error:
+        logger.debug("", exc_info=error)
         logger.critical("Failed to write the output result.")
         logger.critical(str(error))
         raise typer.Exit(1)
