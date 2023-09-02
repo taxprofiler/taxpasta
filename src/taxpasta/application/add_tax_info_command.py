@@ -38,35 +38,37 @@ class AddTaxInfoCommand:
     add_id_lineage: bool = False
     add_rank_lineage: bool = False
 
-    def execute(self, result: Sample) -> Sample:
+    def execute(self, sample: Sample) -> Sample:
         """Execute the command to add taxonomy information."""
         if self.taxonomy_service is None:
-            return result
+            return sample
         # The order of the following conditions is chosen specifically to yield a
         # pleasant final output format.
+        result = sample
         if self.add_rank_lineage:
-            return Sample(
+            result = Sample(
                 name=result.name,
                 profile=self.taxonomy_service.add_rank_lineage(result.profile),
             )
         if self.add_id_lineage:
-            return Sample(
+            result = Sample(
                 name=result.name,
                 profile=self.taxonomy_service.add_identifier_lineage(result.profile),
             )
         if self.add_lineage:
-            return Sample(
+            result = Sample(
                 name=result.name,
                 profile=self.taxonomy_service.add_name_lineage(result.profile),
             )
         if self.add_rank:
-            return Sample(
+            result = Sample(
                 name=result.name, profile=self.taxonomy_service.add_rank(result.profile)
             )
         if self.add_name:
-            return Sample(
+            result = Sample(
                 name=result.name, profile=self.taxonomy_service.add_name(result.profile)
             )
+        return result
 
     def __post_init__(self) -> None:
         """Perform post initialization validation."""
