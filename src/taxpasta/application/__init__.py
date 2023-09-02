@@ -16,5 +16,6 @@
 # limitations under the License.
 
 
+from .add_tax_info_command import AddTaxInfoCommand
 from .sample_merging_application import SampleMergingApplication
 from .consensus_application import ConsensusApplication

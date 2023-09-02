@@ -25,8 +25,8 @@ from typing import Optional, cast
 
 import typer
 
+from taxpasta.application import AddTaxInfoCommand
 from taxpasta.application.error import StandardisationError
-from taxpasta.domain.model import Sample
 from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
@@ -179,53 +179,19 @@ def standardise(
 
         taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
 
-    if summarise_at is not None:
-        if taxonomy is None:
-            logger.critical(
-                "The summarising feature '--summarise-at' requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if add_name:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-name' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if add_rank:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-rank' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if add_lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if add_id_lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-id-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if add_rank_lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-rank-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
+    try:
+        command = AddTaxInfoCommand(
+            taxonomy_service=taxonomy_service,
+            summarise_at=summarise_at,
+            add_name=add_name,
+            add_rank=add_rank,
+            add_lineage=add_lineage,
+            add_id_lineage=add_id_lineage,
+            add_rank_lineage=add_rank_lineage,
+        )
+    except ValueError as exc:
+        logger.critical(str(exc))
+        raise typer.Exit(code=2)
 
     # Ensure that we can write to the output directory.
     try:
@@ -243,7 +209,7 @@ def standardise(
         taxonomy_service=taxonomy_service,
     )
     try:
-        result = sample_app.run(profile, summarise_at=summarise_at)
+        result = command.execute(sample_app.run(profile, summarise_at=summarise_at))
     except StandardisationError as error:
         logger.debug("", exc_info=error)
         logger.critical(
@@ -251,40 +217,6 @@ def standardise(
         )
         logger.critical(error.message)
         raise typer.Exit(code=1)
-
-    # The order of the following conditions is chosen specifically to yield a pleasant
-    # output format.
-    if add_rank_lineage:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name,
-            profile=taxonomy_service.add_rank_lineage(result.profile),
-        )
-
-    if add_id_lineage:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name,
-            profile=taxonomy_service.add_identifier_lineage(result.profile),
-        )
-
-    if add_lineage:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name, profile=taxonomy_service.add_name_lineage(result.profile)
-        )
-
-    if add_rank:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name, profile=taxonomy_service.add_rank(result.profile)
-        )
-
-    if add_name:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = Sample(
-            name=result.name, profile=taxonomy_service.add_name(result.profile)
-        )
 
     logger.info("Write result to '%s'.", str(output))
     writer = ApplicationServiceRegistry.standard_profile_writer(valid_output_format)

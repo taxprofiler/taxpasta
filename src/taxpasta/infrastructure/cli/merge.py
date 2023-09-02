@@ -27,7 +27,7 @@ import pandera.errors
 import typer
 from pandera.typing import DataFrame
 
-from taxpasta.application import SampleMergingApplication
+from taxpasta.application import AddTaxInfoCommand, SampleMergingApplication
 from taxpasta.application.error import StandardisationError
 from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
@@ -280,29 +280,29 @@ def merge(
         help="The path to a directory containing taxdump files. At least nodes.dmp and "
         "names.dmp are required. A merged.dmp file is optional.",
     ),
-    name: bool = typer.Option(  # noqa: B008
+    add_name: bool = typer.Option(  # noqa: B008
         False,
         "--add-name",
         help="Add the taxon name to the output.",
     ),
-    rank: bool = typer.Option(  # noqa: B008
+    add_rank: bool = typer.Option(  # noqa: B008
         False,
         "--add-rank",
         help="Add the taxon rank to the output.",
     ),
-    lineage: bool = typer.Option(  # noqa: B008
+    add_lineage: bool = typer.Option(  # noqa: B008
         False,
         "--add-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon names "
         "separated by semi-colons.",
     ),
-    id_lineage: bool = typer.Option(  # noqa: B008
+    add_id_lineage: bool = typer.Option(  # noqa: B008
         False,
         "--add-id-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon "
         "identifiers separated by semi-colons.",
     ),
-    rank_lineage: bool = typer.Option(  # noqa: B008
+    add_rank_lineage: bool = typer.Option(  # noqa: B008
         False,
         "--add-rank-lineage",
         help="Add the taxon's entire rank lineage to the output. These are taxon "
@@ -347,54 +347,19 @@ def merge(
 
         taxonomy_service = TaxopyTaxonomyService.from_taxdump(taxonomy)
 
-    if summarise_at is not None:
-        if taxonomy is None:
-            logger.critical(
-                "The summarising feature '--summarise-at' requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if name:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-name' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if rank:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-rank' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if id_lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-id-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
-    if rank_lineage:
-        if taxonomy is None:
-            logger.critical(
-                "The '--add-rank-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'."
-            )
-            raise typer.Exit(code=2)
-
+    try:
+        command = AddTaxInfoCommand(
+            taxonomy_service=taxonomy_service,
+            summarise_at=summarise_at,
+            add_name=add_name,
+            add_rank=add_rank,
+            add_lineage=add_lineage,
+            add_id_lineage=add_id_lineage,
+            add_rank_lineage=add_rank_lineage,
+        )
+    except ValueError as exc:
+        logger.critical(str(exc))
+        raise typer.Exit(code=2)
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
@@ -402,7 +367,6 @@ def merge(
         logger.critical("Failed to create the parent directory for the output.")
         logger.critical(str(error))
         raise typer.Exit(1)
-
     # Extract and transform sample data.
     if sample_sheet is not None:
         valid_sample_format = validate_sample_format(sample_sheet, samplesheet_format)
@@ -445,27 +409,8 @@ def merge(
         logger.critical(str(error))
         raise typer.Exit(code=1)
 
-    # The order of the following conditions is chosen specifically to yield a pleasant
-    # output format.
-    if rank_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_rank_lineage(result)
-
-    if id_lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_identifier_lineage(result)
-
-    if lineage and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_name_lineage(result)
-
-    if rank and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_rank(result)
-
-    if name and valid_output_format is not WideObservationTableFileFormat.BIOM:
-        assert taxonomy_service is not None  # nosec assert_used
-        result = taxonomy_service.add_name(result)
+    if valid_output_format is not WideObservationTableFileFormat.BIOM:
+        result = command.execute(result)
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
@@ -483,10 +428,7 @@ def merge(
             valid_output_format  # type: ignore
         )
     try:
-        if (
-            taxonomy is not None
-            and valid_output_format is WideObservationTableFileFormat.BIOM
-        ):
+        if valid_output_format is WideObservationTableFileFormat.BIOM:
             writer.write(result, output, taxonomy=taxonomy_service)
         else:
             writer.write(result, output)
