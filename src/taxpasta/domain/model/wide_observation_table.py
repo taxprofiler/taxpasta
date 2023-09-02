@@ -19,6 +19,8 @@
 """Provide a description of an observation matrix."""
 
 
+from typing import Optional
+
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -29,9 +31,16 @@ class WideObservationTable(pa.DataFrameModel):
     """Define the observation matrix."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    name: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    rank: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    id_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    rank_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
     # This field uses a regex to match all columns that are not `taxonomy_id`.
     any_samples: Series[np.int64] = pa.Field(
-        ge=0, alias="^(?!taxonomy_id$).*", regex=True
+        ge=0,
+        alias="^(?!(taxonomy_id|name|rank|lineage|id_lineage|rank_lineage)$).*",
+        regex=True,
     )
 
     class Config:

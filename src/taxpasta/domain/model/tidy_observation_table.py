@@ -19,6 +19,8 @@
 """Provide a description of a tidy observation table."""
 
 
+from typing import Optional
+
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -29,6 +31,11 @@ class TidyObservationTable(pa.DataFrameModel):
     """Define the tidy observation table."""
 
     taxonomy_id: Series[pd.CategoricalDtype] = pa.Field()
+    name: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    rank: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    id_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
+    rank_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
     count: Series[np.int64] = pa.Field(ge=0)
     sample: Series[pd.CategoricalDtype] = pa.Field()
 
