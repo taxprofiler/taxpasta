@@ -441,6 +441,10 @@ def merge(
                     raise typer.Exit(code=1)
         samples = summarised
 
+    if len(samples) < 2:
+        logger.critical("Less than two profiles are without errors. Nothing to merge.")
+        raise typer.Exit(code=1)
+
     result = handling_app.merge_samples(samples, wide_format)
 
     if valid_output_format is not WideObservationTableFileFormat.BIOM:
