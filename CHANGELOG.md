@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+-   Added an option `--ignore-errors` to the `taxpasta merge` command. This allows
+    ignoring individual profiles that cause errors, like empty profiles (#136).
+
+### Changed
+
+-   Created a special error message for empty profiles, making the cause of the error
+    much clearer (#136).
+-   Internal restructuring of input validation and transformation services (#136).
+
 ## [0.5.0] - (2023-08-24)
 
 ### Added
