@@ -36,7 +36,7 @@ class WideObservationTable(pa.DataFrameModel):
     lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
     id_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
     rank_lineage: Optional[Series[pd.CategoricalDtype]] = pa.Field()
-    # This field uses a regex to match all columns that are not `taxonomy_id`.
+    # This field uses a regex to match all columns that are not one of the above.
     any_samples: Series[np.int64] = pa.Field(
         ge=0,
         alias="^(?!(taxonomy_id|name|rank|lineage|id_lineage|rank_lineage)$).*",
