@@ -20,15 +20,29 @@
 
 
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, TypeVar
 
-from taxpasta.domain.model import Sample
+from pandera.typing import DataFrame
+
+from taxpasta.domain.model import (
+    StandardProfile,
+    TidyObservationTable,
+    WideObservationTable,
+)
 from taxpasta.domain.service import TaxonomyService
+
+
+Table = TypeVar(
+    "Table",
+    DataFrame[TidyObservationTable],
+    DataFrame[WideObservationTable],
+    DataFrame[StandardProfile],
+)
 
 
 @dataclass(frozen=True)
 class AddTaxInfoCommand:
-    """Define a command object for adding taxonomy information."""
+    """Define the command object for adding taxonomy information."""
 
     taxonomy_service: Optional[TaxonomyService] = None
     summarise_at: Optional[str] = None
@@ -38,36 +52,23 @@ class AddTaxInfoCommand:
     add_id_lineage: bool = False
     add_rank_lineage: bool = False
 
-    def execute(self, sample: Sample) -> Sample:
+    def execute(self, table: Table) -> Table:
         """Execute the command to add taxonomy information."""
         if self.taxonomy_service is None:
-            return sample
+            return table
         # The order of the following conditions is chosen specifically to yield a
         # pleasant final output format.
-        result = sample
+        result = table
         if self.add_rank_lineage:
-            result = Sample(
-                name=result.name,
-                profile=self.taxonomy_service.add_rank_lineage(result.profile),
-            )
+            result = self.taxonomy_service.add_rank_lineage(result)
         if self.add_id_lineage:
-            result = Sample(
-                name=result.name,
-                profile=self.taxonomy_service.add_identifier_lineage(result.profile),
-            )
+            result = self.taxonomy_service.add_identifier_lineage(result)
         if self.add_lineage:
-            result = Sample(
-                name=result.name,
-                profile=self.taxonomy_service.add_name_lineage(result.profile),
-            )
+            result = self.taxonomy_service.add_name_lineage(result)
         if self.add_rank:
-            result = Sample(
-                name=result.name, profile=self.taxonomy_service.add_rank(result.profile)
-            )
+            result = self.taxonomy_service.add_rank(result)
         if self.add_name:
-            result = Sample(
-                name=result.name, profile=self.taxonomy_service.add_name(result.profile)
-            )
+            result = self.taxonomy_service.add_name(result)
         return result
 
     def __post_init__(self) -> None:
