@@ -226,12 +226,12 @@ def standardise(
             logger.critical(str(error))
             raise typer.Exit(code=1)
 
-    result = tax_info_command.execute(sample)
+    result = tax_info_command.execute(sample.profile)
 
     logger.info("Write result to '%s'.", str(output))
     writer = ApplicationServiceRegistry.standard_profile_writer(valid_output_format)
     try:
-        writer.write(result.profile, output)
+        writer.write(result, output)
     except OSError as error:
         logger.critical("Failed to write the output result.")
         logger.critical(str(error))
