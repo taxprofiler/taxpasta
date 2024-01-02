@@ -61,6 +61,8 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
             "2612_se-ERR5766180-invalid_db_mOTU.out",
             marks=pytest.mark.raises(exception=SchemaErrors),
         ),
+        "B11-2_se_B11_db_mOTU.out",
+        "B12-3_se_B12_db_mOTU.out",
     ],
 )
 def test_read_correctness(
