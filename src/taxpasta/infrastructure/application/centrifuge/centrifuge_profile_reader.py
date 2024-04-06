@@ -51,14 +51,14 @@ class CentrifugeProfileReader(ProfileReader):
             header=None,
             index_col=False,
             skipinitialspace=True,
-            names=[
-                CentrifugeProfile.percent,
-                CentrifugeProfile.clade_assigned_reads,
-                CentrifugeProfile.direct_assigned_reads,
-                CentrifugeProfile.taxonomy_level,
-                CentrifugeProfile.taxonomy_id,
-                CentrifugeProfile.name,
-            ],
         )
         cls._check_num_columns(result, CentrifugeProfile)
+        result.columns = [
+            CentrifugeProfile.percent,
+            CentrifugeProfile.clade_assigned_reads,
+            CentrifugeProfile.direct_assigned_reads,
+            CentrifugeProfile.taxonomy_level,
+            CentrifugeProfile.taxonomy_id,
+            CentrifugeProfile.name,
+        ]
         return result

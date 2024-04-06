@@ -51,17 +51,17 @@ class GanonProfileReader(ProfileReader):
             header=None,
             index_col=False,
             skipinitialspace=True,
-            names=[
-                GanonProfile.rank,
-                GanonProfile.target,
-                GanonProfile.lineage,
-                GanonProfile.name,
-                GanonProfile.number_unique,
-                GanonProfile.number_shared,
-                GanonProfile.number_children,
-                GanonProfile.number_cumulative,
-                GanonProfile.percent_cumulative,
-            ],
         )
         cls._check_num_columns(result, GanonProfile)
+        result.columns = [
+            GanonProfile.rank,
+            GanonProfile.target,
+            GanonProfile.lineage,
+            GanonProfile.name,
+            GanonProfile.number_unique,
+            GanonProfile.number_shared,
+            GanonProfile.number_children,
+            GanonProfile.number_cumulative,
+            GanonProfile.percent_cumulative,
+        ]
         return result
