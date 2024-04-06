@@ -25,9 +25,9 @@ __email__ = (
     "Sofia Stamouli <sofia.stamouli@scilifelab.se>"
 )
 
-try:
-    from ._version import __version__, __version_tuple__
 
+try:
+    from ._version import __version__, __version_tuple__  # type: ignore
 except ImportError:
     __version__ = "undefined"
     __version_tuple__ = None  # type: ignore
