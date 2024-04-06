@@ -26,6 +26,10 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+KMCP_PERCENT_TOTAL = 100.0
+KMCP_PERCENT_TOLERANCE = 1.0
+
+
 class KMCPProfile(BaseDataFrameModel):
     """Define the expected KMCP profile format."""
 
@@ -49,8 +53,12 @@ class KMCPProfile(BaseDataFrameModel):
     taxonomic_path: Series[str] = pa.Field(nullable=True, alias="taxpath")
     taxonomic_path_lineage: Series[str] = pa.Field(nullable=True, alias="taxpathsn")
 
-    @pa.check("percentage", name="compositionality")
+    @pa.check("percentage", name="compositionality", raise_warning=True)
     def check_compositionality(cls, percentage: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # KMCP profile reports percentages with sixth decimals
-        return percentage.empty or bool(np.isclose(percentage.sum(), 100.0, atol=1.0))
+        return percentage.empty or bool(
+            np.isclose(
+                percentage.sum(), KMCP_PERCENT_TOTAL, atol=KMCP_PERCENT_TOLERANCE
+            )
+        )

@@ -27,6 +27,10 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+KAIJU_PERCENT_TOTAL = 100.0
+KAIJU_PERCENT_TOLERANCE = 1.0
+
+
 class KaijuProfile(BaseDataFrameModel):
     """Define the expected kaiju profile format."""
 
@@ -36,11 +40,13 @@ class KaijuProfile(BaseDataFrameModel):
     taxon_id: Series[pd.Int64Dtype] = pa.Field(nullable=True)
     taxon_name: Series[str] = pa.Field()
 
-    @pa.check("percent", name="compositionality")
+    @pa.check("percent", name="compositionality", raise_warning=True)
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # Kaiju reports percentages with sixth decimals
-        return percent.empty or bool(np.isclose(percent.sum(), 100.0, atol=1.0))
+        return percent.empty or bool(
+            np.isclose(percent.sum(), KAIJU_PERCENT_TOTAL, atol=KAIJU_PERCENT_TOLERANCE)
+        )
 
     @pa.check("file", name="unique_filename")
     def check_unique_filename(cls, file_col: Series[str]) -> bool:

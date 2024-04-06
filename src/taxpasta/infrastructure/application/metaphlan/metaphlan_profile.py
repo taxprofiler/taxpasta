@@ -29,6 +29,10 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+METAPHLAN_PERCENT_TOTAL = 100.0
+METAPHLAN_PERCENT_TOLERANCE = 1.0
+
+
 class MetaphlanProfile(BaseDataFrameModel):
     """Define the expected metaphlan profile format."""
 
@@ -38,7 +42,7 @@ class MetaphlanProfile(BaseDataFrameModel):
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
     additional_species: Optional[Series[str]] = pa.Field(nullable=True)
 
-    @pa.dataframe_check
+    @pa.dataframe_check(name="compositionality", raise_warning=True)
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percentages per rank add up to a hundred."""
         # Parse the rank from the given lineage.
@@ -46,7 +50,7 @@ class MetaphlanProfile(BaseDataFrameModel):
         return profile.empty or bool(
             np.allclose(
                 profile.groupby(rank, sort=False)[cls.relative_abundance].sum(),
-                100.0,
-                atol=1.0,
+                METAPHLAN_PERCENT_TOTAL,
+                atol=METAPHLAN_PERCENT_TOLERANCE,
             )
         )
