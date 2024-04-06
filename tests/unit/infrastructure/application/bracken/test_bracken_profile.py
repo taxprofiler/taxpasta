@@ -159,7 +159,7 @@ def test_column_presence(profile: pd.DataFrame):
         ),
     ],
 )
-@pytest.mark.filterwarnings("error")
+@pytest.mark.filterwarnings("error::UserWarning")
 def test_fraction_total_reads(profile: pd.DataFrame):
     """Test that the fraction column is checked."""
     BrackenProfile.validate(profile)

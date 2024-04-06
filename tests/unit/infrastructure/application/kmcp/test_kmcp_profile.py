@@ -171,7 +171,7 @@ def test_column_presence(profile: pd.DataFrame):
         ),
     ],
 )
-@pytest.mark.filterwarnings("error")
+@pytest.mark.filterwarnings("error::UserWarning")
 def test_percent(profile: pd.DataFrame):
     """Test that the percent column (percent_cumulative) is checked."""
     KMCPProfile.validate(profile)
