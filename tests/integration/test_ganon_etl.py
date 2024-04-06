@@ -59,7 +59,7 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
         "2612_pe_ERR5766176_db1.ganon.tre",
         pytest.param(
             "invalid_2612_pe_ERR5766176_db1.ganon_missing_column.tre",
-            marks=pytest.mark.raises(exception=SchemaErrors),
+            marks=pytest.mark.raises(exception=ValueError),
         ),
     ],
 )

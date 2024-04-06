@@ -71,6 +71,7 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
         ),
     ],
 )
+@pytest.mark.filterwarnings("error")
 def test_kraken2_etl(
     kraken2_data_dir: Path,
     filename: str,
