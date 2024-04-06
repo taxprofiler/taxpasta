@@ -46,15 +46,15 @@ class MetaphlanProfileReader(ProfileReader):
             skiprows=num_header_lines,
             header=None,
             index_col=False,
-            names=[
-                MetaphlanProfile.clade_name,
-                MetaphlanProfile.ncbi_tax_id,
-                MetaphlanProfile.relative_abundance,
-                MetaphlanProfile.additional_species,
-            ],
-            dtype={MetaphlanProfile.ncbi_tax_id: str},
+            dtype={1: str},
         )
         cls._check_num_columns(result, MetaphlanProfile)
+        result.columns = [
+            MetaphlanProfile.clade_name,
+            MetaphlanProfile.ncbi_tax_id,
+            MetaphlanProfile.relative_abundance,
+            MetaphlanProfile.additional_species,
+        ]
         return result
 
     @classmethod

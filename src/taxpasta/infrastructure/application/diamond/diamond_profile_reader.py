@@ -39,12 +39,12 @@ class DiamondProfileReader(ProfileReader):
             sep="\t",
             header=None,
             index_col=False,
-            names=[
-                DiamondProfile.query_id,
-                DiamondProfile.taxonomy_id,
-                DiamondProfile.e_value,
-            ],
-            dtype={DiamondProfile.e_value: float},
+            dtype={2: float},
         )
         cls._check_num_columns(result, DiamondProfile)
+        result.columns = [
+            DiamondProfile.query_id,
+            DiamondProfile.taxonomy_id,
+            DiamondProfile.e_value,
+        ]
         return result

@@ -38,8 +38,8 @@ class Megan6ProfileReader(ProfileReader):
         result = pd.read_table(
             filepath_or_buffer=profile,
             sep="\t",
-            names=[Megan6Profile.taxonomy_id, Megan6Profile.count],
             index_col=False,
         )
         cls._check_num_columns(result, Megan6Profile)
+        result.columns = [Megan6Profile.taxonomy_id, Megan6Profile.count]
         return result
