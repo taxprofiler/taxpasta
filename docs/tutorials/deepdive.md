@@ -270,7 +270,7 @@ names](../how-tos/how-to-add-names.md).
 !!! tip
 
     Carefully read our [background
-    documentation](/supported_profilers/terminology) on terminology and
+    documentation](../supported_profilers/terminology.md) on terminology and
     considerations for comparing results from different metagenomic profilers.
 
 You may have noticed that when "standardising" the output from each profiler

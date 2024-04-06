@@ -114,7 +114,7 @@ With these minimal arguments, taxpasta produces a two column output consisting o
 You can count on the second column being integers :wink: Having such a simple
 and tidy table should make your downstream analysis much smoother to start out
 with. Please, have a look at the full [getting
-started](/tutorials/getting-started) tutorial for a more thorough
+started](tutorials/getting-started.md) tutorial for a more thorough
 introduction.
 
 ### Merge
