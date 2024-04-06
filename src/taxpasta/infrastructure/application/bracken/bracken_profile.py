@@ -26,6 +26,10 @@ from pandera.typing import DataFrame, Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+BRACKEN_FRACTION_TOTAL = 1.0
+BRACKEN_FRACTION_TOLERANCE = 0.01
+
+
 class BrackenProfile(BaseDataFrameModel):
     """Define the expected Bracken profile format."""
 
@@ -37,12 +41,16 @@ class BrackenProfile(BaseDataFrameModel):
     new_est_reads: Series[int] = pa.Field(ge=0)
     fraction_total_reads: Series[float] = pa.Field(ge=0.0, le=1.0)
 
-    @pa.check("fraction_total_reads", name="compositionality")
+    @pa.check("fraction_total_reads", name="compositionality", raise_warning=True)
     def check_compositionality(cls, fraction_total_reads: Series[float]) -> bool:
         """Check that the fractions of reads add up to one."""
         # Bracken reports fractions with five decimals but rounding errors accumulate.
         return fraction_total_reads.empty or bool(
-            np.isclose(fraction_total_reads.sum(), 1.0, atol=0.02)
+            np.isclose(
+                fraction_total_reads.sum(),
+                BRACKEN_FRACTION_TOTAL,
+                atol=BRACKEN_FRACTION_TOLERANCE,
+            )
         )
 
     @pa.dataframe_check

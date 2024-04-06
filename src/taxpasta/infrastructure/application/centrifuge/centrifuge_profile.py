@@ -26,6 +26,10 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+CENTRIFUGE_PERCENT_TOTAL = 100.0
+CENTRIFUGE_PERCENT_TOLERANCE = 1.0
+
+
 class CentrifugeProfile(BaseDataFrameModel):
     """Define the expected centrifuge profile format."""
 
@@ -36,7 +40,13 @@ class CentrifugeProfile(BaseDataFrameModel):
     taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
-    @pa.check("percent", name="compositionality")
+    @pa.check("percent", name="compositionality", raise_warning=True)
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
-        return percent.empty or bool(np.isclose(percent[:2].sum(), 100.0, atol=1.0))
+        return percent.empty or bool(
+            np.isclose(
+                percent[:2].sum(),
+                CENTRIFUGE_PERCENT_TOTAL,
+                atol=CENTRIFUGE_PERCENT_TOLERANCE,
+            )
+        )

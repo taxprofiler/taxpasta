@@ -27,6 +27,10 @@ from pandera.typing import Series
 from taxpasta.infrastructure.helpers import BaseDataFrameModel
 
 
+GANON_PERCENT_TOTAL = 100.0
+GANON_PERCENT_TOLERANCE = 1.0
+
+
 class GanonProfile(BaseDataFrameModel):
     """Define the expected ganon profile format."""
 
@@ -40,7 +44,7 @@ class GanonProfile(BaseDataFrameModel):
     number_cumulative: Series[int] = pa.Field(ge=0)
     percent_cumulative: Series[float] = pa.Field(ge=0.0, le=100.0)
 
-    @pa.dataframe_check
+    @pa.dataframe_check(name="compositionality", raise_warning=True)
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         # Ganon reports percentage to 5 decimal places, but rounding errors do add up.
@@ -50,7 +54,7 @@ class GanonProfile(BaseDataFrameModel):
                     profile[cls.rank].isin(["unclassified", "root"]),
                     cls.percent_cumulative,
                 ].sum(),
-                100.0,
-                atol=0.1,
+                GANON_PERCENT_TOTAL,
+                atol=GANON_PERCENT_TOLERANCE,
             )
         )
