@@ -39,6 +39,7 @@ class Megan6ProfileReader(ProfileReader):
             filepath_or_buffer=profile,
             sep="\t",
             index_col=False,
+            header=None,
         )
         cls._check_num_columns(result, Megan6Profile)
         result.columns = [Megan6Profile.taxonomy_id, Megan6Profile.count]
