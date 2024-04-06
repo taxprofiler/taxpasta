@@ -128,7 +128,7 @@ def test_column_presence(profile: pd.DataFrame):
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="check_compositionality"
+                exception=SchemaError, message="<Check compositionality>"
             ),
         ),
         pytest.param(
@@ -148,11 +148,12 @@ def test_column_presence(profile: pd.DataFrame):
                 )
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="check_compositionality"
+                exception=SchemaError, message="<Check compositionality>"
             ),
         ),
     ],
 )
+@pytest.mark.filterwarnings("error")
 def test_percent(profile: pd.DataFrame):
     """Test that the percent column (percent_cumulative) is checked."""
     GanonProfile.validate(profile)

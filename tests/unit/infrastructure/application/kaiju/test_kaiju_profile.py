@@ -143,6 +143,7 @@ def test_column_presence(profile: pd.DataFrame):
         ),
     ],
 )
+@pytest.mark.filterwarnings("error")
 def test_percent(profile: pd.DataFrame):
     """Test that the percent column is checked."""
     KaijuProfile.validate(profile)

@@ -64,6 +64,7 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
         ),
     ],
 )
+@pytest.mark.filterwarnings("error")
 def test_kaiju_etl(
     kaiju_data_dir: Path,
     filename: str,

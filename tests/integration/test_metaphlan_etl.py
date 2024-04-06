@@ -86,6 +86,7 @@ def test_valid_profile_etl(
     )
 
 
+@pytest.mark.filterwarnings("error")
 def test_invalid_profile_etl(
     invalid_metaphlan_profile: Path,
 ):

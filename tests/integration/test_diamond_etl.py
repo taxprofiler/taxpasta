@@ -22,6 +22,7 @@
 from pathlib import Path
 
 import pytest
+from pandas.errors import ParserError
 from pandera.errors import SchemaErrors
 
 from taxpasta.application.error import StandardisationError
@@ -60,11 +61,11 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
         "diamond_valid_2.tsv",
         pytest.param(
             "diamond_invalid_1.tsv",
-            marks=pytest.mark.raises(exception=SchemaErrors),
+            marks=pytest.mark.raises(exception=ParserError),
         ),
         pytest.param(
             "diamond_invalid_2.tsv",
-            marks=pytest.mark.raises(exception=SchemaErrors),
+            marks=pytest.mark.raises(exception=ParserError),
         ),
     ],
 )
