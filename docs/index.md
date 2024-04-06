@@ -150,12 +150,12 @@ If you use TAXPASTA in your academic work, please cite our [article in the Journ
 
 Many thanks to:
 
--   [nf-core](https://nf-co.re) for bringing the original developers together
+-   [nf-core](https://nf-co.re) for bringing together the original developers
 -   [Zandra Fagernäs](https://twitter.com/ZandraSelina) for the logo design
 
 ## Copyright
 
--   Copyright © 2022, 2023, Moritz E. Beber, Maxime Borry, James A. Fellows
+-   Copyright © 2022-2024, Moritz E. Beber, Maxime Borry, James A. Fellows
     Yates, and Sofia Stamouli.
 -   Free software distributed under the [Apache Software License
     2.0](https://www.apache.org/licenses/LICENSE-2.0).
