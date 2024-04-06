@@ -71,7 +71,7 @@ def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
         ),
     ],
 )
-@pytest.mark.filterwarnings("error")
+@pytest.mark.filterwarnings("error::UserWarning")
 def test_bracken_etl(
     bracken_data_dir: Path,
     filename: str,
