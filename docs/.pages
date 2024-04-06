@@ -6,6 +6,7 @@ nav:
     - quick_reference
     - supported_profilers
     - ...
+    - FAQ: faq.md
     - Design Decisions: adr
     - api
     - contributing
