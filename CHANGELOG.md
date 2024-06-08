@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - (2024-06-08)
+
+### Changed
+
+-   Changed issues detected with compositionality constraints of profiles, i.e., relative
+    abundances should always sum up to unity, to warnings rather than errors (#147).
+-   Modified the BIOM output to insert the global ranks into observation group metadata
+    rather than creating it for each taxon (#149).
+
+### Fixed
+
+-   Ensured that columns of profiles are read in correctly (#147).
+-   Used recent taxopy features to extract correct rank lineages (#149).
+
 ## [0.6.1] - (2023-10-04)
 
 ### Fixed
