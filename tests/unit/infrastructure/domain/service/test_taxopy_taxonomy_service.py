@@ -279,4 +279,4 @@ def test_format_biom_taxonomy(
     expected: List[Dict[str, List[str]]],
 ):
     """Expect that we can add rank lineages to a result table."""
-    assert tax_service.format_biom_taxonomy(result) == expected
+    assert tax_service.format_biom_taxonomy(result)[0] == expected

@@ -26,9 +26,13 @@ from biom.table import Table
 from biom.util import biom_open
 from pandera.typing import DataFrame
 
+from taxpasta import __version__
 from taxpasta.application.service import Filepath, WideObservationTableWriter
 from taxpasta.domain.model import WideObservationTable
 from taxpasta.domain.service import TaxonomyService
+
+
+GENERATED_BY = f"taxpasta=={__version__}"
 
 
 class BIOMWideObservationTableWriter(WideObservationTableWriter):
@@ -40,24 +44,24 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         matrix: DataFrame[WideObservationTable],
         target: Filepath,
         taxonomy: Optional[TaxonomyService] = None,
-        generated_by: str = "taxpasta",
+        generated_by: str = GENERATED_BY,
         **kwargs,
     ) -> None:
         """Write the given data to the given buffer or file."""
         # Drop unclassified reads.
         matrix = matrix.loc[matrix.iloc[:, 0] != 0].copy()
         if taxonomy is not None:
-            observation_meta = taxonomy.format_biom_taxonomy(matrix)
-            tmp = taxonomy.add_rank_lineage(matrix)
-            for ranks, meta in zip(tmp.rank_lineage, observation_meta):
-                meta["rank_lineage"] = ranks
+            observation_meta, ranks = taxonomy.format_biom_taxonomy(matrix)
+            observation_group_meta = {"ranks": ("csv", ";".join(ranks))}
         else:
             observation_meta = None
+            observation_group_meta = None
         result = Table(
             data=matrix.iloc[:, 1:].values,
             observation_ids=matrix.iloc[:, 0].astype(str),
             sample_ids=matrix.columns[1:].astype(str),
             observation_metadata=observation_meta,
+            observation_group_metadata=observation_group_meta,
             create_date=datetime.utcnow().isoformat(timespec="microseconds"),
         )
         with biom_open(str(target), permission="w") as handle:
