@@ -24,7 +24,7 @@ from __future__ import annotations
 import logging
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
 import pandas as pd
 import taxopy
@@ -78,7 +78,9 @@ class TaxopyTaxonomyService(TaxonomyService):
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
             return None
-        return list(reversed(taxon.rank_name_dictionary.values()))
+        # We reverse the ordering of the ranks and ignore the root by starting at the
+        # second-highest rank.
+        return [name for _, name in taxon.ranked_name_lineage[-2::-1]]
 
     def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
         """
@@ -91,7 +93,9 @@ class TaxopyTaxonomyService(TaxonomyService):
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
             return None
-        return list(reversed(taxon.rank_taxid_dictionary.values()))
+        # We reverse the ordering of the lineage and ignore the root by starting at the
+        # second-highest rank.
+        return [name for _, name in taxon.ranked_taxid_lineage[-2::-1]]
 
     def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
         """Return the lineage of a given taxonomy identifier as ranks."""
@@ -99,7 +103,9 @@ class TaxopyTaxonomyService(TaxonomyService):
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
             return None
-        return list(reversed(taxon.rank_name_dictionary.keys()))
+        # We reverse the ordering of the ranks and ignore the root by starting at the
+        # second-highest rank.
+        return taxon.rank_lineage[-2::-1]
 
     def add_name(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon name to the given table."""
@@ -176,26 +182,42 @@ class TaxopyTaxonomyService(TaxonomyService):
 
     def format_biom_taxonomy(
         self, table: DataFrame[ResultTable]
-    ) -> List[Dict[str, List[str]]]:
+    ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
         """Format the taxonomy as BIOM observation metadata."""
-        lineages = [self._get_rank_name(tax_id) for tax_id in table.taxonomy_id]
-        result = [{} if lineage is None else lineage for lineage in lineages]
-        longest_lineage = max(result, key=len)
-        max_ranks = list(reversed(longest_lineage.keys()))
+        lineages = [self._get_rank_name_lineage(tax_id) for tax_id in table.taxonomy_id]
+        longest_lineage = max(lineages, key=len)
+        max_ranks = [rank for rank, _ in longest_lineage]
         return [
-            {"taxonomy": self._pad_lineage(lineage, max_ranks)} for lineage in result
-        ]
+            {"taxonomy": self._pad_lineage(lineage, max_ranks)} for lineage in lineages
+        ], max_ranks
 
-    def _get_rank_name(self, taxonomy_id: int) -> Optional[Dict[str, str]]:
+    def _get_rank_name_lineage(self, taxonomy_id: int) -> List[Tuple[str, str]]:
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
-            return None
-        return taxon.rank_name_dictionary
+            return []
+        return taxon.ranked_name_lineage[-2::-1]
 
-    def _pad_lineage(self, lineage: Dict[str, str], max_ranks: List[str]) -> List[str]:
+    def _pad_lineage(
+        self, lineage: List[Tuple[str, str]], max_ranks: List[str]
+    ) -> List[str]:
         """Pad a lineage to match the length of the longest lineage."""
-        return [lineage.get(rank, "") for rank in max_ranks]
+        # Poor implementation of aligning ranks. We pad missing ranks with empty
+        # strings.
+        lineage_idx = 0
+        ranks_idx = 0
+        result = []
+        while lineage_idx < len(lineage) and ranks_idx < len(max_ranks):
+            rank, name = lineage[lineage_idx]
+            if rank == max_ranks[ranks_idx]:
+                result.append(name)
+                lineage_idx += 1
+                ranks_idx += 1
+            else:
+                result.append("")
+                ranks_idx += 1
+        # We pad any remaining ranks with empty strings.
+        return result + [""] * (len(max_ranks) - len(result))
 
     def summarise_at(
         self, profile: DataFrame[StandardProfile], rank: str

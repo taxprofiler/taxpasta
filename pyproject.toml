@@ -53,7 +53,7 @@ dependencies = [
     "numpy ~=1.20",
     "pandas ~=1.4",
     "pandera ~=0.14",
-    "taxopy ~=0.10",
+    "taxopy ~=0.12",
     "typer ~=0.6",
 ]
 
