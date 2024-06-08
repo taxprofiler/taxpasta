@@ -20,7 +20,7 @@
 
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, TypeVar
+from typing import Dict, List, Optional, Tuple, TypeVar
 
 from pandera.typing import DataFrame
 
@@ -84,7 +84,7 @@ class TaxonomyService(ABC):
     @abstractmethod
     def format_biom_taxonomy(
         self, table: DataFrame[ResultTable]
-    ) -> List[Dict[str, List[str]]]:
+    ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
         """Format the taxonomy as BIOM observation metadata."""
 
     @abstractmethod
