@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the kraken2 services."""
+
 from .kraken2_profile import Kraken2Profile
 from .kraken2_profile_reader import Kraken2ProfileReader
 from .kraken2_profile_standardisation_service import (

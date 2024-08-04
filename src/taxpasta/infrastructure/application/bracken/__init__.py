@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the Bracken services."""
+
 from .bracken_profile import BrackenProfile
 from .bracken_profile_reader import BrackenProfileReader
 from .bracken_profile_standardisation_service import (

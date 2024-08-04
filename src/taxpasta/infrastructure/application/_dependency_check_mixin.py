@@ -52,14 +52,16 @@ class DependencyCheckMixin(Enum):
         # Mapping of supported output formats.
         supported_formats = {option.value.upper(): option for option in cls}
         common = suffixes.intersection(supported_formats)
+
         if not common:
             msg = f"Unrecognized file type extension '{''.join(filename.suffixes)}'."
             raise ValueError(msg)
-        elif len(common) > 1:
+
+        if len(common) > 1:
             msg = f"Ambiguous file type extension '{''.join(filename.suffixes)}'."
             raise ValueError(msg)
-        else:
-            return supported_formats[common.pop()]
+
+        return supported_formats[common.pop()]
 
     @classmethod
     def check_dependencies(cls, file_format: DependencyCheckMixin) -> None:
@@ -74,7 +76,7 @@ class DependencyCheckMixin(Enum):
 
         """
         try:
-            assert isinstance(file_format.value, str)  # nosec assert_used
+            assert isinstance(file_format.value, str)  # nosec assert_used  # noqa: S101
             supported_format = getattr(cls, file_format.value)
         except AttributeError as error:
             msg = (

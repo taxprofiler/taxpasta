@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide the application layer code."""
+
 from .add_tax_info_command import AddTaxInfoCommand
 from .sample_handling_application import SampleHandlingApplication
 from .consensus_application import ConsensusApplication

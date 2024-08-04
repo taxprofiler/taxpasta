@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the KMCP services."""
+
 from .kmcp_profile import KMCPProfile
 from .kmcp_profile_reader import KMCPProfileReader
 from .kmcp_profile_standardisation_service import (

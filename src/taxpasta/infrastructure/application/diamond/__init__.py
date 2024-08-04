@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the DIAMOND services."""
+
 from .diamond_profile import DiamondProfile
 from .diamond_profile_reader import DiamondProfileReader
 from .diamond_profile_standardisation_service import (

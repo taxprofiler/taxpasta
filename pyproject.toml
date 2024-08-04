@@ -150,6 +150,7 @@ ignore = [
     "PD009",  # Replacing .iat with .iloc is a stupid rule.
     "FBT001",  # Not compatible with typer.
     "FBT003",  # Not compatible with typer.
+    "FA100",  # Not compatible with typer.
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]

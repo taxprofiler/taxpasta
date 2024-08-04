@@ -104,12 +104,12 @@ class SampleHandlingApplication:
                     profile=profile,
                     message="Profile is empty.",
                 ) from errors
-            else:
-                raise StandardisationError(
-                    sample=name,
-                    profile=profile,
-                    message=str(errors.failure_cases),
-                ) from errors
+
+            raise StandardisationError(
+                sample=name,
+                profile=profile,
+                message=str(errors.failure_cases),
+            ) from errors
         except ValueError as error:
             raise StandardisationError(
                 sample=name,
@@ -121,7 +121,7 @@ class SampleHandlingApplication:
 
     def summarise_sample(self, sample: Sample, rank: str) -> Sample:
         """Summarise a sample at a higher taxonomic rank."""
-        assert self.taxonomy_service is not None  # nosec assert_used
+        assert self.taxonomy_service is not None  # nosec assert_used  # noqa: S101
         return Sample(
             name=sample.name,
             profile=self.taxonomy_service.summarise_at(sample.profile, rank),
@@ -158,5 +158,5 @@ class SampleHandlingApplication:
                     "zeroes were introduced for missing taxa.",
                 )
             return wide_table
-        else:
-            return SampleMergingService.merge_long(samples)
+
+        return SampleMergingService.merge_long(samples)

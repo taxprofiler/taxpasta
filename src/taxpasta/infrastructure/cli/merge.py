@@ -77,15 +77,17 @@ def validate_observation_matrix_format(
             logger.critical(
                 "Please rename the output or set the '--output-format' explicitly.",
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from None
     else:
         result = WideObservationTableFileFormat(output_format)
+
     try:
         WideObservationTableFileFormat.check_dependencies(result)
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
         raise typer.Exit(code=1) from error
+
     return result
 
 
@@ -205,7 +207,7 @@ def read_sample_sheet(
 
 
 @app.command()
-def merge(
+def merge(  # noqa: C901, PLR0912, PLR0913, PLR0915
     profiles: Optional[list[Path]] = typer.Argument(  # noqa: B008
         None,
         metavar="[PROFILE1 PROFILE2 [...]]",
@@ -252,9 +254,7 @@ def merge(
         "the --output-format option, automatic detection is disabled.",
         show_default=False,
     ),
-    output_format: Optional[
-        WideObservationTableFileFormat
-    ] = typer.Option(  # noqa: B008
+    output_format: Optional[WideObservationTableFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
@@ -394,11 +394,13 @@ def merge(
                 "the command.",
             )
             raise typer.Exit(code=2)
-        elif len(profiles) == 1:
+
+        if len(profiles) == 1:
             logger.critical(
                 "Only a single profile was provided. Please provide at least two.",
             )
             raise typer.Exit(code=2)
+
         # Parse sample names from file names.
         data = [(prof.stem, prof) for prof in profiles]
 
@@ -413,7 +415,7 @@ def merge(
     for name, profile in data:
         try:
             samples.append(handling_app.etl_sample(name, profile))
-        except StandardisationError as error:
+        except StandardisationError as error:  # noqa: PERF203
             logger.debug("", exc_info=error)
             if ignore_errors:
                 logger.exception(
@@ -421,35 +423,33 @@ def merge(
                     error.sample,
                     error.profile,
                 )
-                logger.exception(error.message)
                 continue
-            else:
-                logger.critical(
-                    "Error in sample '%s' with profile '%s'.",
-                    error.sample,
-                    error.profile,
-                )
-                logger.critical(error.message)
-                raise typer.Exit(code=1) from error
+
+            logger.critical(
+                "Error in sample '%s' with profile '%s'.",
+                error.sample,
+                error.profile,
+            )
+            logger.critical(error.message)
+            raise typer.Exit(code=1) from error
 
     if summarise_at:
         summarised = []
         for sample in samples:
             try:
                 summarised.append(handling_app.summarise_sample(sample, summarise_at))
-            except ValueError as error:
+            except ValueError as error:  # noqa: PERF203
                 logger.debug("", exc_info=error)
                 if ignore_errors:
                     logger.exception("Error in sample '%s'.", sample.name)
-                    logger.exception(str(error))
                     continue
-                else:
-                    logger.critical("Error in sample '%s'.", sample.name)
-                    logger.critical(str(error))
-                    raise typer.Exit(code=1) from error
+
+                logger.critical("Error in sample '%s'.", sample.name)
+                logger.critical(str(error))
+                raise typer.Exit(code=1) from error
         samples = summarised
 
-    if len(samples) < 2:
+    if len(samples) < 2:  # noqa: PLR2004
         logger.critical("Less than two profiles are without errors. Nothing to merge.")
         raise typer.Exit(code=1)
 
@@ -460,7 +460,7 @@ def merge(
 
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
-        assert isinstance(  # nosec assert_used
+        assert isinstance(  # nosec assert_used  # noqa: S101
             valid_output_format,
             WideObservationTableFileFormat,
         )
@@ -468,12 +468,12 @@ def merge(
             valid_output_format,
         )
     else:
-        assert isinstance(  # nosec assert_used
+        assert isinstance(  # nosec assert_used  # noqa: S101
             valid_output_format,
             TidyObservationTableFileFormat,
         )
         writer = ApplicationServiceRegistry.tidy_observation_table_writer(
-            valid_output_format,  # type: ignore
+            valid_output_format,
         )
     try:
         if valid_output_format is WideObservationTableFileFormat.BIOM:

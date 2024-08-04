@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the kaiju services."""
+
 from .kaiju_profile import KaijuProfile
 from .kaiju_profile_reader import KaijuProfileReader
 from .kaiju_profile_standardisation_service import (

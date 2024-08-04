@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the ganon services."""
+
 from .ganon_profile import GanonProfile
 from .ganon_profile_reader import GanonProfileReader
 from .ganon_profile_standardisation_service import (

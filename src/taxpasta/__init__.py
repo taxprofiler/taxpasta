@@ -18,7 +18,6 @@
 
 """Create top level imports."""
 
-
 __author__ = "Moritz E. Beber, Maxime Borry, Sofia Stamouli"
 __email__ = (
     "Moritz E. Beber <moritz.beber@posteo.de>, Maxime Borry <maxime_borry@eva.mpg.de>, "
@@ -27,7 +26,7 @@ __email__ = (
 
 
 try:
-    from ._version import __version__, __version_tuple__  # type: ignore
+    from ._version import __version__, __version_tuple__
 except ImportError:
     __version__ = "undefined"
-    __version_tuple__ = None  # type: ignore
+    __version_tuple__ = None
