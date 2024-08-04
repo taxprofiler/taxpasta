@@ -16,5 +16,7 @@
 # limitations under the License.
 
 
+"""Provide application errors."""
+
 from .taxpasta_error import TaxpastaError
 from .standardisation_error import StandardisationError

@@ -45,7 +45,7 @@ app = typer.Typer(
 )
 
 
-def version_callback(is_set: bool) -> None:  # noqa: FBT001
+def version_callback(is_set: bool) -> None:
     """
     Print the tool version if desired.
 
@@ -65,8 +65,8 @@ def version_callback(is_set: bool) -> None:  # noqa: FBT001
 
 @app.callback(invoke_without_command=True)
 def initialize(
-    context: typer.Context,
-    version: Optional[bool] = typer.Option(
+    context: typer.Context,  # noqa: ARG001
+    version: Optional[bool] = typer.Option(  # noqa: ARG001
         None,
         "--version",
         callback=version_callback,

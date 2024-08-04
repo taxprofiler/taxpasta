@@ -89,7 +89,7 @@ def validate_output_format(
     help="Standardise a taxonomic profile (alias: 'standardize').",
 )
 @app.command("standardize", hidden=True)
-def standardise(
+def standardise(  # noqa: PLR0913
     profile: Path = typer.Argument(  # noqa: B008
         ...,
         metavar="PROFILE",

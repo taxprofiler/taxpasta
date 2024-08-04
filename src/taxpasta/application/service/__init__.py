@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide the application services layer."""
+
 from ._types import BufferOrFilepath, BinaryBufferOrFilepath, Filepath
 from .profile_reader import ProfileReader
 from .profile_standardisation_service import ProfileStandardisationService

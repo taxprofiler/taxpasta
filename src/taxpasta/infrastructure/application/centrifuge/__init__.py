@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations for the centrifuge services."""
+
 from .centrifuge_profile import CentrifugeProfile
 from .centrifuge_profile_reader import CentrifugeProfileReader
 from .centrifuge_profile_standardisation_service import (

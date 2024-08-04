@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide the domain model layer."""
+
 from .standard_profile import StandardProfile
 from .sample import Sample
 from .tidy_observation_table import TidyObservationTable
