@@ -54,7 +54,7 @@ class Kraken2ProfileReader(ProfileReader):
             index_col=False,
             skipinitialspace=True,
         )
-        if len(result.columns) == 6:
+        if len(result.columns) == 6:  # noqa: PLR2004
             result.columns = [
                 Kraken2Profile.percent,
                 Kraken2Profile.clade_assigned_reads,
@@ -63,7 +63,7 @@ class Kraken2ProfileReader(ProfileReader):
                 Kraken2Profile.taxonomy_id,
                 Kraken2Profile.name,
             ]
-        elif len(result.columns) == 8:
+        elif len(result.columns) == 8:  # noqa: PLR2004
             result.columns = [
                 Kraken2Profile.percent,
                 Kraken2Profile.clade_assigned_reads,
@@ -79,7 +79,6 @@ class Kraken2ProfileReader(ProfileReader):
                 f"Unexpected kraken2 report format. It has {len(result.columns)} "
                 f"columns but only six or eight are expected."
             )
-            raise ValueError(
-                msg,
-            )
+            raise ValueError(msg)
+
         return result
