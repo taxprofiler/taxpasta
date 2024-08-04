@@ -108,7 +108,7 @@ skips = ["*/test_*.py"]
 
 [tool.black]
 line-length = 88
-python-version = ["py311"]
+python-version = ["py39"]
 extend-exclude = '''
 (
     _version.py
