@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/Midnighter/cookiecutter-python-package",
-  "commit": "bf7ce5914ed8cc232e8ce41c0492a3c951d5e326",
+  "commit": "3c29d79771736cce6c0cfaf372629b765318d017",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -16,10 +16,7 @@
       "license": "Apache-2.0",
       "release_date": "2022-06-03",
       "year": "2022",
-      "_extensions": [
-        "jinja2_time.TimeExtension",
-        "jinja2_strcase.StrcaseExtension"
-      ],
+      "_extensions": ["jinja2_time.TimeExtension", "jinja2_strcase.StrcaseExtension"],
       "_template": "https://github.com/Midnighter/cookiecutter-python-package"
     }
   },

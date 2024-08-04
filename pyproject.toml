@@ -34,7 +34,9 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
-    "Topic :: Scientific/Engineering :: Bio-Informatics"
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "Typing :: Typed",
 ]
 keywords = [
     "bioinformatics",
@@ -82,15 +84,8 @@ parquet = ["pyarrow"]
 rich = ["rich"]
 xlsx = ["openpyxl"]
 dev = [
-    "bash-kernel",
-    "jupyter",
-    "mkdocs-awesome-pages-plugin ~=2.8",
-    "mkdocs-exclude ~=1.0",
-    "mkdocs-material ~=9.1",
-    "mkdocstrings[python] ~=0.20",
+    "hatch",
     "pre-commit",
-    "tabulate ~=0.9",
-    "tox ~=4.0",
 ]
 
 ################################################################################
@@ -121,13 +116,6 @@ extend-exclude = '''
 )
 '''
 
-[tool.isort]
-profile = "black"
-lines_after_imports = 2
-lines_before_imports = 2
-known_first_party = "taxpasta"
-skip = ["__init__.py"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["raises"]
@@ -146,23 +134,154 @@ parallel = true
 exclude_lines = ["pragma: no cover"]
 precision = 2
 
+[tool.ruff]
+line-length = 88
+
+[tool.ruff.lint]
+elect = ["ALL"]
+ignore = [
+    "D107",  # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
+    "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
+    "D212",  # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
+    "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
+    "ANN002",  # 'Missing type annotation for {*args} in method'.
+    "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
+    "ANN101",  # 'Missing type annotation for {self} in method'.
+    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"__init__.py" = [
+    "E401",  # 'Multiple imports on one line'
+    "E402",  # 'Module level import not at top of file'
+    "F401",  # 'Imported but unused'
+    "I001",  # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
+]
+"tests/**/*.py" = [
+    "S101",  # 'Use of assert detected' ignored because we are using pytest.
+    "INP001",  # 'Insecure input' ignored because we are testing.
+    "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
+]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["src", "taxpasta"]
+lines-after-imports = 2
+
+[tool.pydoclint]
+style = "google"
+arg-type-hints-in-docstring = false
+check-return-types = false
+check-yield-types = false
+
+[tool.mypy]
+plugins = [
+    "pydantic.mypy",
+]
+
+# Stop mypy from complaining about missing types from imports.
 [[tool.mypy.overrides]]
 module = [
-    "biom",
-    "biom.table",
-    "biom.util",
-    "numpy",
-    "odf",
-    "openpyxl",
-    "pandas",
-    "pandas.errors",
-    "pandera",
-    "pandera.errors",
-    "pandera.typing",
-    "pyarrow",
-    "rich.logging",
-    "taxopy",
-    "taxopy.exceptions",
-    "typer",
+    "biom.*",
+    "numpy.*",
+    "odf.*",
+    "openpyxl.*",
+    "pandas.*",
+    "pandera.*",
+    "pyarrow.*",
+    "rich.*",
+    "taxopy.*",
+    "typer.*",
 ]
 ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+################################################################################
+# Hatch Environments
+################################################################################
+
+[tool.hatch.envs.style]
+description = """Check the style of the codebase."""
+dependencies = [
+    "pydoclint",
+    "ruff",
+]
+detached = true
+
+[tool.hatch.envs.style.scripts]
+docstrings = "pydoclint"
+code = "ruff check"
+check = ["docstrings", "code"]
+
+[tool.hatch.envs.safety]
+description = """Check dependencies for security vulnerabilities."""
+extra-dependencies = [
+    "safety",
+]
+
+[tool.hatch.envs.safety.scripts]
+check = "safety check --full-report -i 70612"
+
+[tool.hatch.envs.types]
+description = """Check the static types of the codebase."""
+dependencies = [
+    "mypy",
+]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy src/taxpasta"
+
+[tool.hatch.envs.docs]
+description = """Build or serve the documentation."""
+extra-dependencies = [
+    "bash-kernel ~=0.9",
+    "jupyter ~=1.0",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+    "mkdocs-material ~=9.5",
+    "mkdocs-exclude ~=1.0",
+    "mkdocstrings[python] ~=0.24",
+    "tabulate ~=0.9",
+]
+features = ["all"]
+
+[tool.hatch.envs.docs.scripts]
+build = [
+    "make docs",
+    "mkdocs build {args:--clean --strict}",
+]
+serve = "mkdocs serve {args}"
+
+[tool.hatch.envs.install]
+description = """Test the source and wheel distribution of the package."""
+dependencies = [
+    "pip",
+    "twine",
+]
+detached = true
+
+[tool.hatch.envs.install.scripts]
+check = [
+    "pip check",
+    "hatch build {args:--clean}",
+    "twine check dist/*",
+]
+
+[tool.hatch.envs.test]
+description = """Run the test suite."""
+extra-dependencies = [
+    "pytest",
+    "pytest-cov",
+    "pytest-raises",
+    "pytest-randomly",
+    "pytest-xdist",
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.8", "3.12"]
+
+[tool.hatch.envs.test.scripts]
+run = "pytest --cov=taxpasta --cov-report=term-missing {args}"
