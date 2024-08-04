@@ -138,7 +138,7 @@ precision = 2
 line-length = 88
 
 [tool.ruff.lint]
-elect = ["ALL"]
+select = ["ALL"]
 ignore = [
     "D107",  # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
     "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
