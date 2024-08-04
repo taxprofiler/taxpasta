@@ -21,7 +21,7 @@ authors = [
 ]
 license = "Apache-2.0"
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -30,7 +30,6 @@ classifiers = [
     "Natural Language :: English",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -52,11 +51,11 @@ keywords = [
 dynamic = ["version"]
 dependencies = [
     "depinfo ~=2.2",
-    "numpy ~=1.20",
-    "pandas ~=1.4",
-    "pandera ~=0.14",
-    "taxopy ~=0.12",
-    "typer ~=0.6",
+    "numpy ~=1.26",
+    "pandas ~=2.1",
+    "pandera ~=0.19",
+    "taxopy ~=0.13",
+    "typer ~=0.12",
 ]
 
 [project.urls]
@@ -71,14 +70,14 @@ taxpasta = "taxpasta.infrastructure.cli:app"
 
 [project.optional-dependencies]
 all = [
-    "biom-format",
+    "biom-format >=2.1.16,<3",
     "odfpy",
     "openpyxl",
     "pyarrow",
     "rich",
 ]
 arrow = ["pyarrow"]
-biom = ["biom-format"]
+biom = ["biom-format >=2.1.16,<3"]
 ods = ["odfpy"]
 parquet = ["pyarrow"]
 rich = ["rich"]
@@ -280,7 +279,7 @@ extra-dependencies = [
 features = ["all"]
 
 [[tool.hatch.envs.test.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest --cov=taxpasta --cov-report=term-missing {args}"
