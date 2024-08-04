@@ -18,7 +18,6 @@
 
 """Test the main taxpasta command line interface."""
 
-
 import sys
 from typing import List
 
@@ -80,7 +79,9 @@ def test_log_level_with_rich(runner: CliRunner, args: List[str]):
     ],
 )
 def test_log_level_without_rich(
-    runner: CliRunner, args: List[str], monkeypatch: pytest.MonkeyPatch
+    runner: CliRunner,
+    args: List[str],
+    monkeypatch: pytest.MonkeyPatch,
 ):
     """Expect that the log level can be set successfully."""
     monkeypatch.setitem(sys.modules, "rich", None)

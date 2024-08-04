@@ -18,7 +18,6 @@
 
 """Provide a reader for metaphlan profiles."""
 
-
 from io import TextIOWrapper
 from pathlib import Path
 from typing import BinaryIO, TextIO
@@ -80,7 +79,10 @@ class MetaphlanProfileReader(ProfileReader):
 
     @classmethod
     def _detect_first_content_line(
-        cls, buffer: TextIO, comment_marker: str = "#", max_lines: int = 10
+        cls,
+        buffer: TextIO,
+        comment_marker: str = "#",
+        max_lines: int = 10,
     ) -> int:
         """Detect the first non-comment line in the given text buffer."""
         for num, line in enumerate(buffer):
@@ -89,7 +91,6 @@ class MetaphlanProfileReader(ProfileReader):
             if num >= max_lines:
                 raise ValueError(
                     "Unexpectedly large number of comment lines in MetaPhlAn "
-                    "profile (>10)."
+                    "profile (>10).",
                 )
-        else:
-            raise ValueError("Could not detect any content lines in MetaPhlAn profile.")
+        raise ValueError("Could not detect any content lines in MetaPhlAn profile.")

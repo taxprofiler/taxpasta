@@ -18,7 +18,6 @@
 
 """Test that centrifuge profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -35,13 +34,13 @@ from taxpasta.infrastructure.application import (
     scope="module",
     params=[
         ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
-        # ("centrifuge", "AD_pe-db1.centrifuge.txt"),  # noqa: E800
+        # ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
         ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         # The 6-column tabular Kraken2 output is identical to the Centrifuge one.
-        # ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),  # noqa: E800
+        # ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
@@ -71,7 +70,7 @@ def test_centrifuge_etl(
 ):
     """Test that centrifuge profiles are read, validated, and transformed correctly."""
     CentrifugeProfileStandardisationService.transform(
-        CentrifugeProfileReader.read(centrifuge_data_dir / filename)
+        CentrifugeProfileReader.read(centrifuge_data_dir / filename),
     )
 
 
@@ -79,5 +78,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         CentrifugeProfileStandardisationService.transform(
-            CentrifugeProfileReader.read(other_profile)
+            CentrifugeProfileReader.read(other_profile),
         )

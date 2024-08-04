@@ -18,7 +18,6 @@
 
 """Test that the schema model validates ganon profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -43,8 +42,8 @@ from taxpasta.infrastructure.application import GanonProfile
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
                     ("percent_cumulative", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -58,8 +57,8 @@ from taxpasta.infrastructure.application import GanonProfile
                         ("number_shared", [1]),
                         ("number_children", [1]),
                         ("number_cumulative", [1]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -79,11 +78,12 @@ from taxpasta.infrastructure.application import GanonProfile
                         ("number_cumulative", [1]),
                         ("percent_cumulative", [100.0]),
                         ("rank", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'target' out-of-order"
+                exception=SchemaError,
+                message="column 'target' out-of-order",
             ),
         ),
     ],
@@ -108,8 +108,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
                     ("percent_cumulative", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -124,11 +124,12 @@ def test_column_presence(profile: pd.DataFrame):
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
                         ("percent_cumulative", [72.38712, 39.61288]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="<Check compositionality>"
+                exception=SchemaError,
+                message="<Check compositionality>",
             ),
         ),
         pytest.param(
@@ -144,11 +145,12 @@ def test_column_presence(profile: pd.DataFrame):
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
                         ("percent_cumulative", [72.38712, 9.61288]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="<Check compositionality>"
+                exception=SchemaError,
+                message="<Check compositionality>",
             ),
         ),
     ],
@@ -174,8 +176,8 @@ def test_percent(profile: pd.DataFrame):
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
                     ("percent_cumulative", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -190,8 +192,8 @@ def test_percent(profile: pd.DataFrame):
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
                         ("percent_cumulative", [72.38712, 27.61288]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -220,8 +222,8 @@ def test_target(profile: pd.DataFrame):
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
                     ("percent_cumulative", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -236,11 +238,12 @@ def test_target(profile: pd.DataFrame):
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, 4575301]),
                         ("percent_cumulative", [72.38712, 27.61288]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="greater_than_or_equal_to"
+                exception=SchemaError,
+                message="greater_than_or_equal_to",
             ),
         ),
     ],
@@ -265,8 +268,8 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("number_children", [1]),
                     ("number_cumulative", [1]),
                     ("percent_cumulative", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pd.DataFrame(
             OrderedDict(
@@ -280,8 +283,8 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                     ("number_children", [0, 457530]),
                     ("number_cumulative", [0, 4_575_301]),
                     ("percent_cumulative", [72.38712, 27.61288]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -296,11 +299,12 @@ def test_nr_unique_reads(profile: pd.DataFrame):
                         ("number_children", [0, 457530]),
                         ("number_cumulative", [0, -1]),
                         ("percent_cumulative", [72.38712, 29.61288]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="greater_than_or_equal_to"
+                exception=SchemaError,
+                message="greater_than_or_equal_to",
             ),
         ),
     ],

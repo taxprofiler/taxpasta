@@ -18,7 +18,6 @@
 
 """Provide an abstract taxonomy service interface."""
 
-
 from abc import ABC, abstractmethod
 from typing import Dict, List, Optional, Tuple, TypeVar
 
@@ -28,7 +27,10 @@ from ..model import StandardProfile, TidyObservationTable, WideObservationTable
 
 
 ResultTable = TypeVar(
-    "ResultTable", TidyObservationTable, WideObservationTable, StandardProfile
+    "ResultTable",
+    TidyObservationTable,
+    WideObservationTable,
+    StandardProfile,
 )
 
 
@@ -73,7 +75,8 @@ class TaxonomyService(ABC):
 
     @abstractmethod
     def add_identifier_lineage(
-        self, table: DataFrame[ResultTable]
+        self,
+        table: DataFrame[ResultTable],
     ) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as identifiers to the given table."""
 
@@ -83,12 +86,15 @@ class TaxonomyService(ABC):
 
     @abstractmethod
     def format_biom_taxonomy(
-        self, table: DataFrame[ResultTable]
+        self,
+        table: DataFrame[ResultTable],
     ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
         """Format the taxonomy as BIOM observation metadata."""
 
     @abstractmethod
     def summarise_at(
-        self, profile: DataFrame[StandardProfile], rank: str
+        self,
+        profile: DataFrame[StandardProfile],
+        rank: str,
     ) -> DataFrame[StandardProfile]:
         """Summarise a standardised abundance profile at a higher taxonomic rank."""

@@ -18,7 +18,6 @@
 
 """Provide a description of samples and profile locations."""
 
-
 from pathlib import Path
 from typing import cast
 
@@ -41,7 +40,8 @@ class SampleSheet(pa.DataFrameModel):
     @pa.check("profile", name="profile_presence")
     @classmethod
     def check_profile_presence(
-        cls, profile: Series[str]  # type: ignore
+        cls,
+        profile: Series[str],  # type: ignore
     ) -> Series[bool]:
         """Check that every profile is present at the specified location."""
         return cast(Series[bool], profile.map(lambda path: Path(path).is_file()))

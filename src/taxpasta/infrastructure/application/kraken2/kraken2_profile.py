@@ -18,7 +18,6 @@
 
 """Provide a description of the kraken2 profile format."""
 
-
 from typing import Optional
 
 import numpy as np
@@ -54,9 +53,10 @@ class Kraken2Profile(BaseDataFrameModel):
         return profile.empty or bool(
             np.isclose(
                 profile.loc[
-                    profile[cls.taxonomy_lvl].isin(["U", "R"]), cls.percent
+                    profile[cls.taxonomy_lvl].isin(["U", "R"]),
+                    cls.percent,
                 ].sum(),
                 KRAKEN2_PERCENT_TOTAL,
                 atol=KRAKEN2_PERCENT_TOLERANCE,
-            )
+            ),
         )

@@ -18,7 +18,6 @@
 
 """Test that the taxopy taxonomy service works as expected."""
 
-
 from collections import OrderedDict
 from pathlib import Path
 from typing import Dict, List
@@ -92,7 +91,9 @@ def test_get_taxon_rank(tax_service: TaxopyTaxonomyService, tax_id: int, expecte
     ],
 )
 def test_get_taxon_name_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[str]
+    tax_service: TaxopyTaxonomyService,
+    tax_id: int,
+    expected: List[str],
 ):
     """Expect that we can retrieve the correct taxon name lineage."""
     assert tax_service.get_taxon_name_lineage(tax_id) == expected
@@ -108,7 +109,9 @@ def test_get_taxon_name_lineage(
     ],
 )
 def test_get_taxon_identifier_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[int]
+    tax_service: TaxopyTaxonomyService,
+    tax_id: int,
+    expected: List[int],
 ):
     """Expect that we can retrieve the correct taxon identifier lineage."""
     assert tax_service.get_taxon_identifier_lineage(tax_id) == expected
@@ -124,7 +127,9 @@ def test_get_taxon_identifier_lineage(
     ],
 )
 def test_get_taxon_rank_lineage(
-    tax_service: TaxopyTaxonomyService, tax_id: int, expected: List[str]
+    tax_service: TaxopyTaxonomyService,
+    tax_id: int,
+    expected: List[str],
 ):
     """Expect that we can retrieve the correct taxon rank lineage."""
     assert tax_service.get_taxon_rank_lineage(tax_id) == expected
@@ -149,14 +154,16 @@ def test_get_taxon_rank_lineage(
                                 "Eukaryota;Ascomycota;Saccharomycetes",
                             ],
                         ),
-                    ]
-                )
+                    ],
+                ),
             ),
         ),
     ],
 )
 def test_add_name_lineage(
-    tax_service: TaxopyTaxonomyService, result: pd.DataFrame, expected: pd.DataFrame
+    tax_service: TaxopyTaxonomyService,
+    result: pd.DataFrame,
+    expected: pd.DataFrame,
 ):
     """Expect that we can add name lineages to a result table."""
     assert_frame_equal(tax_service.add_name_lineage(result), expected)
@@ -180,14 +187,16 @@ def test_add_name_lineage(
                                 "476817098;432158898;1199096325",
                             ],
                         ),
-                    ]
-                )
+                    ],
+                ),
             ),
         ),
     ],
 )
 def test_add_identifier_lineage(
-    tax_service: TaxopyTaxonomyService, result: pd.DataFrame, expected: pd.DataFrame
+    tax_service: TaxopyTaxonomyService,
+    result: pd.DataFrame,
+    expected: pd.DataFrame,
 ):
     """Expect that we can add identifier lineages to a result table."""
     assert_frame_equal(tax_service.add_identifier_lineage(result), expected)
@@ -211,14 +220,16 @@ def test_add_identifier_lineage(
                                 "superkingdom;phylum;class",
                             ],
                         ),
-                    ]
-                )
+                    ],
+                ),
             ),
         ),
     ],
 )
 def test_add_rank_lineage(
-    tax_service: TaxopyTaxonomyService, result: pd.DataFrame, expected: pd.DataFrame
+    tax_service: TaxopyTaxonomyService,
+    result: pd.DataFrame,
+    expected: pd.DataFrame,
 ):
     """Expect that we can add rank lineages to a result table."""
     assert_frame_equal(tax_service.add_rank_lineage(result), expected)
@@ -230,8 +241,8 @@ def test_add_rank_lineage(
         (
             pd.DataFrame(
                 OrderedDict(
-                    [("taxonomy_id", [1, 42, 1887621118, 1945799576, 492356122])]
-                )
+                    [("taxonomy_id", [1, 42, 1887621118, 1945799576, 492356122])],
+                ),
             ),
             [
                 {"taxonomy": [""] * 7},
@@ -245,7 +256,7 @@ def test_add_rank_lineage(
                         "Pseudomonadaceae",
                         "Pseudomonas",
                         "Pseudomonas putida",
-                    ]
+                    ],
                 },
                 {
                     "taxonomy": [
@@ -256,7 +267,7 @@ def test_add_rank_lineage(
                         "Enterobacteriaceae",
                         "Escherichia",
                         "Escherichia coli",
-                    ]
+                    ],
                 },
                 {
                     "taxonomy": [
@@ -267,7 +278,7 @@ def test_add_rank_lineage(
                         "Saccharomycetaceae",
                         "Saccharomyces",
                         "Saccharomyces cerevisiae",
-                    ]
+                    ],
                 },
             ],
         ),

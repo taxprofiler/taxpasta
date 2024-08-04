@@ -18,7 +18,6 @@
 
 """Provide general decorators."""
 
-
 import warnings
 from functools import wraps
 from typing import Any, Callable
@@ -39,7 +38,7 @@ def raise_parser_warnings(func: Callable) -> Callable:
                 raise ValueError(
                     "There were unexpected issues with the data. Please double-check "
                     "the specific combination of your chosen metagenomic profiler and "
-                    "input profile."
+                    "input profile.",
                 ) from exc
         return result
 

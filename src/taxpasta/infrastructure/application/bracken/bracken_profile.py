@@ -18,7 +18,6 @@
 
 """Provide a description of the Bracken profile format."""
 
-
 import numpy as np
 import pandera as pa
 from pandera.typing import DataFrame, Series
@@ -50,7 +49,7 @@ class BrackenProfile(BaseDataFrameModel):
                 fraction_total_reads.sum(),
                 BRACKEN_FRACTION_TOTAL,
                 atol=BRACKEN_FRACTION_TOLERANCE,
-            )
+            ),
         )
 
     @pa.dataframe_check

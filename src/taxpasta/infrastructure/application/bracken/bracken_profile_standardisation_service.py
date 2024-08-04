@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for Bracken profiles."""
 
-
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -34,7 +33,8 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
     def transform(
-        cls, profile: DataFrame[BrackenProfile]
+        cls,
+        profile: DataFrame[BrackenProfile],
     ) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given Bracken profile.
@@ -58,6 +58,6 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     BrackenProfile.taxonomy_id: StandardProfile.taxonomy_id,
                     BrackenProfile.new_est_reads: StandardProfile.count,
-                }
+                },
             )
         )

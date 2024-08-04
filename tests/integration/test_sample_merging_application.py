@@ -18,7 +18,6 @@
 
 """Test the sample merging application."""
 
-
 from pathlib import Path
 
 import pandas as pd
@@ -32,7 +31,9 @@ from taxpasta.infrastructure.application import (
 
 
 def test_zero_warning(
-    tmp_path: Path, caplog: pytest.LogCaptureFixture, monkeypatch: pytest.MonkeyPatch
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+    monkeypatch: pytest.MonkeyPatch,
 ):
     """Expect that a warning is emitted about additional zeroes."""
     monkeypatch.chdir(tmp_path)
@@ -43,7 +44,7 @@ def test_zero_warning(
             [
                 ("k__Bacteria", "2", 100.0, None),
                 ("k__Bacteria|p__Actinobacteria", "2|201174", 100.0, None),
-            ]
+            ],
         ).to_csv(handle, sep="\t", index=False, header=False)
     profile_2 = Path("profile_2.tsv")
     with profile_2.open(mode="a") as handle:
@@ -52,14 +53,14 @@ def test_zero_warning(
             [
                 ("k__Bacteria", "2", 100.0, None),
                 ("k__Bacteria|p__Firmicutes", "2|1239", 100.0, None),
-            ]
+            ],
         ).to_csv(handle, sep="\t", index=False, header=False)
     app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(
-            SupportedProfiler.metaphlan
+            SupportedProfiler.metaphlan,
         ),
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
-            SupportedProfiler.metaphlan
+            SupportedProfiler.metaphlan,
         ),
     )
     samples = [

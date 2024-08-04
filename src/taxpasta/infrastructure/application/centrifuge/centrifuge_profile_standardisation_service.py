@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for centrifuge profiles."""
 
-
 import logging
 
 import pandera as pa
@@ -39,7 +38,8 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
     def transform(
-        cls, profile: DataFrame[CentrifugeProfile]
+        cls,
+        profile: DataFrame[CentrifugeProfile],
     ) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given centrifuge profile.
@@ -60,6 +60,6 @@ class CentrifugeProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     CentrifugeProfile.taxonomy_id: StandardProfile.taxonomy_id,
                     CentrifugeProfile.direct_assigned_reads: StandardProfile.count,
-                }
+                },
             )
         )

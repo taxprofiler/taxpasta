@@ -18,7 +18,6 @@
 
 """Provide a command-line interface (CLI) for taxpasta functionality."""
 
-
 import logging
 from enum import Enum, unique
 from typing import Optional
@@ -67,7 +66,7 @@ def version_callback(is_set: bool) -> None:
 @app.callback(invoke_without_command=True)
 def initialize(
     context: typer.Context,
-    version: Optional[bool] = typer.Option(  # noqa: B008
+    version: Optional[bool] = typer.Option(
         None,
         "--version",
         callback=version_callback,

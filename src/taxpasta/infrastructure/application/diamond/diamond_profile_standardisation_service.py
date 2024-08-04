@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for diamond profiles."""
 
-
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -34,7 +33,8 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
     def transform(
-        cls, profile: DataFrame[DiamondProfile]
+        cls,
+        profile: DataFrame[DiamondProfile],
     ) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given diamond profile.
@@ -56,6 +56,6 @@ class DiamondProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     DiamondProfile.taxonomy_id: StandardProfile.taxonomy_id,
                     0: StandardProfile.count,
-                }
+                },
             )
         )

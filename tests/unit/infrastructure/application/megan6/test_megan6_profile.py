@@ -18,7 +18,6 @@
 
 """Test that the schema model validates MEGAN6 rma2info profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -36,16 +35,16 @@ from taxpasta.infrastructure.application import Megan6Profile
                 [
                     ("taxonomy_id", [1]),
                     ("count", [100.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
                 OrderedDict(
                     [
                         ("taxonomy_id", [1]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -58,11 +57,12 @@ from taxpasta.infrastructure.application import Megan6Profile
                     [
                         ("count", [100.0]),
                         ("taxonomy_id", [1]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'count' out-of-order"
+                exception=SchemaError,
+                message="column 'count' out-of-order",
             ),
         ),
     ],
@@ -80,8 +80,8 @@ def test_column_presence(profile: pd.DataFrame):
                 [
                     ("taxonomy_id", [20, 21]),
                     ("count", [21.0, 9.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -89,8 +89,8 @@ def test_column_presence(profile: pd.DataFrame):
                     [
                         ("taxonomy_id", ["20", 21]),
                         ("count", [21.0, 9.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -112,8 +112,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                 [
                     ("taxonomy_id", [20, 21]),
                     ("count", [21.0, 9.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -121,8 +121,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                     [
                         ("taxonomy_id", [20, 21]),
                         ("count", [21.0, "9.0"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,

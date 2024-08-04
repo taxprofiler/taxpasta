@@ -18,7 +18,6 @@
 
 """Provide a reader for kraken2 profiles."""
 
-
 import pandas as pd
 from pandera.typing import DataFrame
 
@@ -78,6 +77,6 @@ class Kraken2ProfileReader(ProfileReader):
         else:
             raise ValueError(
                 f"Unexpected kraken2 report format. It has {len(result.columns)} "
-                f"columns but only six or eight are expected."
+                f"columns but only six or eight are expected.",
             )
         return result

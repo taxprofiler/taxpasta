@@ -18,7 +18,6 @@
 
 """Provide a mixin for checking Python package dependencies."""
 
-
 from __future__ import annotations
 
 from enum import Enum
@@ -51,11 +50,11 @@ class DependencyCheckMixin(Enum):
         common = suffixes.intersection(supported_formats)
         if not common:
             raise ValueError(
-                f"Unrecognized file type extension '{''.join(filename.suffixes)}'."
+                f"Unrecognized file type extension '{''.join(filename.suffixes)}'.",
             )
         elif len(common) > 1:
             raise ValueError(
-                f"Ambiguous file type extension '{''.join(filename.suffixes)}'."
+                f"Ambiguous file type extension '{''.join(filename.suffixes)}'.",
             )
         else:
             return supported_formats[common.pop()]
@@ -78,7 +77,7 @@ class DependencyCheckMixin(Enum):
         except AttributeError:
             raise RuntimeError(
                 f"The file format to be checked '{file_format.value}' is not supported "
-                f"by this class {cls.__name__}."
+                f"by this class {cls.__name__}.",
             )
         # Call the file format's corresponding check, if it exists.
         getattr(cls, f"_check_{supported_format.value.lower()}", lambda: None)()
@@ -91,7 +90,7 @@ class DependencyCheckMixin(Enum):
         except ImportError as error:
             raise RuntimeError(
                 "The desired file format 'ODS' is currently not "
-                "available. Please `pip install 'taxpasta[ods]'` to support it."
+                "available. Please `pip install 'taxpasta[ods]'` to support it.",
             ) from error
 
     @classmethod
@@ -102,7 +101,7 @@ class DependencyCheckMixin(Enum):
         except ImportError as error:
             raise RuntimeError(
                 "The desired file format 'XLSX' is currently not "
-                "available. Please `pip install 'taxpasta[xlsx]'` to support it."
+                "available. Please `pip install 'taxpasta[xlsx]'` to support it.",
             ) from error
 
     @classmethod
@@ -113,7 +112,7 @@ class DependencyCheckMixin(Enum):
         except ImportError as error:
             raise RuntimeError(
                 "The desired file format 'arrow' is currently not "
-                "available. Please `pip install 'taxpasta[arrow]'` to support it."
+                "available. Please `pip install 'taxpasta[arrow]'` to support it.",
             ) from error
 
     @classmethod
@@ -124,5 +123,5 @@ class DependencyCheckMixin(Enum):
         except ImportError as error:
             raise RuntimeError(
                 "The desired file format 'BIOM' is currently not "
-                "available. Please `pip install 'taxpasta[biom]'` to support it."
+                "available. Please `pip install 'taxpasta[biom]'` to support it.",
             ) from error

@@ -18,7 +18,6 @@
 
 """Test that the schema model validates KrakenUniq profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -43,8 +42,8 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
                     ("taxID", [0]),
                     ("rank", ["no rank"]),
                     ("taxName", ["root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -58,11 +57,12 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
                         ("cov", [0.0]),
                         ("taxID", [0]),
                         ("taxName", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'rank' not in dataframe"
+                exception=SchemaError,
+                message="column 'rank' not in dataframe",
             ),
         ),
         pytest.param(
@@ -78,11 +78,12 @@ from taxpasta.infrastructure.application import KrakenUniqProfile
                         ("cov", [0.0]),
                         ("rank", ["no rank"]),
                         ("taxName", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxID' out-of-order"
+                exception=SchemaError,
+                message="column 'taxID' out-of-order",
             ),
         ),
     ],
@@ -113,8 +114,8 @@ def test_column_presence(profile: pd.DataFrame):
                             "Severe acute respiratory syndrome coronavirus 2",
                         ],
                     ),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -135,8 +136,8 @@ def test_column_presence(profile: pd.DataFrame):
                                 "Severe acute respiratory syndrome coronavirus 2",
                             ],
                         ),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -171,8 +172,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                             "Severe acute respiratory syndrome coronavirus 2",
                         ],
                     ),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -193,11 +194,12 @@ def test_taxonomy_id(profile: pd.DataFrame):
                                 "Severe acute respiratory syndrome coronavirus 2",
                             ],
                         ),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="expected series 'taxReads' to have type"
+                exception=SchemaError,
+                message="expected series 'taxReads' to have type",
             ),
         ),
     ],

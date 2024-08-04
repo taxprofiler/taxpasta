@@ -18,7 +18,6 @@
 
 """Provide an TSV writer."""
 
-
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, StandardProfileWriter
@@ -30,7 +29,10 @@ class TSVStandardProfileWriter(StandardProfileWriter):
 
     @classmethod
     def write(
-        cls, profile: DataFrame[StandardProfile], target: BufferOrFilepath, **kwargs
+        cls,
+        profile: DataFrame[StandardProfile],
+        target: BufferOrFilepath,
+        **kwargs,
     ) -> None:
         """Write the given standardized profile to the given buffer or file."""
         profile.to_csv(target, sep="\t", index=False, **kwargs)

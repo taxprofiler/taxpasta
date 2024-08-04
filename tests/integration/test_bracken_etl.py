@@ -18,7 +18,6 @@
 
 """Test that Bracken profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -34,7 +33,7 @@ from taxpasta.infrastructure.application import (
 @pytest.fixture(
     scope="module",
     params=[
-        # ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),  # noqa: E800
+        # ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
         ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),
@@ -78,7 +77,7 @@ def test_bracken_etl(
 ):
     """Test that Bracken profiles are read, validated, and transformed correctly."""
     BrackenProfileStandardisationService.transform(
-        BrackenProfileReader.read(bracken_data_dir / filename)
+        BrackenProfileReader.read(bracken_data_dir / filename),
     )
 
 
@@ -86,5 +85,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         BrackenProfileStandardisationService.transform(
-            BrackenProfileReader.read(other_profile)
+            BrackenProfileReader.read(other_profile),
         )

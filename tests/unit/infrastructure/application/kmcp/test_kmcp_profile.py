@@ -18,7 +18,6 @@
 
 """Test that the schema model validates KMCP profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -51,8 +50,8 @@ from taxpasta.infrastructure.application import KMCPProfile
                     ("taxname", ["SARS-CoV-2"]),
                     ("taxpath", ["taxdump"]),
                     ("taxpathsn", ["taxdump"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -74,8 +73,8 @@ from taxpasta.infrastructure.application import KMCPProfile
                         ("taxname", ["SARS-CoV-2"]),
                         ("taxpath", ["taxdump"]),
                         ("taxpathsn", ["taxdump"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -103,11 +102,12 @@ from taxpasta.infrastructure.application import KMCPProfile
                         ("taxname", ["SARS-CoV-2"]),
                         ("taxpath", ["taxdump"]),
                         ("taxpathsn", ["taxdump"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'coverage' out-of-order"
+                exception=SchemaError,
+                message="column 'coverage' out-of-order",
             ),
         ),
     ],
@@ -140,8 +140,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ("taxname", ["SARS-CoV-2", "SARS-CoV-2"]),
                     ("taxpath", ["taxdump", "taxdump"]),
                     ("taxpathsn", ["taxdump", "taxdump"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -164,8 +164,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ("taxname", ["SARS-CoV-2", "SARS-CoV-2"]),
                         ("taxpath", ["taxdump", "taxdump"]),
                         ("taxpathsn", ["taxdump", "taxdump"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
@@ -200,8 +200,8 @@ def test_percent(profile: pd.DataFrame):
                     ("taxname", ["SARS-CoV-2"]),
                     ("taxpath", ["taxdump"]),
                     ("taxpathsn", ["taxdump"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -224,8 +224,8 @@ def test_percent(profile: pd.DataFrame):
                         ("taxname", ["SARS-CoV-2", "SARS-CoV-2"]),
                         ("taxpath", ["taxdump", "taxdump"]),
                         ("taxpathsn", ["taxdump", "taxdump"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,

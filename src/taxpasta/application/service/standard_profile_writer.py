@@ -18,7 +18,6 @@
 
 """Provide an abstract base class for writing a standardized profile."""
 
-
 from abc import ABC, abstractmethod
 
 from pandera.typing import DataFrame
@@ -34,6 +33,9 @@ class StandardProfileWriter(ABC):
     @classmethod
     @abstractmethod
     def write(
-        cls, profile: DataFrame[StandardProfile], target: BufferOrFilepath, **kwargs
+        cls,
+        profile: DataFrame[StandardProfile],
+        target: BufferOrFilepath,
+        **kwargs,
     ) -> None:
         """Write a standardized profile to a file."""

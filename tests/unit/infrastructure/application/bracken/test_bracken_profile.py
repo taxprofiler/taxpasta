@@ -18,7 +18,6 @@
 
 """Test that the schema model validates bracken profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -41,8 +40,8 @@ from taxpasta.infrastructure.application import BrackenProfile
                     ("added_reads", [0]),
                     ("new_est_reads", [100]),
                     ("fraction_total_reads", [1.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -54,11 +53,12 @@ from taxpasta.infrastructure.application import BrackenProfile
                         ("added_reads", [0]),
                         ("new_est_reads", [100]),
                         ("fraction_total_reads", [1.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_lvl' not in dataframe"
+                exception=SchemaError,
+                message="column 'taxonomy_lvl' not in dataframe",
             ),
         ),
         pytest.param(
@@ -73,11 +73,12 @@ from taxpasta.infrastructure.application import BrackenProfile
                         ("new_est_reads", [100]),
                         ("fraction_total_reads", [1.0]),
                         ("foo", [1.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'foo' not in DataFrameSchema"
+                exception=SchemaError,
+                message="column 'foo' not in DataFrameSchema",
             ),
         ),
         pytest.param(
@@ -91,11 +92,12 @@ from taxpasta.infrastructure.application import BrackenProfile
                         ("taxonomy_id", [1]),
                         ("new_est_reads", [100]),
                         ("fraction_total_reads", [1.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_lvl' out-of-order"
+                exception=SchemaError,
+                message="column 'taxonomy_lvl' out-of-order",
             ),
         ),
     ],
@@ -118,8 +120,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ("added_reads", [0, 0]),
                     ("new_est_reads", [100, 0]),
                     ("fraction_total_reads", [1.0, 0.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -132,11 +134,12 @@ def test_column_presence(profile: pd.DataFrame):
                         ("added_reads", [0, 0]),
                         ("new_est_reads", [100, 0]),
                         ("fraction_total_reads", [0.991, 0.119]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="<Check compositionality>"
+                exception=SchemaError,
+                message="<Check compositionality>",
             ),
         ),
         pytest.param(
@@ -150,11 +153,12 @@ def test_column_presence(profile: pd.DataFrame):
                         ("added_reads", [0, 0]),
                         ("new_est_reads", [100, 0]),
                         ("fraction_total_reads", [0.791, 0.009]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="<Check compositionality>"
+                exception=SchemaError,
+                message="<Check compositionality>",
             ),
         ),
     ],
@@ -178,8 +182,8 @@ def test_fraction_total_reads(profile: pd.DataFrame):
                     ("added_reads", [42, 10_000_000]),
                     ("new_est_reads", [84, 20_000_000]),
                     ("fraction_total_reads", [1.0, 0.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -192,11 +196,12 @@ def test_fraction_total_reads(profile: pd.DataFrame):
                         ("added_reads", [42, 10_000_000]),
                         ("new_est_reads", [84, 10_000_000]),
                         ("fraction_total_reads", [1.0, 0.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="<Check check_added_reads_consistency>"
+                exception=SchemaError,
+                message="<Check check_added_reads_consistency>",
             ),
         ),
     ],

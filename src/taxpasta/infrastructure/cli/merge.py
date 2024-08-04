@@ -18,7 +18,6 @@
 
 """Add the `merge` command to the taxpasta CLI."""
 
-
 import logging
 from pathlib import Path
 from typing import List, Optional, Union, cast
@@ -46,7 +45,8 @@ logger = logging.getLogger(__name__)
 
 
 def validate_observation_matrix_format(
-    output: Path, output_format: Optional[str]
+    output: Path,
+    output_format: Optional[str],
 ) -> WideObservationTableFileFormat:
     """
     Detect the output format if it isn't given.
@@ -72,7 +72,7 @@ def validate_observation_matrix_format(
         except ValueError as error:
             logger.critical(str(error))
             logger.critical(
-                "Please rename the output or set the '--output-format' explicitly."
+                "Please rename the output or set the '--output-format' explicitly.",
             )
             raise typer.Exit(code=2)
     else:
@@ -87,7 +87,8 @@ def validate_observation_matrix_format(
 
 
 def validate_tidy_observation_table_format(
-    output: Path, output_format: Optional[str]
+    output: Path,
+    output_format: Optional[str],
 ) -> TidyObservationTableFileFormat:
     """
     Detect the output format if it isn't given.
@@ -113,7 +114,7 @@ def validate_tidy_observation_table_format(
         except ValueError as error:
             logger.critical(str(error))
             logger.critical(
-                "Please rename the output or set the '--output-format' explicitly."
+                "Please rename the output or set the '--output-format' explicitly.",
             )
             raise typer.Exit(code=2)
     else:
@@ -128,7 +129,8 @@ def validate_tidy_observation_table_format(
 
 
 def validate_sample_format(
-    sample_sheet: Path, sample_format: Optional[TableReaderFileFormat]
+    sample_sheet: Path,
+    sample_format: Optional[TableReaderFileFormat],
 ) -> TableReaderFileFormat:
     """
     Detect the sample sheet format if it isn't given.
@@ -155,7 +157,7 @@ def validate_sample_format(
             logger.critical(str(error))
             logger.critical(
                 "Please rename the sample sheet or set the '--samplesheet-format' "
-                "explicitly."
+                "explicitly.",
             )
             raise typer.Exit(code=2)
     else:
@@ -170,7 +172,8 @@ def validate_sample_format(
 
 
 def read_sample_sheet(
-    sample_sheet: Path, sample_format: TableReaderFileFormat
+    sample_sheet: Path,
+    sample_format: TableReaderFileFormat,
 ) -> DataFrame[SampleSheet]:
     """
     Extract and validate the sample sheet.
@@ -246,9 +249,7 @@ def merge(
         "the --output-format option, automatic detection is disabled.",
         show_default=False,
     ),
-    output_format: Optional[
-        WideObservationTableFileFormat
-    ] = typer.Option(  # noqa: B008
+    output_format: Optional[WideObservationTableFileFormat] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
@@ -256,13 +257,13 @@ def merge(
         "name but it can be set explicitly and will then disable the automatic "
         "detection.",
     ),
-    wide_format: bool = typer.Option(  # noqa: B008
+    wide_format: bool = typer.Option(
         True,
         "--wide/--long",
         help="Output merged abundance data in either wide or (tidy) long format. "
         "Ignored when the desired output format is BIOM.",
     ),
-    summarise_at: Optional[str] = typer.Option(  # noqa: B008
+    summarise_at: Optional[str] = typer.Option(
         None,
         "--summarise-at",
         "--summarize-at",
@@ -280,35 +281,35 @@ def merge(
         help="The path to a directory containing taxdump files. At least nodes.dmp and "
         "names.dmp are required. A merged.dmp file is optional.",
     ),
-    add_name: bool = typer.Option(  # noqa: B008
+    add_name: bool = typer.Option(
         False,
         "--add-name",
         help="Add the taxon name to the output.",
     ),
-    add_rank: bool = typer.Option(  # noqa: B008
+    add_rank: bool = typer.Option(
         False,
         "--add-rank",
         help="Add the taxon rank to the output.",
     ),
-    add_lineage: bool = typer.Option(  # noqa: B008
+    add_lineage: bool = typer.Option(
         False,
         "--add-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon names "
         "separated by semi-colons.",
     ),
-    add_id_lineage: bool = typer.Option(  # noqa: B008
+    add_id_lineage: bool = typer.Option(
         False,
         "--add-id-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon "
         "identifiers separated by semi-colons.",
     ),
-    add_rank_lineage: bool = typer.Option(  # noqa: B008
+    add_rank_lineage: bool = typer.Option(
         False,
         "--add-rank-lineage",
         help="Add the taxon's entire rank lineage to the output. These are taxon "
         "ranks separated by semi-colons.",
     ),
-    ignore_errors: bool = typer.Option(  # noqa: B008
+    ignore_errors: bool = typer.Option(
         False,
         "--ignore-errors",
         help="Ignore any metagenomic profiles with errors. Please note that there "
@@ -318,7 +319,8 @@ def merge(
     """Standardise and merge two or more taxonomic profiles."""
     # Perform input validation.
     valid_output_format: Union[
-        TidyObservationTableFileFormat, WideObservationTableFileFormat
+        TidyObservationTableFileFormat,
+        WideObservationTableFileFormat,
     ]
     # When a BIOM output format is chosen, the result can only be a wide format BIOM.
     if output.suffix.lower() == ".biom" or (
@@ -327,7 +329,7 @@ def merge(
     ):
         try:
             WideObservationTableFileFormat.check_dependencies(
-                WideObservationTableFileFormat.BIOM
+                WideObservationTableFileFormat.BIOM,
             )
         except RuntimeError as error:
             logger.debug("", exc_info=error)
@@ -335,15 +337,16 @@ def merge(
             raise typer.Exit(code=1)
         valid_output_format = WideObservationTableFileFormat.BIOM
         wide_format = True
+    elif wide_format:
+        valid_output_format = validate_observation_matrix_format(
+            output,
+            None if output_format is None else output_format.value,
+        )
     else:
-        if wide_format:
-            valid_output_format = validate_observation_matrix_format(
-                output, None if output_format is None else output_format.value
-            )
-        else:
-            valid_output_format = validate_tidy_observation_table_format(
-                output, None if output_format is None else output_format.value
-            )
+        valid_output_format = validate_tidy_observation_table_format(
+            output,
+            None if output_format is None else output_format.value,
+        )
 
     taxonomy_service: Optional[TaxonomyService] = None
     if taxonomy is not None:
@@ -383,12 +386,12 @@ def merge(
         if not profiles:
             logger.critical(
                 "Neither a sample sheet nor any profiles were provided. Please adjust "
-                "the command."
+                "the command.",
             )
             raise typer.Exit(code=2)
         elif len(profiles) == 1:
             logger.critical(
-                "Only a single profile was provided. Please provide at least two."
+                "Only a single profile was provided. Please provide at least two.",
             )
             raise typer.Exit(code=2)
         # Parse sample names from file names.
@@ -397,7 +400,7 @@ def merge(
     handling_app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
-            profiler
+            profiler,
         ),
         taxonomy_service=taxonomy_service,
     )
@@ -453,17 +456,19 @@ def merge(
     logger.info("Write result to '%s'.", str(output))
     if wide_format:
         assert isinstance(  # nosec assert_used
-            valid_output_format, WideObservationTableFileFormat
+            valid_output_format,
+            WideObservationTableFileFormat,
         )
         writer = ApplicationServiceRegistry.wide_observation_table_writer(
-            valid_output_format
+            valid_output_format,
         )
     else:
         assert isinstance(  # nosec assert_used
-            valid_output_format, TidyObservationTableFileFormat
+            valid_output_format,
+            TidyObservationTableFileFormat,
         )
         writer = ApplicationServiceRegistry.tidy_observation_table_writer(
-            valid_output_format  # type: ignore
+            valid_output_format,  # type: ignore
         )
     try:
         if valid_output_format is WideObservationTableFileFormat.BIOM:

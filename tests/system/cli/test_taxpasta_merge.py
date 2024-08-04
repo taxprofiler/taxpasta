@@ -18,10 +18,10 @@
 
 """Test the taxpasta merge command."""
 
-
 import sys
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, List
+from typing import List
 
 import pandas as pd
 import pytest
@@ -57,7 +57,7 @@ def kraken2_samplesheet(
         / f"samplesheet.{request.param.value.lower()}"
     )
     writer = ApplicationServiceRegistry.tidy_observation_table_writer(
-        TidyObservationTableFileFormat(request.param.value)
+        TidyObservationTableFileFormat(request.param.value),
     )
     writer.write(sheet, path)
     return path

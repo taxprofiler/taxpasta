@@ -18,7 +18,6 @@
 
 """Test that MEGAN6 rma2info profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -43,7 +42,7 @@ from taxpasta.infrastructure.application import (
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
-        # ("megan6", "malt_rma2info_valid.txt.gz"),  # noqa: E800
+        # ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],
@@ -78,7 +77,7 @@ def test_read_correctness(
 ):
     """Test that megan6 profiles are read, validated, and transformed correctly."""
     Megan6ProfileStandardisationService.transform(
-        Megan6ProfileReader.read(megan6_data_dir / filename)
+        Megan6ProfileReader.read(megan6_data_dir / filename),
     )
 
 
@@ -86,5 +85,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         Megan6ProfileStandardisationService.transform(
-            Megan6ProfileReader.read(other_profile)
+            Megan6ProfileReader.read(other_profile),
         )

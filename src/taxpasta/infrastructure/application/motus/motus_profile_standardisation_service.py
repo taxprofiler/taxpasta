@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for mOTUs profiles."""
 
-
 import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
@@ -56,7 +55,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     MotusProfile.ncbi_tax_id: StandardProfile.taxonomy_id,
                     MotusProfile.read_count: StandardProfile.count,
-                }
+                },
             )
         )
         # Split profile into entries with known and unknown tax ID.
@@ -67,8 +66,8 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                 **{
                     StandardProfile.taxonomy_id: lambda df: df[
                         StandardProfile.taxonomy_id
-                    ].astype(int)
-                }
+                    ].astype(int),
+                },
             )
             # FIXME (Moritz): Apparently, mOTUs profiles can contain duplicate tax IDs.
             #  Clarify with Sofia and Maxime. For now, sum up read counts.
@@ -87,7 +86,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                             temp.loc[
                                 temp[StandardProfile.taxonomy_id].isna(),
                                 StandardProfile.count,
-                            ].sum()
+                            ].sum(),
                         ],
                     },
                     dtype=int,
