@@ -147,6 +147,7 @@ ignore = [
     "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
     "ANN101",  # 'Missing type annotation for {self} in method'.
     "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
+    "PD009",  # Replacing .iat with .iloc is a stupid rule.
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
@@ -203,10 +204,14 @@ warn_required_dynamic_aliases = true
 # Hatch Environments
 ################################################################################
 
-[tool.hatch.envs.default]
+[tool.hatch.envs.dev]
 # Set a local path that PyCharm can use to find the virtual environment.
 path = ".venv"
-features = ["all"]
+extra-dependencies = [
+    "ruff",
+    "pyupgrade",
+]
+features = ["all", "dev"]
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
@@ -226,6 +231,7 @@ description = """Check dependencies for security vulnerabilities."""
 extra-dependencies = [
     "safety",
 ]
+features = ["all"]
 
 [tool.hatch.envs.safety.scripts]
 check = "safety check --full-report -i 70612"
@@ -235,6 +241,7 @@ description = """Check the static types of the codebase."""
 dependencies = [
     "mypy",
 ]
+features = ["all"]
 
 [tool.hatch.envs.types.scripts]
 check = "mypy src/taxpasta"
@@ -250,6 +257,7 @@ extra-dependencies = [
     "mkdocstrings[python] ~=0.24",
     "tabulate ~=0.9",
 ]
+features = ["all"]
 
 [tool.hatch.envs.docs.scripts]
 update = "make docs"
@@ -280,6 +288,7 @@ extra-dependencies = [
     "pytest-randomly",
     "pytest-xdist",
 ]
+features = ["all"]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.10", "3.11", "3.12"]
