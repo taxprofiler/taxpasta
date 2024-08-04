@@ -20,13 +20,12 @@
 
 import logging
 from pathlib import Path
-from typing import Optional, cast
+from typing import TYPE_CHECKING, Optional, cast
 
 import typer
 
 from taxpasta.application import AddTaxInfoCommand, SampleHandlingApplication
 from taxpasta.application.error import StandardisationError
-from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     StandardProfileFileFormat,
@@ -34,6 +33,10 @@ from taxpasta.infrastructure.application import (
 )
 
 from .taxpasta import app
+
+
+if TYPE_CHECKING:
+    from taxpasta.domain.service import TaxonomyService
 
 
 logger = logging.getLogger(__name__)
@@ -69,7 +72,7 @@ def validate_output_format(
             logger.critical(
                 "Please rename the output or set the '--output-format' explicitly.",
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from error
     else:
         result = StandardProfileFileFormat(output_format)
     try:
@@ -77,7 +80,7 @@ def validate_output_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from error
     return result
 
 
@@ -190,9 +193,9 @@ def standardise(
             add_id_lineage=add_id_lineage,
             add_rank_lineage=add_rank_lineage,
         )
-    except ValueError as exc:
-        logger.critical(str(exc))
-        raise typer.Exit(code=2)
+    except ValueError as error:
+        logger.critical(str(error))
+        raise typer.Exit(code=2) from error
 
     # Ensure that we can write to the output directory.
     try:
@@ -200,7 +203,7 @@ def standardise(
     except OSError as error:
         logger.critical("Failed to create the parent directory for the output.")
         logger.critical(str(error))
-        raise typer.Exit(1)
+        raise typer.Exit(1) from error
 
     handling_app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
@@ -219,7 +222,7 @@ def standardise(
             error.profile,
         )
         logger.critical(error.message)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from error
 
     if summarise_at:
         try:
@@ -228,7 +231,7 @@ def standardise(
             logger.debug("", exc_info=error)
             logger.critical("Error in sample '%s'.", sample.name)
             logger.critical(str(error))
-            raise typer.Exit(code=1)
+            raise typer.Exit(code=1) from error
 
     result = tax_info_command.execute(sample.profile)
 
@@ -239,4 +242,4 @@ def standardise(
     except OSError as error:
         logger.critical("Failed to write the output result.")
         logger.critical(str(error))
-        raise typer.Exit(1)
+        raise typer.Exit(1) from error

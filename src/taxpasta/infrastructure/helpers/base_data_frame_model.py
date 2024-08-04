@@ -26,6 +26,7 @@ import pandera as pa
 class BaseDataFrameModel(pa.DataFrameModel):
     """Define the base data frame model for general checks and configuration."""
 
+    @classmethod
     @pa.dataframe_check
     def check_not_empty(cls, profile: pd.DataFrame) -> bool:
         """Check that the read in profile is *not* empty."""

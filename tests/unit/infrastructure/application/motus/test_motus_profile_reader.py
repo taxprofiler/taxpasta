@@ -20,7 +20,7 @@
 
 
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import Union
 
 import pytest
 
@@ -42,7 +42,7 @@ from taxpasta.infrastructure.application import MotusProfileReader
 def test_read_correctness(
     motus_data_dir: Path,
     filename: str,
-    checks: List[Tuple[int, int, Union[int, float, str]]],
+    checks: list[tuple[int, int, Union[int, float, str]]],
 ):
     """Test that the reader can parse valid mOTUs profiles."""
     profile = MotusProfileReader.read(motus_data_dir / filename)

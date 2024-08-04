@@ -20,7 +20,6 @@
 
 from collections import OrderedDict
 from pathlib import Path
-from typing import Dict, List
 
 import pandas as pd
 import pytest
@@ -93,7 +92,7 @@ def test_get_taxon_rank(tax_service: TaxopyTaxonomyService, tax_id: int, expecte
 def test_get_taxon_name_lineage(
     tax_service: TaxopyTaxonomyService,
     tax_id: int,
-    expected: List[str],
+    expected: list[str],
 ):
     """Expect that we can retrieve the correct taxon name lineage."""
     assert tax_service.get_taxon_name_lineage(tax_id) == expected
@@ -111,7 +110,7 @@ def test_get_taxon_name_lineage(
 def test_get_taxon_identifier_lineage(
     tax_service: TaxopyTaxonomyService,
     tax_id: int,
-    expected: List[int],
+    expected: list[int],
 ):
     """Expect that we can retrieve the correct taxon identifier lineage."""
     assert tax_service.get_taxon_identifier_lineage(tax_id) == expected
@@ -129,7 +128,7 @@ def test_get_taxon_identifier_lineage(
 def test_get_taxon_rank_lineage(
     tax_service: TaxopyTaxonomyService,
     tax_id: int,
-    expected: List[str],
+    expected: list[str],
 ):
     """Expect that we can retrieve the correct taxon rank lineage."""
     assert tax_service.get_taxon_rank_lineage(tax_id) == expected
@@ -287,7 +286,7 @@ def test_add_rank_lineage(
 def test_format_biom_taxonomy(
     tax_service: TaxopyTaxonomyService,
     result: pd.DataFrame,
-    expected: List[Dict[str, List[str]]],
+    expected: list[dict[str, list[str]]],
 ):
     """Expect that we can add rank lineages to a result table."""
     assert tax_service.format_biom_taxonomy(result)[0] == expected

@@ -21,15 +21,11 @@
 from __future__ import annotations
 
 import logging
-from collections.abc import Iterable
-from pathlib import Path
-from typing import Optional, Type
+from typing import TYPE_CHECKING
 
 from pandera.errors import SchemaErrors
-from pandera.typing import DataFrame
 
 from taxpasta.application.error import StandardisationError
-from taxpasta.application.service import ProfileReader, ProfileStandardisationService
 from taxpasta.domain.model import (
     Sample,
     StandardProfile,
@@ -37,6 +33,18 @@ from taxpasta.domain.model import (
     WideObservationTable,
 )
 from taxpasta.domain.service import SampleMergingService, TaxonomyService
+
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from pathlib import Path
+
+    from pandera.typing import DataFrame
+
+    from taxpasta.application.service import (
+        ProfileReader,
+        ProfileStandardisationService,
+    )
 
 
 logger = logging.getLogger(__name__)
@@ -48,11 +56,11 @@ class SampleHandlingApplication:
     def __init__(
         self,
         *,
-        profile_reader: Type[ProfileReader],
-        profile_standardiser: Type[ProfileStandardisationService],
-        taxonomy_service: Optional[TaxonomyService] = None,
+        profile_reader: type[ProfileReader],
+        profile_standardiser: type[ProfileStandardisationService],
+        taxonomy_service: TaxonomyService | None = None,
         **kwargs: dict,
-    ):
+    ) -> None:
         """
         Initialize the sample handling application.
 

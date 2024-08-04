@@ -89,8 +89,12 @@ class MetaphlanProfileReader(ProfileReader):
             if not line.startswith(comment_marker):
                 return num
             if num >= max_lines:
-                raise ValueError(
+                msg = (
                     "Unexpectedly large number of comment lines in MetaPhlAn "
-                    "profile (>10).",
+                    "profile (>10)."
                 )
-        raise ValueError("Could not detect any content lines in MetaPhlAn profile.")
+                raise ValueError(
+                    msg,
+                )
+        msg = "Could not detect any content lines in MetaPhlAn profile."
+        raise ValueError(msg)

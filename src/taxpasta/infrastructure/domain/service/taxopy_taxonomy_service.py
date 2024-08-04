@@ -22,16 +22,20 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import TYPE_CHECKING
 
 import pandas as pd
 import taxopy
-from pandera.typing import DataFrame
 from taxopy.exceptions import TaxidError
 
 from taxpasta.domain.model import StandardProfile
 from taxpasta.domain.service import ResultTable, TaxonomyService
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from pandera.typing import DataFrame
 
 
 logger = logging.getLogger(__name__)
@@ -58,15 +62,15 @@ class TaxopyTaxonomyService(TaxonomyService):
             ),
         )
 
-    def get_taxon_name(self, taxonomy_id: int) -> Optional[str]:
+    def get_taxon_name(self, taxonomy_id: int) -> str | None:
         """Return the name of a given taxonomy identifier."""
         return self._tax_db.taxid2name.get(taxonomy_id)
 
-    def get_taxon_rank(self, taxonomy_id: int) -> Optional[str]:
+    def get_taxon_rank(self, taxonomy_id: int) -> str | None:
         """Return the rank of a given taxonomy identifier."""
         return self._tax_db.taxid2rank.get(taxonomy_id)
 
-    def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+    def get_taxon_name_lineage(self, taxonomy_id: int) -> list[str] | None:
         """
         Return the lineage of a given taxonomy identifier as names.
 
@@ -81,7 +85,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         # second-highest rank.
         return [name for _, name in taxon.ranked_name_lineage[-2::-1]]
 
-    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
+    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> list[int] | None:
         """
         Return the lineage of a given taxonomy identifier as identifiers.
 
@@ -96,7 +100,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         # second-highest rank.
         return [name for _, name in taxon.ranked_taxid_lineage[-2::-1]]
 
-    def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+    def get_taxon_rank_lineage(self, taxonomy_id: int) -> list[str] | None:
         """Return the lineage of a given taxonomy identifier as ranks."""
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
@@ -136,7 +140,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         )
         return result
 
-    def _name_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
+    def _name_lineage_as_str(self, taxonomy_id: int) -> str | None:
         """Return the lineage of a taxon as concatenated names."""
         if lineage := self.get_taxon_name_lineage(taxonomy_id):
             return ";".join(lineage)
@@ -156,7 +160,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         )
         return result
 
-    def _taxid_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
+    def _taxid_lineage_as_str(self, taxonomy_id: int) -> str | None:
         """Return the lineage of a taxon as concatenated identifiers."""
         if lineage := self.get_taxon_identifier_lineage(taxonomy_id):
             return ";".join(str(tax_id) for tax_id in lineage)
@@ -173,7 +177,7 @@ class TaxopyTaxonomyService(TaxonomyService):
         )
         return result
 
-    def _rank_lineage_as_str(self, taxonomy_id: int) -> Optional[str]:
+    def _rank_lineage_as_str(self, taxonomy_id: int) -> str | None:
         """Return the rank lineage of a taxon as concatenated identifiers."""
         if lineage := self.get_taxon_rank_lineage(taxonomy_id):
             return ";".join(lineage)
@@ -183,7 +187,7 @@ class TaxopyTaxonomyService(TaxonomyService):
     def format_biom_taxonomy(
         self,
         table: DataFrame[ResultTable],
-    ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
+    ) -> tuple[list[dict[str, list[str]]], list[str]]:
         """Format the taxonomy as BIOM observation metadata."""
         lineages = [self._get_rank_name_lineage(tax_id) for tax_id in table.taxonomy_id]
         longest_lineage = max(lineages, key=len)
@@ -192,7 +196,7 @@ class TaxopyTaxonomyService(TaxonomyService):
             {"taxonomy": self._pad_lineage(lineage, max_ranks)} for lineage in lineages
         ], max_ranks
 
-    def _get_rank_name_lineage(self, taxonomy_id: int) -> List[Tuple[str, str]]:
+    def _get_rank_name_lineage(self, taxonomy_id: int) -> list[tuple[str, str]]:
         try:
             taxon = taxopy.Taxon(taxid=taxonomy_id, taxdb=self._tax_db)
         except TaxidError:
@@ -201,9 +205,9 @@ class TaxopyTaxonomyService(TaxonomyService):
 
     def _pad_lineage(
         self,
-        lineage: List[Tuple[str, str]],
-        max_ranks: List[str],
-    ) -> List[str]:
+        lineage: list[tuple[str, str]],
+        max_ranks: list[str],
+    ) -> list[str]:
         """Pad a lineage to match the length of the longest lineage."""
         # Poor implementation of aligning ranks. We pad missing ranks with empty
         # strings.

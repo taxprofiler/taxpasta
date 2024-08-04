@@ -39,17 +39,22 @@ class KaijuProfile(BaseDataFrameModel):
     taxon_id: Series[pd.Int64Dtype] = pa.Field(nullable=True)
     taxon_name: Series[str] = pa.Field()
 
+    @classmethod
     @pa.check("percent", name="compositionality", raise_warning=True)
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # Kaiju reports percentages with sixth decimals
         return percent.empty or bool(
             np.isclose(
-                percent.sum(), KAIJU_PERCENT_TOTAL, atol=KAIJU_PERCENT_TOLERANCE
+                percent.sum(),
+                KAIJU_PERCENT_TOTAL,
+                atol=KAIJU_PERCENT_TOLERANCE,
             ),
         )
 
+    @classmethod
     @pa.check("file", name="unique_filename")
     def check_unique_filename(cls, file_col: Series[str]) -> bool:
         """Check that Kaiju filename is unique."""
-        return file_col.empty or file_col.nunique() == 1
+        array = file_col.to_numpy()
+        return file_col.empty or (array[0] == array).all()

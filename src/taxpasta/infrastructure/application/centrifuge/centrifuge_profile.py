@@ -39,6 +39,7 @@ class CentrifugeProfile(BaseDataFrameModel):
     taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
+    @classmethod
     @pa.check("percent", name="compositionality", raise_warning=True)
     def check_compositionality(cls, percent: Series[float]) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""

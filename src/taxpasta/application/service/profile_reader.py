@@ -19,7 +19,6 @@
 """Provide an abstract base class for reading taxonomic profiles."""
 
 from abc import ABC, abstractmethod
-from typing import Type
 
 import pandas as pd
 import pandera as pa
@@ -39,12 +38,13 @@ class ProfileReader(ABC):
     def _check_num_columns(
         cls,
         profile: pd.DataFrame,
-        schema_model: Type[pa.DataFrameModel],
+        schema_model: type[pa.DataFrameModel],
     ) -> None:
         """Perform a strict test on the number of columns."""
         num_cols = len(schema_model.to_schema().columns)
         if len(profile.columns) != num_cols:
-            raise ValueError(
+            msg = (
                 f"Unexpected report format. It has {len(profile.columns)} columns but "
-                f"only {num_cols} are expected.",
+                f"only {num_cols} are expected."
             )
+            raise ValueError(msg)

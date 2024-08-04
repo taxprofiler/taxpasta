@@ -20,7 +20,7 @@
 
 
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import Union
 
 import pytest
 
@@ -43,7 +43,7 @@ from taxpasta.infrastructure.application import DiamondProfileReader
 def test_read_correctness(
     diamond_data_dir: Path,
     filename: str,
-    checks: List[Tuple[int, int, Union[int, float, str]]],
+    checks: list[tuple[int, int, Union[int, float, str]]],
 ):
     """Test that the reader can parse valid diamond profiles."""
     profile = DiamondProfileReader.read(diamond_data_dir / filename)

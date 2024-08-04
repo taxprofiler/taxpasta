@@ -19,11 +19,15 @@
 """Provide an abstract taxonomy service interface."""
 
 from abc import ABC, abstractmethod
-from typing import Dict, List, Optional, Tuple, TypeVar
+from typing import Optional, TypeVar
 
 from pandera.typing import DataFrame
 
-from ..model import StandardProfile, TidyObservationTable, WideObservationTable
+from taxpasta.domain.model import (
+    StandardProfile,
+    TidyObservationTable,
+    WideObservationTable,
+)
 
 
 ResultTable = TypeVar(
@@ -50,15 +54,15 @@ class TaxonomyService(ABC):
         """Return the rank of a given taxonomy identifier."""
 
     @abstractmethod
-    def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+    def get_taxon_name_lineage(self, taxonomy_id: int) -> Optional[list[str]]:
         """Return the lineage of a given taxonomy identifier as names."""
 
     @abstractmethod
-    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[List[int]]:
+    def get_taxon_identifier_lineage(self, taxonomy_id: int) -> Optional[list[int]]:
         """Return the lineage of a given taxonomy identifier as identifiers."""
 
     @abstractmethod
-    def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[List[str]]:
+    def get_taxon_rank_lineage(self, taxonomy_id: int) -> Optional[list[str]]:
         """Return the lineage of a given taxonomy identifier as ranks."""
 
     @abstractmethod
@@ -88,7 +92,7 @@ class TaxonomyService(ABC):
     def format_biom_taxonomy(
         self,
         table: DataFrame[ResultTable],
-    ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
+    ) -> tuple[list[dict[str, list[str]]], list[str]]:
         """Format the taxonomy as BIOM observation metadata."""
 
     @abstractmethod

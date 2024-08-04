@@ -74,32 +74,38 @@ class AddTaxInfoCommand:
         """Perform post initialization validation."""
         no_taxonomy = self.taxonomy_service is None
         if self.summarise_at is not None and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The summarising feature '--summarise-at' requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)
         if self.add_name and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The '--add-name' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)
         if self.add_rank and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The '--add-rank' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)
         if self.add_lineage and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The '--add-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)
         if self.add_id_lineage and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The '--add-id-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)
         if self.add_rank_lineage and no_taxonomy:
-            raise ValueError(
+            msg = (
                 "The '--add-rank-lineage' option requires a taxonomy. Please "
-                "provide one using the option '--taxonomy'.",
+                "provide one using the option '--taxonomy'."
             )
+            raise ValueError(msg)

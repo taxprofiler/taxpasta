@@ -21,7 +21,11 @@
 from __future__ import annotations
 
 from enum import Enum
-from pathlib import Path
+from typing import TYPE_CHECKING
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 class DependencyCheckMixin(Enum):
@@ -49,13 +53,11 @@ class DependencyCheckMixin(Enum):
         supported_formats = {option.value.upper(): option for option in cls}
         common = suffixes.intersection(supported_formats)
         if not common:
-            raise ValueError(
-                f"Unrecognized file type extension '{''.join(filename.suffixes)}'.",
-            )
+            msg = f"Unrecognized file type extension '{''.join(filename.suffixes)}'."
+            raise ValueError(msg)
         elif len(common) > 1:
-            raise ValueError(
-                f"Ambiguous file type extension '{''.join(filename.suffixes)}'.",
-            )
+            msg = f"Ambiguous file type extension '{''.join(filename.suffixes)}'."
+            raise ValueError(msg)
         else:
             return supported_formats[common.pop()]
 
@@ -74,11 +76,12 @@ class DependencyCheckMixin(Enum):
         try:
             assert isinstance(file_format.value, str)  # nosec assert_used
             supported_format = getattr(cls, file_format.value)
-        except AttributeError:
-            raise RuntimeError(
+        except AttributeError as error:
+            msg = (
                 f"The file format to be checked '{file_format.value}' is not supported "
-                f"by this class {cls.__name__}.",
+                f"by this class {cls.__name__}."
             )
+            raise RuntimeError(msg) from error
         # Call the file format's corresponding check, if it exists.
         getattr(cls, f"_check_{supported_format.value.lower()}", lambda: None)()
 
@@ -88,10 +91,11 @@ class DependencyCheckMixin(Enum):
         try:
             import odf  # noqa: F401
         except ImportError as error:
-            raise RuntimeError(
+            msg = (
                 "The desired file format 'ODS' is currently not "
-                "available. Please `pip install 'taxpasta[ods]'` to support it.",
-            ) from error
+                "available. Please `pip install 'taxpasta[ods]'` to support it."
+            )
+            raise RuntimeError(msg) from error
 
     @classmethod
     def _check_xlsx(cls) -> None:
@@ -99,21 +103,23 @@ class DependencyCheckMixin(Enum):
         try:
             import openpyxl  # noqa: F401
         except ImportError as error:
-            raise RuntimeError(
+            msg = (
                 "The desired file format 'XLSX' is currently not "
-                "available. Please `pip install 'taxpasta[xlsx]'` to support it.",
-            ) from error
+                "available. Please `pip install 'taxpasta[xlsx]'` to support it."
+            )
+            raise RuntimeError(msg) from error
 
     @classmethod
     def _check_arrow(cls) -> None:
         """Check for dependencies for the arrow file format."""
         try:
-            import pyarrow  # noqa: F401
+            import pyarrow as pa  # noqa: F401
         except ImportError as error:
-            raise RuntimeError(
+            msg = (
                 "The desired file format 'arrow' is currently not "
-                "available. Please `pip install 'taxpasta[arrow]'` to support it.",
-            ) from error
+                "available. Please `pip install 'taxpasta[arrow]'` to support it."
+            )
+            raise RuntimeError(msg) from error
 
     @classmethod
     def _check_biom(cls) -> None:
@@ -121,7 +127,8 @@ class DependencyCheckMixin(Enum):
         try:
             import biom  # noqa: F401
         except ImportError as error:
-            raise RuntimeError(
+            msg = (
                 "The desired file format 'BIOM' is currently not "
-                "available. Please `pip install 'taxpasta[biom]'` to support it.",
-            ) from error
+                "available. Please `pip install 'taxpasta[biom]'` to support it."
+            )
+            raise RuntimeError(msg) from error
