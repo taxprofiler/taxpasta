@@ -21,7 +21,6 @@
 import sys
 from collections.abc import Iterable
 from pathlib import Path
-from typing import List
 
 import pandas as pd
 import pytest
@@ -66,7 +65,7 @@ def kraken2_samplesheet(
 def test_merge_profiles_wide(
     runner: CliRunner,
     profiler: SupportedProfiler,
-    profiles: List[str],
+    profiles: list[str],
     wide_observation_table_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -85,7 +84,7 @@ def test_merge_profiles_wide(
 def test_merge_profiles_long(
     runner: CliRunner,
     profiler: SupportedProfiler,
-    profiles: List[str],
+    profiles: list[str],
     tidy_observation_table_format: TidyObservationTableFileFormat,
     data_dir: Path,
     tmp_path: Path,

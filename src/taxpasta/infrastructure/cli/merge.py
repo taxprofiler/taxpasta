@@ -20,7 +20,7 @@
 
 import logging
 from pathlib import Path
-from typing import List, Optional, Union, cast
+from typing import TYPE_CHECKING, Optional, Union, cast
 
 import pandera.errors
 import typer
@@ -28,7 +28,6 @@ from pandera.typing import DataFrame
 
 from taxpasta.application import AddTaxInfoCommand, SampleHandlingApplication
 from taxpasta.application.error import StandardisationError
-from taxpasta.domain.service import TaxonomyService
 from taxpasta.infrastructure.application import (
     ApplicationServiceRegistry,
     SampleSheet,
@@ -39,6 +38,10 @@ from taxpasta.infrastructure.application import (
 )
 
 from .taxpasta import app
+
+
+if TYPE_CHECKING:
+    from taxpasta.domain.service import TaxonomyService
 
 
 logger = logging.getLogger(__name__)
@@ -82,7 +85,7 @@ def validate_observation_matrix_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from error
     return result
 
 
@@ -116,7 +119,7 @@ def validate_tidy_observation_table_format(
             logger.critical(
                 "Please rename the output or set the '--output-format' explicitly.",
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from error
     else:
         result = TidyObservationTableFileFormat(output_format)
     try:
@@ -124,7 +127,7 @@ def validate_tidy_observation_table_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from error
     return result
 
 
@@ -159,7 +162,7 @@ def validate_sample_format(
                 "Please rename the sample sheet or set the '--samplesheet-format' "
                 "explicitly.",
             )
-            raise typer.Exit(code=2)
+            raise typer.Exit(code=2) from error
     else:
         result = sample_format
     try:
@@ -167,7 +170,7 @@ def validate_sample_format(
     except RuntimeError as error:
         logger.debug("", exc_info=error)
         logger.critical(str(error))
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from error
     return result
 
 
@@ -197,13 +200,13 @@ def read_sample_sheet(
         logger.debug("", exc_info=errors)
         logger.critical("Parsing the sample sheet '%s' failed.", str(sample_sheet))
         logger.critical(errors.failure_cases)
-        raise typer.Exit(code=1)
+        raise typer.Exit(code=1) from errors
     return result
 
 
 @app.command()
 def merge(
-    profiles: Optional[List[Path]] = typer.Argument(  # noqa: B008
+    profiles: Optional[list[Path]] = typer.Argument(  # noqa: B008
         None,
         metavar="[PROFILE1 PROFILE2 [...]]",
         help="Two or more files containing taxonomic profiles. Required unless there is"
@@ -249,7 +252,9 @@ def merge(
         "the --output-format option, automatic detection is disabled.",
         show_default=False,
     ),
-    output_format: Optional[WideObservationTableFileFormat] = typer.Option(  # noqa: B008
+    output_format: Optional[
+        WideObservationTableFileFormat
+    ] = typer.Option(  # noqa: B008
         None,
         case_sensitive=False,
         help="The desired output format. Depending on the choice, additional package "
@@ -334,7 +339,7 @@ def merge(
         except RuntimeError as error:
             logger.debug("", exc_info=error)
             logger.critical(str(error))
-            raise typer.Exit(code=1)
+            raise typer.Exit(code=1) from error
         valid_output_format = WideObservationTableFileFormat.BIOM
         wide_format = True
     elif wide_format:
@@ -366,16 +371,16 @@ def merge(
             add_id_lineage=add_id_lineage,
             add_rank_lineage=add_rank_lineage,
         )
-    except ValueError as exc:
-        logger.critical(str(exc))
-        raise typer.Exit(code=2)
+    except ValueError as error:
+        logger.critical(str(error))
+        raise typer.Exit(code=2) from error
     # Ensure that we can write to the output directory.
     try:
         output.parent.mkdir(parents=True, exist_ok=True)
     except OSError as error:
         logger.critical("Failed to create the parent directory for the output.")
         logger.critical(str(error))
-        raise typer.Exit(1)
+        raise typer.Exit(1) from error
     # Extract and transform sample data.
     if sample_sheet is not None:
         valid_sample_format = validate_sample_format(sample_sheet, samplesheet_format)
@@ -411,12 +416,12 @@ def merge(
         except StandardisationError as error:
             logger.debug("", exc_info=error)
             if ignore_errors:
-                logger.error(
+                logger.exception(
                     "Error in sample '%s' with profile '%s'.",
                     error.sample,
                     error.profile,
                 )
-                logger.error(error.message)
+                logger.exception(error.message)
                 continue
             else:
                 logger.critical(
@@ -425,7 +430,7 @@ def merge(
                     error.profile,
                 )
                 logger.critical(error.message)
-                raise typer.Exit(code=1)
+                raise typer.Exit(code=1) from error
 
     if summarise_at:
         summarised = []
@@ -435,13 +440,13 @@ def merge(
             except ValueError as error:
                 logger.debug("", exc_info=error)
                 if ignore_errors:
-                    logger.error("Error in sample '%s'.", sample.name)
-                    logger.error(str(error))
+                    logger.exception("Error in sample '%s'.", sample.name)
+                    logger.exception(str(error))
                     continue
                 else:
                     logger.critical("Error in sample '%s'.", sample.name)
                     logger.critical(str(error))
-                    raise typer.Exit(code=1)
+                    raise typer.Exit(code=1) from error
         samples = summarised
 
     if len(samples) < 2:
@@ -479,4 +484,4 @@ def merge(
         logger.debug("", exc_info=error)
         logger.critical("Failed to write the output result.")
         logger.critical(str(error))
-        raise typer.Exit(1)
+        raise typer.Exit(1) from error

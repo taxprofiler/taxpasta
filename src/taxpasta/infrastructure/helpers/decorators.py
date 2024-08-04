@@ -29,17 +29,18 @@ def raise_parser_warnings(func: Callable) -> Callable:
     """Decorate a function in order to raise parser warnings as value errors."""
 
     @wraps(func)
-    def wrapped(*args, **kwargs) -> Any:
+    def wrapped(*args, **kwargs) -> Any:  # noqa: ANN401
         with warnings.catch_warnings():
             warnings.filterwarnings(action="error", category=ParserWarning)
             try:
                 result = func(*args, **kwargs)
             except ParserWarning as exc:
-                raise ValueError(
+                msg = (
                     "There were unexpected issues with the data. Please double-check "
                     "the specific combination of your chosen metagenomic profiler and "
-                    "input profile.",
-                ) from exc
+                    "input profile."
+                )
+                raise ValueError(msg) from exc
         return result
 
     return wrapped

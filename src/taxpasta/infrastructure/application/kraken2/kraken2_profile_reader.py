@@ -75,8 +75,11 @@ class Kraken2ProfileReader(ProfileReader):
                 Kraken2Profile.name,
             ]
         else:
-            raise ValueError(
+            msg = (
                 f"Unexpected kraken2 report format. It has {len(result.columns)} "
-                f"columns but only six or eight are expected.",
+                f"columns but only six or eight are expected."
+            )
+            raise ValueError(
+                msg,
             )
         return result

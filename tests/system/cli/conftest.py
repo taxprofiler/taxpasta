@@ -20,7 +20,6 @@
 
 
 from pathlib import Path
-from typing import List
 
 import pandas as pd
 import pytest
@@ -80,7 +79,7 @@ def profile(
 def profiles(
     profiler: SupportedProfiler,
     data_dir: Path,
-) -> List[str]:
+) -> list[str]:
     """Provide valid profiles for each profiler in turn."""
     return [
         str(filename)

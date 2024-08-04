@@ -19,7 +19,6 @@
 """Test the main taxpasta command line interface."""
 
 import sys
-from typing import List
 
 import pytest
 from typer.testing import CliRunner
@@ -29,7 +28,7 @@ from taxpasta.infrastructure.cli import app
 
 
 @pytest.mark.parametrize("args", [["-h", "--help"]])
-def test_help(runner: CliRunner, args: List[str]):
+def test_help(runner: CliRunner, args: list[str]):
     """Expect that the help can be requested successfully."""
     result = runner.invoke(app, args)
     assert result.exit_code == 0
@@ -57,7 +56,7 @@ def test_version(runner: CliRunner):
         ["-l", "CRITICAL"],
     ],
 )
-def test_log_level_with_rich(runner: CliRunner, args: List[str]):
+def test_log_level_with_rich(runner: CliRunner, args: list[str]):
     """Expect that the log level can be set successfully."""
     result = runner.invoke(app, args)
     assert result.exit_code == 0
@@ -80,7 +79,7 @@ def test_log_level_with_rich(runner: CliRunner, args: List[str]):
 )
 def test_log_level_without_rich(
     runner: CliRunner,
-    args: List[str],
+    args: list[str],
     monkeypatch: pytest.MonkeyPatch,
 ):
     """Expect that the log level can be set successfully."""

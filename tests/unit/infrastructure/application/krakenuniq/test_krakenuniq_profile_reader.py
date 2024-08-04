@@ -20,7 +20,7 @@
 
 
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import Union
 
 import pytest
 
@@ -51,7 +51,7 @@ from taxpasta.infrastructure.application import KrakenUniqProfileReader
 def test_read_correctness(
     krakenuniq_data_dir: Path,
     filename: str,
-    checks: List[Tuple[int, int, Union[float, int, str]]],
+    checks: list[tuple[int, int, Union[float, int, str]]],
 ):
     """Test that the reader can parse valid KrakenUniq profiles."""
     profile = KrakenUniqProfileReader.read(krakenuniq_data_dir / filename)

@@ -41,6 +41,7 @@ class MetaphlanProfile(BaseDataFrameModel):
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
     additional_species: Optional[Series[str]] = pa.Field(nullable=True)
 
+    @classmethod
     @pa.dataframe_check(name="compositionality", raise_warning=True)
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percentages per rank add up to a hundred."""

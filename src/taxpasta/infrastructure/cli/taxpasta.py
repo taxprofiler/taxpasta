@@ -24,8 +24,6 @@ from typing import Optional
 
 import typer
 
-import taxpasta
-
 
 logger = logging.getLogger("taxpasta")
 
@@ -47,7 +45,7 @@ app = typer.Typer(
 )
 
 
-def version_callback(is_set: bool) -> None:
+def version_callback(is_set: bool) -> None:  # noqa: FBT001
     """
     Print the tool version if desired.
 
@@ -59,8 +57,10 @@ def version_callback(is_set: bool) -> None:
 
     """
     if is_set:
-        print(taxpasta.__version__)
-        raise typer.Exit()
+        from taxpasta import __version__
+
+        print(__version__)  # noqa: T201
+        raise typer.Exit(code=0)
 
 
 @app.callback(invoke_without_command=True)
@@ -80,7 +80,7 @@ def initialize(
         case_sensitive=False,
         help="Set the desired log level.",
     ),
-):
+) -> None:
     """Initialize logging and rich printing if available."""
     try:
         from rich.logging import RichHandler
