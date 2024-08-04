@@ -269,7 +269,9 @@ check = [
 
 [tool.hatch.envs.test]
 description = """Run the test suite."""
+dev-mode = false
 extra-dependencies = [
+    "pluggy <1.4",
     "pytest",
     "pytest-cov",
     "pytest-raises",
@@ -282,4 +284,7 @@ features = ["all"]
 python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.test.scripts]
-run = "pytest --cov=taxpasta --cov-report=term-missing {args}"
+run = [
+    "pip install --force-reinstall --no-deps .",
+    "pytest --cov=taxpasta --cov-report=term-missing {args}",
+]
