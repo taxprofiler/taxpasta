@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/Midnighter/cookiecutter-python-package",
-  "commit": "93fc870ef96bc96d0def7087bba60902de5956d7",
+  "commit": "d1fc2bd8be6143675b4d7270d6ce97a702dde647",
   "checkout": null,
   "context": {
     "cookiecutter": {

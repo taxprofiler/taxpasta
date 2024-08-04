@@ -7,4 +7,4 @@ on:
 
 jobs:
   prerequisites:
-    uses: ./.github/workflows/test.yaml
+    uses: ./.github/workflows/test.yml
