@@ -18,13 +18,17 @@
 
 """Test that the reader can parse valid KMCP profiles."""
 
+from __future__ import annotations
 
-from pathlib import Path
-from typing import Union
+from typing import TYPE_CHECKING
 
 import pytest
 
 from taxpasta.infrastructure.application import KMCPProfileReader
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -43,7 +47,7 @@ from taxpasta.infrastructure.application import KMCPProfileReader
 def test_read_correctness(
     kmcp_data_dir: Path,
     filename: str,
-    checks: list[tuple[int, int, Union[float, int, str]]],
+    checks: list[tuple[int, int, float | int | str]],
 ):
     """Test that the reader can parse valid KMCP profiles."""
     profile = KMCPProfileReader.read(kmcp_data_dir / filename)

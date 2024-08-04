@@ -18,13 +18,17 @@
 
 """Test that the reader can parse valid KrakenUniq profiles."""
 
+from __future__ import annotations
 
-from pathlib import Path
-from typing import Union
+from typing import TYPE_CHECKING
 
 import pytest
 
 from taxpasta.infrastructure.application import KrakenUniqProfileReader
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -51,7 +55,7 @@ from taxpasta.infrastructure.application import KrakenUniqProfileReader
 def test_read_correctness(
     krakenuniq_data_dir: Path,
     filename: str,
-    checks: list[tuple[int, int, Union[float, int, str]]],
+    checks: list[tuple[int, int, float | int | str]],
 ):
     """Test that the reader can parse valid KrakenUniq profiles."""
     profile = KrakenUniqProfileReader.read(krakenuniq_data_dir / filename)

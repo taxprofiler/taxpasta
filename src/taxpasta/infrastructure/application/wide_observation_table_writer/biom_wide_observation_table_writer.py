@@ -18,18 +18,23 @@
 
 """Provide a Biological Observation Matrix (BIOM) writer."""
 
+from __future__ import annotations
+
 from datetime import datetime, timezone
-from typing import Optional
+from typing import TYPE_CHECKING
 
 from biom.table import Table
 from biom.util import biom_open
-from pandera.typing import DataFrame
 
 from taxpasta import __version__
 from taxpasta.application.service import Filepath, WideObservationTableWriter
-from taxpasta.domain.model import WideObservationTable
-from taxpasta.domain.service import TaxonomyService
 
+
+if TYPE_CHECKING:
+    from pandera.typing import DataFrame
+
+    from taxpasta.domain.model import WideObservationTable
+    from taxpasta.domain.service import TaxonomyService
 
 GENERATED_BY = f"taxpasta=={__version__}"
 
@@ -42,9 +47,9 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
         cls,
         matrix: DataFrame[WideObservationTable],
         target: Filepath,
-        taxonomy: Optional[TaxonomyService] = None,
+        taxonomy: TaxonomyService | None = None,
         generated_by: str = GENERATED_BY,
-        **kwargs,
+        **kwargs,  # noqa: ARG003
     ) -> None:
         """Write the given data to the given buffer or file."""
         # Drop unclassified reads.

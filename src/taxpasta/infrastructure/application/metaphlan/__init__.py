@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations of the MetaPhlAn application services."""
+
 from .metaphlan_profile import MetaphlanProfile
 from .metaphlan_profile_reader import MetaphlanProfileReader
 from .metaphlan_profile_standardisation_service import (

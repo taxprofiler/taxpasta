@@ -36,6 +36,9 @@ from taxpasta.infrastructure.application import (
 from taxpasta.infrastructure.cli import app
 
 
+BAD_ARGUMENT_EXIT_CODE = 2
+
+
 @pytest.fixture(scope="session", params=list(TableReaderFileFormat))
 def kraken2_samplesheet(
     data_dir: Path,
@@ -62,7 +65,7 @@ def kraken2_samplesheet(
     return path
 
 
-def test_merge_profiles_wide(
+def test_merge_profiles_wide(  # noqa: PLR0913
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: list[str],
@@ -81,12 +84,11 @@ def test_merge_profiles_wide(
     assert Path(output).is_file()
 
 
-def test_merge_profiles_long(
+def test_merge_profiles_long(  # noqa: PLR0913
     runner: CliRunner,
     profiler: SupportedProfiler,
     profiles: list[str],
     tidy_observation_table_format: TidyObservationTableFileFormat,
-    data_dir: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
@@ -101,11 +103,11 @@ def test_merge_profiles_long(
     assert Path(output).is_file()
 
 
-def test_merge_samplesheet_wide(
+def test_merge_samplesheet_wide(  # noqa: PLR0913
     runner: CliRunner,
     profiler: SupportedProfiler,
-    tsv_samplesheet,
-    wide_observation_table_format,
+    tsv_samplesheet: Path,
+    wide_observation_table_format: WideObservationTableFileFormat,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
@@ -129,12 +131,11 @@ def test_merge_samplesheet_wide(
     assert Path(output).is_file()
 
 
-def test_merge_samplesheet_long(
+def test_merge_samplesheet_long(  # noqa: PLR0913
     runner: CliRunner,
     profiler: SupportedProfiler,
-    tsv_samplesheet,
+    tsv_samplesheet: Path,
     tidy_observation_table_format: TidyObservationTableFileFormat,
-    data_dir: Path,
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ):
@@ -166,7 +167,7 @@ def test_merge_samplesheet_long(
         (TableReaderFileFormat.arrow, ("pyarrow",)),
     ],
 )
-def test_missing_samplesheet_dependencies(
+def test_missing_samplesheet_dependencies(  # noqa: PLR0913
     runner: CliRunner,
     samplesheet_format: TableReaderFileFormat,
     dependencies: Iterable[str],
@@ -206,7 +207,7 @@ def test_missing_samplesheet_dependencies(
         (WideObservationTableFileFormat.BIOM, ("biom",)),
     ],
 )
-def test_missing_wide_table_dependencies(
+def test_missing_wide_table_dependencies(  # noqa: PLR0913
     runner: CliRunner,
     wide_table_format: WideObservationTableFileFormat,
     dependencies: Iterable[str],
@@ -245,7 +246,7 @@ def test_missing_wide_table_dependencies(
         (TidyObservationTableFileFormat.arrow, ("pyarrow",)),
     ],
 )
-def test_missing_tidy_table_dependencies(
+def test_missing_tidy_table_dependencies(  # noqa: PLR0913
     runner: CliRunner,
     tidy_table_format: TidyObservationTableFileFormat,
     dependencies: Iterable[str],
@@ -328,7 +329,7 @@ def test_bad_wide_output(
                 str(sheet),
             ],
         )
-    assert result.exit_code == 2, result.stderr
+    assert result.exit_code == BAD_ARGUMENT_EXIT_CODE, result.stderr
     assert any("extension" in msg for msg in caplog.messages)
 
 
@@ -358,7 +359,7 @@ def test_bad_long_output(
                 str(sheet),
             ],
         )
-    assert result.exit_code == 2, result.stderr
+    assert result.exit_code == BAD_ARGUMENT_EXIT_CODE, result.stderr
     assert any("extension" in msg for msg in caplog.messages)
 
 
@@ -386,5 +387,5 @@ def test_bad_samplesheet_extension(
                 str(sheet),
             ],
         )
-    assert result.exit_code == 2, result.stderr
+    assert result.exit_code == BAD_ARGUMENT_EXIT_CODE, result.stderr
     assert any("extension" in msg for msg in caplog.messages)

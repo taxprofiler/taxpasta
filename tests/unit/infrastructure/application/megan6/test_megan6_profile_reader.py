@@ -18,12 +18,17 @@
 
 """Test that the reader can parse valid MEGAN6 rma2info profiles."""
 
+from __future__ import annotations
 
-from typing import Union
+from typing import TYPE_CHECKING
 
 import pytest
 
 from taxpasta.infrastructure.application import Megan6ProfileReader
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -40,9 +45,9 @@ from taxpasta.infrastructure.application import Megan6ProfileReader
     ],
 )
 def test_read_correctness(
-    megan6_data_dir,
+    megan6_data_dir: Path,
     filename: str,
-    checks: list[tuple[int, int, Union[int, float, str]]],
+    checks: list[tuple[int, int, int | float | str]],
 ):
     """Test that the reader can parse valid megan6 profiles."""
     profile = Megan6ProfileReader.read(megan6_data_dir / filename)

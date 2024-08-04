@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide the taxpasta command-line interface (CLI)."""
+
 from .taxpasta import app
 from . import standardise
 from . import merge

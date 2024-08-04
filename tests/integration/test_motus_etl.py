@@ -43,7 +43,7 @@ from taxpasta.infrastructure.application import (
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
-        # ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
+        # ("motus", "2612_pe-ERR5766176-db_mOTU.out"),  # noqa: ERA001
     ],
 )
 def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:

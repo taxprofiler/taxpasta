@@ -18,6 +18,8 @@
 
 """Provide a standardisation service for mOTUs profiles."""
 
+from typing import cast
+
 import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
@@ -58,6 +60,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                 },
             )
         )
+
         # Split profile into entries with known and unknown tax ID.
         result = (
             temp.loc[temp[StandardProfile.taxonomy_id].notna(), :]
@@ -69,28 +72,29 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
                     ].astype(int),
                 },
             )
-            # FIXME (Moritz): Apparently, mOTUs profiles can contain duplicate tax IDs.
-            #  Clarify with Sofia and Maxime. For now, sum up read counts.
-            #  https://github.com/taxprofiler/taxpasta/issues/46
             .groupby(StandardProfile.taxonomy_id, as_index=False, sort=False)
             .sum()
         )
+
         # Sum up all remaining read counts without tax ID to be 'unassigned'.
-        return pd.concat(
-            [
-                result,
-                pd.DataFrame(
-                    {
-                        StandardProfile.taxonomy_id: [0],
-                        StandardProfile.count: [
-                            temp.loc[
-                                temp[StandardProfile.taxonomy_id].isna(),
-                                StandardProfile.count,
-                            ].sum(),
-                        ],
-                    },
-                    dtype=int,
-                ),
-            ],
-            ignore_index=True,
+        return cast(
+            DataFrame[StandardProfile],
+            pd.concat(
+                [
+                    result,
+                    pd.DataFrame(
+                        {
+                            StandardProfile.taxonomy_id: [0],
+                            StandardProfile.count: [
+                                temp.loc[
+                                    temp[StandardProfile.taxonomy_id].isna(),
+                                    StandardProfile.count,
+                                ].sum(),
+                            ],
+                        },
+                        dtype=int,
+                    ),
+                ],
+                ignore_index=True,
+            ),
         )

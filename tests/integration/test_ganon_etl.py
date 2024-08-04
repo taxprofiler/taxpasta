@@ -36,7 +36,7 @@ from taxpasta.infrastructure.application import (
         ("bracken", "2612_pe-ERR5766176_B-db1_S.tsv"),
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
-        # ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),
+        # ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),  # noqa: ERA001
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
