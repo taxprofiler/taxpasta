@@ -44,8 +44,8 @@ class Kraken2Profile(BaseDataFrameModel):
     taxonomy_id: Series[int] = pa.Field(ge=0)
     name: Series[str] = pa.Field()
 
-    @classmethod
     @pa.dataframe_check(name="compositionality", raise_warning=True)
+    @classmethod
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         # Kraken2 reports percentages only to the second decimal, so we expect

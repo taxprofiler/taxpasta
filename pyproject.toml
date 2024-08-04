@@ -203,6 +203,11 @@ warn_required_dynamic_aliases = true
 # Hatch Environments
 ################################################################################
 
+[tool.hatch.envs.default]
+# Set a local path that PyCharm can use to find the virtual environment.
+path = ".venv"
+features = ["all"]
+
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
 dependencies = [
@@ -245,7 +250,6 @@ extra-dependencies = [
     "mkdocstrings[python] ~=0.24",
     "tabulate ~=0.9",
 ]
-features = ["all"]
 
 [tool.hatch.envs.docs.scripts]
 update = "make docs"
@@ -269,22 +273,16 @@ check = [
 
 [tool.hatch.envs.test]
 description = """Run the test suite."""
-dev-mode = false
 extra-dependencies = [
-    "pluggy <1.4",
     "pytest",
     "pytest-cov",
     "pytest-raises",
     "pytest-randomly",
     "pytest-xdist",
 ]
-features = ["all"]
 
 [[tool.hatch.envs.test.matrix]]
 python = ["3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.test.scripts]
-run = [
-    "pip install --force-reinstall --no-deps .",
-    "pytest --cov=taxpasta --cov-report=term-missing {args}",
-]
+run = "pytest --cov=taxpasta --cov-report=term-missing {args}"

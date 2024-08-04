@@ -18,8 +18,7 @@
 
 """Provide a Biological Observation Matrix (BIOM) writer."""
 
-
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 from biom.table import Table
@@ -62,7 +61,9 @@ class BIOMWideObservationTableWriter(WideObservationTableWriter):
             sample_ids=matrix.columns[1:].astype(str),
             observation_metadata=observation_meta,
             observation_group_metadata=observation_group_meta,
-            create_date=datetime.utcnow().isoformat(timespec="microseconds"),
+            create_date=datetime.now(tz=timezone.utc).isoformat(
+                timespec="microseconds",
+            ),
         )
         with biom_open(str(target), permission="w") as handle:
             result.to_hdf5(handle, generated_by=generated_by)
