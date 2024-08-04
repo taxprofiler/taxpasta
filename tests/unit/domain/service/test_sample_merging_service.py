@@ -18,8 +18,7 @@
 
 """Test that the multiple samples are merged as expected."""
 
-
-from typing import Iterable
+from collections.abc import Iterable
 
 import pandas as pd
 import pytest
@@ -39,10 +38,11 @@ from taxpasta.domain.service import SampleMergingService
                     profile=pd.DataFrame(
                         {
                             StandardProfile.taxonomy_id: pd.Series(
-                                ["1", "2"], dtype="category"
+                                ["1", "2"],
+                                dtype="category",
                             ),
                             StandardProfile.count: [23, 42],
-                        }
+                        },
                     ),
                 ),
                 Sample(
@@ -50,10 +50,11 @@ from taxpasta.domain.service import SampleMergingService
                     profile=pd.DataFrame(
                         {
                             StandardProfile.taxonomy_id: pd.Series(
-                                ["2", "3"], dtype="category"
+                                ["2", "3"],
+                                dtype="category",
                             ),
                             StandardProfile.count: [33, 55],
-                        }
+                        },
                     ),
                 ),
             ],
@@ -62,9 +63,9 @@ from taxpasta.domain.service import SampleMergingService
                     "taxonomy_id": pd.Series(["1", "2", "3"], dtype="category"),
                     "s1": [23, 42, 0],
                     "s2": [0, 33, 55],
-                }
+                },
             ),
-        )
+        ),
     ],
 )
 def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
@@ -72,7 +73,9 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
     # On Windows the `astype` conversion may change the dtype from int64 to int32.
     # For compatibility, we disable the exact dtype match here.
     assert_frame_equal(
-        SampleMergingService.merge_wide(samples), expected, check_dtype=False
+        SampleMergingService.merge_wide(samples),
+        expected,
+        check_dtype=False,
     )
 
 
@@ -86,10 +89,11 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
                     profile=pd.DataFrame(
                         {
                             StandardProfile.taxonomy_id: pd.Series(
-                                ["1", "2"], dtype="category"
+                                ["1", "2"],
+                                dtype="category",
                             ),
                             StandardProfile.count: [23, 42],
-                        }
+                        },
                     ),
                 ),
                 Sample(
@@ -97,10 +101,11 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
                     profile=pd.DataFrame(
                         {
                             StandardProfile.taxonomy_id: pd.Series(
-                                ["2", "3"], dtype="category"
+                                ["2", "3"],
+                                dtype="category",
                             ),
                             StandardProfile.count: [33, 55],
-                        }
+                        },
                     ),
                 ),
             ],
@@ -109,9 +114,9 @@ def test_merge_wide(samples: Iterable[Sample], expected: pd.DataFrame):
                     "taxonomy_id": pd.Series(["1", "2", "2", "3"], dtype="category"),
                     "count": [23, 42, 33, 55],
                     "sample": pd.Series(["s1", "s1", "s2", "s2"], dtype="category"),
-                }
+                },
             ),
-        )
+        ),
     ],
 )
 def test_merge_long(samples: Iterable[Sample], expected: pd.DataFrame):

@@ -18,7 +18,6 @@
 
 """Provide a description of the ganon profile format."""
 
-
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -56,5 +55,5 @@ class GanonProfile(BaseDataFrameModel):
                 ].sum(),
                 GANON_PERCENT_TOTAL,
                 atol=GANON_PERCENT_TOLERANCE,
-            )
+            ),
         )

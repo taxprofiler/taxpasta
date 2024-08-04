@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for metaphlan profiles."""
 
-
 import logging
 
 import pandas as pd
@@ -43,7 +42,8 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
     def transform(
-        cls, profile: DataFrame[MetaphlanProfile]
+        cls,
+        profile: DataFrame[MetaphlanProfile],
     ) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given metaphlan profile.
@@ -62,7 +62,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     MetaphlanProfile.ncbi_tax_id: StandardProfile.taxonomy_id,
                     MetaphlanProfile.relative_abundance: StandardProfile.count,
-                }
+                },
             )
             .assign(
                 **{
@@ -73,18 +73,19 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                     .str[-1],
                     StandardProfile.count: lambda df: df[StandardProfile.count]
                     * cls.LARGE_INTEGER,
-                }
+                },
             )
             .assign(
                 **{
                     StandardProfile.count: lambda df: df[StandardProfile.count].astype(
-                        int
-                    )
-                }
+                        int,
+                    ),
+                },
             )
         )
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
-            result[StandardProfile.taxonomy_id], errors="coerce"
+            result[StandardProfile.taxonomy_id],
+            errors="coerce",
         ).astype("Int64")
         unclassified_mask = result[StandardProfile.taxonomy_id].isna() | (
             result[StandardProfile.taxonomy_id] == -1
@@ -92,7 +93,8 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         num = int(unclassified_mask.sum())
         if num > 0:
             logger.warning(
-                "Combining %d entries with unclassified taxa in the profile.", num
+                "Combining %d entries with unclassified taxa in the profile.",
+                num,
             )
         return pd.concat(
             [
@@ -101,7 +103,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                     {
                         StandardProfile.taxonomy_id: [0],
                         StandardProfile.count: [
-                            result.loc[unclassified_mask, StandardProfile.count].sum()
+                            result.loc[unclassified_mask, StandardProfile.count].sum(),
                         ],
                     },
                     dtype=int,

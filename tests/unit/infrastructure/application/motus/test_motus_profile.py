@@ -18,7 +18,6 @@
 
 """Test that the schema model validates mOTUs profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -37,8 +36,8 @@ from taxpasta.infrastructure.application import MotusProfile
                     ("consensus_taxonomy", ["bac"]),
                     ("ncbi_tax_id", [2]),
                     ("read_count", [1]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -46,11 +45,12 @@ from taxpasta.infrastructure.application import MotusProfile
                     [
                         ("consensus_taxonomy", ["bac"]),
                         ("ncbi_tax_id", [2]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'read_count' not in dataframe"
+                exception=SchemaError,
+                message="column 'read_count' not in dataframe",
             ),
         ),
         pytest.param(
@@ -60,11 +60,12 @@ from taxpasta.infrastructure.application import MotusProfile
                         ("consensus_taxonomy", ["bac"]),
                         ("read_count", [1]),
                         ("ncbi_tax_id", [2]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'read_count' out-of-order"
+                exception=SchemaError,
+                message="column 'read_count' out-of-order",
             ),
         ),
     ],
@@ -89,8 +90,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ),
                     ("ncbi_tax_id", [100053, 28184]),
                     ("read_count", [0, 0]),
-                ]
-            )
+                ],
+            ),
         ),
     ],
 )
@@ -114,8 +115,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                     ),
                     ("ncbi_tax_id", [100053, 28184]),
                     ("read_count", [0, 0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -130,8 +131,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                         ),
                         ("ncbi_tax_id", [100053, 28184]),
                         ("read_count", ["0", 0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,

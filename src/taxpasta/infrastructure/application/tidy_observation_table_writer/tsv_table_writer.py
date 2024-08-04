@@ -18,7 +18,6 @@
 
 """Provide an TSV writer."""
 
-
 from pandera.typing import DataFrame
 
 from taxpasta.application.service import BufferOrFilepath, TidyObservationTableWriter
@@ -30,7 +29,10 @@ class TSVTidyObservationTableWriter(TidyObservationTableWriter):
 
     @classmethod
     def write(
-        cls, table: DataFrame[TidyObservationTable], target: BufferOrFilepath, **kwargs
+        cls,
+        table: DataFrame[TidyObservationTable],
+        target: BufferOrFilepath,
+        **kwargs,
     ) -> None:
         """Write the given table to the given buffer or file."""
         table.to_csv(target, sep="\t", index=False, **kwargs)

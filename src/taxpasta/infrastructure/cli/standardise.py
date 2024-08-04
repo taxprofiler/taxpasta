@@ -18,7 +18,6 @@
 
 """Add the `standardize` command to the taxpasta CLI."""
 
-
 import logging
 from pathlib import Path
 from typing import Optional, cast
@@ -41,7 +40,8 @@ logger = logging.getLogger(__name__)
 
 
 def validate_output_format(
-    output: Path, output_format: Optional[str]
+    output: Path,
+    output_format: Optional[str],
 ) -> StandardProfileFileFormat:
     """
     Detect the output format if it isn't given.
@@ -67,7 +67,7 @@ def validate_output_format(
         except ValueError as error:
             logger.critical(str(error))
             logger.critical(
-                "Please rename the output or set the '--output-format' explicitly."
+                "Please rename the output or set the '--output-format' explicitly.",
             )
             raise typer.Exit(code=2)
     else:
@@ -82,7 +82,8 @@ def validate_output_format(
 
 
 @app.command(
-    no_args_is_help=True, help="Standardise a taxonomic profile (alias: 'standardize')."
+    no_args_is_help=True,
+    help="Standardise a taxonomic profile (alias: 'standardize').",
 )
 @app.command("standardize", hidden=True)
 def standardise(
@@ -117,7 +118,7 @@ def standardise(
         "name but it can be set explicitly and will then disable the automatic "
         "detection.",
     ),
-    summarise_at: Optional[str] = typer.Option(  # noqa: B008
+    summarise_at: Optional[str] = typer.Option(
         None,
         "--summarise-at",
         "--summarize-at",
@@ -135,29 +136,29 @@ def standardise(
         help="The path to a directory containing taxdump files. At least nodes.dmp and "
         "names.dmp are required. A merged.dmp file is optional.",
     ),
-    add_name: bool = typer.Option(  # noqa: B008
+    add_name: bool = typer.Option(
         False,
         "--add-name",
         help="Add the taxon name to the output.",
     ),
-    add_rank: bool = typer.Option(  # noqa: B008
+    add_rank: bool = typer.Option(
         False,
         "--add-rank",
         help="Add the taxon rank to the output.",
     ),
-    add_lineage: bool = typer.Option(  # noqa: B008
+    add_lineage: bool = typer.Option(
         False,
         "--add-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon names "
         "separated by semi-colons.",
     ),
-    add_id_lineage: bool = typer.Option(  # noqa: B008
+    add_id_lineage: bool = typer.Option(
         False,
         "--add-id-lineage",
         help="Add the taxon's entire lineage to the output. These are taxon "
         "identifiers separated by semi-colons.",
     ),
-    add_rank_lineage: bool = typer.Option(  # noqa: B008
+    add_rank_lineage: bool = typer.Option(
         False,
         "--add-rank-lineage",
         help="Add the taxon's entire rank lineage to the output. These are taxon "
@@ -167,7 +168,8 @@ def standardise(
     """Standardise a taxonomic profile."""
     # Perform input validation.
     valid_output_format = validate_output_format(
-        output, None if output_format is None else output_format.value
+        output,
+        None if output_format is None else output_format.value,
     )
 
     taxonomy_service: Optional[TaxonomyService] = None
@@ -203,7 +205,7 @@ def standardise(
     handling_app = SampleHandlingApplication(
         profile_reader=ApplicationServiceRegistry.profile_reader(profiler),
         profile_standardiser=ApplicationServiceRegistry.profile_standardisation_service(
-            profiler
+            profiler,
         ),
         taxonomy_service=taxonomy_service,
     )
@@ -212,7 +214,9 @@ def standardise(
     except StandardisationError as error:
         logger.debug("", exc_info=error)
         logger.critical(
-            "Error in sample '%s' with profile '%s'.", error.sample, error.profile
+            "Error in sample '%s' with profile '%s'.",
+            error.sample,
+            error.profile,
         )
         logger.critical(error.message)
         raise typer.Exit(code=1)

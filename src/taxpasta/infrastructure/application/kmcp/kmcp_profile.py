@@ -18,7 +18,6 @@
 
 """Provide a description of the KMCP profile format."""
 
-
 import numpy as np
 import pandera as pa
 from pandera.typing import Series
@@ -40,7 +39,9 @@ class KMCPProfile(BaseDataFrameModel):
     chunks_fraction: Series[float] = pa.Field(ge=0.0, le=1.0, alias="chunksFrac")
     chunks_relative_depth: Series[str] = pa.Field(alias="chunksRelDepth")
     chunks_relative_depth_std: Series[float] = pa.Field(
-        ge=0.0, nullable=True, alias="chunksRelDepthStd"
+        ge=0.0,
+        nullable=True,
+        alias="chunksRelDepthStd",
     )
     reads: Series[int] = pa.Field(ge=0)
     unique_reads: Series[int] = pa.Field(ge=0, alias="ureads")
@@ -59,6 +60,8 @@ class KMCPProfile(BaseDataFrameModel):
         # KMCP profile reports percentages with sixth decimals
         return percentage.empty or bool(
             np.isclose(
-                percentage.sum(), KMCP_PERCENT_TOTAL, atol=KMCP_PERCENT_TOLERANCE
-            )
+                percentage.sum(),
+                KMCP_PERCENT_TOTAL,
+                atol=KMCP_PERCENT_TOLERANCE,
+            ),
         )

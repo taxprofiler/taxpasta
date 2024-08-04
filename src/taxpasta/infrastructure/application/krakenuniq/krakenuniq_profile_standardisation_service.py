@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for KrakenUniq profiles."""
 
-
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -34,7 +33,8 @@ class KrakenUniqProfileStandardisationService(ProfileStandardisationService):
     @classmethod
     @pa.check_types(lazy=True)
     def transform(
-        cls, profile: DataFrame[KrakenUniqProfile]
+        cls,
+        profile: DataFrame[KrakenUniqProfile],
     ) -> DataFrame[StandardProfile]:
         """
         Tidy up and standardize a given krakenUniq profile.
@@ -53,6 +53,6 @@ class KrakenUniqProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     KrakenUniqProfile.tax_id: StandardProfile.taxonomy_id,
                     KrakenUniqProfile.tax_reads: StandardProfile.count,
-                }
+                },
             )
         )

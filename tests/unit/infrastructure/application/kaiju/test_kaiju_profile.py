@@ -18,7 +18,6 @@
 
 """Test that the schema model validates kaiju profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -39,8 +38,8 @@ from taxpasta.infrastructure.application import KaijuProfile
                     ("reads", [100]),
                     ("taxon_id", [1]),
                     ("taxon_name", ["root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -50,8 +49,8 @@ from taxpasta.infrastructure.application import KaijuProfile
                         ("percent", [100.0]),
                         ("reads", [100]),
                         ("taxon_name", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -67,11 +66,12 @@ from taxpasta.infrastructure.application import KaijuProfile
                         ("percent", [100.0]),
                         ("reads", [100]),
                         ("taxon_name", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxon_id' out-of-order"
+                exception=SchemaError,
+                message="column 'taxon_id' out-of-order",
             ),
         ),
     ],
@@ -98,8 +98,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ("reads", [100, 1]),
                     ("taxon_id", [-1, 1]),
                     ("taxon_name", ["unclassified", "Viruses"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -116,8 +116,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ("reads", [100, 1]),
                         ("taxon_id", [-1, 1]),
                         ("taxon_name", ["unclassified", "Viruses"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
@@ -136,8 +136,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ("reads", [100, 1]),
                         ("taxon_id", [-1, 1]),
                         ("taxon_name", ["unclassified", "Viruses"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
@@ -166,8 +166,8 @@ def test_percent(profile: pd.DataFrame):
                     ("reads", [100, 1]),
                     ("taxon_id", [-1, 1]),
                     ("taxon_name", ["unclassified", "Viruses"]),
-                ]
-            )
+                ],
+            ),
         ),
         pd.DataFrame(
             OrderedDict(
@@ -183,8 +183,8 @@ def test_percent(profile: pd.DataFrame):
                     ("reads", [42, 10_000_000]),
                     ("taxon_id", [-1, 1]),
                     ("taxon_name", ["unclassified", "Viruses"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -201,11 +201,12 @@ def test_percent(profile: pd.DataFrame):
                         ("reads", [-1, 0]),
                         ("taxon_id", [-1, 1]),
                         ("taxon_name", ["unclassified", "Viruses"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="greater_than_or_equal_to"
+                exception=SchemaError,
+                message="greater_than_or_equal_to",
             ),
         ),
     ],

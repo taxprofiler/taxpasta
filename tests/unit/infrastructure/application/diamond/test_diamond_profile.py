@@ -18,7 +18,6 @@
 
 """Test that the schema model validates diamond profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -37,8 +36,8 @@ from taxpasta.infrastructure.application import DiamondProfile
                     ("query_id", ["root"]),
                     ("taxonomy_id", [1]),
                     ("e_value", [1.0]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -46,8 +45,8 @@ from taxpasta.infrastructure.application import DiamondProfile
                     [
                         ("query_id", ["root"]),
                         ("taxonomy_id", [1]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -61,11 +60,12 @@ from taxpasta.infrastructure.application import DiamondProfile
                         ("taxonomy_id", [1]),
                         ("query_id", ["root"]),
                         ("e_value", [1.0]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_id' out-of-order"
+                exception=SchemaError,
+                message="column 'taxonomy_id' out-of-order",
             ),
         ),
     ],
@@ -90,8 +90,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ),
                     ("taxonomy_id", [511145, 511145]),
                     ("e_value", [2.46e-08, 2.37e-07]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -106,8 +106,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ),
                         ("taxonomy_id", ["abcd", 511145]),
                         ("e_value", [2.46e-08, 2.37e-07]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
                 exception=SchemaError,
@@ -136,8 +136,8 @@ def test_taxonomy_id(profile: pd.DataFrame):
                     ),
                     ("taxonomy_id", [511145, 511145]),
                     ("e_value", [2.46e-08, 2.37e-07]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -152,11 +152,12 @@ def test_taxonomy_id(profile: pd.DataFrame):
                         ),
                         ("taxonomy_id", [511145, 511145]),
                         ("e_value", [2.46e-08, 2.37e07]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="less_than_or_equal_t"
+                exception=SchemaError,
+                message="less_than_or_equal_t",
             ),
         ),
     ],

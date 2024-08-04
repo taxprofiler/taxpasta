@@ -18,7 +18,6 @@
 
 """Provide an abstract base class for writing observation matrices."""
 
-
 from abc import ABC, abstractmethod
 
 from pandera.typing import DataFrame
@@ -34,6 +33,9 @@ class WideObservationTableWriter(ABC):
     @classmethod
     @abstractmethod
     def write(
-        cls, matrix: DataFrame[WideObservationTable], target: BufferOrFilepath, **kwargs
+        cls,
+        matrix: DataFrame[WideObservationTable],
+        target: BufferOrFilepath,
+        **kwargs,
     ) -> None:
         """Write an observation matrix to the given buffer or file."""

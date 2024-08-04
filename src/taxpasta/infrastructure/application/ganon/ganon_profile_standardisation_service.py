@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for ganon profiles."""
 
-
 import logging
 
 import pandas as pd
@@ -62,7 +61,7 @@ class GanonProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     GanonProfile.target: StandardProfile.taxonomy_id,
                     GanonProfile.number_unique: StandardProfile.count,
-                }
+                },
             )
             .assign(**{StandardProfile.taxonomy_id: 0})
             .groupby(StandardProfile.taxonomy_id, as_index=False, sort=False)
@@ -79,14 +78,14 @@ class GanonProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     GanonProfile.target: StandardProfile.taxonomy_id,
                     GanonProfile.number_unique: StandardProfile.count,
-                }
+                },
             )
             .assign(
                 **{
                     StandardProfile.taxonomy_id: lambda df: df[
                         StandardProfile.taxonomy_id
-                    ].astype(int)
-                }
+                    ].astype(int),
+                },
             )
         )
         return pd.concat([unclassified, classified], ignore_index=True)

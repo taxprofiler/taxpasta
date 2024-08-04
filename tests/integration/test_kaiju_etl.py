@@ -18,7 +18,6 @@
 
 """Test that kaiju profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -38,7 +37,7 @@ from taxpasta.infrastructure.application import (
         ("centrifuge", "AD_pe-db1.centrifuge.txt"),
         ("diamond", "diamond_valid_1.tsv"),
         ("ganon", "2612_pe_ERR5766176_db1.ganon.tre"),
-        # ("kaiju", "barcode41_se-barcode41-kaiju.txt"),  # noqa: E800
+        # ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
@@ -71,7 +70,7 @@ def test_kaiju_etl(
 ):
     """Test that kaiju profiles are read, validated, and transformed correctly."""
     KaijuProfileStandardisationService.transform(
-        KaijuProfileReader.read(kaiju_data_dir / filename)
+        KaijuProfileReader.read(kaiju_data_dir / filename),
     )
 
 
@@ -79,5 +78,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         KaijuProfileStandardisationService.transform(
-            KaijuProfileReader.read(other_profile)
+            KaijuProfileReader.read(other_profile),
         )

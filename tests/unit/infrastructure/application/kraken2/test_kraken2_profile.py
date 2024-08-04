@@ -18,7 +18,6 @@
 
 """Test that the schema model validates kraken2 profiles correctly."""
 
-
 from collections import OrderedDict
 
 import pandas as pd
@@ -40,8 +39,8 @@ from taxpasta.infrastructure.application import Kraken2Profile
                     ("taxonomy_lvl", ["R"]),
                     ("taxonomy_id", [1]),
                     ("name", ["root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pd.DataFrame(
             OrderedDict(
@@ -54,8 +53,8 @@ from taxpasta.infrastructure.application import Kraken2Profile
                     ("taxonomy_lvl", ["R"]),
                     ("taxonomy_id", [1]),
                     ("name", ["root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -66,11 +65,12 @@ from taxpasta.infrastructure.application import Kraken2Profile
                         ("direct_assigned_reads", [100]),
                         ("taxonomy_id", [1]),
                         ("name", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_lvl' not in dataframe"
+                exception=SchemaError,
+                message="column 'taxonomy_lvl' not in dataframe",
             ),
         ),
         pytest.param(
@@ -86,11 +86,12 @@ from taxpasta.infrastructure.application import Kraken2Profile
                         ("taxonomy_id", [1]),
                         ("name", ["root"]),
                         ("rank", ["R"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'rank' not in DataFrameSchema"
+                exception=SchemaError,
+                message="column 'rank' not in DataFrameSchema",
             ),
         ),
         pytest.param(
@@ -103,11 +104,12 @@ from taxpasta.infrastructure.application import Kraken2Profile
                         ("direct_assigned_reads", [100]),
                         ("taxonomy_id", [1]),
                         ("name", ["root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="column 'taxonomy_lvl' out-of-order"
+                exception=SchemaError,
+                message="column 'taxonomy_lvl' out-of-order",
             ),
         ),
     ],
@@ -129,8 +131,8 @@ def test_column_presence(profile: pd.DataFrame):
                     ("taxonomy_lvl", ["U", "R"]),
                     ("taxonomy_id", [0, 1]),
                     ("name", ["unclassified", "root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -142,8 +144,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ("taxonomy_lvl", ["U", "R"]),
                         ("taxonomy_id", [0, 1]),
                         ("name", ["unclassified", "root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
@@ -157,8 +159,8 @@ def test_column_presence(profile: pd.DataFrame):
                         ("taxonomy_lvl", ["U", "R"]),
                         ("taxonomy_id", [0, 1]),
                         ("name", ["unclassified", "root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(exception=SchemaError, message="compositionality"),
         ),
@@ -182,8 +184,8 @@ def test_percent(profile: pd.DataFrame):
                     ("taxonomy_lvl", ["U", "R"]),
                     ("taxonomy_id", [0, 1]),
                     ("name", ["unclassified", "root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pd.DataFrame(
             OrderedDict(
@@ -194,8 +196,8 @@ def test_percent(profile: pd.DataFrame):
                     ("taxonomy_lvl", ["U", "R"]),
                     ("taxonomy_id", [0, 1]),
                     ("name", ["unclassified", "root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -207,11 +209,12 @@ def test_percent(profile: pd.DataFrame):
                         ("taxonomy_lvl", ["U", "R"]),
                         ("taxonomy_id", [0, 1]),
                         ("name", ["unclassified", "root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="greater_than_or_equal_to"
+                exception=SchemaError,
+                message="greater_than_or_equal_to",
             ),
         ),
     ],
@@ -233,8 +236,8 @@ def test_clade_assigned_reads(profile: pd.DataFrame):
                     ("taxonomy_lvl", ["U", "R"]),
                     ("taxonomy_id", [0, 1]),
                     ("name", ["unclassified", "root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pd.DataFrame(
             OrderedDict(
@@ -245,8 +248,8 @@ def test_clade_assigned_reads(profile: pd.DataFrame):
                     ("taxonomy_lvl", ["U", "R"]),
                     ("taxonomy_id", [0, 1]),
                     ("name", ["unclassified", "root"]),
-                ]
-            )
+                ],
+            ),
         ),
         pytest.param(
             pd.DataFrame(
@@ -258,11 +261,12 @@ def test_clade_assigned_reads(profile: pd.DataFrame):
                         ("taxonomy_lvl", ["U", "R"]),
                         ("taxonomy_id", [0, 1]),
                         ("name", ["unclassified", "root"]),
-                    ]
-                )
+                    ],
+                ),
             ),
             marks=pytest.mark.raises(
-                exception=SchemaError, message="greater_than_or_equal_to"
+                exception=SchemaError,
+                message="greater_than_or_equal_to",
             ),
         ),
     ],

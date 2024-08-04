@@ -18,7 +18,6 @@
 
 """Test that MetaPhlAn profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -67,7 +66,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
-        # ("metaphlan", "mpa_valid_complex.tsv"),  # noqa: E800
+        # ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],
 )
@@ -82,7 +81,7 @@ def test_valid_profile_etl(
 ):
     """Test that MetaPhlAn profiles are read, validated, and transformed correctly."""
     MetaphlanProfileStandardisationService.transform(
-        MetaphlanProfileReader.read(valid_metaphlan_profile)
+        MetaphlanProfileReader.read(valid_metaphlan_profile),
     )
 
 
@@ -93,7 +92,7 @@ def test_invalid_profile_etl(
     """Test that invalid MetaPhlAn profiles raise expected exceptions."""
     with pytest.raises(SchemaErrors):
         MetaphlanProfileStandardisationService.transform(
-            MetaphlanProfileReader.read(invalid_metaphlan_profile)
+            MetaphlanProfileReader.read(invalid_metaphlan_profile),
         )
 
 
@@ -101,5 +100,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         MetaphlanProfileStandardisationService.transform(
-            MetaphlanProfileReader.read(other_profile)
+            MetaphlanProfileReader.read(other_profile),
         )

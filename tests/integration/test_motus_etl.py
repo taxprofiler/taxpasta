@@ -18,7 +18,6 @@
 
 """Test that mOTUs profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -44,7 +43,7 @@ from taxpasta.infrastructure.application import (
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
-        # ("motus", "2612_pe-ERR5766176-db_mOTU.out"),  # noqa: E800
+        # ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],
 )
 def other_profile(data_dir: Path, request: pytest.FixtureRequest) -> Path:
@@ -69,7 +68,7 @@ def test_read_correctness(
 ):
     """Test that mOTUs profiles are read, validated, and transformed correctly."""
     MotusProfileStandardisationService.transform(
-        MotusProfileReader.read(motus_data_dir / filename)
+        MotusProfileReader.read(motus_data_dir / filename),
     )
 
 
@@ -77,5 +76,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((TypeError, ValueError, SchemaErrors, StandardisationError)):
         MotusProfileStandardisationService.transform(
-            MotusProfileReader.read(other_profile)
+            MotusProfileReader.read(other_profile),
         )

@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for megan6 profiles."""
 
-
 import pandera as pa
 from pandera.typing import DataFrame
 
@@ -51,6 +50,6 @@ class Megan6ProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     Megan6Profile.taxonomy_id: StandardProfile.taxonomy_id,
                     Megan6Profile.count: StandardProfile.count,
-                }
+                },
             )
         )

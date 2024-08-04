@@ -18,7 +18,6 @@
 
 """Provide a standardisation service for KMCP profiles."""
 
-
 import logging
 
 import pandas as pd
@@ -57,7 +56,7 @@ class KMCPProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     KMCPProfile.taxid: StandardProfile.taxonomy_id,
                     KMCPProfile.reads: StandardProfile.count,
-                }
+                },
             )
         )
         result = temp.loc[temp[StandardProfile.taxonomy_id].notna(), :].copy()
@@ -75,7 +74,7 @@ class KMCPProfileStandardisationService(ProfileStandardisationService):
                             temp.loc[
                                 temp[StandardProfile.taxonomy_id].isna(),
                                 StandardProfile.count,
-                            ].sum()
+                            ].sum(),
                         ],
                     },
                     dtype=int,

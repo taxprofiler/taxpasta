@@ -18,7 +18,6 @@
 
 """Provide a taxonomy service based on taxopy."""
 
-
 from __future__ import annotations
 
 import logging
@@ -56,7 +55,7 @@ class TaxopyTaxonomyService(TaxonomyService):
                 nodes_dmp=str(source / "nodes.dmp"),
                 merged_dmp=str(merged) if merged.is_file() else None,
                 keep_files=True,
-            )
+            ),
         )
 
     def get_taxon_name(self, taxonomy_id: int) -> Optional[str]:
@@ -145,7 +144,8 @@ class TaxopyTaxonomyService(TaxonomyService):
             return None
 
     def add_identifier_lineage(
-        self, table: DataFrame[ResultTable]
+        self,
+        table: DataFrame[ResultTable],
     ) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as identifiers to the given table."""
         result = table.copy()
@@ -181,7 +181,8 @@ class TaxopyTaxonomyService(TaxonomyService):
             return None
 
     def format_biom_taxonomy(
-        self, table: DataFrame[ResultTable]
+        self,
+        table: DataFrame[ResultTable],
     ) -> Tuple[List[Dict[str, List[str]]], List[str]]:
         """Format the taxonomy as BIOM observation metadata."""
         lineages = [self._get_rank_name_lineage(tax_id) for tax_id in table.taxonomy_id]
@@ -199,7 +200,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         return taxon.ranked_name_lineage[-2::-1]
 
     def _pad_lineage(
-        self, lineage: List[Tuple[str, str]], max_ranks: List[str]
+        self,
+        lineage: List[Tuple[str, str]],
+        max_ranks: List[str],
     ) -> List[str]:
         """Pad a lineage to match the length of the longest lineage."""
         # Poor implementation of aligning ranks. We pad missing ranks with empty
@@ -220,7 +223,9 @@ class TaxopyTaxonomyService(TaxonomyService):
         return result + [""] * (len(max_ranks) - len(result))
 
     def summarise_at(
-        self, profile: DataFrame[StandardProfile], rank: str
+        self,
+        profile: DataFrame[StandardProfile],
+        rank: str,
     ) -> DataFrame[StandardProfile]:
         """Summarise a standardised abundance profile at a higher taxonomic rank."""
         branching = defaultdict(list)
@@ -256,11 +261,11 @@ class TaxopyTaxonomyService(TaxonomyService):
                 profile.loc[
                     profile[StandardProfile.taxonomy_id].isin(leaves),
                     StandardProfile.count,
-                ].sum()
+                ].sum(),
             )
         return pd.DataFrame(
             {
                 StandardProfile.taxonomy_id: pd.Series(data=root_ids, dtype="category"),
                 StandardProfile.count: counts,
-            }
+            },
         )

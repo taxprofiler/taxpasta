@@ -18,7 +18,6 @@
 
 """Provide a description of the metaphlan profile format."""
 
-
 from typing import Optional
 
 import numpy as np
@@ -52,5 +51,5 @@ class MetaphlanProfile(BaseDataFrameModel):
                 profile.groupby(rank, sort=False)[cls.relative_abundance].sum(),
                 METAPHLAN_PERCENT_TOTAL,
                 atol=METAPHLAN_PERCENT_TOLERANCE,
-            )
+            ),
         )

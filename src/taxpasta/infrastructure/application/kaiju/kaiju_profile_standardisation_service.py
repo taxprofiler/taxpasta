@@ -17,6 +17,7 @@
 
 
 """Provide a standardisation service for kaiju profiles."""
+
 import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
@@ -50,7 +51,7 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
                 columns={
                     KaijuProfile.taxon_id: StandardProfile.taxonomy_id,
                     KaijuProfile.reads: StandardProfile.count,
-                }
+                },
             )
         )
         result = temp.loc[temp[StandardProfile.taxonomy_id].notna(), :].copy()
@@ -68,7 +69,7 @@ class KaijuProfileStandardisationService(ProfileStandardisationService):
                             temp.loc[
                                 temp[StandardProfile.taxonomy_id].isna(),
                                 StandardProfile.count,
-                            ].sum()
+                            ].sum(),
                         ],
                     },
                     dtype=int,

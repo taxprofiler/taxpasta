@@ -18,7 +18,6 @@
 
 """Provide a description of the kaiju profile format."""
 
-
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -45,7 +44,9 @@ class KaijuProfile(BaseDataFrameModel):
         """Check that the percentages add up to a hundred."""
         # Kaiju reports percentages with sixth decimals
         return percent.empty or bool(
-            np.isclose(percent.sum(), KAIJU_PERCENT_TOTAL, atol=KAIJU_PERCENT_TOLERANCE)
+            np.isclose(
+                percent.sum(), KAIJU_PERCENT_TOTAL, atol=KAIJU_PERCENT_TOLERANCE
+            ),
         )
 
     @pa.check("file", name="unique_filename")

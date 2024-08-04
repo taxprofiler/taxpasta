@@ -18,7 +18,6 @@
 
 """Provide a description of the centrifuge profile format."""
 
-
 import numpy as np
 import pandera as pa
 from pandera.typing import Series
@@ -48,5 +47,5 @@ class CentrifugeProfile(BaseDataFrameModel):
                 percent[:2].sum(),
                 CENTRIFUGE_PERCENT_TOTAL,
                 atol=CENTRIFUGE_PERCENT_TOLERANCE,
-            )
+            ),
         )

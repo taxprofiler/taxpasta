@@ -18,12 +18,12 @@
 
 """Provide a sample handling application."""
 
-
 from __future__ import annotations
 
 import logging
+from collections.abc import Iterable
 from pathlib import Path
-from typing import Iterable, Optional, Type
+from typing import Optional, Type
 
 from pandera.errors import SchemaErrors
 from pandera.typing import DataFrame
@@ -92,15 +92,21 @@ class SampleHandlingApplication:
         except SchemaErrors as errors:
             if errors.data.empty:
                 raise StandardisationError(
-                    sample=name, profile=profile, message="Profile is empty."
+                    sample=name,
+                    profile=profile,
+                    message="Profile is empty.",
                 ) from errors
             else:
                 raise StandardisationError(
-                    sample=name, profile=profile, message=str(errors.failure_cases)
+                    sample=name,
+                    profile=profile,
+                    message=str(errors.failure_cases),
                 ) from errors
         except ValueError as error:
             raise StandardisationError(
-                sample=name, profile=profile, message=str(error)
+                sample=name,
+                profile=profile,
+                message=str(error),
             ) from error
 
         return Sample(name=name, profile=result)
@@ -141,7 +147,7 @@ class SampleHandlingApplication:
             ):
                 logger.warning(
                     "The merged profiles contained different taxa. Additional "
-                    "zeroes were introduced for missing taxa."
+                    "zeroes were introduced for missing taxa.",
                 )
             return wide_table
         else:

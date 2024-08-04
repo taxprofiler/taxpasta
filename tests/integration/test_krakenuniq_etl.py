@@ -18,7 +18,6 @@
 
 """Test that KrakenUniq profiles are read, validated, and transformed correctly."""
 
-
 from pathlib import Path
 
 import pytest
@@ -41,7 +40,7 @@ from taxpasta.infrastructure.application import (
         ("kaiju", "barcode41_se-barcode41-kaiju.txt"),
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
-        # ("krakenuniq", "test1.krakenuniq.report.txt"),  # noqa: E800
+        # ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
@@ -71,7 +70,7 @@ def test_read_correctness(
 ):
     """Test that KrakenUniq profiles are read, validated, and transformed correctly."""
     KrakenUniqProfileStandardisationService.transform(
-        KrakenUniqProfileReader.read(krakenuniq_data_dir / filename)
+        KrakenUniqProfileReader.read(krakenuniq_data_dir / filename),
     )
 
 
@@ -79,5 +78,5 @@ def test_failure_on_other_profiles(other_profile: Path):
     """Expect that profiles from other profilers fail validation."""
     with pytest.raises((ValueError, SchemaErrors, StandardisationError)):
         KrakenUniqProfileStandardisationService.transform(
-            KrakenUniqProfileReader.read(other_profile)
+            KrakenUniqProfileReader.read(other_profile),
         )
