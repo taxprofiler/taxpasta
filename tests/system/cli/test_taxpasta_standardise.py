@@ -18,7 +18,6 @@
 
 """Test the taxpasta standardise command."""
 
-
 from pathlib import Path
 
 import pytest
@@ -31,7 +30,7 @@ from taxpasta.infrastructure.application import (
 from taxpasta.infrastructure.cli import app
 
 
-def test_standardise(
+def test_standardise(  # noqa: PLR0913
     runner: CliRunner,
     profiler: SupportedProfiler,
     profile: Path,

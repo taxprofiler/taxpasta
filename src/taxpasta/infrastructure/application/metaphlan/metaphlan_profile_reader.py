@@ -20,7 +20,7 @@
 
 from io import TextIOWrapper
 from pathlib import Path
-from typing import BinaryIO, TextIO
+from typing import BinaryIO, TextIO, cast
 
 import pandas as pd
 from pandera.typing import DataFrame
@@ -47,6 +47,7 @@ class MetaphlanProfileReader(ProfileReader):
             index_col=False,
             dtype={1: str},
         )
+
         cls._check_num_columns(result, MetaphlanProfile)
         result.columns = [
             MetaphlanProfile.clade_name,
@@ -54,7 +55,8 @@ class MetaphlanProfileReader(ProfileReader):
             MetaphlanProfile.relative_abundance,
             MetaphlanProfile.additional_species,
         ]
-        return result
+
+        return cast(DataFrame[MetaphlanProfile], result)
 
     @classmethod
     def _detect_number_header_line(cls, profile: BufferOrFilepath) -> int:
@@ -69,13 +71,14 @@ class MetaphlanProfileReader(ProfileReader):
             result = cls._detect_first_content_line(buffer=TextIOWrapper(profile))
             profile.seek(0)
             return result
-        elif isinstance(profile, TextIO):
+
+        if isinstance(profile, TextIO):
             result = cls._detect_first_content_line(buffer=profile)
             profile.seek(0)
             return result
-        else:
-            with Path(profile).open(mode="r") as handle:
-                return cls._detect_first_content_line(buffer=handle)
+
+        with Path(profile).open(mode="r") as handle:
+            return cls._detect_first_content_line(buffer=handle)
 
     @classmethod
     def _detect_first_content_line(

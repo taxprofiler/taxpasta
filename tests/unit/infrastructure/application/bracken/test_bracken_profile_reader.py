@@ -18,13 +18,17 @@
 
 """Test that the reader can parse valid Bracken profiles."""
 
+from __future__ import annotations
 
-from pathlib import Path
-from typing import Union
+from typing import TYPE_CHECKING
 
 import pytest
 
 from taxpasta.infrastructure.application import BrackenProfileReader
+
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 @pytest.mark.parametrize(
@@ -66,7 +70,7 @@ from taxpasta.infrastructure.application import BrackenProfileReader
 def test_read_correctness(
     bracken_data_dir: Path,
     filename: str,
-    checks: list[tuple[int, int, Union[float, int, str]]],
+    checks: list[tuple[int, int, float | int | str]],
 ):
     """Test that the reader can parse valid Bracken profiles."""
     profile = BrackenProfileReader.read(bracken_data_dir / filename)

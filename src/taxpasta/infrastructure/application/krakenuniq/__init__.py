@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations of the KrakenUniq application services."""
+
 from .krakenuniq_profile import KrakenUniqProfile
 from .krakenuniq_profile_reader import KrakenUniqProfileReader
 from .krakenuniq_profile_standardisation_service import (

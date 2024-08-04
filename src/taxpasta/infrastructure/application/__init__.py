@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations of application services."""
+
 from .bracken import (
     BrackenProfile,
     BrackenProfileReader,

@@ -18,8 +18,6 @@
 
 """Provide a description of the metaphlan profile format."""
 
-from typing import Optional
-
 import numpy as np
 import pandas as pd
 import pandera as pa
@@ -39,7 +37,7 @@ class MetaphlanProfile(BaseDataFrameModel):
     # MetaPhlan provides the full lineage of tax IDs in this field.
     ncbi_tax_id: Series[str] = pa.Field(alias="NCBI_tax_id")
     relative_abundance: Series[float] = pa.Field(ge=0.0, le=100.0)
-    additional_species: Optional[Series[str]] = pa.Field(nullable=True)
+    additional_species: Series[str] = pa.Field(nullable=True)
 
     @pa.dataframe_check(name="compositionality", raise_warning=True)
     @classmethod

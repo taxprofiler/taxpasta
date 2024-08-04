@@ -148,6 +148,8 @@ ignore = [
     "ANN101",  # 'Missing type annotation for {self} in method'.
     "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
     "PD009",  # Replacing .iat with .iloc is a stupid rule.
+    "FBT001",  # Not compatible with typer.
+    "FBT003",  # Not compatible with typer.
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
@@ -210,6 +212,7 @@ path = ".venv"
 extra-dependencies = [
     "ruff",
     "pyupgrade",
+    "pytest",
 ]
 features = ["all", "dev"]
 

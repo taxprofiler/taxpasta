@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations of the mOTUs application services."""
+
 from .motus_profile import MotusProfile
 from .motus_profile_reader import MotusProfileReader
 from .motus_profile_standardisation_service import (

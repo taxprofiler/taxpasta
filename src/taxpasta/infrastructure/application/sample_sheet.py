@@ -29,19 +29,19 @@ class SampleSheet(pa.DataFrameModel):
     """Define a description of samples and profile locations."""
 
     sample: Series[str] = pa.Field()
-    profile: Series[str] = pa.Field()  # type: ignore
+    profile: Series[str] = pa.Field()
 
     @pa.dataframe_check
     @classmethod
     def check_number_samples(cls, table: DataFrame) -> bool:
         """Check that there are at least two samples."""
-        return (table[cls.sample].notnull() & table[cls.profile].notnull()).sum() > 1
+        return (table[cls.sample].notna() & table[cls.profile].notna()).sum() > 1
 
     @pa.check("profile", name="profile_presence")
     @classmethod
     def check_profile_presence(
         cls,
-        profile: Series[str],  # type: ignore
+        profile: Series[str],
     ) -> Series[bool]:
         """Check that every profile is present at the specified location."""
         return cast(Series[bool], profile.map(lambda path: Path(path).is_file()))

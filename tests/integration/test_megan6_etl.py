@@ -42,7 +42,7 @@ from taxpasta.infrastructure.application import (
         ("kmcp", "2612_pe_ERR5766176_db1.kmcp_profile.profile"),
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
-        # ("megan6", "malt_rma2info_valid.txt.gz"),
+        # ("megan6", "malt_rma2info_valid.txt.gz"),  # noqa: ERA001
         ("metaphlan", "mpa_valid_complex.tsv"),
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],

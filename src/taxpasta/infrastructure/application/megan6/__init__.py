@@ -16,6 +16,8 @@
 # limitations under the License.
 
 
+"""Provide concrete implementations of the MEGAN6 application services."""
+
 from .megan6_profile import Megan6Profile
 from .megan6_profile_reader import Megan6ProfileReader
 from .megan6_profile_standardisation_service import (

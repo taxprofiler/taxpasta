@@ -66,7 +66,7 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
         ("kraken2", "2612_pe-ERR5766176-db1.kraken2.report.txt"),
         ("krakenuniq", "test1.krakenuniq.report.txt"),
         ("megan6", "malt_rma2info_valid.txt.gz"),
-        # ("metaphlan", "mpa_valid_complex.tsv"),
+        # ("metaphlan", "mpa_valid_complex.tsv"),  # noqa: ERA001
         ("motus", "2612_pe-ERR5766176-db_mOTU.out"),
     ],
 )

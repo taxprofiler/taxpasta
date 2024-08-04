@@ -144,8 +144,8 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Return the lineage of a taxon as concatenated names."""
         if lineage := self.get_taxon_name_lineage(taxonomy_id):
             return ";".join(lineage)
-        else:
-            return None
+
+        return None
 
     def add_identifier_lineage(
         self,
@@ -164,8 +164,8 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Return the lineage of a taxon as concatenated identifiers."""
         if lineage := self.get_taxon_identifier_lineage(taxonomy_id):
             return ";".join(str(tax_id) for tax_id in lineage)
-        else:
-            return None
+
+        return None
 
     def add_rank_lineage(self, table: DataFrame[ResultTable]) -> DataFrame[ResultTable]:
         """Add a column for the taxon lineage as ranks to the given table."""
@@ -181,8 +181,8 @@ class TaxopyTaxonomyService(TaxonomyService):
         """Return the rank lineage of a taxon as concatenated identifiers."""
         if lineage := self.get_taxon_rank_lineage(taxonomy_id):
             return ";".join(lineage)
-        else:
-            return None
+
+        return None
 
     def format_biom_taxonomy(
         self,
