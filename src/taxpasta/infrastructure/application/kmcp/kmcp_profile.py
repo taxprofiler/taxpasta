@@ -54,8 +54,8 @@ class KMCPProfile(BaseDataFrameModel):
     taxonomic_path: Series[str] = pa.Field(nullable=True, alias="taxpath")
     taxonomic_path_lineage: Series[str] = pa.Field(nullable=True, alias="taxpathsn")
 
-    @classmethod
     @pa.check("percentage", name="compositionality", raise_warning=True)
+    @classmethod
     def check_compositionality(cls, percentage: Series[float]) -> bool:
         """Check that the percentages add up to a hundred."""
         # KMCP profile reports percentages with sixth decimals

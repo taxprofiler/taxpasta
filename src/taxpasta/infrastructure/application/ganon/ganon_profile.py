@@ -43,8 +43,8 @@ class GanonProfile(BaseDataFrameModel):
     number_cumulative: Series[int] = pa.Field(ge=0)
     percent_cumulative: Series[float] = pa.Field(ge=0.0, le=100.0)
 
-    @classmethod
     @pa.dataframe_check(name="compositionality", raise_warning=True)
+    @classmethod
     def check_compositionality(cls, profile: pd.DataFrame) -> bool:
         """Check that the percent of 'unclassified' and 'root' add up to a hundred."""
         # Ganon reports percentage to 5 decimal places, but rounding errors do add up.
