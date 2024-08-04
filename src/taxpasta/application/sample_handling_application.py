@@ -51,7 +51,19 @@ logger = logging.getLogger(__name__)
 
 
 class SampleHandlingApplication:
-    """Define the sample handling application."""
+    """
+    Define the sample handling application.
+
+    Args:
+        profile_reader: A profile reader for a specific taxonomic profile format.
+        profile_standardiser: A profile standardisation service for a specific
+            taxonomic profile format.
+        taxonomy_service: A taxonomy service instance. It is assumed that all
+            profiles to be handled in the application are based on the given
+            taxonomy loaded in the service instance.
+        **kwargs: Passed on for inheritance.
+
+    """
 
     def __init__(
         self,
@@ -61,19 +73,6 @@ class SampleHandlingApplication:
         taxonomy_service: TaxonomyService | None = None,
         **kwargs: dict,
     ) -> None:
-        """
-        Initialize the sample handling application.
-
-        Args:
-            profile_reader: A profile reader for a specific taxonomic profile format.
-            profile_standardiser: A profile standardisation service for a specific
-                taxonomic profile format.
-            taxonomy_service: A taxonomy service instance. It is assumed that all
-                profiles to be handled in the application are based on the given
-                taxonomy loaded in the service instance.
-            **kwargs: Passed on for inheritance.
-
-        """
         super().__init__(**kwargs)
         self.reader = profile_reader
         self.standardiser = profile_standardiser
