@@ -473,7 +473,7 @@ def merge(  # noqa: C901, PLR0912, PLR0913, PLR0915
             TidyObservationTableFileFormat,
         )
         writer = ApplicationServiceRegistry.tidy_observation_table_writer(
-            valid_output_format,
+            valid_output_format,  # type: ignore[assignment]
         )
     try:
         if valid_output_format is WideObservationTableFileFormat.BIOM:
