@@ -4,7 +4,7 @@
 
 ## Profile Format
 
-Taxpasta expects a 9 column table. This file is generated with the KrakenUniq parameter `--output`. The accepted format is:
+Taxpasta expects a 9 column table. This file is generated with the KrakenUniq parameter `--report-file`. The accepted format is:
 
 | Column Header | Description |
 | ------------- | ----------- |
