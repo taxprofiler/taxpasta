@@ -18,7 +18,6 @@
 
 """Test the command object for adding taxonomy information."""
 
-
 from pathlib import Path
 
 import pandas as pd
@@ -38,7 +37,7 @@ def tax_service(taxonomy_data_dir: Path) -> TaxopyTaxonomyService:
     return TaxopyTaxonomyService.from_taxdump(taxonomy_data_dir)
 
 
-@pytest.fixture()
+@pytest.fixture
 def profile() -> DataFrame[StandardProfile]:
     """Provide a generic profile to modify."""
     return pd.DataFrame({"taxonomy_id": [1, 476817098, 609216830], "count": [1, 2, 3]})
