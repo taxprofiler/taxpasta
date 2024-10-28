@@ -86,35 +86,29 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             )
         )
         # MetaPhlAn is expected to use NCBI taxonomy identifiers that are integers, yet
-        # there can be missing values.
+        # there can be missing values. The `Int64` type allows for that.
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
             result[StandardProfile.taxonomy_id],
             errors="coerce",
         ).astype("Int64")
         # MetaPhlAn sometimes assigns a species by name only, but no identifier exists.
         # We have no choice but to count those entries as unclassified at the moment.
-        unclassified_mask = result[StandardProfile.taxonomy_id].isna() | (
-            result[StandardProfile.taxonomy_id] == -1
-        )
-        num = int(unclassified_mask.sum())
-        if num > 0:
+        # We assign identifier zero to all unclassified entries.
+        result.loc[
+            result[StandardProfile.taxonomy_id].isna()
+            | result[StandardProfile.taxonomy_id]
+            == -1,
+            StandardProfile.taxonomy_id,
+        ] = 0
+        # We identify duplicates. Mostly duplicate entries will belong to the
+        # unclassified category, but sometimes we have other duplicates, too.
+        grouped_df = result.groupby(StandardProfile.taxonomy_id, sort=False)
+        entries = grouped_df.size()
+        for tax_id, num in entries[entries > 1].items():
             logger.warning(
-                "Combining %d entries with unclassified taxa in the profile.",
+                "Combining %d entries for %s in the profile.",
                 num,
+                "unclassified taxa" if tax_id == 0 else f"NCBI:txid{tax_id}",
             )
-        # We assign identifier zero and aggregate the count of all unclassified entries.
-        return pd.concat(
-            [
-                result.loc[~unclassified_mask, :],
-                pd.DataFrame(
-                    {
-                        StandardProfile.taxonomy_id: [0],
-                        StandardProfile.count: [
-                            result.loc[unclassified_mask, StandardProfile.count].sum(),
-                        ],
-                    },
-                    dtype=int,
-                ),
-            ],
-            ignore_index=True,
-        )
+        # We aggregate the counts of all entries. We do so because of duplicate entries.
+        return grouped_df.sum().reset_index()
