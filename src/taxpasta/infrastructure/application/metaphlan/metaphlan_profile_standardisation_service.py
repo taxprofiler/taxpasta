@@ -66,11 +66,13 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             )
             .assign(
                 **{
+                    # Convert full lineages into single (species) identifiers.
                     StandardProfile.taxonomy_id: lambda df: df[
                         StandardProfile.taxonomy_id
                     ]
                     .str.rsplit("|", n=1)
                     .str[-1],
+                    # Multiply relative abundances by a large factor to yield integers.
                     StandardProfile.count: lambda df: df[StandardProfile.count]
                     * cls.LARGE_INTEGER,
                 },
@@ -83,10 +85,14 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 },
             )
         )
+        # MetaPhlAn is expected to use NCBI taxonomy identifiers that are integers, yet
+        # there can be missing values.
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
             result[StandardProfile.taxonomy_id],
             errors="coerce",
         ).astype("Int64")
+        # MetaPhlAn sometimes assigns a species by name only, but no identifier exists.
+        # We have no choice but to count those entries as unclassified at the moment.
         unclassified_mask = result[StandardProfile.taxonomy_id].isna() | (
             result[StandardProfile.taxonomy_id] == -1
         )
@@ -96,6 +102,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 "Combining %d entries with unclassified taxa in the profile.",
                 num,
             )
+        # We assign identifier zero and aggregate the count of all unclassified entries.
         return pd.concat(
             [
                 result.loc[~unclassified_mask, :],
