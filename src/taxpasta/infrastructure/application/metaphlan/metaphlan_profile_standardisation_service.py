@@ -96,8 +96,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         # We assign identifier zero to all unclassified entries.
         result.loc[
             result[StandardProfile.taxonomy_id].isna()
-            | result[StandardProfile.taxonomy_id]
-            == -1,
+            | (result[StandardProfile.taxonomy_id] == -1),
             StandardProfile.taxonomy_id,
         ] = 0
         # We identify duplicates. Mostly duplicate entries will belong to the
