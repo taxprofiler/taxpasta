@@ -66,7 +66,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             )
             .assign(
                 **{
-                    # Convert full lineages into single (species) identifiers.
+                    # Convert full lineages into leaf node taxon identifiers.
                     StandardProfile.taxonomy_id: lambda df: df[
                         StandardProfile.taxonomy_id
                     ]
@@ -85,18 +85,24 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 },
             )
         )
-        # MetaPhlAn is expected to use NCBI taxonomy identifiers that are integers, yet
-        # there can be missing values. The `Int64` type allows for that.
+        # MetaPhlAn sometimes assigns a taxon by name only, but no identifier exists.
+        # We have no choice but to count those entries as unclassified at the moment.
+        # We drop unclassified entries.
+        # Their relative abundance is already included in the next higher, classified
+        # taxon.
+        unclassified = result[StandardProfile.taxonomy_id].isna()
+        result = result.loc[unclassified, :].copy()
+        if (num := int(unclassified.sum())) > 0:
+            logger.warning("Dropped %d entries from the MetaPhlAn profile.", num)
+
+        # Convert identifiers to integers.
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
             result[StandardProfile.taxonomy_id],
             errors="coerce",
-        ).astype("Int64")
-        # MetaPhlAn sometimes assigns a species by name only, but no identifier exists.
-        # We have no choice but to count those entries as unclassified at the moment.
-        # We assign identifier zero to all unclassified entries.
+        ).astype(int)
+        # We assign identifier zero instead of minus one to all unknown entries.
         result.loc[
-            result[StandardProfile.taxonomy_id].isna()
-            | (result[StandardProfile.taxonomy_id] == -1),
+            (result[StandardProfile.taxonomy_id] == -1),
             StandardProfile.taxonomy_id,
         ] = 0
         # We identify duplicates. Mostly duplicate entries will belong to the
@@ -107,7 +113,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             logger.warning(
                 "Combining %d entries for %s in the profile.",
                 num,
-                "unclassified taxa" if tax_id == 0 else f"NCBI:txid{tax_id}",
+                "unknown taxa" if tax_id == 0 else f"NCBI:txid{tax_id}",
             )
         # We aggregate the counts of all entries. We do so because of duplicate entries.
         return grouped_df.sum().reset_index()
