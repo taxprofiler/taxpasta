@@ -91,7 +91,7 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         # Their relative abundance is already included in the next higher, classified
         # taxon.
         unclassified = result[StandardProfile.taxonomy_id].isna()
-        result = result.loc[unclassified, :].copy()
+        result = result.loc[~unclassified, :].copy()
         if (num := int(unclassified.sum())) > 0:
             logger.warning("Dropped %d entries from the MetaPhlAn profile.", num)
 
