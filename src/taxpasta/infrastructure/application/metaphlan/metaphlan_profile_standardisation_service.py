@@ -90,10 +90,10 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
         # We drop unclassified entries.
         # Their relative abundance is already included in the next higher, classified
         # taxon.
-        unclassified = result[StandardProfile.taxonomy_id].isna()
-        result = result.loc[~unclassified, :].copy()
+        unclassified = result[StandardProfile.taxonomy_id] == ""
         if (num := int(unclassified.sum())) > 0:
             logger.warning("Dropped %d entries from the MetaPhlAn profile.", num)
+        result = result.loc[~unclassified, :].copy()
 
         # Convert identifiers to integers.
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
