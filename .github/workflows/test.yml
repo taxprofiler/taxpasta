@@ -59,8 +59,8 @@ jobs:
       - name: Check installation
         run: hatch run install:check
 
-      - name: Check safety
-        run: hatch run safety:check
+      - name: Audit dependencies
+        run: hatch run audit:check
 
       - name: Check types
         run: hatch run types:check
