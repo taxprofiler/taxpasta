@@ -14,13 +14,13 @@ requires = ["hatchling", "hatch-vcs"]
 name = "taxpasta"
 description = "TAXonomic Profile Aggregation and STAndardisation"
 authors = [
-    { name = "Moritz E. Beber", email = "moritz.beber@posteo.de"},
-    { name = "Maxime Borry", email = "maxime_borry@eva.mpg.de"},
-    { name = "James A. Fellows Yates", email = "jfy133@gmail.com"},
-    { name = "Sofia Stamouli", email = "sofia.stamouli@scilifelab.se"},
+    { name = "Moritz E. Beber", email = "moritz.beber@posteo.de" },
+    { name = "Maxime Borry", email = "maxime_borry@eva.mpg.de" },
+    { name = "James A. Fellows Yates", email = "jfy133@gmail.com" },
+    { name = "Sofia Stamouli", email = "sofia.stamouli@scilifelab.se" },
 ]
 license = "Apache-2.0"
-readme = {"file" = "README.md", "content-type" = "text/markdown"}
+readme = { "file" = "README.md", "content-type" = "text/markdown" }
 requires-python = ">=3.9"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
@@ -69,23 +69,14 @@ Download = "https://pypi.org/project/taxpasta/#files"
 taxpasta = "taxpasta.infrastructure.cli:app"
 
 [project.optional-dependencies]
-all = [
-    "biom-format >=2.1.16,<3",
-    "odfpy",
-    "openpyxl",
-    "pyarrow",
-    "rich",
-]
+all = ["biom-format >=2.1.16,<3", "odfpy", "openpyxl", "pyarrow", "rich"]
 arrow = ["pyarrow"]
 biom = ["biom-format >=2.1.16,<3"]
 ods = ["odfpy"]
 parquet = ["pyarrow"]
 rich = ["rich"]
 xlsx = ["openpyxl"]
-dev = [
-    "hatch",
-    "pre-commit",
-]
+dev = ["hatch", "pre-commit"]
 
 ################################################################################
 # Tool Configuration
@@ -111,10 +102,7 @@ testpaths = ["tests"]
 markers = ["raises"]
 
 [tool.coverage.paths]
-source = [
-    "src/taxpasta",
-    "*/site-packages/taxpasta",
-]
+source = ["src/taxpasta", "*/site-packages/taxpasta"]
 
 [tool.coverage.run]
 branch = true
@@ -130,31 +118,31 @@ line-length = 88
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "D107",  # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
-    "D203",  # '1 blank line required before class docstring' ignored because we want no blank line.
-    "D212",  # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
-    "D407",  # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
-    "ANN002",  # 'Missing type annotation for {*args} in method'.
-    "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
-    "ANN101",  # 'Missing type annotation for {self} in method'.
-    "ANN102",  # 'Missing type annotation for {cls} in classmethod'.
+    "D107",   # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
+    "D203",   # '1 blank line required before class docstring' ignored because we want no blank line.
+    "D212",   # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
+    "D407",   # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
+    "ANN002", # 'Missing type annotation for {*args} in method'.
+    "ANN003", # 'Missing type annotation for {*kwargs} in method'.
+    "ANN101", # 'Missing type annotation for {self} in method'.
+    "ANN102", # 'Missing type annotation for {cls} in classmethod'.
     "PD009",  # Replacing .iat with .iloc is a stupid rule.
-    "FBT001",  # Not compatible with typer.
-    "FBT003",  # Not compatible with typer.
+    "FBT001", # Not compatible with typer.
+    "FBT003", # Not compatible with typer.
     "FA100",  # Not compatible with typer.
 ]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
-    "E401",  # 'Multiple imports on one line'
-    "E402",  # 'Module level import not at top of file'
-    "F401",  # 'Imported but unused'
-    "I001",  # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
+    "E401", # 'Multiple imports on one line'
+    "E402", # 'Module level import not at top of file'
+    "F401", # 'Imported but unused'
+    "I001", # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
 ]
 "tests/**/*.py" = [
-    "S101",  # 'Use of assert detected' ignored because we are using pytest.
-    "INP001",  # 'Insecure input' ignored because we are testing.
-    "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
+    "S101",   # 'Use of assert detected' ignored because we are using pytest.
+    "INP001", # 'Insecure input' ignored because we are testing.
+    "ANN201", # 'Missing type annotation for {return}' ignored because all tests return `None`.
 ]
 
 [tool.ruff.lint.isort]
@@ -169,9 +157,7 @@ check-return-types = false
 check-yield-types = false
 
 [tool.mypy]
-plugins = [
-    "pydantic.mypy",
-]
+plugins = ["pydantic.mypy"]
 
 # Stop mypy from complaining about missing types from imports.
 [[tool.mypy.overrides]]
@@ -201,19 +187,12 @@ warn_required_dynamic_aliases = true
 [tool.hatch.envs.dev]
 # Set a local path that PyCharm can use to find the virtual environment.
 path = ".venv"
-extra-dependencies = [
-    "ruff",
-    "pyupgrade",
-    "pytest",
-]
+extra-dependencies = ["ruff", "pyupgrade", "pytest"]
 features = ["all", "dev"]
 
 [tool.hatch.envs.style]
 description = """Check the style of the codebase."""
-dependencies = [
-    "pydoclint",
-    "ruff",
-]
+dependencies = ["pydoclint", "ruff"]
 detached = true
 
 [tool.hatch.envs.style.scripts]
@@ -223,9 +202,7 @@ check = ["docstrings", "code"]
 
 [tool.hatch.envs.safety]
 description = """Check dependencies for security vulnerabilities."""
-extra-dependencies = [
-    "safety",
-]
+extra-dependencies = ["safety"]
 features = ["all"]
 
 [tool.hatch.envs.safety.scripts]
@@ -233,9 +210,7 @@ check = "safety check --full-report -i 70612"
 
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-dependencies = [
-    "mypy",
-]
+dependencies = ["mypy"]
 features = ["all"]
 
 [tool.hatch.envs.types.scripts]
@@ -261,18 +236,11 @@ serve = "mkdocs serve {args}"
 
 [tool.hatch.envs.install]
 description = """Test the source and wheel distribution of the package."""
-dependencies = [
-    "pip",
-    "twine",
-]
+dependencies = ["pip", "twine"]
 detached = true
 
 [tool.hatch.envs.install.scripts]
-check = [
-    "pip check",
-    "hatch build {args:--clean}",
-    "twine check dist/*",
-]
+check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
 
 [tool.hatch.envs.test]
 description = """Run the test suite."""
