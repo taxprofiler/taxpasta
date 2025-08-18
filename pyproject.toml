@@ -209,7 +209,7 @@ description = """Check dependencies for security vulnerabilities."""
 extra-dependencies = ["pip-audit"]
 features = ["all"]
 
-[tool.hatch.envs.safety.scripts]
+[tool.hatch.envs.audit.scripts]
 check = "pip-audit"
 
 [tool.hatch.envs.types]
