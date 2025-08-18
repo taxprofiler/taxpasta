@@ -106,15 +106,6 @@ source = "vcs"
 [tool.bandit.assert_used]
 skips = ["*/test_*.py"]
 
-[tool.black]
-line-length = 88
-python-version = ["py39"]
-extend-exclude = '''
-(
-    _version.py
-)
-'''
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 markers = ["raises"]
