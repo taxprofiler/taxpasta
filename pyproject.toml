@@ -184,9 +184,11 @@ warn_required_dynamic_aliases = true
 # Hatch Environments
 ################################################################################
 
+[tool.hatch.envs.default]
+installer = "uv"
+
 [tool.hatch.envs.dev]
-# Set a local path that PyCharm can use to find the virtual environment.
-path = ".venv"
+description = """Development environment."""
 extra-dependencies = ["ruff", "pyupgrade", "pytest"]
 features = ["all", "dev"]
 
@@ -194,23 +196,25 @@ features = ["all", "dev"]
 description = """Check the style of the codebase."""
 dependencies = ["pydoclint", "ruff"]
 detached = true
+installer = "uv"
 
 [tool.hatch.envs.style.scripts]
-docstrings = "pydoclint"
-code = "ruff check"
+docstrings = ["pydoclint src", "pydoclint tests"]
+code = "ruff check {args}"
+format = "ruff format {args}"
 check = ["docstrings", "code"]
 
-[tool.hatch.envs.safety]
+[tool.hatch.envs.audit]
 description = """Check dependencies for security vulnerabilities."""
-extra-dependencies = ["safety"]
+extra-dependencies = ["pip-audit"]
 features = ["all"]
 
 [tool.hatch.envs.safety.scripts]
-check = "safety check --full-report -i 70612"
+check = "pip-audit"
 
 [tool.hatch.envs.types]
 description = """Check the static types of the codebase."""
-dependencies = ["mypy"]
+extra-dependencies = ["mypy"]
 features = ["all"]
 
 [tool.hatch.envs.types.scripts]
@@ -238,6 +242,7 @@ serve = "mkdocs serve {args}"
 description = """Test the source and wheel distribution of the package."""
 dependencies = ["pip", "twine"]
 detached = true
+installer = "uv"
 
 [tool.hatch.envs.install.scripts]
 check = ["pip check", "hatch build {args:--clean}", "twine check dist/*"]
