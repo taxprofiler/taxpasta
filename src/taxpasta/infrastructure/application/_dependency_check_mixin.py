@@ -91,7 +91,7 @@ class DependencyCheckMixin(Enum):
     def _check_ods(cls) -> None:
         """Check for dependencies for the ODS file format."""
         try:
-            import odf  # noqa: F401
+            import odf  # noqa: F401, PLC0415
         except ImportError as error:
             msg = (
                 "The desired file format 'ODS' is currently not "
@@ -103,7 +103,7 @@ class DependencyCheckMixin(Enum):
     def _check_xlsx(cls) -> None:
         """Check for dependencies for the XLSX file format."""
         try:
-            import openpyxl  # noqa: F401
+            import openpyxl  # noqa: F401, PLC0415
         except ImportError as error:
             msg = (
                 "The desired file format 'XLSX' is currently not "
@@ -115,7 +115,7 @@ class DependencyCheckMixin(Enum):
     def _check_arrow(cls) -> None:
         """Check for dependencies for the arrow file format."""
         try:
-            import pyarrow as pa  # noqa: F401
+            import pyarrow as pa  # noqa: F401, PLC0415
         except ImportError as error:
             msg = (
                 "The desired file format 'arrow' is currently not "
@@ -127,7 +127,7 @@ class DependencyCheckMixin(Enum):
     def _check_biom(cls) -> None:
         """Check for dependencies for the BIOM file format."""
         try:
-            import biom  # noqa: F401
+            import biom  # noqa: F401, PLC0415
         except ImportError as error:
             msg = (
                 "The desired file format 'BIOM' is currently not "
