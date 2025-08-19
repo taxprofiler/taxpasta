@@ -18,9 +18,8 @@
 
 """Provide a description of the standard profile format."""
 
-
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 

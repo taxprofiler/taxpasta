@@ -18,9 +18,8 @@
 
 """Provide a description of the mOTUs profile format."""
 
-
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 from taxpasta.infrastructure.helpers import BaseDataFrameModel

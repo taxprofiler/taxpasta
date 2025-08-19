@@ -20,7 +20,7 @@
 
 import numpy as np
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 from taxpasta.infrastructure.helpers import BaseDataFrameModel

@@ -19,7 +19,7 @@
 """Provide a description of the Bracken profile format."""
 
 import numpy as np
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import DataFrame, Series
 
 from taxpasta.infrastructure.helpers import BaseDataFrameModel

@@ -69,7 +69,7 @@ within certain intervals.
 from typing import Optional
 
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 
@@ -147,7 +147,7 @@ validation is automatically performed by decorating with [`pandera.check_types`]
 `transform` class method of the standardisation service, for example,
 
 ```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile_standardisation_service.py"
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileStandardisationService
@@ -176,7 +176,7 @@ conventions, as an example, `Kraken2ProfileStandardisationService` class in a
 `kraken2_profile_standardisation_service.py` module.
 
 ```python title="src/taxpasta/infrastructure/application/kraken2/kraken2_profile_standardisation_service.py"
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import DataFrame
 
 from taxpasta.application import ProfileStandardisationService
