@@ -18,7 +18,7 @@
 
 """Provide a sample merging service that summarizes two or more samples."""
 
-from typing import Iterable
+from collections.abc import Iterable
 
 import numpy as np
 import pandas as pd
@@ -49,7 +49,7 @@ class SampleMergingService:
         # we do not modify existing profiles but, of course, doubles the memory used.
         counts = [
             sample.profile.set_index(
-                keys=StandardProfile.taxonomy_id, verify_integrity=True
+                keys=StandardProfile.taxonomy_id, verify_integrity=True,
             ).rename(columns={StandardProfile.count: sample.name})
             for sample in samples
         ]
@@ -96,6 +96,6 @@ class SampleMergingService:
         # We explicitly convert to int64 because of a Windows type problem.
         # See https://github.com/unionai-oss/pandera/issues/726
         result[TidyObservationTable.count] = result[TidyObservationTable.count].astype(
-            np.int64
+            np.int64,
         )
         return result
