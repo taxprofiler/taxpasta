@@ -18,7 +18,6 @@
 
 """Provide fixtures to all pytest modules."""
 
-
 from pathlib import Path
 
 import pytest
@@ -28,7 +27,7 @@ from typer.testing import CliRunner
 @pytest.fixture(scope="session")
 def runner() -> CliRunner:
     """Return a CLI runner instance for testing."""
-    return CliRunner(mix_stderr=False)
+    return CliRunner()
 
 
 @pytest.fixture(scope="session")
