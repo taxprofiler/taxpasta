@@ -57,7 +57,7 @@ def version_callback(is_set: bool) -> None:
 
     """
     if is_set:
-        from taxpasta import __version__
+        from taxpasta import __version__  # noqa: PLC0415
 
         print(__version__)  # noqa: T201
         raise typer.Exit(code=0)
