@@ -46,103 +46,102 @@ class ApplicationServiceRegistry:
             from .bracken import BrackenProfileReader
 
             return BrackenProfileReader
-        elif profiler is SupportedProfiler.centrifuge:
+        if profiler is SupportedProfiler.centrifuge:
             from .centrifuge import CentrifugeProfileReader
 
             return CentrifugeProfileReader
-        elif profiler is SupportedProfiler.diamond:
+        if profiler is SupportedProfiler.diamond:
             from .diamond import DiamondProfileReader
 
             return DiamondProfileReader
-        elif profiler is SupportedProfiler.ganon:
+        if profiler is SupportedProfiler.ganon:
             from .ganon import GanonProfileReader
 
             return GanonProfileReader
-        elif profiler is SupportedProfiler.kaiju:
+        if profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileReader
 
             return KaijuProfileReader
-        elif profiler is SupportedProfiler.kmcp:
+        if profiler is SupportedProfiler.kmcp:
             from .kmcp import KMCPProfileReader
 
             return KMCPProfileReader
-        elif profiler is SupportedProfiler.kraken2:
+        if profiler is SupportedProfiler.kraken2:
             from .kraken2 import Kraken2ProfileReader
 
             return Kraken2ProfileReader
-        elif profiler is SupportedProfiler.krakenuniq:
+        if profiler is SupportedProfiler.krakenuniq:
             from .krakenuniq import KrakenUniqProfileReader
 
             return KrakenUniqProfileReader
-        elif profiler is SupportedProfiler.megan6:
+        if profiler is SupportedProfiler.megan6:
             from .megan6 import Megan6ProfileReader
 
             return Megan6ProfileReader
-        elif profiler is SupportedProfiler.metaphlan:
+        if profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileReader
 
             return MetaphlanProfileReader
-        elif profiler is SupportedProfiler.motus:
+        if profiler is SupportedProfiler.motus:
             from .motus import MotusProfileReader
 
             return MotusProfileReader
 
     @classmethod
     def profile_standardisation_service(
-        cls, profiler: SupportedProfiler
+        cls, profiler: SupportedProfiler,
     ) -> Type[ProfileStandardisationService]:
         """Return a profile standardisation service of the correct type."""
         if profiler is SupportedProfiler.bracken:
             from .bracken import BrackenProfileStandardisationService
 
             return BrackenProfileStandardisationService
-        elif profiler is SupportedProfiler.centrifuge:
+        if profiler is SupportedProfiler.centrifuge:
             from .centrifuge import CentrifugeProfileStandardisationService
 
             return CentrifugeProfileStandardisationService
-        elif profiler is SupportedProfiler.diamond:
+        if profiler is SupportedProfiler.diamond:
             from .diamond import DiamondProfileStandardisationService
 
             return DiamondProfileStandardisationService
-        elif profiler is SupportedProfiler.kaiju:
+        if profiler is SupportedProfiler.kaiju:
             from .kaiju import KaijuProfileStandardisationService
 
             return KaijuProfileStandardisationService
-        elif profiler is SupportedProfiler.kraken2:
+        if profiler is SupportedProfiler.kraken2:
             from .kraken2 import Kraken2ProfileStandardisationService
 
             return Kraken2ProfileStandardisationService
-        elif profiler is SupportedProfiler.krakenuniq:
+        if profiler is SupportedProfiler.krakenuniq:
             from .krakenuniq import KrakenUniqProfileStandardisationService
 
             return KrakenUniqProfileStandardisationService
-        elif profiler is SupportedProfiler.megan6:
+        if profiler is SupportedProfiler.megan6:
             from .megan6 import Megan6ProfileStandardisationService
 
             return Megan6ProfileStandardisationService
-        elif profiler is SupportedProfiler.motus:
+        if profiler is SupportedProfiler.motus:
             from .motus import MotusProfileStandardisationService
 
             return MotusProfileStandardisationService
-        elif profiler is SupportedProfiler.metaphlan:
+        if profiler is SupportedProfiler.metaphlan:
             from .metaphlan import MetaphlanProfileStandardisationService
 
             return MetaphlanProfileStandardisationService
-        elif profiler is SupportedProfiler.ganon:
+        if profiler is SupportedProfiler.ganon:
             from .ganon import GanonProfileStandardisationService
 
             return GanonProfileStandardisationService
-        elif profiler is SupportedProfiler.kmcp:
+        if profiler is SupportedProfiler.kmcp:
             from .kmcp import KMCPProfileStandardisationService
 
             return KMCPProfileStandardisationService
 
-        else:
-            raise ValueError("Unexpected")
+        raise ValueError("Unexpected")
 
     @classmethod
     def standard_profile_writer(
-        cls, file_format: StandardProfileFileFormat
+        cls, file_format: StandardProfileFileFormat,
     ) -> Type[StandardProfileWriter]:
         """Return a standard profile writer of the correct type."""
         if file_format is StandardProfileFileFormat.TSV:
@@ -151,41 +150,40 @@ class ApplicationServiceRegistry:
             )
 
             return TSVStandardProfileWriter
-        elif file_format is StandardProfileFileFormat.CSV:
+        if file_format is StandardProfileFileFormat.CSV:
             from .standard_profile_writer.csv_standard_profile_writer import (
                 CSVStandardProfileWriter,
             )
 
             return CSVStandardProfileWriter
-        elif file_format is StandardProfileFileFormat.XLSX:
+        if file_format is StandardProfileFileFormat.XLSX:
             from .standard_profile_writer.xlsx_standard_profile_writer import (
                 XLSXStandardProfileWriter,
             )
 
             return XLSXStandardProfileWriter
-        elif file_format is StandardProfileFileFormat.ODS:
+        if file_format is StandardProfileFileFormat.ODS:
             from .standard_profile_writer.ods_standard_profile_writer import (
                 ODSStandardProfileWriter,
             )
 
             return ODSStandardProfileWriter
-        elif file_format is StandardProfileFileFormat.arrow:
+        if file_format is StandardProfileFileFormat.arrow:
             from .standard_profile_writer.arrow_standard_profile_writer import (
                 ArrowStandardProfileWriter,
             )
 
             return ArrowStandardProfileWriter
-        elif file_format is StandardProfileFileFormat.parquet:
+        if file_format is StandardProfileFileFormat.parquet:
             from .standard_profile_writer.parquet_standard_profile_writer import (
                 ParquetStandardProfileWriter,
             )
 
             return ParquetStandardProfileWriter
-        else:
-            ValueError(
-                f"The given file format {file_format.name} is not a supported tidy "
-                f"observation table writer format."
-            )
+        ValueError(
+            f"The given file format {file_format.name} is not a supported tidy "
+            f"observation table writer format.",
+        )
 
     @classmethod
     def table_reader(cls, file_format: TableReaderFileFormat) -> Type[TableReader]:
@@ -194,35 +192,34 @@ class ApplicationServiceRegistry:
             from .table_reader.tsv_table_reader import TSVTableReader
 
             return TSVTableReader
-        elif file_format is TableReaderFileFormat.CSV:
+        if file_format is TableReaderFileFormat.CSV:
             from .table_reader.csv_table_reader import CSVTableReader
 
             return CSVTableReader
-        elif file_format is TableReaderFileFormat.XLSX:
+        if file_format is TableReaderFileFormat.XLSX:
             from .table_reader.xlsx_table_reader import XLSXTableReader
 
             return XLSXTableReader
-        elif file_format is TableReaderFileFormat.ODS:
+        if file_format is TableReaderFileFormat.ODS:
             from .table_reader.ods_table_reader import ODSTableReader
 
             return ODSTableReader
-        elif file_format is TableReaderFileFormat.arrow:
+        if file_format is TableReaderFileFormat.arrow:
             from .table_reader.arrow_table_reader import ArrowTableReader
 
             return ArrowTableReader
-        elif file_format is TableReaderFileFormat.parquet:
+        if file_format is TableReaderFileFormat.parquet:
             from .table_reader.parquet_table_reader import ParquetTableReader
 
             return ParquetTableReader
-        else:
-            ValueError(
-                f"The given file format {file_format.name} is not a supported table "
-                f"reader format."
-            )
+        ValueError(
+            f"The given file format {file_format.name} is not a supported table "
+            f"reader format.",
+        )
 
     @classmethod
     def tidy_observation_table_writer(
-        cls, file_format: TidyObservationTableFileFormat
+        cls, file_format: TidyObservationTableFileFormat,
     ) -> Type[TidyObservationTableWriter]:
         """Return a tidy table writer of the correct type."""
         if file_format is TidyObservationTableFileFormat.TSV:
@@ -231,45 +228,44 @@ class ApplicationServiceRegistry:
             )
 
             return TSVTidyObservationTableWriter
-        elif file_format is TidyObservationTableFileFormat.CSV:
+        if file_format is TidyObservationTableFileFormat.CSV:
             from .tidy_observation_table_writer.csv_table_writer import (
                 CSVTidyObservationTableWriter,
             )
 
             return CSVTidyObservationTableWriter
-        elif file_format is TidyObservationTableFileFormat.XLSX:
+        if file_format is TidyObservationTableFileFormat.XLSX:
             from .tidy_observation_table_writer.xlsx_table_writer import (
                 XLSXTidyObservationTableWriter,
             )
 
             return XLSXTidyObservationTableWriter
-        elif file_format is TidyObservationTableFileFormat.ODS:
+        if file_format is TidyObservationTableFileFormat.ODS:
             from .tidy_observation_table_writer.ods_table_writer import (
                 ODSTidyObservationTableWriter,
             )
 
             return ODSTidyObservationTableWriter
-        elif file_format is TidyObservationTableFileFormat.arrow:
+        if file_format is TidyObservationTableFileFormat.arrow:
             from .tidy_observation_table_writer.arrow_table_writer import (
                 ArrowTidyObservationTableWriter,
             )
 
             return ArrowTidyObservationTableWriter
-        elif file_format is TidyObservationTableFileFormat.parquet:
+        if file_format is TidyObservationTableFileFormat.parquet:
             from .tidy_observation_table_writer.parquet_table_writer import (
                 ParquetTidyObservationTableWriter,
             )
 
             return ParquetTidyObservationTableWriter
-        else:
-            ValueError(
-                f"The given file format {file_format.name} is not a supported tidy "
-                f"observation table writer format."
-            )
+        ValueError(
+            f"The given file format {file_format.name} is not a supported tidy "
+            f"observation table writer format.",
+        )
 
     @classmethod
     def wide_observation_table_writer(
-        cls, file_format: WideObservationTableFileFormat
+        cls, file_format: WideObservationTableFileFormat,
     ) -> Type[WideObservationTableWriter]:
         """Return a writer for wide observation tables in the specified format."""
         if file_format is WideObservationTableFileFormat.TSV:
@@ -278,44 +274,43 @@ class ApplicationServiceRegistry:
             )
 
             return TSVWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.CSV:
+        if file_format is WideObservationTableFileFormat.CSV:
             from .wide_observation_table_writer.csv_wide_observation_table_writer import (
                 CSVWideObservationTableWriter,
             )
 
             return CSVWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.XLSX:
+        if file_format is WideObservationTableFileFormat.XLSX:
             from .wide_observation_table_writer.xlsx_wide_observation_table_writer import (
                 XLSXWideObservationTableWriter,
             )
 
             return XLSXWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.ODS:
+        if file_format is WideObservationTableFileFormat.ODS:
             from .wide_observation_table_writer.ods_wide_observation_table_writer import (
                 ODSWideObservationTableWriter,
             )
 
             return ODSWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.arrow:
+        if file_format is WideObservationTableFileFormat.arrow:
             from .wide_observation_table_writer.arrow_wide_observation_table_writer import (
                 ArrowWideObservationTableWriter,
             )
 
             return ArrowWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.parquet:
+        if file_format is WideObservationTableFileFormat.parquet:
             from .wide_observation_table_writer.parquet_wide_observation_table_writer import (
                 ParquetWideObservationTableWriter,
             )
 
             return ParquetWideObservationTableWriter
-        elif file_format is WideObservationTableFileFormat.BIOM:
+        if file_format is WideObservationTableFileFormat.BIOM:
             from .wide_observation_table_writer.biom_wide_observation_table_writer import (
                 BIOMWideObservationTableWriter,
             )
 
             return BIOMWideObservationTableWriter
-        else:
-            ValueError(
-                f"The given file format {file_format.name} is not a supported "
-                f"observation matrix writer format."
-            )
+        ValueError(
+            f"The given file format {file_format.name} is not a supported "
+            f"observation matrix writer format.",
+        )
