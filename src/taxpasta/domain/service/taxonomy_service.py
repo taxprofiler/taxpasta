@@ -42,7 +42,6 @@ class TaxonomyService(ABC):
     """Define the abstract taxonomy service interface."""
 
     def __init__(self, **kwargs) -> None:
-        """Initialize a taxonomy service instance."""
         super().__init__(**kwargs)
 
     @abstractmethod

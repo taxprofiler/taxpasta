@@ -62,7 +62,7 @@ def validate_observation_matrix_format(
         The validated output file format.
 
     Raises:
-        Exit: Early abortion of program when the format cannot be guessed or
+        typer.Exit: Early abortion of program when the format cannot be guessed or
             dependencies are missing.
 
     """
@@ -106,7 +106,7 @@ def validate_tidy_observation_table_format(
         The validated output file format.
 
     Raises:
-        Exit: Early abortion of program when the format cannot be guessed or
+        typer.Exit: Early abortion of program when the format cannot be guessed or
             dependencies are missing.
 
     """
@@ -148,7 +148,7 @@ def validate_sample_format(
         The validated sample sheet format.
 
     Raises:
-        Exit: Early abortion of program when the format cannot be guessed or
+        typer.Exit: Early abortion of program when the format cannot be guessed or
             dependencies are missing.
 
     """
@@ -191,7 +191,7 @@ def read_sample_sheet(
         A pandas data frame in the form of a sample sheet.
 
     Raises:
-        Exit: Early abortion of program when there is a schema error.
+        typer.Exit: Early abortion of program when there is a schema error.
 
     """
     reader = ApplicationServiceRegistry.table_reader(sample_format)
