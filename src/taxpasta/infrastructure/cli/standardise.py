@@ -64,7 +64,7 @@ def validate_output_format(
     if output_format is None:
         try:
             result = cast(
-                StandardProfileFileFormat,
+                "StandardProfileFileFormat",
                 StandardProfileFileFormat.guess_format(output),
             )
         except ValueError as error:

@@ -69,7 +69,7 @@ def validate_observation_matrix_format(
     if output_format is None:
         try:
             result = cast(
-                WideObservationTableFileFormat,
+                "WideObservationTableFileFormat",
                 WideObservationTableFileFormat.guess_format(output),
             )
         except ValueError as error:
@@ -113,7 +113,7 @@ def validate_tidy_observation_table_format(
     if output_format is None:
         try:
             result = cast(
-                TidyObservationTableFileFormat,
+                "TidyObservationTableFileFormat",
                 TidyObservationTableFileFormat.guess_format(output),
             )
         except ValueError as error:
@@ -155,7 +155,7 @@ def validate_sample_format(
     if sample_format is None:
         try:
             result = cast(
-                TableReaderFileFormat,
+                "TableReaderFileFormat",
                 TableReaderFileFormat.guess_format(sample_sheet),
             )
         except ValueError as error:

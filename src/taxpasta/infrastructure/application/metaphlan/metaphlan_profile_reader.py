@@ -56,7 +56,7 @@ class MetaphlanProfileReader(ProfileReader):
             MetaphlanProfile.additional_species,
         ]
 
-        return cast(DataFrame[MetaphlanProfile], result)
+        return cast("DataFrame[MetaphlanProfile]", result)
 
     @classmethod
     def _detect_number_header_line(cls, profile: BufferOrFilepath) -> int:
