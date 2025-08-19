@@ -25,7 +25,12 @@ import pandas as pd
 import pandera as pa
 from pandera.typing import DataFrame
 
-from ..model import Sample, StandardProfile, TidyObservationTable, WideObservationTable
+from taxpasta.domain.model import (
+    Sample,
+    StandardProfile,
+    TidyObservationTable,
+    WideObservationTable,
+)
 
 
 class SampleMergingService:
@@ -49,7 +54,8 @@ class SampleMergingService:
         # we do not modify existing profiles but, of course, doubles the memory used.
         counts = [
             sample.profile.set_index(
-                keys=StandardProfile.taxonomy_id, verify_integrity=True,
+                keys=StandardProfile.taxonomy_id,
+                verify_integrity=True,
             ).rename(columns={StandardProfile.count: sample.name})
             for sample in samples
         ]
