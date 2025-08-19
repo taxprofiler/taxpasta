@@ -45,10 +45,10 @@ class BrackenProfileStandardisationService(ProfileStandardisationService):
         Returns:
             A standardized profile.
 
-        Raises:
+        Raises:  # noqa: DOC502
             pandera.errors.SchemaErrors: If the given profile does not conform with the
                 `BrackenProfile` or the transformed output does not conform with the
-                `StandardProfile`.  # noqa: DAR402
+                `StandardProfile`.
 
         """
         return (
