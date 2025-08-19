@@ -18,7 +18,6 @@
 
 """Provide an exception for errors during profile extraction and transformation."""
 
-
 from pathlib import Path
 
 from .taxpasta_error import TaxpastaError
@@ -28,7 +27,6 @@ class StandardisationError(TaxpastaError):
     """Define an exception for errors during profile extraction and transformation."""
 
     def __init__(self, *, sample: str, profile: Path, message: str, **kwargs) -> None:
-        """Initialize a taxpasta standardisation error."""
         super().__init__(**kwargs)
         self.sample = sample
         self.profile = profile

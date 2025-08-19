@@ -45,7 +45,6 @@ class TaxopyTaxonomyService(TaxonomyService):
     """Define the taxonomy service based on taxopy."""
 
     def __init__(self, *, tax_db: taxopy.TaxDb, **kwargs) -> None:
-        """Initialize a taxonomy service instance with a taxopy database."""
         super().__init__(**kwargs)
         self._tax_db = tax_db
 

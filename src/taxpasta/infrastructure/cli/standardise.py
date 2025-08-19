@@ -57,7 +57,7 @@ def validate_output_format(
         The validated output file format.
 
     Raises:
-        Exit: Early abortion of program when the format cannot be guessed or
+        typer.Exit: Early abortion of program when the format cannot be guessed or
             dependencies are missing.
 
     """

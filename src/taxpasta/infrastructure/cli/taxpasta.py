@@ -53,7 +53,7 @@ def version_callback(is_set: bool) -> None:
         is_set: Whether the version was requested as a command line option.
 
     Raises:
-        Exit: With default code 0 to signal normal program end.
+        typer.Exit: With default code 0 to signal normal program end.
 
     """
     if is_set:
