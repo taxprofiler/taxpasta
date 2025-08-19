@@ -1,4 +1,3 @@
-# flake8: noqa
 # Copyright (c) 2022 Moritz E. Beber
 # Copyright (c) 2022 Maxime Borry
 # Copyright (c) 2022 James A. Fellows Yates
@@ -18,7 +17,6 @@
 
 
 """Provide a sample merging service that summarizes two or more samples."""
-
 
 from typing import Iterable
 
