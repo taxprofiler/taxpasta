@@ -19,5 +19,4 @@
 """Provide the domain services interfaces."""
 
 from .sample_merging_service import SampleMergingService
-from .consensus_builder import ConsensusBuilder
 from .taxonomy_service import ResultTable, TaxonomyService
