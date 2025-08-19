@@ -83,7 +83,7 @@ def initialize(
 ) -> None:
     """Initialize logging and rich printing if available."""
     try:
-        from rich.logging import RichHandler
+        from rich.logging import RichHandler  # noqa: PLC0415
 
         logging.basicConfig(
             level=log_level.name,

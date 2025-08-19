@@ -355,7 +355,7 @@ def merge(  # noqa: C901, PLR0912, PLR0913, PLR0915
 
     taxonomy_service: Optional[TaxonomyService] = None
     if taxonomy is not None:
-        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
+        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (  # noqa: PLC0415
             TaxopyTaxonomyService,
         )
 
