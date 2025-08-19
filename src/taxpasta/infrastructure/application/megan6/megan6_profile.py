@@ -18,8 +18,7 @@
 
 """Provide a description of the MEGAN6 rma2info profile format."""
 
-
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 from taxpasta.infrastructure.helpers import BaseDataFrameModel

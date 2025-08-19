@@ -21,7 +21,7 @@
 from abc import ABC, abstractmethod
 
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 
 from ._types import BufferOrFilepath
 

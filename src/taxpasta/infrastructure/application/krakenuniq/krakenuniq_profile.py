@@ -18,8 +18,7 @@
 
 """Provide a description of the KrakenUniq profile format."""
 
-
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import Series
 
 from taxpasta.infrastructure.helpers import BaseDataFrameModel

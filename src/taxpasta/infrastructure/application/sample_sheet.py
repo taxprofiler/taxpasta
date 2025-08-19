@@ -21,7 +21,7 @@
 from pathlib import Path
 from typing import cast
 
-import pandera as pa
+import pandera.pandas as pa
 from pandera.typing import DataFrame, Series
 
 

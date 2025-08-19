@@ -18,9 +18,8 @@
 
 """Provide a base data frame model for general checks and configuration."""
 
-
 import pandas as pd
-import pandera as pa
+import pandera.pandas as pa
 
 
 class BaseDataFrameModel(pa.DataFrameModel):
