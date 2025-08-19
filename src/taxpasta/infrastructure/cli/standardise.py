@@ -177,7 +177,7 @@ def standardise(  # noqa: PLR0913
 
     taxonomy_service: Optional[TaxonomyService] = None
     if taxonomy is not None:
-        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (  # noqa: PLC0415
+        from taxpasta.infrastructure.domain.service.taxopy_taxonomy_service import (
             TaxopyTaxonomyService,
         )
 

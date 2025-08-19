@@ -57,7 +57,7 @@ def version_callback(is_set: bool) -> None:
 
     """
     if is_set:
-        from taxpasta import __version__  # noqa: PLC0415
+        from taxpasta import __version__
 
         print(__version__)  # noqa: T201
         raise typer.Exit(code=0)
@@ -83,7 +83,7 @@ def initialize(
 ) -> None:
     """Initialize logging and rich printing if available."""
     try:
-        from rich.logging import RichHandler  # noqa: PLC0415
+        from rich.logging import RichHandler
 
         logging.basicConfig(
             level=log_level.name,
