@@ -44,7 +44,7 @@ class SampleSheet(pa.DataFrameModel):
         profile: Series[str],
     ) -> Series[bool]:
         """Check that every profile is present at the specified location."""
-        return cast(Series[bool], profile.map(lambda path: Path(path).is_file()))
+        return cast("Series[bool]", profile.map(lambda path: Path(path).is_file()))
 
     class Config:
         """Configure the schema model."""

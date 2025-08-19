@@ -78,7 +78,7 @@ class MotusProfileStandardisationService(ProfileStandardisationService):
 
         # Sum up all remaining read counts without tax ID to be 'unassigned'.
         return cast(
-            DataFrame[StandardProfile],
+            "DataFrame[StandardProfile]",
             pd.concat(
                 [
                     result,
