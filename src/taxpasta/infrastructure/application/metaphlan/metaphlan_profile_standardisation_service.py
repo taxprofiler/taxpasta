@@ -66,11 +66,13 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
             )
             .assign(
                 **{
+                    # Convert full lineages into leaf node taxon identifiers.
                     StandardProfile.taxonomy_id: lambda df: df[
                         StandardProfile.taxonomy_id
                     ]
                     .str.rsplit("|", n=1)
                     .str[-1],
+                    # Multiply relative abundances by a large factor to yield integers.
                     StandardProfile.count: lambda df: df[StandardProfile.count]
                     * cls.LARGE_INTEGER,
                 },
@@ -83,31 +85,35 @@ class MetaphlanProfileStandardisationService(ProfileStandardisationService):
                 },
             )
         )
+        # MetaPhlAn sometimes assigns a taxon by name only, but no identifier exists.
+        # We have no choice but to count those entries as unclassified at the moment.
+        # We drop unclassified entries.
+        # Their relative abundance is already included in the next higher, classified
+        # taxon.
+        unclassified = result[StandardProfile.taxonomy_id] == ""
+        if (num := int(unclassified.sum())) > 0:
+            logger.warning("Dropped %d entries from the MetaPhlAn profile.", num)
+        result = result.loc[~unclassified, :].copy()
+
+        # Convert identifiers to integers.
         result[StandardProfile.taxonomy_id] = pd.to_numeric(
             result[StandardProfile.taxonomy_id],
             errors="coerce",
-        ).astype("Int64")
-        unclassified_mask = result[StandardProfile.taxonomy_id].isna() | (
-            result[StandardProfile.taxonomy_id] == -1
-        )
-        num = int(unclassified_mask.sum())
-        if num > 0:
+        ).astype(int)
+        # We assign identifier zero instead of minus one to all unknown entries.
+        result.loc[
+            (result[StandardProfile.taxonomy_id] == -1),
+            StandardProfile.taxonomy_id,
+        ] = 0
+        # We identify duplicates. Mostly duplicate entries will belong to the
+        # unclassified category, but sometimes we have other duplicates, too.
+        grouped_df = result.groupby(StandardProfile.taxonomy_id, sort=False)
+        entries = grouped_df.size()
+        for tax_id, num in entries[entries > 1].items():
             logger.warning(
-                "Combining %d entries with unclassified taxa in the profile.",
+                "Combining %d entries for %s in the profile.",
                 num,
+                "unknown taxa" if tax_id == 0 else f"NCBI:txid{tax_id}",
             )
-        return pd.concat(
-            [
-                result.loc[~unclassified_mask, :],
-                pd.DataFrame(
-                    {
-                        StandardProfile.taxonomy_id: [0],
-                        StandardProfile.count: [
-                            result.loc[unclassified_mask, StandardProfile.count].sum(),
-                        ],
-                    },
-                    dtype=int,
-                ),
-            ],
-            ignore_index=True,
-        )
+        # We aggregate the counts of all entries. We do so because of duplicate entries.
+        return grouped_df.sum().reset_index()

@@ -1,0 +1,14 @@
+#mpa_vOct22_CHOCOPhlAnSGB_202212
+#/usr/local/bin/metaphlan --nproc 6 --input_type fastq 2612.merged.fastq.gz --bowtie2out 2612_se_metaphlan4-db.metaphlan.bowtie2out.txt --bowtie2db metaphlan4 --index mpa_vOct22_CHOCOPhlAnSGB_202212 --biom 2612_se_metaphlan4-db.metaphlan.biom --output_file 2612_se_metaphlan4-db.metaphlan_profile.txt
+#707440 reads processed
+#SampleID       Metaphlan_Analysis
+#clade_name     NCBI_tax_id     relative_abundance      additional_species
+k__Bacteria	2	89.92809	
+k__Archaea	2157	10.07191	
+k__Bacteria|p__Bacteroidetes	2|976	43.03622	
+k__Bacteria|p__Actinobacteria	2|201174	29.04669	
+k__Bacteria|p__Firmicutes	2|1239	27.90168	
+k__Bacteria|p__Firmicutes|c__Clostridia	2|1239|186801	95.1462	
+k__Bacteria|p__Firmicutes|c__CFGB9120	2|1239|	2.26587	
+k__Bacteria|p__Firmicutes|c__Firmicutes_unclassified	2|1239|	1.82756	
+k__Bacteria|p__Firmicutes|c__Bacilli	2|1239|91061	0.90652	
