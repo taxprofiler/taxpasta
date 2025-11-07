@@ -52,7 +52,7 @@ dynamic = ["version"]
 dependencies = [
     "depinfo ~=2.2",
     "numpy ~=1.26",
-    "pandas ==2.1",
+    "pandas >=2.1",
     "pandera ==0.26",
     "taxopy ~=0.13",
     "typer ~=0.16",
