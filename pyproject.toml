@@ -21,7 +21,7 @@ authors = [
 ]
 license = "Apache-2.0"
 readme = { "file" = "README.md", "content-type" = "text/markdown" }
-requires-python = ">=3.9"
+requires-python = ">=3.9,<=3.13"
 # Please consult https://pypi.org/classifiers/ for a full list.
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -52,8 +52,8 @@ dynamic = ["version"]
 dependencies = [
     "depinfo ~=2.2",
     "numpy ~=1.26",
-    "pandas >=2.1",
-    "pandera ==0.26",
+    "pandas ~=2.1",
+    "pandera ~=0.26",
     "taxopy ~=0.13",
     "typer ~=0.16",
 ]
