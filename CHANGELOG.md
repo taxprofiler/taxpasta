@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 -   Fixed mistake in KrakenUniq 'supported profilers' page, where the wrong parameter
     was listed in regards to which output file is supported by taxpasta (#152)
 -   Pin maximum python version to prevent issues validating correct file structure (#159)
-    to correctly validate file structure (#159)
 
 ## [0.7.0] - (2024-06-08)
 
