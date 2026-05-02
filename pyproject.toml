@@ -68,9 +68,9 @@ Download = "https://pypi.org/project/taxpasta/#files"
 taxpasta = "taxpasta.infrastructure.cli:app"
 
 [project.optional-dependencies]
-all = ["biom-format >=2.1.16,<3", "odfpy", "openpyxl", "pyarrow", "rich"]
+all = ["biom-format", "odfpy", "openpyxl", "pyarrow", "rich"]
 arrow = ["pyarrow"]
-biom = ["biom-format >=2.1.16,<3"]
+biom = ["biom-format"]
 ods = ["odfpy"]
 parquet = ["pyarrow"]
 rich = ["rich"]
