@@ -106,42 +106,20 @@ version-file = "src/taxpasta/_version.py"
 [tool.hatch.version]
 source = "vcs"
 
-[tool.bandit.assert_used]
-skips = ["*/test_*.py"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-markers = ["raises"]
-
-[tool.coverage.paths]
-source = ["src/taxpasta", "*/site-packages/taxpasta"]
-
-[tool.coverage.run]
-branch = true
-parallel = true
-
-[tool.coverage.report]
-exclude_lines = ["pragma: no cover"]
-precision = 2
-
 [tool.ruff]
 line-length = 88
 
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    "D107",    # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
-    "D203",    # '1 blank line required before class docstring' ignored because we want no blank line.
-    "D212",    # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
-    "D407",    # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
-    "ANN002",  # 'Missing type annotation for {*args} in method'.
-    "ANN003",  # 'Missing type annotation for {*kwargs} in method'.
-    "PD009",   # Replacing .iat with .iloc is a stupid rule.
-    "FBT001",  # Not compatible with typer.
-    "FBT003",  # Not compatible with typer.
-    "FA100",   # Not compatible with typer.
-    "PLC0415", # We know what we are doing when not importing at the top of a module.
+    "D107",   # 'Missing docstring in __init__' ignored because pydoclint wants us to document the class instead.
+    "D203",   # '1 blank line required before class docstring' ignored because we want no blank line.
+    "D212",   # 'Multi-line docstring summary should start at the first line' ignored because we want the summary to start on the second line.
+    "D407",   # 'Missing dashed underline after section' ignored because Google style docstrings don't underline.
+    "ANN002", # 'Missing type annotation for {*args} in method'.
+    "ANN003", # 'Missing type annotation for {*kwargs} in method'.
 ]
+exclude = ["src/taxpasta/_version.py"]
 
 [tool.ruff.lint.extend-per-file-ignores]
 "__init__.py" = [
@@ -151,9 +129,11 @@ ignore = [
     "I001", # 'Import block is un-sorted or un-formatted' ignored because we may have to import in a particular, not-alphabetical order.
 ]
 "tests/**/*.py" = [
-    "S101",   # 'Use of assert detected' ignored because we are using pytest.
-    "INP001", # 'Insecure input' ignored because we are testing.
-    "ANN201", # 'Missing type annotation for {return}' ignored because all tests return `None`.
+    "S101",    # 'Use of assert detected' ignored because we are using pytest.
+    "INP001",  # 'Insecure input' ignored because we are testing.
+    "ANN201",  # 'Missing type annotation for {return}' ignored because all tests return `None`.
+    "PLR2004", # Magic numbers are okay in tests.
+    "FBT001",  # Boolean positional arguments are fine in tests.
 ]
 
 [tool.ruff.lint.isort]
@@ -166,6 +146,24 @@ style = "google"
 arg-type-hints-in-docstring = false
 check-return-types = false
 check-yield-types = false
+exclude = "_version.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["raises"]
+
+[tool.coverage.paths]
+source = ["src/taxpasta", "*/site-packages/taxpasta"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = ["src/taxpasta/_version.py"]
+
+[tool.coverage.report]
+exclude_lines = ["pragma: no cover"]
+precision = 2
+
 
 [tool.mypy]
 plugins = ["pydantic.mypy"]
