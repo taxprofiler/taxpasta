@@ -76,7 +76,19 @@ ods = ["odfpy"]
 parquet = ["pyarrow"]
 rich = ["rich"]
 xlsx = ["openpyxl"]
-dev = ["hatch", "pre-commit"]
+
+[dependency-groups]
+style = ["pydoclint", "ruff"]
+types = ["mypy"]
+docs = [
+    "bash-kernel",
+    "jupyter",
+    "tabulate",
+    "mkdocs-material ~=9.5",
+    "mkdocstrings[python] ~=1.0",
+    "mkdocs-awesome-pages-plugin ~=2.9",
+]
+tests = ["pytest", "pytest-cov", "pytest-raises", "pytest-xdist"]
 
 ################################################################################
 # Tool Configuration
