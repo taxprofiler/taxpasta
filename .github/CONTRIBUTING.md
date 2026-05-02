@@ -3,6 +3,8 @@
 Contributions are welcome, and they are greatly appreciated! Every little bit
 helps, and credit will always be given.
 
+## Example Contributions
+
 You can contribute in many ways, for example:
 
 -   [Report bugs](#report-bugs)
@@ -55,6 +57,16 @@ project and everybody has limited time.
 Ready to contribute? Here's how to set up TAXPASTA for
 local development.
 
+> [!IMPORTANT]  
+> This project makes use of [PEP-735
+> `dependency-groups`](https://peps.python.org/pep-0735/) which are only
+> supported in versions of hatch [greater than
+> v1.16.0](https://hatch.pypa.io/dev/blog/2025/11/24/hatch-v1160/#dependency-groups).
+> To see which version of hatch you have installed use `hatch --version`, and
+> to update hatch use [`hatch self
+update`](https://hatch.pypa.io/dev/cli/reference/#hatch-self-update) or whatever
+> method is suitable for your installation.
+
 1. Fork the https://github.com/taxprofiler/taxpasta
    repository on GitHub.
 2. Clone your fork locally
@@ -63,49 +75,27 @@ local development.
     git clone git@github.com:your_name_here/taxpasta.git
     ```
 
-3. Install your local copy into a Python virtual environment. You can [read this
-   guide to learn
-   more](https://realpython.com/python-virtual-environments-a-primer) about them
-   and how to create one. Alternatively, particularly if you are a Windows or
-   Mac user, you can also use [Anaconda](https://docs.anaconda.com/anaconda/).
-   Once you have created a virtual environment and activated it, this is how you
-   set up your fork for local development
+3. [Install hatch](https://hatch.pypa.io/latest/install/) `> 1.16`.
 
-    ```shell
-    cd taxpasta
-    pip install -e '.[dev]'
-    pre-commit install
-    ```
-
-    The commands above install the package with all of its normal and
-    development dependencies into your virtual environment. The package itself
-    is installed in editable mode (`-e`) such that any modifications that you
-    make are immediately reflected in the installed package. Furthermore, we use
-    pre-commit hooks to ensure consistent code formatting. They are installed
-    with the command above and will run when you try to `git commit` your
-    changes.
-
-4. Create a branch for local development using the `dev` branch as a starting
+4. Create a branch for local development using the default branch (typically `main`)
+   as a starting
    point. Use `fix` or `feat` as a prefix for your branch name.
 
     ```shell
-    git checkout dev
+    git checkout main
     git checkout -b fix-name-of-your-bugfix
     ```
 
     Now you can make your changes locally.
 
 5. When you're done making changes, apply the quality assurance tools and check
-   that your changes pass our test suite. This is all included with tox
+   that your changes pass our test suite. This is all included with in hatch
+   environments
 
     ```shell
-    tox
-    ```
-
-    You can also run tox in parallel to speed this up.
-
-    ```shell
-    tox -p auto
+    hatch run style:check
+    hatch run types:check
+    hatch run tests:run
     ```
 
 6. Commit your changes and push your branch to GitHub. Please use [semantic
@@ -113,8 +103,8 @@ local development.
 
     ```shell
     git add .
-    git commit -m "fix: summarise your changes"
-    git push origin fix-name-of-your-bugfix
+    git commit -m "fix: summarize your changes"
+    git push -u origin fix-name-of-your-bugfix
     ```
 
 7. Open the link displayed in the message when pushing your new branch in order
@@ -127,5 +117,5 @@ Before you submit a pull request, check that it meets these guidelines:
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put your
    new functionality into a function with a docstring.
-3. Your pull request will automatically be checked by the full tox test suite.
+3. Your pull request will automatically be checked by the full test suite.
    It needs to pass all of them before it can be considered for merging.
