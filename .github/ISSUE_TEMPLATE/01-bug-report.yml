@@ -10,6 +10,7 @@ body:
       options:
       - label: I have searched the existing issues
         required: true
+
   - type: textarea
     attributes:
       label: Problem description
@@ -23,6 +24,7 @@ body:
           * **why** the current behaviour is a problem and what output you expected instead.
     validations:
       required: false
+
   - type: textarea
     attributes:
       label: Code sample
@@ -41,6 +43,7 @@ body:
         ```
     validations:
       required: false
+
   - type: textarea
     attributes:
       label: Environment
@@ -53,6 +56,7 @@ body:
         </details>
     validations:
       required: true
+
   - type: textarea
     attributes:
       label: Anything else?

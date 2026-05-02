@@ -11,6 +11,7 @@ body:
       options:
         - label: There are [no similar issues or pull requests](https://github.com/taxprofiler/taxpasta/issues) for this yet.
           required: true
+
   - type: textarea
     attributes:
       label: Problem
@@ -20,6 +21,7 @@ body:
         "I want to be able to [...] but I can't because [...]".
     validations:
       required: false
+
   - type: textarea
     attributes:
       label: Solution
@@ -28,6 +30,7 @@ body:
         For API changes, try to provide a code snippet of what you would like the new API to look like.
     validations:
       required: false
+
   - type: textarea
     attributes:
       label: Alternatives
@@ -36,6 +39,7 @@ body:
         your problem and why they didn't help.
     validations:
       required: false
+
   - type: textarea
     attributes:
       label: Anything else?
