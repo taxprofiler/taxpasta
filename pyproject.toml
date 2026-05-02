@@ -12,12 +12,13 @@ requires = ["hatchling", "hatch-vcs"]
 
 [project]
 name = "taxpasta"
+dynamic = ["version"]
 description = "TAXonomic Profile Aggregation and STAndardisation"
 authors = [
-    { name = "Moritz E. Beber", email = "moritz.beber@posteo.de" },
-    { name = "Maxime Borry", email = "maxime_borry@eva.mpg.de" },
-    { name = "James A. Fellows Yates", email = "jfy133@gmail.com" },
-    { name = "Sofia Stamouli", email = "sofia.stamouli@scilifelab.se" },
+    { name = "Moritz E. Beber", email = "moritz.beber@igdore.org"},
+    { name = "Maxime Borry", email = "maxime_borry@eva.mpg.de"},
+    { name = "James A. Fellows Yates", email = "jfy133@gmail.com"},
+    { name = "Sofia Stamouli", email = "sofia.stamouli@scilifelab.se"},
 ]
 license = "Apache-2.0"
 readme = {"file" = "README.md", "content-type" = "text/markdown"}
@@ -48,7 +49,6 @@ keywords = [
     "standardisation",
     "merging",
 ]
-dynamic = ["version"]
 dependencies = [
     "depinfo ~=2.2",
     "numpy ~=1.26",
